@@ -74,7 +74,7 @@ namespace BBAuto.App.FormsForCar
 
       SetWindowHeader();
 
-      _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+      _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += SetNotEditableItems;
       _workWithForm.SetEditMode(_car.Id == 0 || !_car.IsGet);
 
@@ -318,7 +318,7 @@ namespace BBAuto.App.FormsForCar
         if (CopyFields())
         {
           _car.Save();
-          DialogResult = System.Windows.Forms.DialogResult.OK;
+          DialogResult = DialogResult.OK;
         }
       }
       else

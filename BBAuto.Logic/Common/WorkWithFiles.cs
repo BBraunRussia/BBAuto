@@ -51,7 +51,7 @@ namespace BBAuto.Logic.Common
 
     private static string GetDistPath(string file, string folderName, string newFileName)
     {
-      string fileExt = WorkWithFiles.GetFileExt(file);
+      string fileExt = GetFileExt(file);
 
       return @"\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\" + folderName + @"\" + newFileName + fileExt;
     }

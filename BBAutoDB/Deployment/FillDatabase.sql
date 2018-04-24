@@ -13,3 +13,14 @@ as
   exec dbo.InsertDealers
   
   exec dbo.InsertDrivers
+
+  exec dbo.InsertEngineTypes
+  exec dbo.InsertMarks
+  exec dbo.InsertModels
+  exec dbo.InsertGrades
+
+  exec dbo.InsertStatusAfterDtps
+  exec dbo.InsertRepairTypes
+  exec dbo.InsertPolicyType
+  exec dbo.InsertMailTexts
+  exec dbo.InsertFuelCardTypes

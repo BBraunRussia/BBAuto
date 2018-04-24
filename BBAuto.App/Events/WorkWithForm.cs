@@ -75,7 +75,7 @@ namespace BBAuto.App.Events
       SetEnableValue(_btnClose, true);
       SetEnableValue(_btnSave, User.IsFullAccess());
 
-      _btnSave.Text = (_editMode) ? "Сохранить" : "Редактировать";
+      _btnSave.Text = _editMode ? "Сохранить" : "Редактировать";
     }
   }
 }
