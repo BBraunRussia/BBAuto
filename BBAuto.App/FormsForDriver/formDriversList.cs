@@ -120,7 +120,7 @@ namespace BBAuto.App.FormsForDriver
       {
         int driverID = Convert.ToInt32(_dgvDrivers.Rows[e.RowIndex].Cells[0].Value);
 
-        Driver_AddEdit dAE = new Driver_AddEdit(driverList.getItem(driverID));
+        DriverForm dAE = new DriverForm(driverList.getItem(driverID));
         dAE.ShowDialog();
       }
     }

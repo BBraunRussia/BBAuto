@@ -239,7 +239,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       if (driver.Id == 0)
         return;
 
-      Driver_AddEdit driverAE = new Driver_AddEdit(driver);
+      DriverForm driverAE = new DriverForm(driver);
       driverAE.ShowDialog();
     }
   }

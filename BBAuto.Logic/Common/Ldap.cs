@@ -7,13 +7,13 @@ namespace BBAuto.Logic.Common
   {
     private const string ServerIpAddress = "LDAP://bbmag.bbraun.com";
 
-    private readonly DirectoryEntry _rootDE;
+    private readonly DirectoryEntry _rootDe;
     private readonly DirectorySearcher _searcher;
 
     public Ldap()
     {
-      _rootDE = new DirectoryEntry(ServerIpAddress);
-      _searcher = new DirectorySearcher(_rootDE);
+      _rootDe = new DirectoryEntry(ServerIpAddress);
+      _searcher = new DirectorySearcher(_rootDe);
     }
 
     public string GetEmail(string login)
@@ -26,16 +26,23 @@ namespace BBAuto.Logic.Common
 
       _searcher.SearchScope = SearchScope.Subtree;
 
-      SearchResult result = _searcher.FindOne();
+      try
+      {
+        var result = _searcher.FindOne();
 
-      return result != null && result.Properties["mail"].Count > 0
-        ? result.Properties["mail"][0].ToString()
-        : string.Empty;
+        return result != null && result.Properties["mail"].Count > 0
+          ? result.Properties["mail"][0].ToString()
+          : string.Empty;
+      }
+      catch (Exception)
+      {
+        return string.Empty;
+      }
     }
 
     public void Dispose()
     {
-      _rootDE.Close();
+      _rootDe.Close();
     }
   }
 }

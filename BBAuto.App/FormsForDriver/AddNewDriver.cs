@@ -48,7 +48,7 @@ namespace BBAuto.App.FormsForDriver
 
       driver.OwnerID = (rbBraun.Checked) ? 1 : (rbGematek.Checked) ? 2 : 3;
 
-      Driver_AddEdit dAE = new Driver_AddEdit(driver);
+      DriverForm dAE = new DriverForm(driver);
       dAE.ShowDialog();
     }
 

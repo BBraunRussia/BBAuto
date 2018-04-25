@@ -484,7 +484,7 @@ namespace BBAuto.App
         return;
 
       DriverList driverList = DriverList.getInstance();
-      Driver_AddEdit driverAddEdit = new Driver_AddEdit(driverList.getItem(_dgvMain.GetID()));
+      DriverForm driverAddEdit = new DriverForm(driverList.getItem(_dgvMain.GetID()));
 
       if (driverAddEdit.ShowDialog() == DialogResult.OK)
         loadCars();
@@ -529,7 +529,7 @@ namespace BBAuto.App
           }
 
           DriverList driverList = DriverList.getInstance();
-          Driver_AddEdit dAE = new Driver_AddEdit(driver);
+          DriverForm dAE = new DriverForm(driver);
           if (dAE.ShowDialog() == DialogResult.OK)
           {
             loadCars();

@@ -166,7 +166,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      Driver_AddEdit driverAE = new Driver_AddEdit(_violation.getDriver());
+      DriverForm driverAE = new DriverForm(_violation.getDriver());
       driverAE.ShowDialog();
     }
 

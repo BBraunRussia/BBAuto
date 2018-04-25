@@ -1,8 +1,9 @@
 using System;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows.Forms;
 using BBAuto.App.AddEdit;
 using BBAuto.Logic.Services.Dealer;
+using Common;
 
 namespace BBAuto.App.Dictionary
 {
@@ -23,8 +24,11 @@ namespace BBAuto.App.Dictionary
 
     private void LoadData()
     {
-      _dgv.DataSource = _dealerService.GetDealers();
+      _dgv.DataSource = _dealerService.GetDealers().ToArray();
       _dgv.Columns[0].Visible = false;
+      _dgv.Columns[1].HeaderText = Columns.Name;
+      _dgv.Columns[2].HeaderText = Columns.Contacts;
+      
       ResizeDgv();
     }
 
@@ -35,10 +39,10 @@ namespace BBAuto.App.Dictionary
 
     private void ResizeDgv()
     {
-      int halfSize = _dgv.Width / 2;
+      var halfSize = _dgv.Width / 2;
 
       _dgv.Columns[1].Width = halfSize;
-      _dgv.Columns[2].Width = halfSize;
+      _dgv.Columns[2].Width = halfSize - 20;
     }
 
     private void btnAdd_Click(object sender, EventArgs e)

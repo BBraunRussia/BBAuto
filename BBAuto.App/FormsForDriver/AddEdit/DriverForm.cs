@@ -11,14 +11,14 @@ using BBAuto.Logic.Tables;
 
 namespace BBAuto.App.FormsForDriver.AddEdit
 {
-  public partial class Driver_AddEdit : Form
+  public partial class DriverForm : Form
   {
     private Driver _driver;
     private Ldap ldap = new Ldap();
 
     private WorkWithForm _workWithForm;
 
-    public Driver_AddEdit(Driver driver)
+    public DriverForm(Driver driver)
     {
       InitializeComponent();
 
