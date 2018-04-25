@@ -13,5 +13,5 @@ create table dbo.Violation (
   [violation_agreed] NVARCHAR(5) null,
   [violation_dateCreate] [DATETIME] not null,
   constraint [PK_Violation] primary key clustered (violation_id),
-  constraint FK_Violation_Car foreign key (car_id) references dbo.Car (car_id)
+  constraint FK_Violation_Car foreign key (car_id) references dbo.Car ([Id])
 )

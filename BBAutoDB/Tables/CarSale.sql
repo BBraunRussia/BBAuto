@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[CarSale](
 GO
 
 ALTER TABLE [dbo].[CarSale]  WITH CHECK ADD  CONSTRAINT [FK_CarSale_Car] FOREIGN KEY([car_id])
-REFERENCES [dbo].[Car] ([car_id])
+REFERENCES [dbo].[Car] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO

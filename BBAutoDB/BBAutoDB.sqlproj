@@ -197,9 +197,9 @@
     <Build Include="Programmability\Functions\DateTime_To_Date.sql" />
     <Build Include="Programmability\Stored Procedures\Account\UpsertAccount.sql" />
     <Build Include="Programmability\Stored Procedures\Account\GetAccounts.sql" />
-    <Build Include="Programmability\Stored Procedures\Car\Car_Delete.sql" />
-    <Build Include="Programmability\Stored Procedures\Car\Car_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\Car\Car_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\DeleteCar.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\UpsertCar.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\GetCars.sql" />
     <Build Include="Programmability\Stored Procedures\CarBuy\CarBuy_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\CarBuy\CarBuy_Select.sql" />
     <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Delete.sql" />

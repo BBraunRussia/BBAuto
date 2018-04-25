@@ -25,7 +25,7 @@ CREATE TABLE [dbo].[Policy](
 GO
 
 ALTER TABLE [dbo].[Policy]  WITH CHECK ADD  CONSTRAINT [FK_Kasko_Car] FOREIGN KEY([car_id])
-REFERENCES [dbo].[Car] ([car_id])
+REFERENCES [dbo].[Car] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO

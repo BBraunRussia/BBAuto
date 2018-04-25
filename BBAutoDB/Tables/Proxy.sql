@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[Proxy](
 GO
 
 ALTER TABLE [dbo].[Proxy]  WITH CHECK ADD  CONSTRAINT [FK_Proxy_Car] FOREIGN KEY([car_id])
-REFERENCES [dbo].[Car] ([car_id])
+REFERENCES [dbo].[Car] ([Id])
 GO
 
 ALTER TABLE [dbo].[Proxy] CHECK CONSTRAINT [FK_Proxy_Car]

@@ -15,7 +15,7 @@ CREATE TABLE [dbo].[CarBuy](
 GO
 
 ALTER TABLE [dbo].[CarBuy]  WITH CHECK ADD  CONSTRAINT [FK_CarBuy_Car] FOREIGN KEY([car_id])
-REFERENCES [dbo].[Car] ([car_id])
+REFERENCES [dbo].[Car] ([Id])
 GO
 
 ALTER TABLE [dbo].[CarBuy] CHECK CONSTRAINT [FK_CarBuy_Car]

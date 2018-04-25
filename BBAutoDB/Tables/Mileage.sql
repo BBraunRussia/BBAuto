@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[Mileage](
 GO
 
 ALTER TABLE [dbo].[Mileage]  WITH CHECK ADD  CONSTRAINT [FK_Mileage_Car] FOREIGN KEY([car_id])
-REFERENCES [dbo].[Car] ([car_id])
+REFERENCES [dbo].[Car] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO

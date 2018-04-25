@@ -1,36 +1,36 @@
-CREATE TABLE [dbo].[Car](
-	[car_id] [int] IDENTITY(1,1) NOT NULL,
-	[car_bbnumber] [int] NOT NULL,
-	[car_grz] NVARCHAR(50) NULL,
-	[car_vin] NVARCHAR(17) NULL,
-	[car_year] [int] NULL,
-	[car_enumber] NVARCHAR(50) NULL,
-	[car_bodynumber] NVARCHAR(50) NULL,
-	[pts_id] [int] NULL,
-	[sts_id] [int] NULL,
-	[grade_id] [int] NULL,
-	[color_id] [int] NULL,
-	[car_lisingDate] [datetime] NULL,
-	[car_invertoryNumber] NVARCHAR(50) NULL,
- CONSTRAINT [PK_Car] PRIMARY KEY CLUSTERED 
-(
-	[car_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+create table [dbo].[Car] (
+  [Id] [INT] identity (1, 1) not null,
+  [bbnumber] [INT] not null,
+  [grz] nvarchar(50) null,
+  [vin] nvarchar(17) null,
+  [year] [INT] null,
+  [enumber] nvarchar(50) null,
+  [bodynumber] nvarchar(50) null,
+  [ptsId] [INT] null,
+  [stsId] [INT] null,
+  [gradeId] [INT] null,
+  [colorId] [INT] null,
+  [LisingDate] [DATETIME] null,
+  [InvertoryNumber] nvarchar(50) null,
+  constraint [PK_Car] primary key clustered
+  (
+  [Id] asc
+  ) with (pad_index = off, statistics_norecompute = off, ignore_dup_key = off, allow_row_locks = on, allow_page_locks = on) on [PRIMARY]
+) on [PRIMARY]
+go
 
-ALTER TABLE [dbo].[Car]  WITH CHECK ADD  CONSTRAINT [FK_Car_Color] FOREIGN KEY([color_id])
-REFERENCES [dbo].[Color] ([color_id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
+alter table [dbo].[Car] with check add constraint [FK_Car_Color] foreign key ([colorId])
+references [dbo].[Color] ([color_id])
+on update cascade
+on delete cascade
+go
 
-ALTER TABLE [dbo].[Car] CHECK CONSTRAINT [FK_Car_Color]
-GO
+alter table [dbo].[Car] check constraint [FK_Car_Color]
+go
 
-ALTER TABLE [dbo].[Car]  WITH CHECK ADD  CONSTRAINT [FK_Car_Grade] FOREIGN KEY([grade_id])
-REFERENCES [dbo].[Grade] ([grade_id])
-GO
+alter table [dbo].[Car] with check add constraint [FK_Car_Grade] foreign key ([gradeId])
+references [dbo].[Grade] ([grade_Id])
+go
 
-ALTER TABLE [dbo].[Car] CHECK CONSTRAINT [FK_Car_Grade]
-GO
+alter table [dbo].[Car] check constraint [FK_Car_Grade]
+go

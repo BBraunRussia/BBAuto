@@ -1,5 +1,5 @@
 CREATE TABLE [dbo].[Grade](
-	[grade_id] [int] IDENTITY(1,1) NOT NULL,
+	[grade_Id] [int] IDENTITY(1,1) NOT NULL,
 	[grade_name] NVARCHAR(50) NOT NULL,
 	[grade_epower] [int] NOT NULL,
 	[grade_evol] [int] NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[Grade](
 	[model_id] [int] NOT NULL,
  CONSTRAINT [PK_Grade] PRIMARY KEY CLUSTERED 
 (
-	[grade_id] ASC
+	[grade_Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[diagCard](
 GO
 
 ALTER TABLE [dbo].[diagCard]  WITH CHECK ADD  CONSTRAINT [FK_diagCard_Car] FOREIGN KEY([car_id])
-REFERENCES [dbo].[Car] ([car_id])
+REFERENCES [dbo].[Car] ([Id])
 GO
 
 ALTER TABLE [dbo].[diagCard] CHECK CONSTRAINT [FK_diagCard_Car]
