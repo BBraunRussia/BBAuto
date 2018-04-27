@@ -1,44 +1,44 @@
-CREATE TABLE [dbo].[Driver](
-	[driver_id] [int] IDENTITY(1,1) NOT NULL,
-	[driver_fio] NVARCHAR(100) NOT NULL,
-	[region_id] [int] NOT NULL,
-	[driver_dateBirth] [datetime] NULL,
-	[driver_mobile] NVARCHAR(10) NULL,
-	[driver_email] NVARCHAR(100) NULL,
-	[driver_fired] [int] NULL,
-	[driver_expSince] [int] NULL,
-	[position_id] [int] NOT NULL,
-	[dept_id] [int] NULL,
-	[driver_login] NVARCHAR(8) NULL,
-	[owner_id] [int] NULL,
-	[driver_suppyAddress] NVARCHAR(500) NULL,
-	[driver_sex] [int] NULL,
-	[driver_decret] [int] NULL,
-	[driver_dateStopNotification] [datetime] NULL,
-	[driver_number] NVARCHAR(50) NULL,
-	[driver_isDriver] [int] NULL,
-	[driver_from1C] [int] NULL,
- CONSTRAINT [PK_Driver] PRIMARY KEY CLUSTERED 
-(
-	[driver_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+create table [dbo].[Driver] (
+  [Id] [INT] identity (1, 1) not null,
+  [Fio] nvarchar(100) not null,
+  [RegionId] [INT] not null,
+  [DateBirth] [DATETIME] null,
+  [Mobile] nvarchar(10) null,
+  [Email] nvarchar(100) null,
+  [Fired] bit null,
+  [ExpSince] [INT] null,
+  [PositionId] [INT] not null,
+  [DeptId] [INT] null,
+  [Login] nvarchar(8) null,
+  [OwnerId] [INT] null,
+  [SuppyAddress] nvarchar(500) null,
+  [Sex] bit null,
+  [Decret] bit null,
+  [DateStopNotification] [DATETIME] null,
+  [Number] nvarchar(50) null,
+  [IsDriver] bit null,
+  [From1C] bit null,
+  constraint [PK_Driver] primary key clustered
+  (
+  [Id] asc
+  ) with (pad_index = off, statistics_norecompute = off, ignore_dup_key = off, allow_row_locks = on, allow_page_locks = on) on [PRIMARY]
+) on [PRIMARY]
+go
 
-ALTER TABLE [dbo].[Driver]  WITH CHECK ADD  CONSTRAINT [FK_Driver_Position] FOREIGN KEY([position_id])
-REFERENCES [dbo].[Position] ([position_id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
+alter table [dbo].[Driver] with check add constraint [FK_Driver_Position] foreign key ([positionId])
+references [dbo].[Position] ([position_id])
+on update cascade
+on delete cascade
+go
 
-ALTER TABLE [dbo].[Driver] CHECK CONSTRAINT [FK_Driver_Position]
-GO
+alter table [dbo].[Driver] check constraint [FK_Driver_Position]
+go
 
-ALTER TABLE [dbo].[Driver]  WITH CHECK ADD  CONSTRAINT [FK_Driver_Region] FOREIGN KEY([region_id])
-REFERENCES [dbo].[Region] ([region_id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
+alter table [dbo].[Driver] with check add constraint [FK_Driver_Region] foreign key ([regionId])
+references [dbo].[Region] ([region_id])
+on update cascade
+on delete cascade
+go
 
-ALTER TABLE [dbo].[Driver] CHECK CONSTRAINT [FK_Driver_Region]
-GO
+alter table [dbo].[Driver] check constraint [FK_Driver_Region]
+go

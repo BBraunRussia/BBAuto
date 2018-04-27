@@ -1,76 +1,101 @@
-CREATE PROCEDURE [dbo].[Driver_Insert]
-@idDriver int,
-@fio nvarchar(100),
-@idRegion int,
-@dateBirthText nvarchar(50),
-@mobile nvarchar(10),
-@email nvarchar(100),
-@fired int,
-@ExpSince int,
-@idPosition int,
-@idDept int,
-@login nvarchar(8),
-@idOwner int,
-@suppyAddress nvarchar(500),
-@sex int,
-@decret int,
-@dateStopNotificationText datetime,
-@number nvarchar(50),
-@isDriver int,
-@from1C int
-AS
-BEGIN
-	Declare @dateBirth datetime	
-	if (@dateBirthText = '')
-		SET @dateBirth = null
-	else
-		SET @dateBirth = CAST(@dateBirthText as datetime)
-	
-	Declare @dateStopNotification datetime
-	if (@dateStopNotificationText = '')
-		SET @dateStopNotification = null
-	else
-		SET @dateStopNotification = CAST(@dateStopNotificationText as datetime)
-	
-	if ((@idDriver = 0) and (@number <> ''))
-	begin
-		SELECT @idDriver=driver_id FROM Driver WHERE driver_number=@number
-		
-		if (@idDriver is null)
-			SET @idDriver = 0
-	end
-	
-	if (@idDriver = 0)
-	begin
-		INSERT INTO Driver VALUES(@fio, @idRegion, @dateBirth, @mobile, @email, @fired, @ExpSince,
-			@idPosition, @idDept, @login, @idOwner, @suppyAddress, @sex, @decret,
-			@dateStopNotification, @number, @isDriver, @from1C)
-		SET @idDriver = SCOPE_IDENTITY()
-	end
-	else if (@idPosition = 47 and @login = 'petumiru')
-		UPDATE Driver
-		SET driver_fio=@fio, region_id=@idRegion, driver_dateBirth=@dateBirth,
-			driver_mobile='', driver_email='', driver_fired=@fired,
-			driver_expSince=@ExpSince, position_id=@idPosition, dept_id=@idDept,
-			driver_login=@login, owner_id=@idOwner, driver_suppyAddress=@suppyAddress,
-			driver_sex=@sex, driver_decret=@decret,
-			driver_dateStopNotification=@dateStopNotification,
-			driver_number=@number, driver_isDriver=0,
-			driver_from1C=@from1C
-		WHERE driver_id=@idDriver
+create procedure [dbo].[Driver_Insert]
+  @idDriver int,
+  @fio nvarchar(100),
+  @idRegion int,
+  @dateBirthText nvarchar(50),
+  @mobile nvarchar(10),
+  @email nvarchar(100),
+  @fired int,
+  @ExpSince int,
+  @idPosition int,
+  @idDept int,
+  @login nvarchar(8),
+  @idOwner int,
+  @suppyAddress nvarchar(500),
+  @sex int,
+  @decret int,
+  @dateStopNotificationText datetime,
+  @number nvarchar(50),
+  @isDriver int,
+  @from1C int
+as
+begin
+  declare @dateBirth datetime
+  if (@dateBirthText = '')
+    set @dateBirth = null
+  else
+    set @dateBirth = cast(@dateBirthText as datetime)
 
-	else
-		UPDATE Driver
-		SET driver_fio=@fio, region_id=@idRegion, driver_dateBirth=@dateBirth,
-			driver_mobile=@mobile, driver_email=@email, driver_fired=@fired,
-			driver_expSince=@ExpSince, position_id=@idPosition, dept_id=@idDept,
-			driver_login=@login, owner_id=@idOwner, driver_suppyAddress=@suppyAddress,
-			driver_sex=@sex, driver_decret=@decret,
-			driver_dateStopNotification=@dateStopNotification,
-			driver_number=@number, driver_isDriver=@isDriver,
-			driver_from1C=@from1C
-		WHERE driver_id=@idDriver
-		
-	SELECT @idDriver
-END
-GO
+  declare @dateStopNotification datetime
+  if (@dateStopNotificationText = '')
+    set @dateStopNotification = null
+  else
+    set @dateStopNotification = cast(@dateStopNotificationText as datetime)
+
+  if ((@idDriver = 0)
+    and (@number <> ''))
+  begin
+    select
+      @idDriver = id
+    from
+      Driver
+    where
+      number = @number
+
+    if (@idDriver is null)
+      set @idDriver = 0
+  end
+
+  if (@idDriver = 0)
+  begin
+    insert into Driver values(@fio, @idRegion, @dateBirth, @mobile, @email, @fired, @ExpSince, @idPosition, @idDept, @login, @idOwner, @suppyAddress, @sex, @decret, @dateStopNotification, @number, @isDriver, @from1C)
+    set @idDriver = scope_identity()
+  end
+  else
+  if (@idPosition = 47
+    and @login = 'petumiru')
+    update Driver
+    set Fio = @fio,
+        RegionId = @idRegion,
+        DateBirth = @dateBirth,
+        Mobile = '',
+        Email = '',
+        Fired = @fired,
+        ExpSince = @ExpSince,
+        PositionId = @idPosition,
+        DeptId = @idDept,
+        login = @login,
+        OwnerId = @idOwner,
+        SuppyAddress = @suppyAddress,
+        Sex = @sex,
+        Decret = @decret,
+        DateStopNotification = @dateStopNotification,
+        number = @number,
+        IsDriver = 0,
+        From1C = @from1C
+    where id = @idDriver
+
+  else
+    update Driver
+    set Fio = @fio,
+        RegionId = @idRegion,
+        DateBirth = @dateBirth,
+        Mobile = @mobile,
+        Email = @email,
+        Fired = @fired,
+        ExpSince = @ExpSince,
+        PositionId = @idPosition,
+        DeptId = @idDept,
+        login = @login,
+        OwnerId = @idOwner,
+        SuppyAddress = @suppyAddress,
+        Sex = @sex,
+        Decret = @decret,
+        DateStopNotification = @dateStopNotification,
+        number = @number,
+        IsDriver = @isDriver,
+        From1C = @from1C
+    where id = @idDriver
+
+  select @idDriver
+end

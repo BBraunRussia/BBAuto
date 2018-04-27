@@ -272,9 +272,9 @@
     <Build Include="Programmability\Stored Procedures\Instraction\Instraction_GetLast.sql" />
     <Build Include="Programmability\Stored Procedures\Instraction\Instraction_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\Instraction\Instraction_Select.sql" />
-    <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Delete.sql" />
-    <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Invoice\DeleteInvoice.sql" />
+    <Build Include="Programmability\Stored Procedures\Invoice\UpsertInvoice.sql" />
+    <Build Include="Programmability\Stored Procedures\Invoice\GetInvoices.sql" />
     <Build Include="Programmability\Stored Procedures\MailText\MailText_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\MailText\MailText_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\MailText\MailText_Select.sql" />
@@ -288,9 +288,9 @@
     <Build Include="Programmability\Stored Procedures\MedicalCert\MedicalCert_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\MedicalCert\MedicalCert_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\MedicalCert\MedicalCert_Select.sql" />
-    <Build Include="Programmability\Stored Procedures\Mileage\Mileage_Delete.sql" />
-    <Build Include="Programmability\Stored Procedures\Mileage\Mileage_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\Mileage\Mileage_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Mileage\DeleteMileage.sql" />
+    <Build Include="Programmability\Stored Procedures\Mileage\UpsertMileage.sql" />
+    <Build Include="Programmability\Stored Procedures\Mileage\GetMileageByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\MileageMonth\MileageMonth_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\MileageMonth\MileageMonth_Select.sql" />
     <Build Include="Programmability\Stored Procedures\Model\Model_Delete.sql" />
@@ -405,6 +405,10 @@
     <Build Include="Deployment\Data\InsertMailTexts.sql" />
     <Build Include="Deployment\Data\InsertFuelCardTypes.sql" />
     <Build Include="Deployment\Data\InsertCurrentStatusAfterDTPs.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\GetCarById.sql" />
+    <Build Include="Programmability\Stored Procedures\CarBuy\GetCarBuyInfoByCarId.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\GetCarByGrz.sql" />
+    <Build Include="Programmability\Stored Procedures\Mileage\GetMileageById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

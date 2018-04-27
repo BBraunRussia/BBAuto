@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[DriverLicense](
 GO
 
 ALTER TABLE [dbo].[DriverLicense]  WITH CHECK ADD  CONSTRAINT [FK_License_Driver] FOREIGN KEY([driver_id])
-REFERENCES [dbo].[Driver] ([driver_id])
+REFERENCES [dbo].[Driver] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO

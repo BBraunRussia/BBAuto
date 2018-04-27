@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[Tabel](
 GO
 
 ALTER TABLE [dbo].[Tabel]  WITH CHECK ADD  CONSTRAINT [FK_Tabel_Driver] FOREIGN KEY([driver_id])
-REFERENCES [dbo].[Driver] ([driver_id])
+REFERENCES [dbo].[Driver] ([Id])
 GO
 
 ALTER TABLE [dbo].[Tabel] CHECK CONSTRAINT [FK_Tabel_Driver]

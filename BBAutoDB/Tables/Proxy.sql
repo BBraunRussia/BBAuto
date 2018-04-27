@@ -20,7 +20,7 @@ ALTER TABLE [dbo].[Proxy] CHECK CONSTRAINT [FK_Proxy_Car]
 GO
 
 ALTER TABLE [dbo].[Proxy]  WITH CHECK ADD  CONSTRAINT [FK_Proxy_Driver] FOREIGN KEY([driver_id])
-REFERENCES [dbo].[Driver] ([driver_id])
+REFERENCES [dbo].[Driver] ([Id])
 GO
 
 ALTER TABLE [dbo].[Proxy] CHECK CONSTRAINT [FK_Proxy_Driver]

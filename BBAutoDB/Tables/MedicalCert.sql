@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[MedicalCert](
 GO
 
 ALTER TABLE [dbo].[MedicalCert]  WITH CHECK ADD  CONSTRAINT [FK_MedicalCert_Driver] FOREIGN KEY([driver_id])
-REFERENCES [dbo].[Driver] ([driver_id])
+REFERENCES [dbo].[Driver] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO

@@ -88,10 +88,8 @@ namespace BBAuto.Logic.Lists
         DriverList driverList = DriverList.getInstance();
         return driverList.getItem(driverCar.Driver.Id);
       }
-      else
-      {
-        return null;
-      }
+
+      return null;
     }
 
     public Car GetCar(Driver driver)

@@ -12,7 +12,7 @@ CREATE TABLE [dbo].[Instraction](
 GO
 
 ALTER TABLE [dbo].[Instraction]  WITH CHECK ADD  CONSTRAINT [FK_Instraction_Driver] FOREIGN KEY([driver_id])
-REFERENCES [dbo].[Driver] ([driver_id])
+REFERENCES [dbo].[Driver] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO

@@ -11,7 +11,7 @@ namespace BBAuto.Repositories
   public class DbContext : DisposableObject, IDbContext
   {
     public Guid Id { get; set; }
-    public IDbConnection Connection { get; private set; }
+    public IDbConnection Connection { get; }
 
     public DbContext(ConnectionStringSettings connectionStringSettings)
     {
@@ -40,6 +40,10 @@ namespace BBAuto.Repositories
       return Connection.As<TRepository>();
     }
 
+    public IDbCar Car => CreateRepository<IDbCar>();
+    public IDbDriver Driver => CreateRepository<IDbDriver>();
     public IDbDealer Dealer => CreateRepository<IDbDealer>();
+    public IDbMileage Mileage => CreateRepository<IDbMileage>();
+    public IDbInvoice Invoice => CreateRepository<IDbInvoice>();
   }
 }

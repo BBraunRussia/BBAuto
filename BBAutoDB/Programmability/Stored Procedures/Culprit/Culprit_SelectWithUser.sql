@@ -13,6 +13,6 @@ BEGIN
 	
 	SELECT culprit_id, culprit_name FROM Culprit WHERE culprit_id != 4
 	UNION
-	SELECT 4, driver_fio culprit_name FROM Driver WHERE driver_id=@idDriver
+	SELECT 4, Fio culprit_name FROM Driver WHERE Id=@idDriver
 END
 GO

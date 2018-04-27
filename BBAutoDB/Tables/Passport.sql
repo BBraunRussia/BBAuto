@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[Passport](
 GO
 
 ALTER TABLE [dbo].[Passport]  WITH CHECK ADD  CONSTRAINT [FK_Passport_Driver] FOREIGN KEY([driver_id])
-REFERENCES [dbo].[Driver] ([driver_id])
+REFERENCES [dbo].[Driver] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO

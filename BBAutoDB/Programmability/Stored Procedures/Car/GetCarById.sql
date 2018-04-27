@@ -1,6 +1,6 @@
-create procedure [dbo].[GetCars]
+create procedure [dbo].[GetCarById]
+  @idCar int
 as
-begin
   select
     c.Id,
     c.bbnumber,
@@ -30,10 +30,9 @@ begin
     Car c
     join Grade g
       on g.grade_Id = c.gradeId
-    join model m
+    join Model m
       on m.model_id = g.model_id
     join CarBuy cb
       on cb.car_id = c.Id
-  order by
-    bbnumber
-end
+  where
+    Id = @idCar

@@ -58,10 +58,18 @@
   <ItemGroup>
     <Compile Include="DbContext.cs" />
     <Compile Include="Entities\DbAccount.cs" />
+    <Compile Include="Entities\DbCar.cs" />
     <Compile Include="Entities\DbDealer.cs" />
+    <Compile Include="Entities\DbDriver.cs" />
+    <Compile Include="Entities\DbInvoice.cs" />
+    <Compile Include="Entities\DbMileage.cs" />
     <Compile Include="IDbContext.cs" />
     <Compile Include="Interfaces\IDbAccount.cs" />
+    <Compile Include="Interfaces\IDbCar.cs" />
     <Compile Include="Interfaces\IDbDealer.cs" />
+    <Compile Include="Interfaces\IDbDriver.cs" />
+    <Compile Include="Interfaces\IDbInvoice.cs" />
+    <Compile Include="Interfaces\IDbMileage.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />

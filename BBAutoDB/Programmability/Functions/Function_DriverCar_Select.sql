@@ -1,18 +1,32 @@
-CREATE FUNCTION [dbo].[Function_DriverCar_Select]()
-RETURNS TABLE
-AS
-	RETURN
-	(
-	SELECT car_id, driver_id_To driver_id, invoice_dateMove date1,
-		case when date2 is not null then date2 else CURRENT_TIMESTAMP end date2, invoice_number
-	FROM
-		(select car_id, driver_id_To, invoice_dateMove,
-			(select min(invoice_dateMove) from Invoice i2 			
-				where i.car_id=i2.car_id and i.invoice_id < i2.invoice_id and
-					i.invoice_dateMove <= i2.invoice_dateMove and i.invoice_dateMove <= i2.invoice_dateMove
-			) date2,
-			invoice_number
-		from Invoice i) tb
-	WHERE invoice_dateMove is not null
-	)
-GO
+create function [dbo].[Function_DriverCar_Select] ()
+returns table
+as
+  return
+  (
+  select
+    CarId,
+    DriverIdTo DriverId,
+    DateMove date1,
+    case when date2 is not null then date2 else current_timestamp end date2,
+    number
+  from
+    (select
+        CarId,
+        DriverIdTo,
+        DateMove,
+        (select
+            min(DateMove)
+          from
+            Invoice i2
+          where
+            i.CarId = i2.CarId
+            and i.Id < i2.Id
+            and i.DateMove <= i2.DateMove
+            and i.DateMove <= i2.DateMove)
+        date2,
+        number
+      from
+        Invoice i) tb
+  where
+    DateMove is not null
+  )

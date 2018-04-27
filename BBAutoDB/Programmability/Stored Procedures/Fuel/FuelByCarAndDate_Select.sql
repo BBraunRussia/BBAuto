@@ -5,8 +5,8 @@ AS
 BEGIN
 	SELECT fuel_id FROM Fuel
 		join FuelCardDriver fcd ON fuel.fuelCard_id=fcd.fuelCard_id
-		join Function_DriverCar_Select() dc ON fcd.driver_id=dc.driver_id
-	WHERE car_id=@idCar and @date > date1 and @date <= date2
+		join Function_DriverCar_Select() dc ON fcd.driver_id=dc.DriverId
+	WHERE CarId=@idCar and @date > date1 and @date <= date2
 		and year(fuel_date)=year(@date) and month(fuel_date)=month(@date)
 END
 GO
