@@ -200,8 +200,8 @@
     <Build Include="Programmability\Stored Procedures\Car\DeleteCar.sql" />
     <Build Include="Programmability\Stored Procedures\Car\UpsertCar.sql" />
     <Build Include="Programmability\Stored Procedures\Car\GetCars.sql" />
-    <Build Include="Programmability\Stored Procedures\CarBuy\CarBuy_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\CarBuy\CarBuy_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\CarBuy\UpsertCarBuy.sql" />
+    <Build Include="Programmability\Stored Procedures\CarBuy\GetCarBuy.sql" />
     <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Select.sql" />

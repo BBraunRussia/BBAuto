@@ -1,8 +1,8 @@
-CREATE PROCEDURE [dbo].[GetCarByGrz]
+create procedure [dbo].[GetCarByGrz]
   @grz nvarchar(50)
 as
   select
-    c.Id,
+    c.id,
     c.bbnumber,
     c.grz,
     c.vin,
@@ -13,26 +13,26 @@ as
     m.model_id,
     c.gradeId,
     c.colorId,
-    cb.owner_id,
-    cb.region_id_buy,
-    cb.region_id_using,
-    cb.driver_id,
-    cb.carBuy_dateOrder,
-    cb.carBuy_isGet,
-    cb.carBuy_dateGet,
-    cb.carBuy_cost,
-    cb.carBuy_dop,
-    cb.carBuy_events,
-    cb.dealerId,
+    cb.OwnerId,
+    cb.RegionIdBuy,
+    cb.RegionIdUsing,
+    cb.DriverId,
+    cb.DateOrder,
+    cb.IsGet,
+    cb.DateGet,
+    cb.Cost,
+    cb.Dop,
+    cb.[Events],
+    cb.DealerId,
     c.LisingDate,
     c.InvertoryNumber
   from
     Car c
     join Grade g
       on g.grade_Id = c.gradeId
-    join Model m
+    join model m
       on m.model_id = g.model_id
     join CarBuy cb
-      on cb.car_id = c.Id
+      on cb.CarId = c.id
   where
     grz = @grz
