@@ -5,7 +5,7 @@ using BBAuto.Logic.Lists;
 using BBAuto.Logic.Static;
 using Common.Resources;
 
-namespace BBAuto.App.GUI
+namespace BBAuto.App.Utils.DGV
 {
   public class MainDgv
   {

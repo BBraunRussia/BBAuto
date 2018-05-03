@@ -448,10 +448,10 @@
     </Compile>
     <Compile Include="GUI\BBColors.cs" />
     <Compile Include="GUI\ControlsFactory.cs" />
-    <Compile Include="GUI\DGVFormat.cs" />
+    <Compile Include="Utils\DGV\DGVFormat.cs" />
     <Compile Include="Events\EditModeEventArgs.cs" />
     <Compile Include="GUI\Filters.cs" />
-    <Compile Include="GUI\MainDGV.cs" />
+    <Compile Include="Utils\DGV\MainDgv.cs" />
     <Compile Include="GUI\MainStatus.cs" />
     <Compile Include="GUI\DGVSpecialColumn.cs" />
     <Compile Include="Events\WorkWithForm.cs" />

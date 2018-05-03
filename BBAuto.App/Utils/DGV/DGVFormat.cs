@@ -1,13 +1,14 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using BBAuto.App.GUI;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Static;
 
-namespace BBAuto.App.GUI
+namespace BBAuto.App.Utils.DGV
 {
   internal class DGVFormat
   {
