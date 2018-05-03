@@ -57,9 +57,12 @@ namespace BBAuto.Logic.Lists
 
     public STS getItem(Car car)
     {
-      var STSs = list.Where(s => s.Car.Id == car.Id);
+      return list.FirstOrDefault(s => s.CarId == car.Id) ?? car.createSTS();
+    }
 
-      return (STSs.Count() > 0) ? STSs.First() : car.createSTS();
+    public STS getItem(int carId)
+    {
+      return list.FirstOrDefault(s => s.CarId == carId) ?? new STS(carId);
     }
   }
 }

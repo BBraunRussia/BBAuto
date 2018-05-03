@@ -67,6 +67,23 @@ namespace BBAuto.Logic.Lists
       }
     }
 
+    public Driver GetDriver(int carId)
+    {
+      var driverCars = from driverCar in list
+        where driverCar.Car.Id == carId
+        orderby driverCar.dateEnd descending, driverCar.Number descending
+        select driverCar;
+
+      var carList = CarList.getInstance();
+      var car = carList.getItem(carId);
+
+      if (driverCars.ToList().Count != 0 || car.IsGet)
+        return getDriver(driverCars.ToList());
+
+      var driverList = DriverList.getInstance();
+      return driverList.getItem(Convert.ToInt32(car.driverID));
+    }
+
     public Driver GetDriver(Car car, DateTime date)
     {
       var driverCars = from driverCar in list
@@ -82,14 +99,12 @@ namespace BBAuto.Logic.Lists
 
     private Driver getDriver(List<DriverCar> driverCars)
     {
-      if (driverCars.Count() > 0)
-      {
-        DriverCar driverCar = driverCars.First() as DriverCar;
-        DriverList driverList = DriverList.getInstance();
-        return driverList.getItem(driverCar.Driver.Id);
-      }
+      if (!driverCars.Any())
+        return null;
 
-      return null;
+      var driverCar = driverCars.First();
+      var driverList = DriverList.getInstance();
+      return driverList.getItem(driverCar.Driver.Id);
     }
 
     public Car GetCar(Driver driver)

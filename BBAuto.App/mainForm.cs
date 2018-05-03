@@ -16,6 +16,7 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.App
@@ -32,21 +33,22 @@ namespace BBAuto.App
     private readonly MainDGV _dgvMain;
 
     private readonly SearchInDgv _seacher;
-
-    private readonly CarList _carList;
-
+    
     private readonly MyFilter _myFilter;
     private readonly MyStatusStrip _myStatusStrip;
 
     private readonly ICarForm _carForm;
+    private readonly ICarService _carService;
 
-    public MainForm(ICarForm carForm)
+    public MainForm(
+      ICarForm carForm,
+      ICarService carService)
     {
       _carForm = carForm;
+      _carService = carService;
 
       InitializeComponent();
 
-      _carList = CarList.getInstance();
       _mainStatus = MainStatus.getInstance();
       _mainStatus.StatusChanged += statusChanged;
       _mainStatus.StatusChanged += SetWindowHeaderText;
@@ -98,7 +100,7 @@ namespace BBAuto.App
 
     private void loadCars()
     {
-      loadCars(_carList.ToDataTable(_mainStatus.Get()));
+      loadCars(_carService.ToDataTable(_mainStatus.Get()));
     }
 
     private void loadCars(DataTable dt)

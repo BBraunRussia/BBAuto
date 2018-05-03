@@ -5,6 +5,7 @@ using System.Linq;
 using BBAuto.Logic.Abstract;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Services.Car;
 
 namespace BBAuto.Logic.Lists
 {
@@ -84,10 +85,17 @@ namespace BBAuto.Logic.Lists
 
       return (dtps.Count > 0) ? dtps.First() : new DTP(new Car());
     }
-
+    
     private List<DTP> ToList(Car car)
     {
       return list.Where(item => item.Car.Id == car.Id).OrderByDescending(item => item.Date).ToList();
+    }
+
+    public DTP GetLast(int carId)
+    {
+      var dtps = list.Where(item => item.Car.Id == carId).OrderByDescending(item => item.Date).ToList();
+
+      return dtps.FirstOrDefault();
     }
 
     private DataTable createTable(List<DTP> dtpList)

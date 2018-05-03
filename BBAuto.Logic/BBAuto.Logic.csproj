@@ -113,6 +113,9 @@
     <Compile Include="Services\Account\AccountService.cs" />
     <Compile Include="Services\Account\IAccountRepository.cs" />
     <Compile Include="Services\Account\IAccountService.cs" />
+    <Compile Include="Services\CarSale\CarSaleModel.cs" />
+    <Compile Include="Services\CarSale\CarSaleService.cs" />
+    <Compile Include="Services\CarSale\ICarSaleService.cs" />
     <Compile Include="Services\Car\CarMappingProfile.cs" />
     <Compile Include="Services\Car\CarModel.cs" />
     <Compile Include="Services\Car\CarService.cs" />

@@ -322,7 +322,7 @@ namespace BBAuto.Logic.Entities
 
     public STS createSTS()
     {
-      return new STS(this);
+      return new STS(Id);
     }
 
     public TempMove createTempMove()

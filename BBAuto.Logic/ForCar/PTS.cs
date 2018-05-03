@@ -21,21 +21,27 @@ namespace BBAuto.Logic.ForCar
     public DateTime Date { get; set; }
     public string File { get; set; }
 
-    public Car Car { get; private set; }
+    public int CarId { get; }
 
     internal PTS(Car car)
     {
-      Car = car;
+      CarId = car.Id;
+      Date = DateTime.Today;
+      Number = string.Empty;
+    }
+
+    public PTS(int carId)
+    {
+      CarId = carId;
       Date = DateTime.Today;
       Number = string.Empty;
     }
 
     public PTS(DataRow row)
     {
-      int idCar;
-      int.TryParse(row.ItemArray[0].ToString(), out idCar);
-      Car = CarList.getInstance().getItem(idCar);
-
+      int.TryParse(row.ItemArray[0].ToString(), out int idCar);
+      CarId = idCar;
+      
       Number = row.ItemArray[1].ToString();
       Date = Convert.ToDateTime(row.ItemArray[2]);
       GiveOrg = row.ItemArray[3].ToString();
@@ -47,11 +53,11 @@ namespace BBAuto.Logic.ForCar
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "", "PTS");
+      File = WorkWithFiles.FileCopyById(File, "cars", CarId, "", "PTS");
 
-      Provider.Insert("PTS", Car.Id, Number, Date, GiveOrg, File);
+      Provider.Insert("PTS", CarId, Number, Date, GiveOrg, File);
 
-      PTSList ptsList = PTSList.getInstance();
+      var ptsList = PTSList.getInstance();
       ptsList.Add(this);
     }
 
@@ -59,7 +65,7 @@ namespace BBAuto.Logic.ForCar
     {
       DeleteFile(File);
 
-      Provider.Delete("PTS", Car.Id);
+      Provider.Delete("PTS", CarId);
     }
 
     internal override object[] GetRow()
