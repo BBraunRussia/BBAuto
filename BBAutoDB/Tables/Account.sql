@@ -1,15 +1,15 @@
 CREATE TABLE [dbo].[Account](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Number] NVARCHAR(50) NOT NULL,
-	[Agreed] [int] NOT NULL,
-	[PolicyTypeId] [int] NOT NULL,
-	[OwnerId] [int] NOT NULL,
-	[PaymentNumber] [int] NOT NULL,
-	[BusinessTrip] BIT NOT NULL,
-	[File] NVARCHAR(500) NULL,
+	[account_id] [int] IDENTITY(1,1) NOT NULL,
+	[account_number] NVARCHAR(50) NOT NULL,
+	[account_agreed] [int] NOT NULL,
+	[policyType_id] [int] NOT NULL,
+	[owner_id] [int] NOT NULL,
+	[account_paymentNumber] [int] NOT NULL,
+	[account_businessTrip] [int] NOT NULL,
+	[account_file] NVARCHAR(100) NULL,
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
-	[Id] ASC
+	[account_id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

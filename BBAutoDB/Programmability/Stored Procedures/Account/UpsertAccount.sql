@@ -1,31 +1,27 @@
-create procedure [dbo].[UpsertAccount]
-  @idAccount int,
-  @Number nvarchar(50),
-  @Agreed int,
-  @idPolicyType int,
-  @idOwner int,
-  @paymentNumber int,
-  @businessTrip bit,
-  @file nvarchar(500)
-as
-begin
-  if (@idAccount = 0)
-  begin
-    insert into Account(Number, Agreed, PolicyTypeId, OwnerId, PaymentNumber, BusinessTrip, [File])
-    values(@Number, 0, @idPolicyType, @idOwner, @paymentNumber, @businessTrip, @file)
-
-    set @idAccount = scope_identity()
-  end
-  else
-    update Account
-    set number = @Number,
-        Agreed = @Agreed,
-        PolicyTypeId = @idPolicyType,
-        OwnerId = @idOwner,
-        PaymentNumber = @paymentNumber,
-        BusinessTrip = @businessTrip,
-        [File] = @file
-    where Id = @idAccount
-
-  select @idAccount
-end
+CREATE PROCEDURE [dbo].[UpsertAccount]
+@idAccount int,
+@Number nvarchar(50),
+@Agreed int,
+@idPolicyType int,
+@idOwner int,
+@paymentNumber int,
+@businessTrip int,
+@file nvarchar(100)
+AS
+BEGIN
+	if (@idAccount = 0)
+	begin
+		INSERT INTO Account VALUES(@Number, 0, @idPolicyType, @idOwner, @paymentNumber, 
+			@businessTrip, @file)
+		
+		SET @idAccount = SCOPE_IDENTITY()
+	end
+	else
+		UPDATE Account SET account_number=@Number, account_agreed=@Agreed,
+			policyType_id=@idPolicyType, owner_id=@idOwner, account_paymentNumber=@paymentNumber,
+			account_businessTrip=@businessTrip, account_file=@file
+		WHERE account_id=@idAccount
+	
+	SELECT @idAccount
+END
+GO
