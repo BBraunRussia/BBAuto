@@ -8,7 +8,7 @@ namespace BBAuto.App.CommonForms
 {
   public partial class formTemplateList : Form
   {
-    private MainDGV _dgvMain;
+    private MainDgv _dgvMain;
     private TemplateList _templateList;
 
     public formTemplateList()
@@ -22,7 +22,7 @@ namespace BBAuto.App.CommonForms
     {
       loadData();
 
-      _dgvMain = new MainDGV(_dgvTemplate);
+      _dgvMain = new MainDgv(_dgvTemplate);
 
       ResizeDGV();
     }
@@ -42,7 +42,7 @@ namespace BBAuto.App.CommonForms
 
     private void _dgvTemplate_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      openAddEdit(_templateList.getItem(_dgvMain.GetID()));
+      openAddEdit(_templateList.getItem(_dgvMain.GetId()));
     }
 
     private void openAddEdit(Template template)
@@ -54,7 +54,7 @@ namespace BBAuto.App.CommonForms
 
     private void btnDel_Click(object sender, EventArgs e)
     {
-      _templateList.Delete(_dgvMain.GetID());
+      _templateList.Delete(_dgvMain.GetId());
 
       loadData();
     }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BBAuto.App.AddEdit;
 using BBAuto.Logic.Services.Dealer;
-using Common;
+using Common.Resources;
 
 namespace BBAuto.App.Dictionary
 {

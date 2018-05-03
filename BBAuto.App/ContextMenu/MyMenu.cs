@@ -9,7 +9,7 @@ namespace BBAuto.App.ContextMenu
     private readonly MainStatus _mainStatus;
     private readonly MyMenuItemFactory _factory;
 
-    public MyMenu(MainDGV dgvMain)
+    public MyMenu(MainDgv dgvMain)
     {
       _mainStatus = MainStatus.getInstance();
       _factory = new MyMenuItemFactory(dgvMain);

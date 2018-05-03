@@ -11,9 +11,9 @@ namespace BBAuto.App.Common
 {
   public class DriverMails
   {
-    private MainDGV _dgvMain;
+    private MainDgv _dgvMain;
 
-    public DriverMails(MainDGV dgvMain)
+    public DriverMails(MainDgv dgvMain)
     {
       _dgvMain = dgvMain;
     }
@@ -50,7 +50,7 @@ namespace BBAuto.App.Common
       {
         if (cell.Visible)
         {
-          Car car = carList.getItem(_dgvMain.GetCarID(cell.RowIndex));
+          Car car = carList.getItem(_dgvMain.GetCarId(cell.RowIndex));
           Driver driver = driverCarList.GetDriver(car);
 
           if (CanAddToList(drivers, driver.email))

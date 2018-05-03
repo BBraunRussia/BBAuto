@@ -11,11 +11,11 @@ namespace BBAuto.App.CommonForms
 {
   public partial class InputDate : Form
   {
-    private MainDGV _dgvMain;
+    private MainDgv _dgvMain;
     private Logic.Static.Actions _action;
     private WayBillType _type;
 
-    public InputDate(MainDGV dgvMain, Logic.Static.Actions action, WayBillType type)
+    public InputDate(MainDgv dgvMain, Logic.Static.Actions action, WayBillType type)
     {
       InitializeComponent();
 
@@ -40,7 +40,7 @@ namespace BBAuto.App.CommonForms
         try
         {
           excelWayBill = (status == Status.Invoice)
-            ? CreateWayBill(car, date, _dgvMain.GetID(cell.RowIndex))
+            ? CreateWayBill(car, date, _dgvMain.GetId(cell.RowIndex))
             : CreateWayBill(car, date);
         }
         catch (NullReferenceException)

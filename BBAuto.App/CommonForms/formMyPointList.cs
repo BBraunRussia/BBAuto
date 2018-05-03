@@ -11,7 +11,7 @@ namespace BBAuto.App.CommonForms
 {
   public partial class formMyPointList : Form
   {
-    private MainDGV _dgvMain;
+    private MainDgv _dgvMain;
 
     private MyPointList _myPointList;
 
@@ -28,7 +28,7 @@ namespace BBAuto.App.CommonForms
 
       loadData();
 
-      _dgvMain = new MainDGV(dgv);
+      _dgvMain = new MainDgv(dgv);
 
       ResizeDGV();
     }
@@ -68,7 +68,7 @@ namespace BBAuto.App.CommonForms
 
     private void dgv_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
     {
-      openAddEdit(_myPointList.getItem(_dgvMain.GetID()));
+      openAddEdit(_myPointList.getItem(_dgvMain.GetId()));
     }
 
     private void openAddEdit(MyPoint myPoint)
@@ -82,7 +82,7 @@ namespace BBAuto.App.CommonForms
     {
       try
       {
-        _myPointList.Delete(_dgvMain.GetID());
+        _myPointList.Delete(_dgvMain.GetId());
 
         loadData();
       }

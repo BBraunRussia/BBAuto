@@ -29,11 +29,11 @@ namespace BBAuto.App.ContextMenu
   {
     private const string DOCUMENTS_PATH = @"\\bbmru08.bbmag.bbraun.com\Depts\Fleet INT\Автохозяйство\документы на авто";
 
-    private readonly MainDGV _dgvMain;
+    private readonly MainDgv _dgvMain;
     private CarList _carList;
     private readonly MainStatus _mainStatus;
 
-    public MyMenuItemFactory(MainDGV dgvMain)
+    public MyMenuItemFactory(MainDgv dgvMain)
     {
       _dgvMain = dgvMain;
       _mainStatus = MainStatus.getInstance();
@@ -425,7 +425,7 @@ namespace BBAuto.App.ContextMenu
       {
         try
         {
-          MyBuffer.Copy(_dgvMain.GetDGV());
+          MyBuffer.Copy(_dgvMain.Dgv);
         }
         catch (Exception ex)
         {
@@ -442,7 +442,7 @@ namespace BBAuto.App.ContextMenu
       item.Click += delegate
       {
         CreateDocument doc = new CreateDocument();
-        doc.CreateExcelFromDGV(_dgvMain.GetDGV());
+        doc.CreateExcelFromDGV(_dgvMain.Dgv);
         doc.Print();
       };
       return item;
@@ -580,7 +580,7 @@ namespace BBAuto.App.ContextMenu
         else
         {
           InvoiceList invoiceList = InvoiceList.getInstance();
-          Invoice invoice = invoiceList.getItem(_dgvMain.GetID());
+          Invoice invoice = invoiceList.getItem(_dgvMain.GetId());
           if (invoice == null)
           {
             MessageBox.Show("Для формирования акта необходимо перейти на страницу \"Перемещения\"", "Предупреждение",
@@ -607,7 +607,7 @@ namespace BBAuto.App.ContextMenu
         if (_mainStatus.Get() == Status.DTP)
         {
           DTPList dtpList = DTPList.getInstance();
-          DTP dtp = dtpList.getItem(_dgvMain.GetID());
+          DTP dtp = dtpList.getItem(_dgvMain.GetId());
 
           CreateDocument doc = new CreateDocument(car);
 
@@ -643,7 +643,7 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Водительское удостоверение");
       item.Click += delegate
       {
-        if (_dgvMain.GetID() == 0)
+        if (_dgvMain.GetId() == 0)
           return;
 
         DateTime date = DateTime.Today;
@@ -651,7 +651,7 @@ namespace BBAuto.App.ContextMenu
         if (_mainStatus.Get() == Status.DTP)
         {
           DTPList dtpList = DTPList.getInstance();
-          DTP dtp = dtpList.getItem(_dgvMain.GetID());
+          DTP dtp = dtpList.getItem(_dgvMain.GetId());
           date = dtp.Date;
         }
 
@@ -775,8 +775,8 @@ namespace BBAuto.App.ContextMenu
     private CreateDocument DgvToExcel()
     {
       CreateDocument doc = new CreateDocument();
-      doc.CreateExcelFromAllDgv(_dgvMain.GetDGV());
-      doc.CreateHeader("Справочник \"" + _mainStatus.ToString() + "\"");
+      doc.CreateExcelFromAllDgv(_dgvMain.Dgv);
+      doc.CreateHeader("Справочник \"" + _mainStatus + "\"");
 
       return doc;
     }
@@ -1135,10 +1135,10 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateSort()
     {
-      ToolStripMenuItem item = CreateItem("Сортировать");
+      var item = CreateItem("Сортировать");
       item.Click += delegate
       {
-        DataGridView dgv = _dgvMain.GetDGV();
+        var dgv = _dgvMain.Dgv;
 
         if (dgv.SelectedCells.Count == 0)
           return;
@@ -1165,10 +1165,10 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateFilter()
     {
-      ToolStripMenuItem item = CreateItem("Фильтр по значению этого поля");
+      var item = CreateItem("Фильтр по значению этого поля");
       item.Click += delegate
       {
-        DataGridView dgv = _dgvMain.GetDGV();
+        var dgv = _dgvMain.Dgv;
 
         if (dgv.CurrentCell == null)
           return;
@@ -1204,7 +1204,7 @@ namespace BBAuto.App.ContextMenu
               MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
         {
           DriverList driverList = DriverList.getInstance();
-          Driver driver = driverList.getItem(_dgvMain.GetID());
+          Driver driver = driverList.getItem(_dgvMain.GetId());
           DriverCarList driverCarList = DriverCarList.getInstance();
 
           if (driverCarList.IsDriverHaveCar(driver))
@@ -1283,7 +1283,7 @@ namespace BBAuto.App.ContextMenu
 
     private CreateDocument createDocument(DataGridViewCell cell)
     {
-      int carID = _dgvMain.GetCarID(cell.RowIndex);
+      int carID = _dgvMain.GetCarId(cell.RowIndex);
 
       if (carID == 0)
         return null;
@@ -1295,7 +1295,7 @@ namespace BBAuto.App.ContextMenu
 
       if (_mainStatus.Get() == Status.Invoice)
       {
-        int invoiceID = _dgvMain.GetID(cell.RowIndex);
+        int invoiceID = _dgvMain.GetId(cell.RowIndex);
 
         InvoiceList invoiceList = InvoiceList.getInstance();
         invoice = invoiceList.getItem(invoiceID);

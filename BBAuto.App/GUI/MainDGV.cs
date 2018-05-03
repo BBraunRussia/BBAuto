@@ -3,82 +3,83 @@ using System.Windows.Forms;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Static;
+using Common.Resources;
 
 namespace BBAuto.App.GUI
 {
-  public class MainDGV
+  public class MainDgv
   {
-    private DataGridView _dgv;
-    private DGVFormat _dgvFormated;
+    public DataGridView Dgv { get; }
+    private readonly DGVFormat _dgvFormated;
 
-    public DataGridViewSelectedCellCollection SelectedCells
-    {
-      get { return _dgv.SelectedCells; }
-    }
+    public DataGridViewSelectedCellCollection SelectedCells => Dgv.SelectedCells;
 
-    public DataGridViewCell CurrentCell
-    {
-      get { return _dgv.CurrentCell; }
-    }
+    public DataGridViewCell CurrentCell => Dgv.CurrentCell;
 
-    public MainDGV(DataGridView dgv)
+    public MainDgv(DataGridView dgv)
     {
-      _dgv = dgv;
+      Dgv = dgv;
       _dgvFormated = new DGVFormat(dgv);
     }
 
-    public int GetID()
+    public int GetId()
     {
-      return _dgv.CurrentCell == null ? 0 : GetID(0, _dgv.CurrentCell.RowIndex);
+      return Dgv.CurrentCell == null
+        ? 0
+        : GetId(0, Dgv.CurrentCell.RowIndex);
     }
 
-    public int GetID(int rowIndex)
+    public int GetId(int rowIndex)
     {
-      return GetID(0, rowIndex);
+      return GetId(0, rowIndex);
     }
 
     public Car GetCar()
     {
-      return (_dgv.CurrentCell == null) ? null : CarList.getInstance().getItem(GetID(1, _dgv.CurrentCell.RowIndex));
+      return Dgv.CurrentCell == null
+        ? null
+        : CarList.getInstance().getItem(GetId(1, Dgv.CurrentCell.RowIndex));
     }
 
     public Car GetCar(DataGridViewCell cell)
     {
-      return (cell == null) ? null : CarList.getInstance().getItem(GetID(1, cell.RowIndex));
+      return cell == null
+        ? null
+        : CarList.getInstance().getItem(GetId(1, cell.RowIndex));
     }
 
-    public int GetCarID()
+    public int GetCarId()
     {
-      return _dgv.CurrentCell == null ? 0 : GetID(1, _dgv.CurrentCell.RowIndex);
+      return Dgv.CurrentCell == null
+        ? 0
+        : GetId(1, Dgv.CurrentCell.RowIndex);
     }
 
-    public int GetCarID(int rowIndex)
+    public int GetCarId(int rowIndex)
     {
-      return GetID(1, rowIndex);
+      return GetId(1, rowIndex);
     }
 
-    public string GetFIO(int rowIndex)
+    public string GetFio(int rowIndex)
     {
-      if (_dgv.CurrentCell == null)
-      {
-        MessageBox.Show("Перед действием необходимо выделить запись в таблице", "Ошибка", MessageBoxButtons.OK,
-          MessageBoxIcon.Error);
-        return "0";
-      }
-      return _dgv.Rows[rowIndex].Cells[8].Value.ToString();
+      if (Dgv.CurrentCell != null)
+        return Dgv.Rows[rowIndex].Cells[8].Value.ToString();
+
+      MessageBox.Show(Messages.SelectRowBeforeAction, Captions.Error, MessageBoxButtons.OK,
+        MessageBoxIcon.Error);
+      return "0";
     }
 
 
-    private int GetID(int columnIndex, int rowIndex)
+    private int GetId(int columnIndex, int rowIndex)
     {
-      if (_dgv.CurrentCell == null)
-      {
-        MessageBox.Show("Перед действием необходимо выделить запись в таблице", "Ошибка", MessageBoxButtons.OK,
-          MessageBoxIcon.Error);
-        return 0;
-      }
+      if (Dgv.CurrentCell != null)
+        return Convert.ToInt32(Dgv.Rows[rowIndex].Cells[columnIndex].Value);
 
-      return Convert.ToInt32(_dgv.Rows[rowIndex].Cells[columnIndex].Value);
+      MessageBox.Show(Messages.SelectRowBeforeAction, Captions.Error, MessageBoxButtons.OK,
+        MessageBoxIcon.Error);
+      return 0;
+
     }
 
     public void Format(Status status)
@@ -89,11 +90,6 @@ namespace BBAuto.App.GUI
         _dgvFormated.FormatByOwner();
 
       _dgvFormated.Format(status);
-    }
-
-    public DataGridView GetDGV()
-    {
-      return _dgv;
     }
   }
 }

@@ -11,7 +11,7 @@ namespace BBAuto.App.CommonForms
 {
   public partial class formRouteList : Form
   {
-    private MainDGV _dgvMain;
+    private MainDgv _dgvMain;
 
     private RouteList _routeList;
 
@@ -28,7 +28,7 @@ namespace BBAuto.App.CommonForms
 
       loadPoints();
 
-      _dgvMain = new MainDGV(dgv);
+      _dgvMain = new MainDgv(dgv);
     }
 
     private void loadRegions()
@@ -89,12 +89,12 @@ namespace BBAuto.App.CommonForms
 
     private void dgv_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
     {
-      openAddEdit(_routeList.getItem(_dgvMain.GetID()));
+      openAddEdit(_routeList.getItem(_dgvMain.GetId()));
     }
 
     private void btnDel_Click(object sender, EventArgs e)
     {
-      _routeList.Delete(_dgvMain.GetID());
+      _routeList.Delete(_dgvMain.GetId());
 
       loadData();
     }

@@ -20,7 +20,7 @@ namespace BBAuto.App.CommonForms
     private TabelList tabelList;
     private Driver driverCurrent;
 
-    public FormWayBillDaily(MainDGV dgv)
+    public FormWayBillDaily(MainDgv dgv)
     {
       InitializeComponent();
 
@@ -29,11 +29,11 @@ namespace BBAuto.App.CommonForms
 
       foreach (DataGridViewCell cell in dgv.SelectedCells)
       {
-        string fio = dgv.GetFIO(cell.RowIndex);
+        string fio = dgv.GetFio(cell.RowIndex);
         DriverList dl = DriverList.getInstance();
         driverCurrent = dl.getItemByFullFIO(fio);
 
-        int idCar = dgv.GetCarID(cell.RowIndex);
+        int idCar = dgv.GetCarId(cell.RowIndex);
         CarList carList = CarList.getInstance();
         Car car = carList.getItem(idCar);
         list.Add(car);
