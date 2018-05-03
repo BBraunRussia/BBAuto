@@ -123,4 +123,52 @@
   <data name="Contacts" xml:space="preserve">
     <value>Контакты</value>
   </data>
+  <data name="NumberPTS" xml:space="preserve">
+    <value>№ ПТС</value>
+  </data>
+  <data name="NumberSTS" xml:space="preserve">
+    <value>№ СТС</value>
+  </data>
+  <data name="NumberInvoice" xml:space="preserve">
+    <value>№ накладной</value>
+  </data>
+  <data name="NumberPolicy" xml:space="preserve">
+    <value>Номер полиса</value>
+  </data>
+  <data name="NumberViolation" xml:space="preserve">
+    <value>№ постановления</value>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Дата оплаты</value>
+  </data>
+  <data name="NumberDiagCard" xml:space="preserve">
+    <value>№ ДК</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="NumberAccount" xml:space="preserve">
+    <value>Номер счёта</value>
+  </data>
+  <data name="Agreement" xml:space="preserve">
+    <value>Согласование</value>
+  </data>
+  <data name="FailedSend" xml:space="preserve">
+    <value>Ошибка отправки</value>
+  </data>
+  <data name="ViolationAmount" xml:space="preserve">
+    <value>Сумма штрафа</value>
+  </data>
+  <data name="AccessError" xml:space="preserve">
+    <value>Ошибка доступа</value>
+  </data>
+  <data name="VIN" xml:space="preserve">
+    <value>VIN</value>
+  </data>
+  <data name="Driver" xml:space="preserve">
+    <value>Водитель</value>
+  </data>
+  <data name="BBNumber" xml:space="preserve">
+    <value>Бортовой номер</value>
+  </data>
 </root>

@@ -61,6 +61,33 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка доступа.
+        /// </summary>
+        public static string AccessError {
+            get {
+                return ResourceManager.GetString("AccessError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Согласование.
+        /// </summary>
+        public static string Agreement {
+            get {
+                return ResourceManager.GetString("Agreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Бортовой номер.
+        /// </summary>
+        public static string BBNumber {
+            get {
+                return ResourceManager.GetString("BBNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Контакты.
         /// </summary>
         public static string Contacts {
@@ -70,11 +97,128 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Водитель.
+        /// </summary>
+        public static string Driver {
+            get {
+                return ResourceManager.GetString("Driver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка отправки.
+        /// </summary>
+        public static string FailedSend {
+            get {
+                return ResourceManager.GetString("FailedSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Файл.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Название.
         /// </summary>
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Номер счёта.
+        /// </summary>
+        public static string NumberAccount {
+            get {
+                return ResourceManager.GetString("NumberAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № ДК.
+        /// </summary>
+        public static string NumberDiagCard {
+            get {
+                return ResourceManager.GetString("NumberDiagCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № накладной.
+        /// </summary>
+        public static string NumberInvoice {
+            get {
+                return ResourceManager.GetString("NumberInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Номер полиса.
+        /// </summary>
+        public static string NumberPolicy {
+            get {
+                return ResourceManager.GetString("NumberPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № ПТС.
+        /// </summary>
+        public static string NumberPTS {
+            get {
+                return ResourceManager.GetString("NumberPTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № СТС.
+        /// </summary>
+        public static string NumberSTS {
+            get {
+                return ResourceManager.GetString("NumberSTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № постановления.
+        /// </summary>
+        public static string NumberViolation {
+            get {
+                return ResourceManager.GetString("NumberViolation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата оплаты.
+        /// </summary>
+        public static string PaymentDate {
+            get {
+                return ResourceManager.GetString("PaymentDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VIN.
+        /// </summary>
+        public static string VIN {
+            get {
+                return ResourceManager.GetString("VIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сумма штрафа.
+        /// </summary>
+        public static string ViolationAmount {
+            get {
+                return ResourceManager.GetString("ViolationAmount", resourceCulture);
             }
         }
     }

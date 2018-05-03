@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using BBAuto.Repositories;
+using BBAuto.Repositories.Entities;
 
 namespace BBAuto.Logic.Services.Car.Sale
 {
@@ -13,10 +14,16 @@ namespace BBAuto.Logic.Services.Car.Sale
       _dbContext = dbContext;
     }
 
-    public IList<SaleCarModel> GetCars()
+    public IList<SaleCarModel> GetSaleCars()
     {
       var dbSaleCars = _dbContext.SaleCar.GetSaleCars();
       return Mapper.Map<IList<SaleCarModel>>(dbSaleCars);
+    }
+
+    public void Save(SaleCarModel saleCar)
+    {
+      var dbModel = Mapper.Map<DbSaleCar>(saleCar);
+      _dbContext.SaleCar.UpsertSaleCar(dbModel);
     }
   }
 }

@@ -61,11 +61,38 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка доступа.
+        /// </summary>
+        public static string AccessError {
+            get {
+                return ResourceManager.GetString("AccessError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ошибка.
         /// </summary>
         public static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка отправки.
+        /// </summary>
+        public static string FailedSend {
+            get {
+                return ResourceManager.GetString("FailedSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка доступа.
+        /// </summary>
+        public static string MainForm_DoubleClickAccountViolation_Ошибка_доступа {
+            get {
+                return ResourceManager.GetString("MainForm_DoubleClickAccountViolation_Ошибка_доступа", resourceCulture);
             }
         }
     }

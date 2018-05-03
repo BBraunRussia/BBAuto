@@ -100,7 +100,7 @@ namespace BBAuto.Logic.Services.Car
       }
       else
       {
-        var saleCars = _carSaleService.GetCars();
+        var saleCars = _carSaleService.GetSaleCars();
         
         list = cars.Where(car => car.IsGet && saleCars.FirstOrDefault(carSale => carSale.Id == car.Id) == null).ToList();
       }
@@ -216,7 +216,7 @@ namespace BBAuto.Logic.Services.Car
       StatusAfterDTPs statusAfterDTPs = StatusAfterDTPs.getInstance();
       string statusAfterDTP = statusAfterDTPs.getItem(Convert.ToInt32(dtp.IDStatusAfterDTP));
       
-      var carSale = _carSaleService.GetCars().FirstOrDefault(с => с.Id == car.Id);
+      var carSale = _carSaleService.GetSaleCars().FirstOrDefault(с => с.Id == car.Id);
 
       if (carSale?.Date != null)
         return "продан";

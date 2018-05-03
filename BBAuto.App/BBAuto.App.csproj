@@ -88,6 +88,7 @@
     <Compile Include="AddEdit\FuelCard_AddEdit.Designer.cs">
       <DependentUpon>FuelCard_AddEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEdit\ISaleCarForm.cs" />
     <Compile Include="AddEdit\MyPoint_AddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,11 +119,11 @@
     <Compile Include="AddEdit\UserAccess_AddEdit.Designer.cs">
       <DependentUpon>UserAccess_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddEdit\Car_Sale.cs">
+    <Compile Include="AddEdit\SaleCarForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddEdit\Car_Sale.Designer.cs">
-      <DependentUpon>Car_Sale.cs</DependentUpon>
+    <Compile Include="AddEdit\SaleCarForm.Designer.cs">
+      <DependentUpon>SaleCarForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CommonForms\FormLoadFuel.cs">
       <SubType>Form</SubType>
@@ -496,8 +497,8 @@
     <EmbeddedResource Include="AddEdit\UserAccess_AddEdit.resx">
       <DependentUpon>UserAccess_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddEdit\Car_Sale.resx">
-      <DependentUpon>Car_Sale.cs</DependentUpon>
+    <EmbeddedResource Include="AddEdit\SaleCarForm.resx">
+      <DependentUpon>SaleCarForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\FormLoadFuel.resx">
       <DependentUpon>FormLoadFuel.cs</DependentUpon>

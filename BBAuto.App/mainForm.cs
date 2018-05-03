@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using BBAuto.App.Actions;
 using BBAuto.App.AddEdit;
@@ -18,14 +19,14 @@ using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Static;
+using Common.Resources;
 
 namespace BBAuto.App
 {
   public partial class MainForm : Form, IForm
   {
-    private const string ColumnBbnumber = "Бортовой номер";
-
     private Point _curPosition;
     private Point _savedPosition;
 
@@ -39,15 +40,21 @@ namespace BBAuto.App
     private readonly MyStatusStrip _myStatusStrip;
 
     private readonly ICarForm _carForm;
+    private readonly ISaleCarForm _saleCarForm;
     private readonly ICarService _carService;
+    private readonly ISaleCarService _saleCarService;
 
     public MainForm(
       ICarForm carForm,
-      ICarService carService)
+      ISaleCarForm saleCarForm,
+      ICarService carService,
+      ISaleCarService saleCarService)
     {
       _carForm = carForm;
+      _saleCarForm = saleCarForm;
       _carService = carService;
-
+      _saleCarService = saleCarService;
+      
       InitializeComponent();
 
       _mainStatus = MainStatus.getInstance();
@@ -144,7 +151,7 @@ namespace BBAuto.App
 
       if (isCellNoHeader(e.RowIndex))
       {
-        if (_dgvCar.Columns[e.ColumnIndex].HeaderText == ColumnBbnumber &&
+        if (_dgvCar.Columns[e.ColumnIndex].HeaderText == Columns.BBNumber &&
             _mainStatus.Get() != Status.AccountViolation)
           DoubleClickDefault(point);
         else
@@ -197,27 +204,27 @@ namespace BBAuto.App
 
     private void DoubleClickSale(Point point)
     {
-      Car car = _dgvMain.GetCar();
+      var carId = _dgvMain.GetCarId();
+      var car = _carService.GetCars().FirstOrDefault(c => c.Id == carId);
       if (car == null)
         return;
 
-      PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(car);
+      var ptsList = PTSList.getInstance();
+      var pts = ptsList.getItem(car.Id);
 
-      STSList stsList = STSList.getInstance();
-      STS sts = stsList.getItem(car);
+      var stsList = STSList.getInstance();
+      var sts = stsList.getItem(car.Id);
 
-      if ((_dgvCar.Columns[point.X].HeaderText == "№ ПТС") && (!string.IsNullOrEmpty(pts.File)))
+      if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberPTS && !string.IsNullOrEmpty(pts.File))
         WorkWithFiles.OpenFile(pts.File);
-      else if ((_dgvCar.Columns[point.X].HeaderText == "№ СТС") && (!string.IsNullOrEmpty(sts.File)))
+      else if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberSTS && !string.IsNullOrEmpty(sts.File))
         WorkWithFiles.OpenFile(sts.File);
       else
       {
-        CarSaleList carSaleList = CarSaleList.getInstance();
-        CarSale carSale = carSaleList.getItem(car.Id);
+        var saleCars = _saleCarService.GetSaleCars();
+        var carSale = saleCars.FirstOrDefault(c => c.Id == car.Id);
 
-        Car_Sale carSaleForm = new Car_Sale(carSale);
-        if (carSaleForm.ShowDialog() == DialogResult.OK)
+        if (_saleCarForm.ShowDialog(carSale) == DialogResult.OK)
         {
           LoadCars();
         }
@@ -232,7 +239,7 @@ namespace BBAuto.App
       InvoiceList invoiceList = InvoiceList.getInstance();
       Invoice invoice = invoiceList.getItem(_dgvMain.GetId());
 
-      if ((_dgvCar.Columns[point.X].HeaderText == "№ накладной") && (!string.IsNullOrEmpty(invoice.File)))
+      if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberInvoice && !string.IsNullOrEmpty(invoice.File))
         WorkWithFiles.OpenFile(invoice.File);
       else
       {
@@ -253,7 +260,7 @@ namespace BBAuto.App
 
       string columnName = _dgvCar.Columns[point.X].HeaderText;
 
-      if ((_dgvCar.Columns[point.X].HeaderText == "Номер полиса") && (!string.IsNullOrEmpty(policy.File)))
+      if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberPolicy && !string.IsNullOrEmpty(policy.File))
         WorkWithFiles.OpenFile(policy.File);
       else if (DGVSpecialColumn.CanFiltredPolicy(columnName)
       ) // (labelList.Where(item => item.Text == columnName).Count() == 1)
@@ -291,9 +298,9 @@ namespace BBAuto.App
       ViolationList violationList = ViolationList.getInstance();
       Violation violation = violationList.getItem(_dgvMain.GetId());
 
-      if ((_dgvCar.Columns[point.X].HeaderText == "№ постановления") && (!string.IsNullOrEmpty(violation.File)))
+      if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberViolation && !string.IsNullOrEmpty(violation.File))
         WorkWithFiles.OpenFile(violation.File);
-      else if ((_dgvCar.Columns[point.X].HeaderText == "Дата оплаты") && (!string.IsNullOrEmpty(violation.FilePay)))
+      else if (_dgvCar.Columns[point.X].HeaderText == Columns.PaymentDate && !string.IsNullOrEmpty(violation.FilePay))
         WorkWithFiles.OpenFile(violation.FilePay);
       else
       {
@@ -313,7 +320,7 @@ namespace BBAuto.App
       DiagCardList diagCardList = DiagCardList.getInstance();
       DiagCard diagCard = diagCardList.getItem(_dgvMain.GetId());
 
-      if ((_dgvCar.Columns[point.X].HeaderText == "№ ДК") && (!string.IsNullOrEmpty(diagCard.File)))
+      if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberDiagCard && !string.IsNullOrEmpty(diagCard.File))
         WorkWithFiles.OpenFile(diagCard.File);
       else
       {
@@ -365,15 +372,16 @@ namespace BBAuto.App
         AccountList accountListList = AccountList.GetInstance();
         Account account = accountListList.getItem(_dgvMain.GetId());
 
-        if ((_dgvCar.Columns[point.X].HeaderText == "Файл") && (!string.IsNullOrEmpty(account.File)))
+        if (_dgvCar.Columns[point.X].HeaderText == Columns.File && !string.IsNullOrEmpty(account.File))
           WorkWithFiles.OpenFile(account.File);
-        else if (_dgvCar.Columns[point.X].HeaderText == "Номер счёта")
+        else if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberAccount)
           GotoPagePolicy(account);
-        else if ((_dgvCar.Columns[point.X].HeaderText == "Согласование") && (account.CanAgree()))
+        else if (_dgvCar.Columns[point.X].HeaderText == Columns.Agreement && account.CanAgree())
         {
           if (account.File == string.Empty)
             throw new NotImplementedException("Для согласования необходимо прикрепить скан копию счёта");
-          else if ((User.GetRole() == RolesList.Boss) || (User.GetRole() == RolesList.Adminstrator))
+
+          if (User.GetRole() == RolesList.Boss || User.GetRole() == RolesList.Adminstrator)
           {
             account.Agree();
             LoadCars();
@@ -392,15 +400,15 @@ namespace BBAuto.App
       }
       catch (NotImplementedException ex)
       {
-        MessageBox.Show(ex.Message, "Ошибка отправки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(ex.Message, Captions.FailedSend, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
       catch (NullReferenceException ex)
       {
-        MessageBox.Show(ex.Message, "Ошибка отправки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(ex.Message, Captions.FailedSend, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
       catch (AccessViolationException ex)
       {
-        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(ex.Message, Captions.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
@@ -408,23 +416,23 @@ namespace BBAuto.App
     {
       try
       {
-        int id = _dgvMain.GetId();
+        var id = _dgvMain.GetId();
         if (id == 0)
           return;
 
-        Violation violation = ViolationList.getInstance().getItem(id);
+        var violation = ViolationList.getInstance().getItem(id);
 
-        string columnName = _dgvCar.Columns[point.X].HeaderText;
+        var columnName = _dgvCar.Columns[point.X].HeaderText;
 
-        if (((_dgvCar.Columns[point.X].HeaderText == "№ постановления") ||
-             (_dgvCar.Columns[point.X].HeaderText == "Сумма штрафа"))
-            && (!string.IsNullOrEmpty(violation.File)))
+        if ((_dgvCar.Columns[point.X].HeaderText == Columns.NumberViolation ||
+             _dgvCar.Columns[point.X].HeaderText == Columns.ViolationAmount)
+            && !string.IsNullOrEmpty(violation.File))
           WorkWithFiles.OpenFile(violation.File);
-        else if ((_dgvCar.Columns[point.X].HeaderText == "Согласование") && (!violation.Agreed))
+        else if (_dgvCar.Columns[point.X].HeaderText == Columns.Agreement && (!violation.Agreed))
         {
           if (violation.File == string.Empty)
             throw new NotImplementedException("Для согласования необходимо прикрепить скан копию счёта");
-          else if ((User.GetRole() == RolesList.Boss) || (User.GetRole() == RolesList.Adminstrator))
+          if (User.GetRole() == RolesList.Boss || User.GetRole() == RolesList.Adminstrator)
           {
             violation.Agree();
             LoadCars();
@@ -445,15 +453,15 @@ namespace BBAuto.App
       }
       catch (NotImplementedException ex)
       {
-        MessageBox.Show(ex.Message, "Ошибка отправки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(ex.Message, Captions.FailedSend, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
       catch (NullReferenceException ex)
       {
-        MessageBox.Show(ex.Message, "Ошибка отправки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(ex.Message, Captions.FailedSend, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
       catch (AccessViolationException ex)
       {
-        MessageBox.Show(ex.Message, "Ошибка доступа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(ex.Message, Captions.AccessError, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
@@ -469,7 +477,7 @@ namespace BBAuto.App
 
     private void DoubleClickFuelCard(Point point)
     {
-      int id = _dgvMain.GetCarId();
+      var id = _dgvMain.GetCarId();
       if (id == 0)
         return;
 
@@ -500,7 +508,7 @@ namespace BBAuto.App
         return;
 
       /*TODO: Столяровой доступ к информации про водителя и основную о машине */
-      if (User.GetDriver().UserRole == RolesList.AccountantWayBill && _dgvCar.Columns[point.X].HeaderText != "Водитель")
+      if (User.GetDriver().UserRole == RolesList.AccountantWayBill && _dgvCar.Columns[point.X].HeaderText != Columns.Driver)
       {
         OpenCarAddEdit(car);
         return;
@@ -514,12 +522,12 @@ namespace BBAuto.App
 
       string columnName = _dgvCar.Columns[point.X].HeaderText;
 
-      if (_dgvCar.Columns[point.X].HeaderText == "VIN")
+      if (_dgvCar.Columns[point.X].HeaderText == Columns.VIN)
       {
         formCarInfo formcarInfo = new formCarInfo(car);
         formcarInfo.ShowDialog();
       }
-      else if (_dgvCar.Columns[point.X].HeaderText == "Водитель")
+      else if (_dgvCar.Columns[point.X].HeaderText == Columns.Driver)
       {
         if (isCellNoHeader(point.X))
         {
@@ -539,11 +547,11 @@ namespace BBAuto.App
           }
         }
       }
-      else if ((_dgvCar.Columns[point.X].HeaderText == "№ ПТС") && (!string.IsNullOrEmpty(pts.File)))
+      else if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberPTS && !string.IsNullOrEmpty(pts.File))
       {
         WorkWithFiles.OpenFile(pts.File);
       }
-      else if ((_dgvCar.Columns[point.X].HeaderText == "№ СТС") && (!string.IsNullOrEmpty(sts.File)))
+      else if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberSTS && !string.IsNullOrEmpty(sts.File))
       {
         WorkWithFiles.OpenFile(sts.File);
       }

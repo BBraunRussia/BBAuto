@@ -1,6 +1,6 @@
 namespace BBAuto.App.AddEdit
 {
-    partial class Car_Sale
+    partial class SaleCarForm
     {
         /// <summary>
         /// Required designer variable.

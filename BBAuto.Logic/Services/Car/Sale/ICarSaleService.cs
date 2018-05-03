@@ -4,6 +4,7 @@ namespace BBAuto.Logic.Services.Car.Sale
 {
   public interface ISaleCarService
   {
-    IList<SaleCarModel> GetCars();
+    IList<SaleCarModel> GetSaleCars();
+    void Save(SaleCarModel saleCar);
   }
 }
