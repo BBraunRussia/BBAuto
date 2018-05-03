@@ -12,12 +12,16 @@ namespace BBAuto.Logic.DataBase
 
     public ProviderSQL()
     {
-      _db = Logic.DataBase.DataBase.GetDataBase();
+      _db = DataBase.GetDataBase();
     }
 
     public DataTable Select(string tableName)
     {
-      return _db.GetRecords("exec " + tableName + "_Select");
+      var spName = tableName.Last() == 's'
+        ? tableName + "es"
+        : tableName + "s";
+
+      return _db.GetRecords("exec Get" + spName);
     }
 
     public string SelectOne(string tableName)
@@ -26,27 +30,27 @@ namespace BBAuto.Logic.DataBase
 
       if (dt.Rows.Count > 0)
         return dt.Rows[0].ItemArray[0].ToString();
-      else
-        throw new Exception("Пустое значение");
+
+      throw new Exception("Пустое значение");
     }
 
     public string Insert(string tableName, params object[] Params)
     {
       StringBuilder paramList = new StringBuilder();
 
-      for (int i = 1; i <= Params.Count(); i++)
+      for (int i = 1; i <= Params.Length; i++)
       {
         if (paramList.ToString() != string.Empty)
           paramList.Append(", ");
         paramList.Append("@p" + i);
       }
 
-      return _db.GetRecordsOne("exec " + tableName + "_Insert " + paramList.ToString(), Params);
+      return _db.GetRecordsOne("exec Upsert" + tableName + " " + paramList, Params);
     }
 
     public void Delete(string tableName, int id)
     {
-      _db.GetRecords("exec " + tableName + "_Delete @p1", id);
+      _db.GetRecords("exec Delete" + tableName + " @p1", id);
     }
 
 
