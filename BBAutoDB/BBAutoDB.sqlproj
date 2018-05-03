@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{bcaed834-4958-4a5c-b45b-86d48dcbd5d6}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -65,7 +65,7 @@
     <Folder Include="Programmability\Stored Procedures\Car" />
     <Folder Include="Programmability\Stored Procedures\CarBuy" />
     <Folder Include="Programmability\Stored Procedures\CarDoc" />
-    <Folder Include="Programmability\Stored Procedures\CarSale" />
+    <Folder Include="Programmability\Stored Procedures\SaleCar" />
     <Folder Include="Programmability\Stored Procedures\Color" />
     <Folder Include="Programmability\Stored Procedures\ColumnSize" />
     <Folder Include="Programmability\Stored Procedures\Comp" />
@@ -133,7 +133,7 @@
     <Build Include="Tables\Car.sql" />
     <Build Include="Tables\CarBuy.sql" />
     <Build Include="Tables\CarDoc.sql" />
-    <Build Include="Tables\CarSale.sql" />
+    <Build Include="Tables\SaleCar.sql" />
     <Build Include="Tables\Color.sql" />
     <Build Include="Tables\ColumnSize.sql" />
     <Build Include="Tables\Comp.sql" />
@@ -205,9 +205,9 @@
     <Build Include="Programmability\Stored Procedures\CarDoc\DeleteCarDoc.sql" />
     <Build Include="Programmability\Stored Procedures\CarDoc\UpserCarDoc.sql" />
     <Build Include="Programmability\Stored Procedures\CarDoc\GetCarDocs.sql" />
-    <Build Include="Programmability\Stored Procedures\CarSale\DeleteCarSale.sql" />
-    <Build Include="Programmability\Stored Procedures\CarSale\UpsertCarSale.sql" />
-    <Build Include="Programmability\Stored Procedures\CarSale\GetCarSales.sql" />
+    <Build Include="Programmability\Stored Procedures\SaleCar\DeleteSaleCar.sql" />
+    <Build Include="Programmability\Stored Procedures\SaleCar\UpsertSaleCar.sql" />
+    <Build Include="Programmability\Stored Procedures\SaleCar\GetSaleCars.sql" />
     <Build Include="Programmability\Stored Procedures\Color\DeleteColor.sql" />
     <Build Include="Programmability\Stored Procedures\Color\UpsertColor.sql" />
     <Build Include="Programmability\Stored Procedures\Color\GetColors.sql" />

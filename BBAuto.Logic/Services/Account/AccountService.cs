@@ -1,6 +1,6 @@
 namespace BBAuto.Logic.Services.Account
 {
-  public class AccountService
+  public class AccountService : IAccountService
   {
   }
 }

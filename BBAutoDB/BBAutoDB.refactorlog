@@ -490,4 +490,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="fio" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="b27c6251-7b64-44e4-badf-f08b91453c6b" ChangeDateTime="05/03/2018 20:18:04">
+    <Property Name="ElementName" Value="[dbo].[CarSale].[car_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CarSale]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CarId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f3e25efa-58d4-49de-84b9-1b3510e40311" ChangeDateTime="05/03/2018 20:18:11">
+    <Property Name="ElementName" Value="[dbo].[CarSale].[carSale_date]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CarSale]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Date" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7adfb0f1-218d-4350-8733-f257e52523e6" ChangeDateTime="05/03/2018 20:18:19">
+    <Property Name="ElementName" Value="[dbo].[CarSale].[carSale_comm]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CarSale]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Comment" />
+  </Operation>
 </Operations>

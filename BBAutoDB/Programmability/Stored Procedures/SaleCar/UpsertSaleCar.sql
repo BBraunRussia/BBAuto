@@ -1,4 +1,4 @@
-create procedure [dbo].[UpsertCarSale]
+create procedure [dbo].[UpsertSaleCar]
   @idCar int,
   @comm nvarchar(100) = '',
   @date nvarchar(50) = ''
@@ -6,11 +6,11 @@ as
 begin
   declare @count int
   select
-    @count = count(car_id)
+    @count = count(CarId)
   from
     CarSale
   where
-    car_id = @idCar
+    CarId = @idCar
 
   if (@count = 0)
   begin
@@ -23,8 +23,8 @@ begin
     else
       set @date = cast(@date as datetime)
     update CarSale
-    set carSale_date = @date,
-        carSale_comm = @comm
-    where car_id = @idCar
+    set Date = @date,
+        Comment = @comm
+    where CarId = @idCar
   end
 end

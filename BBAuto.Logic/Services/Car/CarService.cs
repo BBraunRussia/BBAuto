@@ -6,7 +6,7 @@ using AutoMapper;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
-using BBAuto.Logic.Services.CarSale;
+using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
 
@@ -15,11 +15,11 @@ namespace BBAuto.Logic.Services.Car
   public class CarService : ICarService
   {
     private readonly IDbContext _dbContext;
-    private readonly ICarSaleService _carSaleService;
+    private readonly ISaleCarService _carSaleService;
 
     public CarService(
       IDbContext dbContext,
-      ICarSaleService carSaleService)
+      ISaleCarService carSaleService)
     {
       _dbContext = dbContext;
       _carSaleService = carSaleService;

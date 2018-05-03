@@ -1,5 +1,9 @@
 using System.Configuration;
+using BBAuto.Logic.Services.Account;
+using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
+using BBAuto.Logic.Services.Mileage;
 using BBAuto.Repositories;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -17,7 +21,7 @@ namespace BBAuto.Logic
         .DependsOn(new
         {
           connectionStringSettings =
-          ConfigurationManager.ConnectionStrings[Consts.Config.ConnectionName]
+            ConfigurationManager.ConnectionStrings[Consts.Config.ConnectionName]
         })
         .LifeStyle.Transient);
 
@@ -29,8 +33,23 @@ namespace BBAuto.Logic
         })
         .LifestyleTransient());
 
+      container.Register(Component.For<IAccountService>()
+        .ImplementedBy<AccountService>()
+        .LifestyleTransient());
+
       container.Register(Component.For<IDealerService>()
         .ImplementedBy<DealerService>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<ICarService>()
+        .ImplementedBy<CarService>()
+        .LifestyleTransient());
+      container.Register(Component.For<ISaleCarService>()
+        .ImplementedBy<SaleCarService>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IMileageService>()
+        .ImplementedBy<MileageService>()
         .LifestyleTransient());
     }
   }

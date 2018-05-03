@@ -74,14 +74,14 @@ namespace BBAuto.App
 
     private void SetWindowHeaderText(Object sender, StatusEventArgs e)
     {
-      this.Text = string.Concat("BBAuto пользователь: ", User.GetDriver().GetName(NameType.Short), " Справочник: ",
+      Text = string.Concat("BBAuto пользователь: ", User.GetDriver().GetName(NameType.Short), " Справочник: ",
         _mainStatus.ToString());
     }
 
     private void ConfigContextMenu(Object sender, StatusEventArgs e)
     {
-      MyMenu menu = new MyMenu(_dgvMain);
-      MenuStrip menuStrip = menu.CreateMainMenu();
+      var menu = new MyMenu(_dgvMain);
+      var menuStrip = menu.CreateMainMenu();
 
       this.Controls.Remove(this.MainMenuStrip);
       this.MainMenuStrip = menuStrip;

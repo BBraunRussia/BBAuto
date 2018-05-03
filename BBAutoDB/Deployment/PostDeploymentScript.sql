@@ -27,8 +27,8 @@ print N'Current version is: ' + @curver
 if @curver <= '' 
 begin
   print N'Clear database...'
-  --exec dbo.ClearDatabase
+  exec dbo.ClearDatabase
   
   print N'Fill database...'
-  --exec dbo.FillDatabase
+  exec dbo.FillDatabase
 end

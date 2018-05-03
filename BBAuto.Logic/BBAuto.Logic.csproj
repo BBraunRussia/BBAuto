@@ -109,13 +109,11 @@
     <Compile Include="Senders\AccountSender.cs" />
     <Compile Include="Import\MileageMonthFromExcelFile.cs" />
     <Compile Include="Services\Account\AccountModel.cs" />
-    <Compile Include="Services\Account\AccountRepository.cs" />
     <Compile Include="Services\Account\AccountService.cs" />
-    <Compile Include="Services\Account\IAccountRepository.cs" />
     <Compile Include="Services\Account\IAccountService.cs" />
-    <Compile Include="Services\CarSale\CarSaleModel.cs" />
-    <Compile Include="Services\CarSale\CarSaleService.cs" />
-    <Compile Include="Services\CarSale\ICarSaleService.cs" />
+    <Compile Include="Services\Car\Sale\SaleCarModel.cs" />
+    <Compile Include="Services\Car\Sale\SaleCarService.cs" />
+    <Compile Include="Services\Car\Sale\ICarSaleService.cs" />
     <Compile Include="Services\Car\CarMappingProfile.cs" />
     <Compile Include="Services\Car\CarModel.cs" />
     <Compile Include="Services\Car\CarService.cs" />
@@ -265,15 +263,6 @@
     <Compile Include="WindsorInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>4</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="Microsoft.Office.Interop.Excel">
       <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>1</VersionMajor>

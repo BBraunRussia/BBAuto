@@ -1,4 +1,5 @@
 using AutoMapper;
+using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Repositories.Entities;
 
 namespace BBAuto.Logic.Services.Car
@@ -8,6 +9,7 @@ namespace BBAuto.Logic.Services.Car
     public CarMappingProfile()
     {
       CreateMap<DbCar, CarModel>().ReverseMap();
+      CreateMap<DbSaleCar, SaleCarModel>().ReverseMap();
     }
   }
 }
