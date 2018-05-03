@@ -1,6 +1,12 @@
-CREATE PROCEDURE [dbo].[DriverCar_Select]
-AS
-BEGIN
-	SELECT * FROM Function_DriverCar_Select()
-END
-GO
+create procedure [dbo].[GetDriverCars]
+as
+begin
+  select
+    CarId,
+    DriverId,
+    date1,
+    date2,
+    number
+  from
+    Function_DriverCar_Select()
+end
