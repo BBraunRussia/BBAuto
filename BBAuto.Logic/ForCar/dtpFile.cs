@@ -55,7 +55,7 @@ namespace BBAuto.Logic.ForCar
       Id = id;
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Name, File == string.Empty ? string.Empty : "Просмотр"};
     }

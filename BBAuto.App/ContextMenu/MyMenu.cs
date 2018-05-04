@@ -5,15 +5,21 @@ using BBAuto.Logic.Static;
 
 namespace BBAuto.App.ContextMenu
 {
-  public class MyMenu
+  public class MyMenu : IMyMenu
   {
-    private readonly MainStatus _mainStatus;
-    private readonly MyMenuItemFactory _factory;
+    private MainStatus _mainStatus;
+    
+    private readonly IMyMenuItemFactory _factory;
 
-    public MyMenu(MainDgv dgvMain)
+    public MyMenu(IMyMenuItemFactory myMenuItemFactory)
     {
+      _factory = myMenuItemFactory;
+    }
+
+    public void SetMainDgv(MainDgv dgvMain)
+    {
+      _factory.SetMainDgv(dgvMain);
       _mainStatus = MainStatus.getInstance();
-      _factory = new MyMenuItemFactory(dgvMain);
     }
 
     public MenuStrip CreateMainMenu()

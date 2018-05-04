@@ -77,7 +77,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Файл");
 
       foreach (ColumnSize columnSize in columnSizes)
-        dt.Rows.Add(columnSize.GetRow());
+        dt.Rows.Add(columnSize.ToRow());
 
       return dt;
     }

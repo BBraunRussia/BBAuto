@@ -69,7 +69,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата окончания действия");
 
       foreach (MedicalCert medicalCert in medicalCerts)
-        dt.Rows.Add(medicalCert.GetRow());
+        dt.Rows.Add(medicalCert.ToRow());
 
       return dt;
     }

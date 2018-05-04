@@ -68,7 +68,7 @@ namespace BBAuto.Logic.Lists
 
       foreach (SsDTP ssDTP in list)
       {
-        dt.Rows.Add(ssDTP.GetRow());
+        dt.Rows.Add(ssDTP.ToRow());
       }
 
       return dt;

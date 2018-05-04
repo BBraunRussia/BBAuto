@@ -64,7 +64,7 @@ namespace BBAuto.Logic.Common
       columnSizeList.Add(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       throw new NotImplementedException();
     }

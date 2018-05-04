@@ -152,7 +152,7 @@ namespace BBAuto.Logic.ForCar
       Provider.Delete("Violation", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       Driver driver = getDriver();
 

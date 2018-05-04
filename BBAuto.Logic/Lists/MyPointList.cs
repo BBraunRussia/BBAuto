@@ -92,7 +92,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Название");
 
       foreach (MyPoint myPoint in myPoints)
-        dt.Rows.Add(myPoint.GetRow());
+        dt.Rows.Add(myPoint.ToRow());
 
       return dt;
     }

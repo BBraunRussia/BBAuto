@@ -81,7 +81,7 @@ namespace BBAuto.Logic.ForCar
       FileBegin = File;
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[]
         {Id, Car.Id, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), Number, _dateRequest, _dateSent};

@@ -86,7 +86,7 @@ namespace BBAuto.Logic.ForDriver
       PassportList.getInstance().Add(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[3] {Id, Number, GiveDate.ToShortDateString()};
     }

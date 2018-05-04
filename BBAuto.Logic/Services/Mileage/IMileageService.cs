@@ -1,12 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Data;
 using BBAuto.Logic.Common;
-using BBAuto.Logic.Services.Car;
 
 namespace BBAuto.Logic.Services.Mileage
 {
   public interface IMileageService
   {
-    MileageModel GetLastMileage(CarModel car);
-    MileageReport AddMileage(CarModel car, string value, DateTime date);
+    MileageReport AddMileage(int carId, string value, DateTime date);
+    MileageModel GetLastMileage(int carId);
+    MileageModel GetMileage(int id);
+
+    DataTable ToDataTable(int carId);
+    IList<MileageModel> GetMileageByCarId(int carId);
+    MileageModel Save(MileageModel mileage);
+    void Delete(int mileageId);
   }
 }

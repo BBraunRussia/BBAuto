@@ -67,7 +67,7 @@ namespace BBAuto.Logic.Lists
         DataTable dt = createTable();
 
         foreach (CarDoc carDoc in list.Where(c => c.Car.Id == car.Id))
-          dt.Rows.Add(carDoc.GetRow());
+          dt.Rows.Add(carDoc.ToRow());
 
         return dt;
       }

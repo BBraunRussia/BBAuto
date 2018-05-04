@@ -62,7 +62,7 @@ namespace BBAuto.Logic.ForCar
       carSaleList.Add(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       InvoiceList invoiceList = InvoiceList.getInstance();
       Invoice invoice = invoiceList.getItem(Car);

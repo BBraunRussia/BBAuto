@@ -101,4 +101,25 @@
   <data name="SelectRowBeforeAction" xml:space="preserve">
     <value>Перед действием необходимо выделить запись в таблице</value>
   </data>
+  <data name="HaveNotRights" xml:space="preserve">
+    <value>У вас недостаточно прав для работы с программой</value>
+  </data>
+  <data name="NeedSelectGrade" xml:space="preserve">
+    <value>Для сохранения необходимо выбрать комплектацию</value>
+  </data>
+  <data name="DeleteDocument" xml:space="preserve">
+    <value>Удалить документ?</value>
+  </data>
+  <data name="MileageIsNotValid" xml:space="preserve">
+    <value>Значение поля пробег не является числом</value>
+  </data>
+  <data name="MileageMoreThan1000000" xml:space="preserve">
+    <value>Значение поля пробег не должно превышать 1000000 км</value>
+  </data>
+  <data name="NeedDeleteMileage" xml:space="preserve">
+    <value>Удалить информацию о пробеге?</value>
+  </data>
+  <data name="DeleteDTP" xml:space="preserve">
+    <value>Удалить ДТП?</value>
+  </data>
 </root>

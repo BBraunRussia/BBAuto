@@ -47,7 +47,7 @@ namespace BBAuto.Logic.Tables
       Id = Convert.ToInt32(Provider.Insert("Fuel", FuelCard.Id, Date, Value, EngineType.Id));
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Date, Value};
     }

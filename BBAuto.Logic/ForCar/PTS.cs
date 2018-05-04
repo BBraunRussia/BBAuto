@@ -68,7 +68,7 @@ namespace BBAuto.Logic.ForCar
       Provider.Delete("PTS", CarId);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return null;
     }

@@ -37,7 +37,7 @@ namespace BBAuto.Logic.Common
       Provider.Delete("SuppyAddress", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Point.Id, Region, Point.Name};
     }

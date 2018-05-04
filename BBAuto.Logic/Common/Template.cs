@@ -45,7 +45,7 @@ namespace BBAuto.Logic.Common
       Provider.Delete("Template", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Name, File};
     }

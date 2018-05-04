@@ -44,7 +44,7 @@ namespace BBAuto.Logic.Common
       Provider.Delete("MailText", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Name};
     }

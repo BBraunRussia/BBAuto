@@ -86,7 +86,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата отправки", Type.GetType("System.DateTime"));
 
       foreach (ShipPart shipPart in shipParts)
-        dt.Rows.Add(shipPart.GetRow());
+        dt.Rows.Add(shipPart.ToRow());
 
       return dt;
     }

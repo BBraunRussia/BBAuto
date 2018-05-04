@@ -68,7 +68,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Название");
 
       foreach (Grade grade in _list.Where(g => g.Model.Id == idModel))
-        dt.Rows.Add(grade.GetRow());
+        dt.Rows.Add(grade.ToRow());
 
       return dt;
     }

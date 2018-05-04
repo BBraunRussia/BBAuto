@@ -107,7 +107,7 @@ namespace BBAuto.Logic.ForCar
       FileBegin = File;
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       int idCar = GetIDCar();
 

@@ -340,7 +340,7 @@ namespace BBAuto.Logic.Entities
       return new ColumnSize(Id, status);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       MedicalCertList medicalCertList = MedicalCertList.getInstance();
       MedicalCert medicalCert = medicalCertList.getItem(this);

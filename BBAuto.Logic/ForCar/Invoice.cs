@@ -141,7 +141,7 @@ namespace BBAuto.Logic.ForCar
         DateMoveForSQL, RegionFromID, RegionToID, File));
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       Regions regions = Regions.getInstance();
 

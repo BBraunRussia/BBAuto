@@ -1,12 +1,11 @@
 using BBAuto.Logic.Entities;
-using BBAuto.Logic.Services.Car;
 
 namespace BBAuto.Logic.Common
 {
   public class MileageReport
   {
     private readonly Car _car;
-    private readonly CarModel _carmodel;
+    private readonly int _carId;
     private readonly string _message;
 
     public MileageReport(Car car, string message)
@@ -15,9 +14,9 @@ namespace BBAuto.Logic.Common
       _message = message;
     }
 
-    public MileageReport(CarModel carmodel, string message, bool isNew)
+    public MileageReport(int carId, string message, bool isNew)
     {
-      _carmodel = carmodel;
+      _carId = carId;
       _message = message;
     }
 

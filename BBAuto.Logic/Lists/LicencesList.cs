@@ -64,7 +64,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата окончания действия");
 
       foreach (DriverLicense driverLicense in driverLicenses)
-        dt.Rows.Add(driverLicense.GetRow());
+        dt.Rows.Add(driverLicense.ToRow());
 
       return dt;
     }

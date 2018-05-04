@@ -83,7 +83,7 @@ namespace BBAuto.Logic.ForDriver
       Id = id;
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Number, DateEnd.ToShortDateString()};
     }

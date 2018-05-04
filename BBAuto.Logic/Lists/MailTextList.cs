@@ -79,7 +79,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Название");
 
       foreach (MailText mailText in mailTexts)
-        dt.Rows.Add(mailText.GetRow());
+        dt.Rows.Add(mailText.ToRow());
 
       return dt;
     }

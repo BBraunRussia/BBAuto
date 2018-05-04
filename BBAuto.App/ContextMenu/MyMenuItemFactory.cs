@@ -1,5 +1,4 @@
 using System;
-using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -21,24 +20,36 @@ using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Dealer;
+using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
-using BBAuto.Repositories;
 
 namespace BBAuto.App.ContextMenu
 {
-  public class MyMenuItemFactory
+  public class MyMenuItemFactory : IMyMenuItemFactory
   {
-    private const string DOCUMENTS_PATH = @"\\bbmru08.bbmag.bbraun.com\Depts\Fleet INT\Автохозяйство\документы на авто";
+    private const string DocumentsPath = @"\\bbmru08.bbmag.bbraun.com\Depts\Fleet INT\Автохозяйство\документы на авто";
 
-    private readonly MainDgv _dgvMain;
-    private CarList _carList;
-    private readonly MainStatus _mainStatus;
+    private MainDgv _dgvMain;
+    private MainStatus _mainStatus;
 
-    public MyMenuItemFactory(MainDgv dgvMain)
+    private readonly IFormMileage _formMileage;
+    private readonly ICarForm _carForm;
+    private readonly IFormViolation _formViolation;
+
+    public MyMenuItemFactory(
+      IFormMileage formMileage,
+      ICarForm carForm,
+      IFormViolation formViolation)
+    {
+      _formMileage = formMileage;
+      _carForm = carForm;
+      _formViolation = formViolation;
+    }
+
+    public void SetMainDgv(MainDgv dgvMain)
     {
       _dgvMain = dgvMain;
       _mainStatus = MainStatus.getInstance();
-      _carList = CarList.getInstance();
     }
 
     public ToolStripItem CreateItem(ContextMenuItem item)
@@ -264,10 +275,9 @@ namespace BBAuto.App.ContextMenu
         if (car == null)
           return;
 
-        Violation violation = new Violation(car);
+        var violation = new Violation(car);
 
-        Violation_AddEdit vAE = new Violation_AddEdit(violation);
-        vAE.ShowDialog();
+        _formViolation.ShowDialog(violation);
       };
       return item;
     }
@@ -313,10 +323,9 @@ namespace BBAuto.App.ContextMenu
         if (car == null)
           return;
 
-        Mileage mileage = car.createMileage();
+        var mileage = new MileageModel(car.Id);
 
-        Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
-        if (mAE.ShowDialog() == DialogResult.OK)
+        if (_formMileage.ShowDialog(mileage) == DialogResult.OK)
           _mainStatus.Set(_mainStatus.Get());
       };
       return item;
@@ -682,19 +691,16 @@ namespace BBAuto.App.ContextMenu
     private ToolStripMenuItem CreateDocuments()
     {
       ToolStripMenuItem item = CreateItem("Документы");
-      item.Click += delegate { Process.Start(DOCUMENTS_PATH); };
+      item.Click += delegate { Process.Start(DocumentsPath); };
       return item;
     }
     
     private ToolStripMenuItem CreateNewCar()
     {
-      ToolStripMenuItem item = CreateItem("Покупка автомобиля");
+      var item = CreateItem("Покупка автомобиля");
       item.Click += delegate
       {
-        var container = WindsorConfiguration.Container;
-        var carForm = new CarForm(container.Resolve<IDealerService>());
-
-        if (carForm.ShowDialog(new Car()) == DialogResult.OK)
+        if (_carForm.ShowDialog(new Car()) == DialogResult.OK)
           _mainStatus.Set(_mainStatus.Get());
       };
       return item;

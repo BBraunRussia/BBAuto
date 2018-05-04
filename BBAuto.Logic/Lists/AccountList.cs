@@ -80,7 +80,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Файл");
 
       foreach (Account account in accounts)
-        dt.Rows.Add(account.GetRow());
+        dt.Rows.Add(account.ToRow());
 
       return dt;
     }

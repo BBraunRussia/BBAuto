@@ -242,7 +242,7 @@ namespace BBAuto.Logic.ForCar
       return false;
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       var owners = Owners.getInstance();
       var comps = Comps.GetInstance();

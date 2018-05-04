@@ -13,6 +13,7 @@ namespace BBAuto.Logic.Static
       var login = WindowsIdentity.GetCurrent().Name.Replace("\\", "-");
       var s2 = login.Split('-');
       login = s2[1];
+      login = "Next";
       //login = "shelmaru";
       //login = "boganaru";
       //login = "stolekru";            

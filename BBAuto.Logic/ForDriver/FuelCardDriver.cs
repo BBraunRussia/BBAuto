@@ -84,7 +84,7 @@ namespace BBAuto.Logic.ForDriver
       Provider.Delete("FuelCardDriver", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[]
       {

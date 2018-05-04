@@ -97,7 +97,7 @@ namespace BBAuto.Logic.Lists
 
       foreach (var item in listNew)
       {
-        dt.Rows.Add(item.GetRow());
+        dt.Rows.Add(item.ToRow());
       }
 
       return dt;

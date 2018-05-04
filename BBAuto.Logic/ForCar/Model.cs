@@ -40,7 +40,7 @@ namespace BBAuto.Logic.ForCar
       Provider.Insert("Model", Id, Name, MarkId);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[2] {Id, Name};
     }

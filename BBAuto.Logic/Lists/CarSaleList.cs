@@ -68,7 +68,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Статус");
 
       foreach (CarSale carSale in carSales)
-        dt.Rows.Add(carSale.GetRow());
+        dt.Rows.Add(carSale.ToRow());
 
       return dt;
     }

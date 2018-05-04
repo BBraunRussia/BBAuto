@@ -151,12 +151,12 @@ namespace BBAuto.Logic.ForDriver
       Provider.Delete("FuelCard", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
       FuelCardDriver fuelCardDriver = fuelCardDriverList.getItem(this);
 
-      return fuelCardDriver.GetRow();
+      return fuelCardDriver.ToRow();
     }
 
     public FuelCardDriver CreateFuelCardDriver()

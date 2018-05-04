@@ -72,7 +72,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Просмотр скана");
 
       foreach (DTPFile dtpFile in dtpFiles)
-        dt.Rows.Add(dtpFile.GetRow());
+        dt.Rows.Add(dtpFile.ToRow());
 
       return dt;
     }

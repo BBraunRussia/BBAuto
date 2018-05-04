@@ -19,7 +19,7 @@ namespace Common.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Messages {
@@ -57,6 +57,69 @@ namespace Common.Resources {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить документ?.
+        /// </summary>
+        public static string DeleteDocument {
+            get {
+                return ResourceManager.GetString("DeleteDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить ДТП?.
+        /// </summary>
+        public static string DeleteDTP {
+            get {
+                return ResourceManager.GetString("DeleteDTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to У вас недостаточно прав для работы с программой.
+        /// </summary>
+        public static string HaveNotRights {
+            get {
+                return ResourceManager.GetString("HaveNotRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значение поля пробег не является числом.
+        /// </summary>
+        public static string MileageIsNotValid {
+            get {
+                return ResourceManager.GetString("MileageIsNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значение поля пробег не должно превышать 1000000 км.
+        /// </summary>
+        public static string MileageMoreThan1000000 {
+            get {
+                return ResourceManager.GetString("MileageMoreThan1000000", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить информацию о пробеге?.
+        /// </summary>
+        public static string NeedDeleteMileage {
+            get {
+                return ResourceManager.GetString("NeedDeleteMileage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Для сохранения необходимо выбрать комплектацию.
+        /// </summary>
+        public static string NeedSelectGrade {
+            get {
+                return ResourceManager.GetString("NeedSelectGrade", resourceCulture);
             }
         }
         

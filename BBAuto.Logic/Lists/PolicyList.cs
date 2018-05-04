@@ -131,7 +131,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("LimitCost", Type.GetType("System.Double"));
       dt.Columns.Add("Pay2", Type.GetType("System.Double"));
 
-      policies.ToList().ForEach(item => dt.Rows.Add(item.GetRow()));
+      policies.ToList().ForEach(item => dt.Rows.Add(item.ToRow()));
 
       return dt;
     }

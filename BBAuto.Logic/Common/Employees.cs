@@ -82,7 +82,7 @@ namespace BBAuto.Logic.Common
       Provider.DoOther("exec Employees_Delete @p1, @p2", Id, _idEmployeesName);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Region.Id, _idEmployeesName, Region.Name, EmployeeName, DriverName};
     }

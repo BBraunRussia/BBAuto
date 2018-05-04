@@ -64,7 +64,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата инструктажа");
 
       foreach (Instraction instraction in instractions)
-        dt.Rows.Add(instraction.GetRow());
+        dt.Rows.Add(instraction.ToRow());
 
       return dt;
     }

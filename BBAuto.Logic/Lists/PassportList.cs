@@ -65,7 +65,7 @@ namespace BBAuto.Logic.Lists
       DataTable dt = createTable();
 
       foreach (Passport passport in list.Where(p => p.Driver.Id == driver.Id))
-        dt.Rows.Add(passport.GetRow());
+        dt.Rows.Add(passport.ToRow());
 
       return dt;
     }

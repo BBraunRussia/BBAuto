@@ -48,7 +48,7 @@ namespace BBAuto.Logic.Tables
       wayBillRouteList.Add(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       throw new NotImplementedException();
     }

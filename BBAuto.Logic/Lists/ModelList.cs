@@ -75,7 +75,7 @@ namespace BBAuto.Logic.Lists
 
       foreach (Model model in list.Where(m => m.MarkId == idMark))
       {
-        dt.Rows.Add(model.GetRow());
+        dt.Rows.Add(model.ToRow());
       }
 
       return dt;

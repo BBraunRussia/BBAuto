@@ -90,7 +90,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Адрес");
 
       foreach (SuppyAddress suppyAddress in list.OrderBy(item => item.Region))
-        dt.Rows.Add(suppyAddress.GetRow());
+        dt.Rows.Add(suppyAddress.ToRow());
 
       return dt;
     }

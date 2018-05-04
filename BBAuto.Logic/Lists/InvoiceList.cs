@@ -97,7 +97,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата передачи", Type.GetType("System.DateTime"));
 
       foreach (Invoice invoice in invoices)
-        dt.Rows.Add(invoice.GetRow());
+        dt.Rows.Add(invoice.ToRow());
 
       return dt;
     }

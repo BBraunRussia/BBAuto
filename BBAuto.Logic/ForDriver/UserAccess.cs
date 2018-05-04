@@ -51,7 +51,7 @@ namespace BBAuto.Logic.ForDriver
       RoleId = idRole;
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Driver.Login, Driver.GetName(NameType.Full), Role};
     }

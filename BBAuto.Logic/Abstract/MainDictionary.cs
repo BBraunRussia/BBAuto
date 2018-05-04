@@ -8,7 +8,7 @@ namespace BBAuto.Logic.Abstract
     protected string FileBegin;
     protected static IProvider Provider;
 
-    internal abstract object[] GetRow();
+    internal abstract object[] ToRow();
 
     public virtual void Save()
     {

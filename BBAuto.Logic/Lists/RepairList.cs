@@ -70,7 +70,7 @@ namespace BBAuto.Logic.Lists
         select repair;
 
       foreach (Repair repair in repairs)
-        dt.Rows.Add(repair.GetRow());
+        dt.Rows.Add(repair.ToRow());
 
       return dt;
     }
@@ -85,7 +85,7 @@ namespace BBAuto.Logic.Lists
         select repair;
 
       foreach (Repair repair in repairs)
-        dt.Rows.Add(repair.GetRow());
+        dt.Rows.Add(repair.ToRow());
 
       return dt;
     }

@@ -61,7 +61,7 @@ namespace BBAuto.Logic.Lists
       var tempMoves = list.OrderByDescending(item => item.DateEnd);
 
       foreach (TempMove tempMove in tempMoves)
-        dt.Rows.Add(tempMove.GetRow());
+        dt.Rows.Add(tempMove.ToRow());
 
       return dt;
     }

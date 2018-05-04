@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Tables
     public string Name { get; private set; }
     public string ShortName { get; private set; }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       throw new NotImplementedException();
     }

@@ -120,7 +120,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("№ убытка страховой");
 
       foreach (DTP dtp in dtpList)
-        dt.Rows.Add(dtp.GetRow());
+        dt.Rows.Add(dtp.ToRow());
 
       return dt;
     }

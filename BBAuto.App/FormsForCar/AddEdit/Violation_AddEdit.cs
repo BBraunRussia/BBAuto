@@ -1,5 +1,4 @@
 using System;
-using System.Configuration;
 using System.Windows.Forms;
 using BBAuto.App.config;
 using BBAuto.App.Events;
@@ -9,22 +8,28 @@ using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Static;
-using BBAuto.Repositories;
-using Castle.Windsor;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-  public partial class Violation_AddEdit : Form
+  public partial class Violation_AddEdit : Form, IFormViolation
   {
-    private readonly Violation _violation;
+    private Violation _violation;
 
     private WorkWithForm _workWithForm;
 
-    public Violation_AddEdit(Violation violation)
-    {
-      InitializeComponent();
+    private readonly ICarForm _carForm;
 
+    public Violation_AddEdit(ICarForm carForm)
+    {
+      _carForm = carForm;
+      InitializeComponent();
+    }
+
+    public DialogResult ShowDialog(Violation violation)
+    {
       _violation = violation;
+
+      return ShowDialog();
     }
 
     private void Violation_AddEdit_Load(object sender, EventArgs e)
@@ -71,7 +76,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       if (_workWithForm.IsEditMode())
       {
         TrySave();
-        this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        this.DialogResult = DialogResult.OK;
       }
       else
         _workWithForm.SetEditMode(true);
@@ -172,10 +177,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      var container = WindsorConfiguration.Container;
-
-      var carForm = new CarForm(container.Resolve<IDealerService>());
-      carForm.ShowDialog(_violation.Car);
+      _carForm.ShowDialog(_violation.Car);
     }
   }
 }

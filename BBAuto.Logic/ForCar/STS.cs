@@ -54,7 +54,7 @@ namespace BBAuto.Logic.ForCar
       stsList.Add(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       throw new NotImplementedException();
     }

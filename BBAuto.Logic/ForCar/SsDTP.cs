@@ -48,7 +48,7 @@ namespace BBAuto.Logic.ForCar
       Provider.Delete("ssDTP", Mark.Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[3] {Mark.Id, Mark.Name, ServiceStantion};
     }

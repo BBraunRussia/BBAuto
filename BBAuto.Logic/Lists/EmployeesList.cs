@@ -114,7 +114,7 @@ namespace BBAuto.Logic.Lists
                     select employee;
       */
       foreach (Employees employees in list.ToList()) //empList.ToList())
-        dt.Rows.Add(employees.GetRow());
+        dt.Rows.Add(employees.ToRow());
 
       return dt;
     }

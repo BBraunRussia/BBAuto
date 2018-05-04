@@ -133,7 +133,7 @@ namespace BBAuto.Logic.ForCar
       Provider.Delete("DTP", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       Regions regions = Regions.getInstance();
 

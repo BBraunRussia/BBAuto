@@ -65,7 +65,7 @@ namespace BBAuto.Logic.ForCar
       gradeList.Add(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Name};
     }

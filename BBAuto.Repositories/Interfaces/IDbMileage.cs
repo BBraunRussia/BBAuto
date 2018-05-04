@@ -7,7 +7,7 @@ namespace BBAuto.Repositories.Interfaces
   [Sql(Schema = "dbo")]
   public interface IDbMileage
   {
-    void DeleteMileage(DbMileage mileage);
+    void DeleteMileage(int mileageId);
     IList<DbMileage> GetMileageByCarId(int carId);
     DbMileage GetMileageById(int id);
     DbMileage UpsertMileage(DbMileage mileage);

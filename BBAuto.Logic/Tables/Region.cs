@@ -22,7 +22,7 @@ namespace BBAuto.Logic.Tables
       Name = name;
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       throw new NotImplementedException();
     }

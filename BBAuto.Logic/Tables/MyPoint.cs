@@ -45,7 +45,7 @@ namespace BBAuto.Logic.Tables
       Provider.Delete("MyPoint", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       Regions regions = Regions.getInstance();
 

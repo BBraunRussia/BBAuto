@@ -139,7 +139,7 @@ namespace BBAuto.Logic.DataBase
       foreach (var item in _cars)
       {
         Car car = item as Car;
-        object[] row = car.GetRow();
+        object[] row = car.ToRow();
         dt.Rows.Add(row[0], car.BBNumber);
       }
 
@@ -156,7 +156,7 @@ namespace BBAuto.Logic.DataBase
       foreach (var item in _carSale)
       {
         CarSale carSaleItem = item as CarSale;
-        object[] row = carSaleItem.GetRow();
+        object[] row = carSaleItem.ToRow();
         dt.Rows.Add(row[0], row[5], row[6]);
       }
 
@@ -177,7 +177,7 @@ namespace BBAuto.Logic.DataBase
       foreach (var item in _accounts)
       {
         Account account = item as Account;
-        object[] row = account.GetRow();
+        object[] row = account.ToRow();
         dt.Rows.Add(row[0], account.IDPolicyType);
       }
 

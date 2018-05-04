@@ -63,7 +63,7 @@ namespace BBAuto.Logic.Tables
       Provider.Delete("Route", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, MyPoint2.Name, Distance};
     }

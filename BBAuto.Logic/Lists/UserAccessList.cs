@@ -74,7 +74,7 @@ namespace BBAuto.Logic.Lists
       List<UserAccess> userAccesses = list.OrderBy(item => item.Driver.GetName(NameType.Full)).ToList();
 
       foreach (UserAccess userAccess in userAccesses)
-        dt.Rows.Add(userAccess.GetRow());
+        dt.Rows.Add(userAccess.ToRow());
 
       return dt;
     }

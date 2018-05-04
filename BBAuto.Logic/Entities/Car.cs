@@ -330,7 +330,7 @@ namespace BBAuto.Logic.Entities
       return new TempMove(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       MileageList mileageList = MileageList.getInstance();
       Mileage mileage = mileageList.getItem(this);

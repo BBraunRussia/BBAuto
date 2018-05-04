@@ -114,7 +114,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Сумма штрафа", Type.GetType("System.Int32"));
 
       foreach (Violation violation in violations)
-        dt.Rows.Add(violation.GetRow());
+        dt.Rows.Add(violation.ToRow());
 
       return dt;
     }

@@ -144,7 +144,7 @@ namespace BBAuto.Logic.Common
       Provider.Delete("WayBillDay", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {_date.ToShortDateString(), Driver.GetName(NameType.Short)};
     }

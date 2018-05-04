@@ -51,9 +51,9 @@ namespace BBAuto.Logic.ForCar
       mileageList.Add(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
-      return new object[3] {Id, Date, _count};
+      return new object[] {Id, Date, _count};
     }
 
     internal override void Delete()
@@ -65,26 +65,13 @@ namespace BBAuto.Logic.ForCar
     {
       MyDateTime myDate = new MyDateTime(Date.ToShortDateString());
 
-      return (_count == 0) ? new DateTime(DateTime.Today.Year, 1, 31) : Date;
+      return _count == 0 ? new DateTime(DateTime.Today.Year, 1, 31) : Date;
     }
 
     public void SetCount(string value)
     {
-      Mileage mileage = GetPrev();
-
-      int count;
-
-      if (!int.TryParse(value.Replace(" ", ""), out count))
+      if (!int.TryParse(value.Replace(" ", ""), out int count))
         throw new InvalidCastException();
-
-      int prevCount = 0;
-      if (mileage != null)
-      {
-        int.TryParse(mileage.Count, out prevCount);
-
-        if ((count < prevCount) && (Date > mileage.Date))
-          throw new InvalidConstraintException();
-      }
 
       if (count >= 1000000)
         throw new OverflowException();
@@ -96,7 +83,7 @@ namespace BBAuto.Logic.ForCar
     {
       Mileage mileage = GetPrev();
 
-      return (mileage == null) ? "0" : mileage.ToString();
+      return mileage?.ToString() ?? "0";
     }
 
     private Mileage GetPrev()
@@ -106,7 +93,7 @@ namespace BBAuto.Logic.ForCar
 
     public override string ToString()
     {
-      return (Count == string.Empty)
+      return Count == string.Empty
         ? "(нет данных)"
         : string.Concat(MyString.GetFormatedDigitInteger(Count), " км от ", Date.ToShortDateString());
     }

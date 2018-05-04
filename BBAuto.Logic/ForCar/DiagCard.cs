@@ -81,7 +81,7 @@ namespace BBAuto.Logic.ForCar
       Provider.Delete("DiagCard", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Car.Id, Car.BBNumber, Car.Grz, Number, Date};
     }

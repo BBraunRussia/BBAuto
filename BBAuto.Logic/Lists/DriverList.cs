@@ -85,7 +85,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Статус");
 
       foreach (var driver in drivers)
-        dt.Rows.Add(driver.GetRow());
+        dt.Rows.Add(driver.ToRow());
 
       return dt;
     }

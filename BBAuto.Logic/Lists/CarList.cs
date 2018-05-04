@@ -100,7 +100,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Статус");
 
       foreach (Car car in cars)
-        dt.Rows.Add(car.GetRow());
+        dt.Rows.Add(car.ToRow());
 
       return dt;
     }

@@ -91,7 +91,7 @@ namespace BBAuto.Logic.ForDriver
       Provider.Delete("MedicalCert", Id);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[3] {Id, Number, DateEnd.ToShortDateString()};
     }

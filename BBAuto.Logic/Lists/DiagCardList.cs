@@ -73,7 +73,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Срок действия до", Type.GetType("System.DateTime"));
 
       foreach (DiagCard diagCard in diagCards)
-        dt.Rows.Add(diagCard.GetRow());
+        dt.Rows.Add(diagCard.ToRow());
 
       return dt;
     }

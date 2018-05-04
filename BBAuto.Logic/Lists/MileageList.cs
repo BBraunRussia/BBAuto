@@ -87,7 +87,7 @@ namespace BBAuto.Logic.Lists
       var mileages = list.Where(item => item.Car.Id == car.Id).OrderByDescending(item => item.Date);
 
       foreach (Mileage mileage in mileages)
-        dt.Rows.Add(mileage.GetRow());
+        dt.Rows.Add(mileage.ToRow());
 
       return dt;
     }

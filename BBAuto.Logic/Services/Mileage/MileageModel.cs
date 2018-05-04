@@ -5,7 +5,15 @@ namespace BBAuto.Logic.Services.Mileage
 {
   public class MileageModel
   {
-    private int Id { get; set; }
+    private MileageModel() { }
+
+    public MileageModel(int carId)
+    {
+      CarId = carId;
+      Date = DateTime.Today;
+    }
+
+    public int Id { get; private set; }
     public int? Count { get; private set; }
     public DateTime Date { get; set; }
     public int CarId { get; private set; }
@@ -26,6 +34,11 @@ namespace BBAuto.Logic.Services.Mileage
       return Count.HasValue
         ? string.Concat(MyString.GetFormatedDigitInteger(Count.ToString()), " км от ", Date.ToShortDateString())
         : "(нет данных)";
+    }
+
+    public object[] ToRow()
+    {
+      return new object[] { Id, Date, Count };
     }
   }
 }

@@ -86,7 +86,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Окончание использования", Type.GetType("System.DateTime"));
 
       foreach (FuelCard fuelCard in list)
-        dt.Rows.Add(fuelCard.GetRow());
+        dt.Rows.Add(fuelCard.ToRow());
 
       return dt;
     }

@@ -1,38 +1,49 @@
 using System;
-using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 using BBAuto.App.Events;
-using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Services.Mileage;
+using Common.Resources;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-  public partial class Mileage_AddEdit : Form
+  public partial class Mileage_AddEdit : Form, IFormMileage
   {
-    private readonly Mileage _mileage;
+    private MileageModel _mileage;
 
     private WorkWithForm _workWithForm;
 
-    public Mileage_AddEdit(Mileage mileage)
-    {
-      InitializeComponent();
+    private readonly IMileageService _mileageService;
 
+    public Mileage_AddEdit(IMileageService mileageService)
+    {
+      _mileageService = mileageService;
+      InitializeComponent();
+    }
+
+    public DialogResult ShowDialog(MileageModel mileage)
+    {
       _mileage = mileage;
+
+      return ShowDialog();
     }
 
     private void Mileage_AddEdit_Load(object sender, EventArgs e)
     {
-      fillFields();
+      FillFields();
 
-      _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+      _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.SetEditMode(_mileage.Id == 0);
     }
 
-    private void fillFields()
+    private void FillFields()
     {
       dtpDate.Value = _mileage.Date;
-      tbCount.Text = _mileage.Count;
+      tbCount.Text = _mileage.Count?.ToString();
 
-      lbPrevMileage.Text = _mileage.PrevToString();
+      var prev = _mileageService.GetMileageByCarId(_mileage.CarId).OrderByDescending(m => m.Date).FirstOrDefault(m => m.Id != _mileage.Id);
+
+      lbPrevMileage.Text = prev?.ToString();
     }
 
     private void btnSave_Click(object sender, EventArgs e)
@@ -41,16 +52,16 @@ namespace BBAuto.App.FormsForCar.AddEdit
       {
         _mileage.Date = dtpDate.Value.Date;
 
-        if (trySetCount())
-          _mileage.Save();
+        if (TrySetCount())
+          _mileageService.Save(_mileage);
 
-        DialogResult = System.Windows.Forms.DialogResult.OK;
+        DialogResult = DialogResult.OK;
       }
       else
         _workWithForm.SetEditMode(true);
     }
 
-    private bool trySetCount()
+    private bool TrySetCount()
     {
       try
       {
@@ -59,27 +70,16 @@ namespace BBAuto.App.FormsForCar.AddEdit
       }
       catch (InvalidCastException)
       {
-        MessageBox.Show("Значение поля пробег не является числом", "Ошибка", MessageBoxButtons.OK,
-          MessageBoxIcon.Error);
-      }
-      catch (InvalidConstraintException)
-      {
-        MessageBox.Show("Новое значение поля пробег, должно быть больше предыдущего", "Ошибка", MessageBoxButtons.OK,
+        MessageBox.Show(Messages.MileageIsNotValid, Captions.Error, MessageBoxButtons.OK,
           MessageBoxIcon.Error);
       }
       catch (OverflowException)
       {
-        MessageBox.Show("Значение поля пробег не должно превышать 1000000 км", "Ошибка", MessageBoxButtons.OK,
+        MessageBox.Show(Messages.MileageMoreThan1000000, Captions.Error, MessageBoxButtons.OK,
           MessageBoxIcon.Error);
       }
 
       return false;
-    }
-
-    private void tbCount_TextChanged(object sender, EventArgs e)
-    {
-      //tbCount.Text = MyString.GetFormatedDigitInteger(tbCount.Text);
-      //tbCount.SelectionStart = tbCount.Text.Length;
     }
   }
 }

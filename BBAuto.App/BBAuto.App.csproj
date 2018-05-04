@@ -164,7 +164,11 @@
     <Compile Include="config\AutoMapperConfiguration.cs" />
     <Compile Include="config\WindsorConfiguration.cs" />
     <Compile Include="config\WindsorFormInstaller.cs" />
+    <Compile Include="ContextMenu\IMyMenu.cs" />
+    <Compile Include="ContextMenu\IMyMenuItemFactory.cs" />
     <Compile Include="Dictionary\IDealerListForm.cs" />
+    <Compile Include="FormsForCar\AddEdit\IFormMileage.cs" />
+    <Compile Include="FormsForCar\AddEdit\IFormViolation.cs" />
     <Compile Include="FormsForCar\ICarForm.cs" />
     <Compile Include="FormsForDriver\AddNewDriver.cs">
       <SubType>Form</SubType>

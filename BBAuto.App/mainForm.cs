@@ -41,20 +41,28 @@ namespace BBAuto.App
 
     private readonly ICarForm _carForm;
     private readonly ISaleCarForm _saleCarForm;
+    private readonly IFormViolation _formViolation;
+    
     private readonly ICarService _carService;
     private readonly ISaleCarService _saleCarService;
+
+    private readonly IMyMenu _myMenu;
 
     public MainForm(
       ICarForm carForm,
       ISaleCarForm saleCarForm,
       ICarService carService,
-      ISaleCarService saleCarService)
+      ISaleCarService saleCarService,
+      IMyMenu myMenu,
+      IFormViolation formViolation)
     {
       _carForm = carForm;
       _saleCarForm = saleCarForm;
       _carService = carService;
       _saleCarService = saleCarService;
-      
+      _myMenu = myMenu;
+      _formViolation = formViolation;
+
       InitializeComponent();
 
       _mainStatus = MainStatus.getInstance();
@@ -88,14 +96,15 @@ namespace BBAuto.App
 
     private void ConfigContextMenu(Object sender, StatusEventArgs e)
     {
-      var menu = new MyMenu(_dgvMain);
-      var menuStrip = menu.CreateMainMenu();
+      _myMenu.SetMainDgv(_dgvMain);
+      
+      var menuStrip = _myMenu.CreateMainMenu();
 
       Controls.Remove(MainMenuStrip);
       MainMenuStrip = menuStrip;
       Controls.Add(menuStrip);
 
-      _dgvCar.ContextMenuStrip = menu.CreateContextMenu();
+      _dgvCar.ContextMenuStrip = _myMenu.CreateContextMenu();
     }
 
     private void mainForm_Load(object sender, EventArgs e)
@@ -304,8 +313,7 @@ namespace BBAuto.App
         WorkWithFiles.OpenFile(violation.FilePay);
       else
       {
-        Violation_AddEdit vAE = new Violation_AddEdit(violation);
-        if (vAE.ShowDialog() == DialogResult.OK)
+        if (_formViolation.ShowDialog(violation) == DialogResult.OK)
         {
           LoadCars();
         }
@@ -444,8 +452,7 @@ namespace BBAuto.App
           _myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
         else
         {
-          Violation_AddEdit violationAE = new Violation_AddEdit(violation);
-          if (violationAE.ShowDialog() == DialogResult.OK)
+          if (_formViolation.ShowDialog(violation) == DialogResult.OK)
           {
             LoadCars();
           }

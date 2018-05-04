@@ -70,7 +70,7 @@ namespace BBAuto.Logic.ForDriver
       instractionList.Add(this);
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       return new object[] {Id, Name, Date};
     }

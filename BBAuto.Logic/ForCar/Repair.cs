@@ -77,7 +77,7 @@ namespace BBAuto.Logic.ForCar
       FileBegin = File;
     }
 
-    internal override object[] GetRow()
+    internal override object[] ToRow()
     {
       string show = "";
       if (!string.IsNullOrEmpty(File))

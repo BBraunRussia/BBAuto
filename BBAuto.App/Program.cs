@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using BBAuto.App.config;
 using BBAuto.Logic.DataBase;
 using BBAuto.Logic.Static;
+using Common.Resources;
 
 namespace BBAuto.App
 {
@@ -31,7 +32,7 @@ namespace BBAuto.App
       if (User.Login())
         Application.Run((Form)form);
       else
-        MessageBox.Show("У вас недостаточно прав для работы с программой", "Доступ заблокирован", MessageBoxButtons.OK,
+        MessageBox.Show(Messages.HaveNotRights, Captions.CannotAccess, MessageBoxButtons.OK,
           MessageBoxIcon.Warning);
     }
   }
