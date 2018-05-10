@@ -10,7 +10,7 @@ using Common.Resources;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-  public partial class FormViolation : Form, IFormViolation
+  public partial class ViolationForm : Form, IViolationForm
   {
     private readonly ICarForm _carForm;
 
@@ -18,7 +18,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private WorkWithForm _workWithForm;
     
-    public FormViolation(ICarForm carForm)
+    public ViolationForm(ICarForm carForm)
     {
       InitializeComponent();
 

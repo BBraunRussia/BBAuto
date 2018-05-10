@@ -1,7 +1,4 @@
 create procedure [dbo].[DeleteDiagCard]
-  @idDiagCard int
+  @id int
 as
-begin
-  delete from diagCard
-  where diagCard_id = @idDiagCard
-end
+  delete from DiagCard where Id = @id

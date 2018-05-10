@@ -167,8 +167,9 @@
     <Compile Include="ContextMenu\IMyMenu.cs" />
     <Compile Include="ContextMenu\IMyMenuItemFactory.cs" />
     <Compile Include="Dictionary\IDealerListForm.cs" />
-    <Compile Include="FormsForCar\AddEdit\IFormMileage.cs" />
-    <Compile Include="FormsForCar\AddEdit\IFormViolation.cs" />
+    <Compile Include="FormsForCar\AddEdit\IDiagCardForm.cs" />
+    <Compile Include="FormsForCar\AddEdit\IMileageForm.cs" />
+    <Compile Include="FormsForCar\AddEdit\IViolationForm.cs" />
     <Compile Include="FormsForCar\ICarForm.cs" />
     <Compile Include="FormsForDriver\AddNewDriver.cs">
       <SubType>Form</SubType>
@@ -241,11 +242,11 @@
     <Compile Include="FormsForCar\AddEdit\CarDoc_AddEdit.Designer.cs">
       <DependentUpon>CarDoc_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\DiagCard_AddEdit.cs">
+    <Compile Include="FormsForCar\AddEdit\DiagCardForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\DiagCard_AddEdit.Designer.cs">
-      <DependentUpon>DiagCard_AddEdit.cs</DependentUpon>
+    <Compile Include="FormsForCar\AddEdit\DiagCardForm.Designer.cs">
+      <DependentUpon>DiagCardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForCar\AddEdit\DTPFile_AddEdit.cs">
       <SubType>Form</SubType>
@@ -253,11 +254,11 @@
     <Compile Include="FormsForCar\AddEdit\DTPFile_AddEdit.Designer.cs">
       <DependentUpon>DTPFile_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\Mileage_AddEdit.cs">
+    <Compile Include="FormsForCar\AddEdit\MileageForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\Mileage_AddEdit.Designer.cs">
-      <DependentUpon>Mileage_AddEdit.cs</DependentUpon>
+    <Compile Include="FormsForCar\AddEdit\MileageForm.Designer.cs">
+      <DependentUpon>MileageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForCar\AddEdit\Repair_AddEdit.cs">
       <SubType>Form</SubType>
@@ -325,11 +326,11 @@
     <Compile Include="FormsForCar\AddEdit\Policy_AddEdit.Designer.cs">
       <DependentUpon>Policy_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\FormViolation.cs">
+    <Compile Include="FormsForCar\AddEdit\ViolationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\FormViolation.Designer.cs">
-      <DependentUpon>FormViolation.cs</DependentUpon>
+    <Compile Include="FormsForCar\AddEdit\ViolationForm.Designer.cs">
+      <DependentUpon>ViolationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForDriver\AddEdit\DriverForm.cs">
       <SubType>Form</SubType>
@@ -555,14 +556,14 @@
     <EmbeddedResource Include="FormsForCar\AddEdit\CarDoc_AddEdit.resx">
       <DependentUpon>CarDoc_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForCar\AddEdit\DiagCard_AddEdit.resx">
-      <DependentUpon>DiagCard_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForCar\AddEdit\DiagCardForm.resx">
+      <DependentUpon>DiagCardForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForCar\AddEdit\DTPFile_AddEdit.resx">
       <DependentUpon>DTPFile_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForCar\AddEdit\Mileage_AddEdit.resx">
-      <DependentUpon>Mileage_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForCar\AddEdit\MileageForm.resx">
+      <DependentUpon>MileageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForCar\AddEdit\Repair_AddEdit.resx">
       <DependentUpon>Repair_AddEdit.cs</DependentUpon>
@@ -598,8 +599,8 @@
     <EmbeddedResource Include="FormsForCar\AddEdit\Policy_AddEdit.resx">
       <DependentUpon>Policy_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForCar\AddEdit\FormViolation.resx">
-      <DependentUpon>FormViolation.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForCar\AddEdit\ViolationForm.resx">
+      <DependentUpon>ViolationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForDriver\AddEdit\DriverForm.resx">
       <DependentUpon>DriverForm.cs</DependentUpon>

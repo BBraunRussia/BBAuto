@@ -42,7 +42,9 @@ namespace BBAuto.Logic.Services.Mileage
     
     public MileageModel GetLastMileage(int carId)
     {
-      return Mapper.Map<MileageModel>(_dbContext.Mileage.GetMileageByCarId(carId).OrderByDescending(m => m.Date).First());
+      return carId == 0
+        ? null
+        : Mapper.Map<MileageModel>(_dbContext.Mileage.GetMileageByCarId(carId).OrderByDescending(m => m.Date).First());
     }
 
     public MileageModel GetMileage(int id)
@@ -58,6 +60,9 @@ namespace BBAuto.Logic.Services.Mileage
     public DataTable ToDataTable(int carId)
     {
       var dt = CreateTable();
+
+      if (carId == 0)
+        return dt;
 
       var dbMileages = _dbContext.Mileage.GetMileageByCarId(carId).Where(item => item.CarId == carId).OrderByDescending(item => item.Date);
       var mileages = Mapper.Map<IList<MileageModel>>(dbMileages);

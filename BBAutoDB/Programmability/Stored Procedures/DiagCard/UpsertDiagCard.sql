@@ -1,5 +1,5 @@
 create procedure [dbo].[UpsertDiagCard]
-  @idDiagCard int,
+  @id int,
   @idCar int,
   @number nvarchar(50),
   @date datetime,
@@ -7,19 +7,19 @@ create procedure [dbo].[UpsertDiagCard]
   @notificationSent int
 as
 begin
-  if (@idDiagCard = 0)
+  if (@id = 0)
   begin
-    insert into diagCard values(@idCar, @number, @date, @file, @notificationSent)
+    insert into DiagCard values(@idCar, @number, @date, @file, @notificationSent)
 
-    set @idDiagCard = scope_identity()
+    set @id = scope_identity()
   end
   else
     update diagCard
-    set diagCard_number = @number,
-        diagCard_date = @date,
-        diagCard_file = @file,
-        diagCard_notificationSent = @notificationSent
-    where diagCard_id = @idDiagCard
+    set Number = @number,
+        [Date] = @date,
+        [File] = @file,
+        NotificationSent = @notificationSent
+    where Id = @id
 
-  select @idDiagCard
+  select @id
 end

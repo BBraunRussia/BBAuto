@@ -1,4 +1,5 @@
-create procedure [dbo].[GetDiagCards]
+create procedure [dbo].[GetDiagCardById]
+  @id int
 as
   select
     Id,
@@ -9,3 +10,5 @@ as
     NotificationSent
   from
     DiagCard
+  where
+    Id = @id

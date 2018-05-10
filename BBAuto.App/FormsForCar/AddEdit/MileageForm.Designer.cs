@@ -1,6 +1,6 @@
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-    partial class Mileage_AddEdit
+    partial class MileageForm
     {
         /// <summary>
         /// Required designer variable.

@@ -122,6 +122,10 @@
     <Compile Include="Services\Dealer\DealerModel.cs" />
     <Compile Include="Services\Dealer\DealerService.cs" />
     <Compile Include="Services\Dealer\IDealerService.cs" />
+    <Compile Include="Services\DiagCard\DiagCardMappingProfile.cs" />
+    <Compile Include="Services\DiagCard\DiagCardModel.cs" />
+    <Compile Include="Services\DiagCard\DiagCardService.cs" />
+    <Compile Include="Services\DiagCard\IDiagCardService.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />

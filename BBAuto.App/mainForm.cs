@@ -20,6 +20,7 @@ using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Car.Sale;
+using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Static;
 using Common.Resources;
 
@@ -41,10 +42,12 @@ namespace BBAuto.App
 
     private readonly ICarForm _carForm;
     private readonly ISaleCarForm _saleCarForm;
-    private readonly IFormViolation _formViolation;
+    private readonly IViolationForm _formViolation;
+    private readonly IDiagCardForm _diagCardForm;
     
     private readonly ICarService _carService;
     private readonly ISaleCarService _saleCarService;
+    private readonly IDiagCardService _diagCardService;
 
     private readonly IMyMenu _myMenu;
 
@@ -54,7 +57,9 @@ namespace BBAuto.App
       ICarService carService,
       ISaleCarService saleCarService,
       IMyMenu myMenu,
-      IFormViolation formViolation)
+      IViolationForm formViolation,
+      IDiagCardForm diagCardForm,
+      IDiagCardService diagCardService)
     {
       _carForm = carForm;
       _saleCarForm = saleCarForm;
@@ -62,6 +67,8 @@ namespace BBAuto.App
       _saleCarService = saleCarService;
       _myMenu = myMenu;
       _formViolation = formViolation;
+      _diagCardForm = diagCardForm;
+      _diagCardService = diagCardService;
 
       InitializeComponent();
 
@@ -325,15 +332,13 @@ namespace BBAuto.App
       if (_dgvMain.GetId() == 0)
         return;
 
-      DiagCardList diagCardList = DiagCardList.getInstance();
-      DiagCard diagCard = diagCardList.getItem(_dgvMain.GetId());
+      var diagCard = _diagCardService.Get(_dgvMain.GetId());
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberDiagCard && !string.IsNullOrEmpty(diagCard.File))
         WorkWithFiles.OpenFile(diagCard.File);
       else
       {
-        DiagCard_AddEdit diagCardAE = new DiagCard_AddEdit(diagCard);
-        if (diagCardAE.ShowDialog() == DialogResult.OK)
+        if (_diagCardForm.ShowDialog(diagCard) == DialogResult.OK)
         {
           LoadCars();
         }

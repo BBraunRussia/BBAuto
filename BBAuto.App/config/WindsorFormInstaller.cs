@@ -36,12 +36,16 @@ namespace BBAuto.App.config
         .ImplementedBy<DealerListForm>()
         .LifestyleTransient());
 
-      container.Register(Component.For<IFormMileage>()
-        .ImplementedBy<Mileage_AddEdit>()
+      container.Register(Component.For<IMileageForm>()
+        .ImplementedBy<MileageForm>()
         .LifestyleTransient());
 
-      container.Register(Component.For<IFormViolation>()
-        .ImplementedBy<FormViolation>()
+      container.Register(Component.For<IViolationForm>()
+        .ImplementedBy<ViolationForm>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IDiagCardForm>()
+        .ImplementedBy<DiagCardForm>()
         .LifestyleTransient());
     }
   }

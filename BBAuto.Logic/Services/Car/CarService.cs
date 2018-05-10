@@ -32,6 +32,13 @@ namespace BBAuto.Logic.Services.Car
       return Mapper.Map<CarModel>(list.FirstOrDefault(c => c.Grz == grz));
     }
 
+    public CarModel GetCarById(int id)
+    {
+      var dbModel = _dbContext.Car.GetCarById(id);
+
+      return Mapper.Map<CarModel>(dbModel);
+    }
+
     public IList<CarModel> GetCars()
     {
       return Mapper.Map<IList<CarModel>>(_dbContext.Car.GetCars());
@@ -75,7 +82,7 @@ namespace BBAuto.Logic.Services.Car
           return ToDataTable();
       }
     }
-
+    
     private DataTable ToDataTableBuy()
     {
       var cars = GetCars();

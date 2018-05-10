@@ -2,7 +2,7 @@ using BBAuto.Logic;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-    partial class DiagCard_AddEdit
+    partial class DiagCardForm
     {
         /// <summary>
         /// Required designer variable.

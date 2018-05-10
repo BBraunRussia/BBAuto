@@ -511,4 +511,53 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Comment" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="a44ba54a-7618-440b-929b-9b36914ad0e3" ChangeDateTime="05/10/2018 15:51:09">
+    <Property Name="ElementName" Value="[dbo].[diagCard].[diagCard_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[diagCard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="44531817-66c0-4185-a65c-5eba6c14ecc7" ChangeDateTime="05/10/2018 15:51:15">
+    <Property Name="ElementName" Value="[dbo].[diagCard].[car_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[diagCard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CarId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="80081193-8d61-4360-ad6d-be4f884c86d1" ChangeDateTime="05/10/2018 15:51:19">
+    <Property Name="ElementName" Value="[dbo].[diagCard].[diagCard_number]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[diagCard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Number" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dd60c30d-0da7-4623-bac9-4dfa23388dd0" ChangeDateTime="05/10/2018 15:51:23">
+    <Property Name="ElementName" Value="[dbo].[diagCard].[diagCard_date]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[diagCard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Date" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="889eb36a-d8cf-4bde-9f24-b9b36b915739" ChangeDateTime="05/10/2018 15:51:27">
+    <Property Name="ElementName" Value="[dbo].[diagCard].[diagCard_file]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[diagCard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="File" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1614e38b-a651-4be2-b80f-326e874be129" ChangeDateTime="05/10/2018 15:51:32">
+    <Property Name="ElementName" Value="[dbo].[diagCard].[diagCard_notificationSent]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[diagCard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NotificationSent" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="eac53d83-e2ee-4efe-a9eb-1cee4f15b227" ChangeDateTime="05/10/2018 20:43:12">
+    <Property Name="ElementName" Value="[dbo].[Mileage].[carId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Mileage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CarId" />
+  </Operation>
 </Operations>

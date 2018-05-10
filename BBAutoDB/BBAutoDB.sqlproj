@@ -409,6 +409,7 @@
     <Build Include="Programmability\Stored Procedures\CarBuy\GetCarBuyInfoByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Car\GetCarByGrz.sql" />
     <Build Include="Programmability\Stored Procedures\Mileage\GetMileageById.sql" />
+    <Build Include="Programmability\Stored Procedures\DiagCard\GetDiagCardById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

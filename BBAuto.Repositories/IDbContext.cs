@@ -6,6 +6,7 @@ namespace BBAuto.Repositories
   {
     IDbCar Car { get; }
     IDbSaleCar SaleCar { get; }
+    IDbDiagCard DiagCard { get; }
     IDbDriver Driver { get; }
     IDbDealer Dealer { get; }
     IDbMileage Mileage { get; }

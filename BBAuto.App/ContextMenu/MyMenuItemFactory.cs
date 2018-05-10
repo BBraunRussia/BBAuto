@@ -20,6 +20,7 @@ using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Dealer;
+using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
 
@@ -32,18 +33,21 @@ namespace BBAuto.App.ContextMenu
     private MainDgv _dgvMain;
     private MainStatus _mainStatus;
 
-    private readonly IFormMileage _formMileage;
+    private readonly IMileageForm _formMileage;
     private readonly ICarForm _carForm;
-    private readonly IFormViolation _formViolation;
+    private readonly IViolationForm _formViolation;
+    private readonly IDiagCardForm _diagCardForm;
 
     public MyMenuItemFactory(
-      IFormMileage formMileage,
+      IMileageForm formMileage,
       ICarForm carForm,
-      IFormViolation formViolation)
+      IViolationForm formViolation,
+      IDiagCardForm diagCardForm)
     {
       _formMileage = formMileage;
       _carForm = carForm;
       _formViolation = formViolation;
+      _diagCardForm = diagCardForm;
     }
 
     public void SetMainDgv(MainDgv dgvMain)
@@ -299,17 +303,16 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateNewDiagCard()
     {
-      ToolStripMenuItem item = CreateItem("Новая диагностическая карта");
+      var item = CreateItem("Новая диагностическая карта");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _dgvMain.GetCar();
         if (car == null)
           return;
 
-        DiagCard diagCard = car.createDiagCard();
+        var diagCard = new DiagCardModel {CarId = car.Id};
 
-        DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
-        diagcardAE.ShowDialog();
+        _diagCardForm.ShowDialog(diagCard);
       };
       return item;
     }

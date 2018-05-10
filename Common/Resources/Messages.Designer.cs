@@ -19,7 +19,7 @@ namespace Common.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Messages {
@@ -61,6 +61,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Удалить диагностическую карту?.
+        /// </summary>
+        public static string DeleteDiagCard {
+            get {
+                return ResourceManager.GetString("DeleteDiagCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удалить документ?.
         /// </summary>
         public static string DeleteDocument {
@@ -75,6 +84,15 @@ namespace Common.Resources {
         public static string DeleteDTP {
             get {
                 return ResourceManager.GetString("DeleteDTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить нарушение?.
+        /// </summary>
+        public static string DeleteViolation {
+            get {
+                return ResourceManager.GetString("DeleteViolation", resourceCulture);
             }
         }
         

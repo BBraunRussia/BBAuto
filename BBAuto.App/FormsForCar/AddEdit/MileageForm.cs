@@ -7,7 +7,7 @@ using Common.Resources;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-  public partial class Mileage_AddEdit : Form, IFormMileage
+  public partial class MileageForm : Form, IMileageForm
   {
     private MileageModel _mileage;
 
@@ -15,7 +15,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private readonly IMileageService _mileageService;
 
-    public Mileage_AddEdit(IMileageService mileageService)
+    public MileageForm(IMileageService mileageService)
     {
       _mileageService = mileageService;
       InitializeComponent();

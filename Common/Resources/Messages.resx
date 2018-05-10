@@ -125,4 +125,10 @@
   <data name="NoAnswerFromMailServer" xml:space="preserve">
     <value>Не удалось отправить письмо. Нет ответа от сервера. Попытайтесь отправить через некоторое время</value>
   </data>
+  <data name="DeleteViolation" xml:space="preserve">
+    <value>Удалить нарушение?</value>
+  </data>
+  <data name="DeleteDiagCard" xml:space="preserve">
+    <value>Удалить диагностическую карту?</value>
+  </data>
 </root>

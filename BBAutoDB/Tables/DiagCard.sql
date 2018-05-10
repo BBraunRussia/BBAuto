@@ -1,20 +1,20 @@
-CREATE TABLE [dbo].[diagCard](
-	[diagCard_id] [int] IDENTITY(1,1) NOT NULL,
-	[car_id] [int] NOT NULL,
-	[diagCard_number] NVARCHAR(50) NOT NULL,
-	[diagCard_date] [datetime] NOT NULL,
-	[diagCard_file] NVARCHAR(200) NULL,
-	[diagCard_notificationSent] [int] NULL,
- CONSTRAINT [PK_diagCard] PRIMARY KEY CLUSTERED 
-(
-	[diagCard_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+create table [dbo].[DiagCard] (
+  [Id] [INT] identity (1, 1) not null,
+  [CarId] [INT] not null,
+  [Number] nvarchar(50) not null,
+  [Date] [DATETIME] not null,
+  [File] nvarchar(200) null,
+  [NotificationSent] bit null,
+  constraint [PK_diagCard] primary key clustered
+  (
+  [Id] asc
+  ) with (pad_index = off, statistics_norecompute = off, ignore_dup_key = off, allow_row_locks = on, allow_page_locks = on) on [PRIMARY]
+) on [PRIMARY]
+go
 
-ALTER TABLE [dbo].[diagCard]  WITH CHECK ADD  CONSTRAINT [FK_diagCard_Car] FOREIGN KEY([car_id])
-REFERENCES [dbo].[Car] ([Id])
-GO
+alter table [dbo].[diagCard] with check add constraint [FK_diagCard_Car] foreign key ([CarId])
+references [dbo].[Car] ([Id])
+go
 
-ALTER TABLE [dbo].[diagCard] CHECK CONSTRAINT [FK_diagCard_Car]
-GO
+alter table [dbo].[diagCard] check constraint [FK_diagCard_Car]
+go
