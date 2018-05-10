@@ -43,18 +43,15 @@ namespace BBAuto.App.FormsForCar
     private readonly IMileageService _mileageService;
 
     private readonly IFormMileage _formMileage;
-    private readonly IFormViolation _formViolation;
-
+    
     public CarForm(
       IDealerService dealerService,
       IMileageService mileageService,
-      IFormMileage formMileage,
-      IFormViolation formViolation)
+      IFormMileage formMileage)
     {
       _dealerService = dealerService;
       _mileageService = mileageService;
       _formMileage = formMileage;
-      _formViolation = formViolation;
     }
 
     public DialogResult ShowDialog(Car car)
@@ -223,7 +220,7 @@ namespace BBAuto.App.FormsForCar
 
     private void fillFields()
     {
-      cbMark.SelectedValue = (_car.Mark != null) ? _car.Mark.Id.ToString() : "0";
+      cbMark.SelectedValue = _car.Mark?.Id.ToString() ?? "0";
       cbModel.SelectedValue = _car.ModelID;
       cbGrade.SelectedValue = _car.GradeID;
       /* когда Audi не заполняется таблица с инфо о машине */
@@ -644,9 +641,11 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddViolation_Click(object sender, EventArgs e)
     {
-      Violation violation = _car.createViolation();
-      
-      if (_formViolation.ShowDialog(violation) == DialogResult.OK)
+      var violation = _car.createViolation();
+
+      var formViolation = new FormViolation(this);
+
+      if (formViolation.ShowDialog(violation) == DialogResult.OK)
       {
         _violationList.Add(violation);
         loadViolation();
@@ -659,21 +658,22 @@ namespace BBAuto.App.FormsForCar
 
       var violation = _violationList.getItem(idViolation);
 
-      if (e.ColumnIndex == 6 && (violation.File != string.Empty))
+      if (e.ColumnIndex == 6 && violation.File != string.Empty)
         WorkWithFiles.OpenFile(violation.File);
-      else if (e.ColumnIndex == 7 && (violation.FilePay != string.Empty))
+      else if (e.ColumnIndex == 7 && violation.FilePay != string.Empty)
         WorkWithFiles.OpenFile(violation.FilePay);
       else
       {
-        if (_formViolation.ShowDialog(violation) == DialogResult.OK)
+        var formViolation = new FormViolation(this);
+
+        if (formViolation.ShowDialog(violation) == DialogResult.OK)
           loadViolation();
       }
     }
 
     private void btnViolation_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить нарушение?", Captions.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          System.Windows.Forms.DialogResult.Yes)
+      if (MessageBox.Show("Удалить нарушение?", Captions.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
       {
         int idViolation = Convert.ToInt32(_dgvViolation.Rows[_dgvViolation.SelectedCells[0].RowIndex].Cells[0].Value);
 
@@ -704,7 +704,7 @@ namespace BBAuto.App.FormsForCar
       DiagCard diagCard = _car.createDiagCard();
 
       DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
-      if (diagcardAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (diagcardAE.ShowDialog() == DialogResult.OK)
       {
         _diagCardList.Add(diagCard);
 
@@ -725,7 +725,7 @@ namespace BBAuto.App.FormsForCar
       {
         DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
 
-        if (diagcardAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        if (diagcardAE.ShowDialog() == DialogResult.OK)
           loadDiagCard();
       }
     }
@@ -733,7 +733,7 @@ namespace BBAuto.App.FormsForCar
     private void btnDeleteDiagCard_Click(object sender, EventArgs e)
     {
       if (MessageBox.Show("Удалить диагностическую карту?", Captions.Delete, MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            MessageBoxIcon.Question) == DialogResult.Yes)
       {
         int idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[_dgvDiagCard.SelectedCells[0].RowIndex].Cells[0].Value);
 

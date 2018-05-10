@@ -17,7 +17,7 @@ namespace BBAuto.Logic.DataBase
 
     public DataTable Select(string tableName)
     {
-      var spName = tableName.Last() == 's'
+      var spName = tableName.ToLower().Last() == 's'
         ? tableName + "es"
         : tableName + "s";
 

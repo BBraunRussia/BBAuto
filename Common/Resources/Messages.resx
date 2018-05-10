@@ -122,4 +122,7 @@
   <data name="DeleteDTP" xml:space="preserve">
     <value>Удалить ДТП?</value>
   </data>
+  <data name="NoAnswerFromMailServer" xml:space="preserve">
+    <value>Не удалось отправить письмо. Нет ответа от сервера. Попытайтесь отправить через некоторое время</value>
+  </data>
 </root>

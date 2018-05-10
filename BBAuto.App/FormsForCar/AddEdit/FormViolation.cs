@@ -1,28 +1,28 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.App.config;
 using BBAuto.App.Events;
 using BBAuto.App.FormsForDriver.AddEdit;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.ForCar;
-using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Static;
+using Common.Resources;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-  public partial class Violation_AddEdit : Form, IFormViolation
+  public partial class FormViolation : Form, IFormViolation
   {
+    private readonly ICarForm _carForm;
+
     private Violation _violation;
 
     private WorkWithForm _workWithForm;
-
-    private readonly ICarForm _carForm;
-
-    public Violation_AddEdit(ICarForm carForm)
+    
+    public FormViolation(ICarForm carForm)
     {
-      _carForm = carForm;
       InitializeComponent();
+
+      _carForm = carForm;
     }
 
     public DialogResult ShowDialog(Violation violation)
@@ -34,27 +34,27 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void Violation_AddEdit_Load(object sender, EventArgs e)
     {
-      fillFields();
+      FillFields();
 
-      changeVisible();
+      ChangeVisible();
 
-      _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+      _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.SetEditMode(_violation.Id == 0);
     }
 
-    private void fillFields()
+    private void FillFields()
     {
       dtpDate.Value = _violation.Date;
       tbNumber.Text = _violation.Number;
       chbPaid.Checked = (_violation.DatePay != null);
 
-      TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
+      var tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _violation.File;
 
       cbViolationType.SelectedValue = _violation.IDViolationType;
       tbSum.Text = _violation.Sum;
 
-      ViolationTypes violationType = ViolationTypes.getInstance();
+      var violationType = ViolationTypes.getInstance();
       cbViolationType.DataSource = violationType.ToDataTable();
       cbViolationType.ValueMember = "id";
       cbViolationType.DisplayMember = "Название";
@@ -62,7 +62,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       cbViolationType.SelectedValue = _violation.IDViolationType;
       tbSum.Text = _violation.Sum;
 
-      TextBox tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
+      var tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
       tbFilePay.Text = _violation.FilePay;
 
       chbNoDeduction.Checked = _violation.NoDeduction;
@@ -76,7 +76,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       if (_workWithForm.IsEditMode())
       {
         TrySave();
-        this.DialogResult = DialogResult.OK;
+        DialogResult = DialogResult.OK;
       }
       else
         _workWithForm.SetEditMode(true);
@@ -104,13 +104,13 @@ namespace BBAuto.App.FormsForCar.AddEdit
       else
         _violation.DatePay = null;
 
-      TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
+      var tbFile = ucFile.Controls["tbFile"] as TextBox;
       _violation.File = tbFile.Text;
 
       _violation.IDViolationType = cbViolationType.SelectedValue.ToString();
       _violation.Sum = tbSum.Text;
 
-      TextBox tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
+      var tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
       _violation.FilePay = tbFilePay.Text;
 
       _violation.NoDeduction = chbNoDeduction.Checked;
@@ -120,10 +120,10 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void chbPaid_CheckedChanged(object sender, EventArgs e)
     {
-      changeVisible();
+      ChangeVisible();
     }
 
-    private void changeVisible()
+    private void ChangeVisible()
     {
       labelDatePaid.Visible = chbPaid.Checked;
       dtpDatePaid.Visible = chbPaid.Checked;
@@ -137,17 +137,17 @@ namespace BBAuto.App.FormsForCar.AddEdit
     {
       TrySave();
 
-      if (trySend())
+      if (TrySend())
       {
         _violation.Sent = true;
         TrySave();
 
-        this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        DialogResult = DialogResult.OK;
         Close();
       }
     }
 
-    private bool trySend()
+    private bool TrySend()
     {
       try
       {
@@ -156,9 +156,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       }
       catch (TimeoutException)
       {
-        MessageBox.Show(
-          "Не удалось отправить письмо. Нет ответа от сервера. Попытайтесь отправить через некоторое время",
-          "Время ожидания истекло", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        MessageBox.Show(Messages.NoAnswerFromMailServer, Captions.TimeoutExpired, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return false;
       }
     }
@@ -171,12 +169,12 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      DriverForm driverAE = new DriverForm(_violation.getDriver());
-      driverAE.ShowDialog();
+      var driverAe = new DriverForm(_violation.getDriver());
+      driverAe.ShowDialog();
     }
 
     private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-    {
+    { 
       _carForm.ShowDialog(_violation.Car);
     }
   }

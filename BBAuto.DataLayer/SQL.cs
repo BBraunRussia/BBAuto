@@ -131,7 +131,7 @@ namespace BBAuto.DataLayer
 
     private static SqlParameter GetParam(int paramIndex, params object[] Params)
     {
-      return new SqlParameter($"p{(paramIndex + 1)}", Params[paramIndex]);
+      return new SqlParameter($"p{paramIndex + 1}", Params[paramIndex]);
     }
   }
 }

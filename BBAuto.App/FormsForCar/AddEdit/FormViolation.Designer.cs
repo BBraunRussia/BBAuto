@@ -2,7 +2,7 @@ using BBAuto.Logic;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-    partial class Violation_AddEdit
+    partial class FormViolation
     {
         /// <summary>
         /// Required designer variable.

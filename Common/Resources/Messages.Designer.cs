@@ -124,6 +124,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не удалось отправить письмо. Нет ответа от сервера. Попытайтесь отправить через некоторое время.
+        /// </summary>
+        public static string NoAnswerFromMailServer {
+            get {
+                return ResourceManager.GetString("NoAnswerFromMailServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Перед действием необходимо выделить запись в таблице.
         /// </summary>
         public static string SelectRowBeforeAction {

@@ -119,4 +119,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Удаление</value>
   </data>
+  <data name="TimeoutExpired" xml:space="preserve">
+    <value>Время ожидания истекло</value>
+  </data>
 </root>

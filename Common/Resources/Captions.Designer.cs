@@ -122,5 +122,14 @@ namespace Common.Resources {
                 return ResourceManager.GetString("MainForm_DoubleClickAccountViolation_Ошибка_доступа", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Время ожидания истекло.
+        /// </summary>
+        public static string TimeoutExpired {
+            get {
+                return ResourceManager.GetString("TimeoutExpired", resourceCulture);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 using BBAuto.App.AddEdit;
+using BBAuto.App.ContextMenu;
 using BBAuto.App.Dictionary;
 using BBAuto.App.FormsForCar;
 using BBAuto.App.FormsForCar.AddEdit;
@@ -12,6 +13,14 @@ namespace BBAuto.App.config
   {
     public void Install(IWindsorContainer container, IConfigurationStore store)
     {
+      container.Register(Component.For<IMyMenu>()
+        .ImplementedBy<MyMenu>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IMyMenuItemFactory>()
+        .ImplementedBy<MyMenuItemFactory>()
+        .LifestyleTransient());
+      
       container.Register(Component.For<IForm>()
         .ImplementedBy<MainForm>()
         .LifestyleTransient());
@@ -29,6 +38,10 @@ namespace BBAuto.App.config
 
       container.Register(Component.For<IFormMileage>()
         .ImplementedBy<Mileage_AddEdit>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IFormViolation>()
+        .ImplementedBy<FormViolation>()
         .LifestyleTransient());
     }
   }
