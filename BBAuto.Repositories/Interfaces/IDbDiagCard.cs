@@ -9,7 +9,7 @@ namespace BBAuto.Repositories.Interfaces
   {
     void DeleteDiagCard(int id);
     IList<DbDiagCard> GetDiagCards();
-    DbDiagCard GetDiagCardById(int id);
+    IList<DbDiagCard> GetDiagCardById(int idCar);
     DbDiagCard UpsertDiagCard(DbDiagCard diagCard);
   }
 }

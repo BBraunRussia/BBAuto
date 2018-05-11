@@ -4,6 +4,7 @@ using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Repositories;
 using Castle.MicroKernel.Registration;
@@ -55,6 +56,10 @@ namespace BBAuto.Logic
 
       container.Register(Component.For<IDiagCardService>()
         .ImplementedBy<DiagCardService>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IDocumentsService>()
+        .ImplementedBy<DocumentsService>()
         .LifestyleTransient());
     }
   }

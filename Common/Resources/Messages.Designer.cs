@@ -160,6 +160,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы действительно хотите переместить автомобиль на продажу?.
+        /// </summary>
+        public static string MoveCarToSale {
+            get {
+                return ResourceManager.GetString("MoveCarToSale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удалить информацию о пробеге?.
         /// </summary>
         public static string NeedDeleteMileage {
@@ -187,11 +196,29 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email-адреса не обнаружены.
+        /// </summary>
+        public static string NotFoundEmails {
+            get {
+                return ResourceManager.GetString("NotFoundEmails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Принтер по умолчанию не найден.
         /// </summary>
         public static string PrinterNotFound {
             get {
                 return ResourceManager.GetString("PrinterNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы действительно хотите убрать автомобиль с продажи?.
+        /// </summary>
+        public static string RemoveCarFromSale {
+            get {
+                return ResourceManager.GetString("RemoveCarFromSale", resourceCulture);
             }
         }
         

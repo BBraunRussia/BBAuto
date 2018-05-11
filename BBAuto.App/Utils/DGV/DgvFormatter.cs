@@ -111,7 +111,7 @@ namespace BBAuto.App.Utils.DGV
       {
         int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        var invoice = invoiceList.getItem(id);
+        var invoice = invoiceList.GetItem(id);
 
         if (invoice.DateMove != string.Empty)
           row.Cells["Дата передачи"].Style.BackColor = Color.MediumPurple;
@@ -211,7 +211,7 @@ namespace BBAuto.App.Utils.DGV
       foreach (DataGridViewRow row in _dgv.Rows)
       {
         int.TryParse(row.Cells[0].Value.ToString(), out int id);
-        var diagCard = _diagCardService.Get(id);
+        var diagCard = _diagCardService.GetByCarId(id);
 
         if (diagCard.File != string.Empty)
           row.Cells["№ ДК"].Style.BackColor = Color.MediumPurple;

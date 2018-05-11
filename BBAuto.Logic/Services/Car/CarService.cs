@@ -181,7 +181,7 @@ namespace BBAuto.Logic.Services.Car
       var mileageList = MileageList.getInstance();
       ForCar.Mileage mileage = mileageList.getItem(car.Id);
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(car.Id);
+      Invoice invoice = invoiceList.GetItem(car.Id);
 
       PTSList ptsList = PTSList.getInstance();
       PTS pts = ptsList.getItem(car.Id);

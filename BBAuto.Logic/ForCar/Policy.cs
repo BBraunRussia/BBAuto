@@ -125,6 +125,12 @@ namespace BBAuto.Logic.ForCar
       Id = 0;
     }
 
+    public Policy(int carId)
+    {
+      Car = CarList.getInstance().getItem(carId);
+      Id = 0;
+    }
+
     public Policy(DataRow row)
     {
       FillFields(row);

@@ -9,6 +9,7 @@ namespace BBAuto.Logic.Services.Car
     public string Grz { get; private set; }
     public int MarkId { get; set; }
     public int ModelId { get; set; }
+    public int GradeId { get; set; }
     public int RegionUsingId { get; set; }
     public string BbNumber { get; set; }
     public string Vin { get; set; }
@@ -16,6 +17,9 @@ namespace BBAuto.Logic.Services.Car
     public int OwnerId { get; set; }
     public DateTime DateGet { get; set; }
     public bool IsGet { get; set; }
+    public string ENumber { get; set; }
+    public string BodyNumber { get; set; }
+    public int ColorId { get; set; }
 
     public override string ToString()
     {

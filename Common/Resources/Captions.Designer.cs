@@ -79,6 +79,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Невозможно создать письмо.
+        /// </summary>
+        public static string CannotCreateMail {
+            get {
+                return ResourceManager.GetString("CannotCreateMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удаление.
         /// </summary>
         public static string Delete {
@@ -138,6 +147,15 @@ namespace Common.Resources {
         public static string Print {
             get {
                 return ResourceManager.GetString("Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Снятие с продажи.
+        /// </summary>
+        public static string RemoveFromSale {
+            get {
+                return ResourceManager.GetString("RemoveFromSale", resourceCulture);
             }
         }
         

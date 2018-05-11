@@ -2,7 +2,7 @@ namespace BBAuto.Logic.Services.DiagCard
 {
   public interface IDiagCardService
   {
-    DiagCardModel Get(int id);
+    DiagCardModel GetByCarId(int idCar);
     void Save(DiagCardModel diagCard);
     void Delete(int id);
   }

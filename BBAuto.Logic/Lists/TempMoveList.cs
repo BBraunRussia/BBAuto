@@ -55,8 +55,8 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Бортовой номер");
       dt.Columns.Add("Регистрационный знак");
       dt.Columns.Add("Водитель");
-      dt.Columns.Add("Начало", Type.GetType("System.DateTime"));
-      dt.Columns.Add("Окончание", Type.GetType("System.DateTime"));
+      dt.Columns.Add("Начало", typeof(DateTime));
+      dt.Columns.Add("Окончание", typeof(DateTime));
 
       var tempMoves = list.OrderByDescending(item => item.DateEnd);
 
@@ -66,22 +66,15 @@ namespace BBAuto.Logic.Lists
       return dt;
     }
 
-    public TempMove getItem(int id)
+    public TempMove GetItem(int id)
     {
       return list.FirstOrDefault(t => t.Id == id);
     }
 
-    internal Driver getDriver(Car car, DateTime date)
+    internal Driver GetDriver(int carId, DateTime date)
     {
-      var tempMoves = list.Where(item => item.isDriverCar(car, date));
-
-      if (tempMoves.Count() > 0)
-      {
-        TempMove tempMove = tempMoves.First() as TempMove;
-        return tempMove.Driver;
-      }
-      else
-        return null;
+      var tempMove = list.FirstOrDefault(item => item.IsDriverCar(carId, date));
+      return tempMove?.Driver;
     }
   }
 }

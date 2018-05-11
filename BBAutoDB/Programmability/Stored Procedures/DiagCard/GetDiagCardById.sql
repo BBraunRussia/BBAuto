@@ -1,5 +1,5 @@
 create procedure [dbo].[GetDiagCardById]
-  @id int
+  @idCar int
 as
   select
     Id,
@@ -11,4 +11,4 @@ as
   from
     DiagCard
   where
-    Id = @id
+    CarId = @idCar

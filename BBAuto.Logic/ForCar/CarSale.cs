@@ -65,7 +65,7 @@ namespace BBAuto.Logic.ForCar
     internal override object[] ToRow()
     {
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(Car);
+      Invoice invoice = invoiceList.GetItem(Car.Id);
 
       PTSList ptsList = PTSList.getInstance();
       PTS pts = ptsList.getItem(Car);
@@ -73,8 +73,7 @@ namespace BBAuto.Logic.ForCar
       STSList stsList = STSList.getInstance();
       STS sts = stsList.getItem(Car);
 
-      int idRegion = 0;
-      int.TryParse(Car.regionUsingID.ToString(), out idRegion);
+      int.TryParse(Car.regionUsingID.ToString(), out int idRegion);
 
       Regions regions = Regions.getInstance();
       string regionName = (invoice == null)

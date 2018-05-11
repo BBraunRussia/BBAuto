@@ -159,7 +159,7 @@ namespace BBAuto.Logic.ForCar
       ViolationTypes violationType = ViolationTypes.getInstance();
 
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(Car);
+      Invoice invoice = invoiceList.GetItem(Car.Id);
       Regions regions = Regions.getInstance();
       string regionName = (invoice == null)
         ? regions.getItem(Convert.ToInt32(Car.regionUsingID))
@@ -199,7 +199,7 @@ namespace BBAuto.Logic.ForCar
     public Driver getDriver()
     {
       DriverCarList driverCarList = DriverCarList.getInstance();
-      Driver driver = driverCarList.GetDriver(Car, Date);
+      Driver driver = driverCarList.GetDriver(Car.Id, Date);
 
       return driver ?? new Driver();
     }

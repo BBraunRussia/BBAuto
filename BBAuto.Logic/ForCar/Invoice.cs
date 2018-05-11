@@ -106,7 +106,7 @@ namespace BBAuto.Logic.ForCar
     private void fillNewInvoice()
     {
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(Car);
+      Invoice invoice = invoiceList.GetItem(Car.Id);
 
       if (invoice == null)
       {

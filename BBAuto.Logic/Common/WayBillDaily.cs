@@ -10,17 +10,17 @@ namespace BBAuto.Logic.Common
 {
   public class WayBillDaily : IEnumerable
   {
-    private const int MIN_DAILY_MILEAGE = 100;
+    private const int MinDailyMileage = 100;
 
-    private readonly Car _car;
+    private readonly int _carId;
     private DateTime _date;
     private readonly Dictionary<int, WayBillDay> _list;
 
     private readonly MileageList _mileageList;
 
-    public WayBillDaily(Car car, DateTime date)
+    public WayBillDaily(int carId, DateTime date)
     {
-      _car = car;
+      _carId = carId;
       _date = date;
 
       _mileageList = MileageList.getInstance();
@@ -35,7 +35,7 @@ namespace BBAuto.Logic.Common
     {
       WayBillDayList wayBillDayList = WayBillDayList.getInstance();
 
-      foreach (var item in wayBillDayList.getList(_car, _date))
+      foreach (var item in wayBillDayList.getList(_carId, _date))
       {
         _list.Add(item.Date.Day, item);
         //wayBillDayList.getList(_car, _date);
@@ -49,12 +49,12 @@ namespace BBAuto.Logic.Common
 
     public int BeginDistance
     {
-      get { return _mileageList.GetBeginDistance(_car, _date); }
+      get { return _mileageList.GetBeginDistance(_carId, _date); }
     }
 
     public int EndDistance
     {
-      get { return _mileageList.GetEndDistance(_car, _date); }
+      get { return _mileageList.GetEndDistance(_carId, _date); }
     }
 
     public void Load()
@@ -67,19 +67,19 @@ namespace BBAuto.Logic.Common
       if (driverWithDay.Count == 0)
         return;
 
-      int count = _mileageList.GetDistance(_car, _date);
+      int count = _mileageList.GetDistance(_carId, _date);
 
       Random random = new Random();
 
       int workDays = driverWithDay.Count;
 
-      bool isShortMonth = ((count / workDays) < MIN_DAILY_MILEAGE);
+      bool isShortMonth = ((count / workDays) < MinDailyMileage);
       if (isShortMonth)
         workDays /= 2;
       int div = random.Next(1);
 
 
-      var fuelList = FuelList.getInstance().GetListFiltred(_car, _date);
+      var fuelList = FuelList.getInstance().GetListFiltred(_carId, _date);
 
       foreach (var item in fuelList)
       {
@@ -126,7 +126,7 @@ namespace BBAuto.Logic.Common
       if (_list.ContainsKey(date.Day))
         return null;
 
-      WayBillDay wayBillDay = new WayBillDay(_car, driver, date, everyDayCount);
+      WayBillDay wayBillDay = new WayBillDay(_carId, driver, date, everyDayCount);
       wayBillDay.Save();
       wayBillDay.ReadRoute(random);
 
@@ -153,7 +153,7 @@ namespace BBAuto.Logic.Common
       {
         DateTime curDate = new DateTime(_date.Year, _date.Month, day);
 
-        Driver driver = driverCarList.GetDriver(_car, curDate);
+        Driver driver = driverCarList.GetDriver(_carId, curDate);
 
         List<int> days = tabelList.GetDays(driver, curDate);
 

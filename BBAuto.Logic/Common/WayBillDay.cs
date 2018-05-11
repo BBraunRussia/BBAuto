@@ -21,10 +21,8 @@ namespace BBAuto.Logic.Common
     {
       Id = Convert.ToInt32(row[0]);
 
-      int idCar;
-      int.TryParse(row[1].ToString(), out idCar);
-      CarList carList = CarList.getInstance();
-      Car = carList.getItem(idCar);
+      int.TryParse(row[1].ToString(), out int idCar);
+      CarId = idCar;
 
       int idDriver;
       int.TryParse(row[2].ToString(), out idDriver);
@@ -34,9 +32,9 @@ namespace BBAuto.Logic.Common
       DateTime.TryParse(row[3].ToString(), out _date);
     }
 
-    public WayBillDay(Car car, Driver driver, DateTime date, int count)
+    public WayBillDay(int carId, Driver driver, DateTime date, int count)
     {
-      Car = car;
+      CarId = carId;
       Driver = driver;
       _date = date;
       _count = count;
@@ -48,7 +46,7 @@ namespace BBAuto.Logic.Common
 
     public Driver Driver { get; }
 
-    public Car Car { get; }
+    public int CarId { get; }
 
     public int Distance
     {
@@ -133,7 +131,7 @@ namespace BBAuto.Logic.Common
 
     public override void Save()
     {
-      Id = Convert.ToInt32(Provider.Insert("WayBillDay", Id, Car.Id, Driver.Id, _date));
+      Id = Convert.ToInt32(Provider.Insert("WayBillDay", Id, CarId, Driver.Id, _date));
 
       WayBillDayList wayBillDayList = WayBillDayList.getInstance();
       wayBillDayList.Add(this);

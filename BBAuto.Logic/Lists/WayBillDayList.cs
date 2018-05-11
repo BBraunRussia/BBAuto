@@ -52,9 +52,9 @@ namespace BBAuto.Logic.Lists
       return list.FirstOrDefault(item => item.Id == id);
     }
 
-    public IEnumerable<WayBillDay> getList(Car car, DateTime date)
+    public IEnumerable<WayBillDay> getList(int carId, DateTime date)
     {
-      return list.Where(item => item.Car.Id == car.Id && item.Date.Year == date.Year && item.Date.Month == date.Month)
+      return list.Where(item => item.Car.Id == carId && item.Date.Year == date.Year && item.Date.Month == date.Month)
         .OrderBy(item => item.Date);
     }
   }

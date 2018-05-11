@@ -55,28 +55,27 @@ namespace BBAuto.Logic.Lists
 
     public Fuel getItem(FuelCard fuelCard, DateTime date, EngineType engineType)
     {
-      var fuels = list.Where(item => item.FuelCard.Id == fuelCard.Id && item.Date == date &&
-                                     item.EngineType.Id == engineType.Id);
+      var fuel = list.FirstOrDefault(item => item.FuelCard.Id == fuelCard.Id && item.Date == date &&
+                                             item.EngineType.Id == engineType.Id);
 
-      if (fuels.Count() > 0)
-        return fuels.First();
+      if (fuel != null)
+        return fuel;
 
-      Fuel fuel = new Fuel(fuelCard, date, engineType);
+      fuel = new Fuel(fuelCard, date, engineType);
       Add(fuel);
-
       return fuel;
     }
 
-    public DataTable ToDataTable(Car car, DateTime date)
+    public DataTable ToDataTable(int carId, DateTime date)
     {
-      var listFiltred = GetListFiltred(car, date);
+      var listFiltred = GetListFiltred(carId, date);
 
       return CreateTable(listFiltred);
     }
 
-    public IEnumerable<Fuel> GetListFiltred(Car car, DateTime date)
+    public IEnumerable<Fuel> GetListFiltred(int carId, DateTime date)
     {
-      var dt = Provider.DoOther("exec FuelByCarAndDate_Select @p1, @p2", car.Id, date);
+      var dt = Provider.DoOther("exec FuelByCarAndDate_Select @p1, @p2", carId, date);
 
       var listFiltred = new List<Fuel>();
 
@@ -92,7 +91,7 @@ namespace BBAuto.Logic.Lists
     {
       DataTable dt = new DataTable();
       dt.Columns.Add("id");
-      dt.Columns.Add("Дата", Type.GetType("System.DateTime"));
+      dt.Columns.Add("Дата", typeof(DateTime));
       dt.Columns.Add("Объём");
 
       foreach (var item in listNew)

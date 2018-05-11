@@ -258,7 +258,7 @@ namespace BBAuto.App
         return;
 
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(_mainDgv.GetId());
+      Invoice invoice = invoiceList.GetItem(_mainDgv.GetId());
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberInvoice && !string.IsNullOrEmpty(invoice.File))
         WorkWithFiles.OpenFile(invoice.File);
@@ -337,7 +337,7 @@ namespace BBAuto.App
       if (_mainDgv.GetId() == 0)
         return;
 
-      var diagCard = _diagCardService.Get(_mainDgv.GetId());
+      var diagCard = _diagCardService.GetByCarId(_mainDgv.GetId());
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberDiagCard && !string.IsNullOrEmpty(diagCard.File))
         WorkWithFiles.OpenFile(diagCard.File);
@@ -356,7 +356,7 @@ namespace BBAuto.App
         return;
 
       TempMoveList tempMoveList = TempMoveList.getInstance();
-      TempMove tempMove = tempMoveList.getItem(_mainDgv.GetId());
+      TempMove tempMove = tempMoveList.GetItem(_mainDgv.GetId());
 
       TempMove_AddEdit tempMoveAE = new TempMove_AddEdit(tempMove);
       if (tempMoveAE.ShowDialog() == DialogResult.OK)
@@ -549,7 +549,7 @@ namespace BBAuto.App
         if (isCellNoHeader(point.X))
         {
           DriverCarList driverCarList = DriverCarList.getInstance();
-          Driver driver = driverCarList.GetDriver(car);
+          Driver driver = driverCarList.GetDriver(car.Id);
 
           if (driver == null)
           {

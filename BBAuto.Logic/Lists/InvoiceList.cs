@@ -47,15 +47,15 @@ namespace BBAuto.Logic.Lists
       list.Add(invoice);
     }
 
-    public Invoice getItem(int id)
+    public Invoice GetItem(int id)
     {
       return list.FirstOrDefault(i => i.Id == id);
     }
 
-    public Invoice getItem(Car car)
+    public Invoice GetItemByCarId(int carId)
     {
       var invoices = from invoice in list
-        where invoice.Car.Id == car.Id && invoice.DateMove != string.Empty
+        where invoice.Car.Id == carId && invoice.DateMove != string.Empty
         orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
         select invoice;
 
@@ -104,7 +104,7 @@ namespace BBAuto.Logic.Lists
 
     public void Delete(int idInvoice)
     {
-      Invoice invoice = getItem(idInvoice);
+      Invoice invoice = GetItem(idInvoice);
 
       list.Remove(invoice);
       invoice.Delete();

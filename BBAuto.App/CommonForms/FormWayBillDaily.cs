@@ -7,6 +7,7 @@ using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Static;
 using Common.Resources;
 
@@ -21,8 +22,11 @@ namespace BBAuto.App.CommonForms
     private TabelList tabelList;
     private Driver driverCurrent;
 
-    public FormWayBillDaily(IMainDgv dgv)
+    private readonly IDocumentsService _documentsService;
+
+    public FormWayBillDaily(IMainDgv dgv, IDocumentsService documentsService)
     {
+      _documentsService = documentsService;
       InitializeComponent();
 
       list = new List<Car>();
@@ -73,13 +77,13 @@ namespace BBAuto.App.CommonForms
     {
       DateTime date = new DateTime(dtpDate.Value.Year, dtpDate.Value.Month, 1);
 
-      wayBillDaily = new WayBillDaily(car, date);
+      wayBillDaily = new WayBillDaily(car.Id, date);
       wayBillDaily.Load();
     }
 
     private void LoadWayBillCurrentWithoutCreate()
     {
-      wayBillDaily = new WayBillDaily(list[index], dtpDate.Value);
+      wayBillDaily = new WayBillDaily(list[index].Id, dtpDate.Value);
       dgv.DataSource = wayBillDaily.ToDataTable();
 
       /* Отметить дни командировки - цветом */
@@ -88,7 +92,7 @@ namespace BBAuto.App.CommonForms
 
     private void LoadFuel()
     {
-      dgvFuel.DataSource = fuelList.ToDataTable(list[index], dtpDate.Value);
+      dgvFuel.DataSource = fuelList.ToDataTable(list[index].Id, dtpDate.Value);
       dgvFuel.Columns[0].Visible = false;
     }
 
@@ -126,22 +130,20 @@ namespace BBAuto.App.CommonForms
 
     private void CreateWayBill(Car car, Logic.Static.Actions action, Fields fields)
     {
-      CreateDocument excelWayBill = new CreateDocument(car);
-
       try
       {
-        excelWayBill.CreateWaybill(dtpDate.Value);
-        excelWayBill.AddRouteInWayBill(dtpDate.Value, fields);
+        _documentsService.CreateWaybill(car.Id, dtpDate.Value);
+        _documentsService.AddRouteInWayBill(car.Id, dtpDate.Value, fields);
 
         if (action == Logic.Static.Actions.Print)
-          excelWayBill.Print();
+          _documentsService.Print();
         else
-          excelWayBill.Show();
+          _documentsService.Show();
       }
       catch (NullReferenceException ex)
       {
         MessageBox.Show(ex.Message, Captions.Warning, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        excelWayBill.Exit();
+        _documentsService.Exit();
       }
 
       if (car == list[index])

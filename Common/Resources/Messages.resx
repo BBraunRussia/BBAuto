@@ -146,4 +146,13 @@
   <data name="PrinterNotFound" xml:space="preserve">
     <value>Принтер по умолчанию не найден</value>
   </data>
+  <data name="NotFoundEmails" xml:space="preserve">
+    <value>Email-адреса не обнаружены</value>
+  </data>
+  <data name="RemoveCarFromSale" xml:space="preserve">
+    <value>Вы действительно хотите убрать автомобиль с продажи?</value>
+  </data>
+  <data name="MoveCarToSale" xml:space="preserve">
+    <value>Вы действительно хотите переместить автомобиль на продажу?</value>
+  </data>
 </root>

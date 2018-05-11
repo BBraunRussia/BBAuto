@@ -59,14 +59,14 @@ namespace BBAuto.Logic.Lists
       return list.FirstOrDefault(p => p.Id == id);
     }
 
-    public Policy getItem(Car car, PolicyType policyType)
+    public Policy getItem(int carId, PolicyType policyType)
     {
       var policyList = from policy in list
-        where policy.Car.Id == car.Id && policy.Type == policyType
+        where policy.Car.Id == carId && policy.Type == policyType
         orderby policy.DateEnd descending
         select policy;
 
-      return (policyList.Count() > 0) ? policyList.First() : car.CreatePolicy();
+      return policyList.FirstOrDefault() ?? new Policy(carId);
     }
 
     internal DataTable ToDataTable()
@@ -125,11 +125,11 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Страхователь");
       dt.Columns.Add("Страховщик");
       dt.Columns.Add("Номер полиса");
-      dt.Columns.Add("Pay", Type.GetType("System.Double"));
-      dt.Columns.Add("Начало действия", Type.GetType("System.DateTime"));
-      dt.Columns.Add("Окончание действия", Type.GetType("System.DateTime"));
-      dt.Columns.Add("LimitCost", Type.GetType("System.Double"));
-      dt.Columns.Add("Pay2", Type.GetType("System.Double"));
+      dt.Columns.Add("Pay", typeof(double));
+      dt.Columns.Add("Начало действия", typeof(DateTime));
+      dt.Columns.Add("Окончание действия", typeof(DateTime));
+      dt.Columns.Add("LimitCost", typeof(double));
+      dt.Columns.Add("Pay2", typeof(double));
 
       policies.ToList().ForEach(item => dt.Rows.Add(item.ToRow()));
 

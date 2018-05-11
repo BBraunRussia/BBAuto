@@ -11,6 +11,7 @@ using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
@@ -41,6 +42,7 @@ namespace BBAuto.App.FormsForCar
     private readonly IDealerService _dealerService;
     private readonly IMileageService _mileageService;
     private readonly IDiagCardService _diagCardService;
+    private readonly IDocumentsService _documentsService;
 
     private readonly IMileageForm _formMileage;
     private readonly IDiagCardForm _formDiagCard;
@@ -53,7 +55,8 @@ namespace BBAuto.App.FormsForCar
       IMileageForm formMileage,
       IDiagCardService diagCardService,
       IDiagCardForm formDiagCard,
-      IDgvFormatter dgvFormatter)
+      IDgvFormatter dgvFormatter,
+      IDocumentsService documentsService)
     {
       _dealerService = dealerService;
       _mileageService = mileageService;
@@ -61,6 +64,7 @@ namespace BBAuto.App.FormsForCar
       _diagCardService = diagCardService;
       _formDiagCard = formDiagCard;
       _dgvFormatter = dgvFormatter;
+      _documentsService = documentsService;
     }
 
     public DialogResult ShowDialog(Car car)
@@ -254,7 +258,7 @@ namespace BBAuto.App.FormsForCar
       tbCost.Text = _car.cost.ToString();
       tbDOP.Text = _car.dop;
 
-      var driver = _driverCarList.GetDriver(_car) ?? new Driver();
+      var driver = _driverCarList.GetDriver(_car.Id) ?? new Driver();
       llDriver.Text = driver.GetName(NameType.Full);
 
       //если не назначен водитель
@@ -553,7 +557,7 @@ namespace BBAuto.App.FormsForCar
     {
       var idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
 
-      var invoice = _invoiceList.getItem(idInvoice);
+      var invoice = _invoiceList.GetItem(idInvoice);
 
       if (e.ColumnIndex == 4 && invoice.File != string.Empty)
         WorkWithFiles.OpenFile(invoice.File);
@@ -720,7 +724,7 @@ namespace BBAuto.App.FormsForCar
     {
       var idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[e.RowIndex].Cells[0].Value);
 
-      var diagCard = _diagCardService.Get(idDiagCard);
+      var diagCard = _diagCardService.GetByCarId(idDiagCard);
       
       if (e.ColumnIndex == 4 && diagCard.File != string.Empty)
         WorkWithFiles.OpenFile(diagCard.File);
@@ -881,7 +885,7 @@ namespace BBAuto.App.FormsForCar
     {
       try
       {
-        var policy = _policyList.getItem(_car, PolicyType.КАСКО);
+        var policy = _policyList.getItem(_car.Id, PolicyType.КАСКО);
 
         WorkWithFiles.OpenFile(policy.File);
       }
@@ -919,7 +923,7 @@ namespace BBAuto.App.FormsForCar
     {
       var dtp = _dtpList.getItem(Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value));
 
-      var driver = _driverCarList.GetDriver(dtp.Car, dtp.Date);
+      var driver = _driverCarList.GetDriver(dtp.Car.Id, dtp.Date);
 
       var licencesList = LicenseList.getInstance();
       var driverLicense = licencesList.getItem(driver);
@@ -933,7 +937,7 @@ namespace BBAuto.App.FormsForCar
 
       var dtp = _dtpList.getItem(idDtp);
 
-      var doc = new CreateDocument(_car);
+      var doc = new DocumentsService(_car);
 
       doc.ShowNotice(dtp);
     }
@@ -1073,7 +1077,7 @@ namespace BBAuto.App.FormsForCar
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      Driver driver = _driverCarList.GetDriver(_car);
+      Driver driver = _driverCarList.GetDriver(_car.Id);
 
       if (driver == null)
         return;

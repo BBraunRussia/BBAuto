@@ -51,7 +51,7 @@ namespace BBAuto.App.Common
         if (cell.Visible)
         {
           Car car = carList.getItem(_dgvMain.GetCarId(cell.RowIndex));
-          Driver driver = driverCarList.GetDriver(car);
+          Driver driver = driverCarList.GetDriver(car.Id);
 
           if (CanAddToList(drivers, driver.email))
             drivers.Add(driver);

@@ -102,7 +102,7 @@ namespace BBAuto.Logic.Lists
       return dt;
     }
 
-    internal int GetDistance(Car car, DateTime date)
+    internal int GetDistance(int carId, DateTime date)
     {
       DateTime datePrev = (date.Month == 12)
         ? new DateTime(date.Year - 1, 11, 1)
@@ -111,12 +111,12 @@ namespace BBAuto.Logic.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.Id == car.Id && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.Car.Id == carId && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.Id == car.Id && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.Car.Id == carId && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
@@ -132,7 +132,7 @@ namespace BBAuto.Logic.Lists
         return listCurrent.First() - listPrev.First();
     }
 
-    internal int GetBeginDistance(Car car, DateTime date)
+    internal int GetBeginDistance(int carId, DateTime date)
     {
       DateTime datePrev = (date.Month == 12)
         ? new DateTime(date.Year - 1, 11, 1)
@@ -141,12 +141,12 @@ namespace BBAuto.Logic.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.Id == car.Id && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.Car.Id == carId && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.Id == car.Id && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.Car.Id == carId && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
@@ -162,7 +162,7 @@ namespace BBAuto.Logic.Lists
         return listPrev.First();
     }
 
-    internal int GetEndDistance(Car car, DateTime date)
+    internal int GetEndDistance(int carId, DateTime date)
     {
       DateTime datePrev = (date.Month == 12)
         ? new DateTime(date.Year - 1, 11, 1)
@@ -171,12 +171,12 @@ namespace BBAuto.Logic.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.Id == car.Id && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.Car.Id == carId && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.Id == car.Id && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.Car.Id == carId && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 

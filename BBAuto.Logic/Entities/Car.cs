@@ -335,7 +335,7 @@ namespace BBAuto.Logic.Entities
       MileageList mileageList = MileageList.getInstance();
       Mileage mileage = mileageList.getItem(this);
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(this);
+      Invoice invoice = invoiceList.GetItem(Id);
 
       PTSList ptsList = PTSList.getInstance();
       PTS pts = ptsList.getItem(this);

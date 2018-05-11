@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
@@ -13,11 +15,11 @@ namespace BBAuto.Logic.Services.DiagCard
       _dbContext = dbContext;
     }
 
-    public DiagCardModel Get(int id)
+    public DiagCardModel GetByCarId(int id)
     {
       var dbModel = _dbContext.DiagCard.GetDiagCardById(id);
 
-      return Mapper.Map<DiagCardModel>(dbModel);
+      return Mapper.Map<IList<DiagCardModel>>(dbModel).OrderByDescending(m => m.Date).FirstOrDefault();
     }
 
     public void Save(DiagCardModel diagCard)

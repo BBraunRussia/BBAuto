@@ -62,9 +62,9 @@ namespace BBAuto.Logic.ForCar
       return new object[] {Id, Car.Id, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), DateBegin, DateEnd};
     }
 
-    internal bool isDriverCar(Car car, DateTime date)
+    public bool IsDriverCar(int carId, DateTime date)
     {
-      return Car.Id == car.Id && date >= DateBegin && date <= DateEnd;
+      return Car.Id == carId && date >= DateBegin && date <= DateEnd;
     }
   }
 }
