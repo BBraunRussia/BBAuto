@@ -137,11 +137,14 @@
     <Compile Include="CommonForms\FormMileageFill.Designer.cs">
       <DependentUpon>FormMileageFill.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommonForms\formMyPointList.cs">
+    <Compile Include="CommonForms\IMyPointListForm.cs" />
+    <Compile Include="CommonForms\IRouteListForm.cs" />
+    <Compile Include="CommonForms\ITemplateListForm.cs" />
+    <Compile Include="CommonForms\MyPointListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CommonForms\formMyPointList.Designer.cs">
-      <DependentUpon>formMyPointList.cs</DependentUpon>
+    <Compile Include="CommonForms\MyPointListForm.Designer.cs">
+      <DependentUpon>MyPointListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CommonForms\FormReport.cs">
       <SubType>Form</SubType>
@@ -149,11 +152,11 @@
     <Compile Include="CommonForms\FormReport.Designer.cs">
       <DependentUpon>FormReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommonForms\formRouteList.cs">
+    <Compile Include="CommonForms\RouteListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CommonForms\formRouteList.Designer.cs">
-      <DependentUpon>formRouteList.cs</DependentUpon>
+    <Compile Include="CommonForms\RouteListForm.Designer.cs">
+      <DependentUpon>RouteListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CommonForms\FormWayBillDaily.cs">
       <SubType>Form</SubType>
@@ -216,11 +219,11 @@
     <Compile Include="CommonForms\TemplateAddEdit.Designer.cs">
       <DependentUpon>TemplateAddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommonForms\formTemplateList.cs">
+    <Compile Include="CommonForms\TemplateListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CommonForms\formTemplateList.Designer.cs">
-      <DependentUpon>formTemplateList.cs</DependentUpon>
+    <Compile Include="CommonForms\TemplateListForm.Designer.cs">
+      <DependentUpon>TemplateListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dictionary\formSsDTPList.cs">
       <SubType>Form</SubType>
@@ -454,9 +457,11 @@
     </Compile>
     <Compile Include="GUI\BBColors.cs" />
     <Compile Include="GUI\ControlsFactory.cs" />
-    <Compile Include="Utils\DGV\DGVFormat.cs" />
+    <Compile Include="Utils\DGV\DgvFormatter.cs" />
     <Compile Include="Events\EditModeEventArgs.cs" />
     <Compile Include="GUI\Filters.cs" />
+    <Compile Include="Utils\DGV\IDgvFormatter.cs" />
+    <Compile Include="Utils\DGV\IMainDgv.cs" />
     <Compile Include="Utils\DGV\MainDgv.cs" />
     <Compile Include="GUI\MainStatus.cs" />
     <Compile Include="GUI\DGVSpecialColumn.cs" />
@@ -511,14 +516,14 @@
     <EmbeddedResource Include="CommonForms\FormMileageFill.resx">
       <DependentUpon>FormMileageFill.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommonForms\formMyPointList.resx">
-      <DependentUpon>formMyPointList.cs</DependentUpon>
+    <EmbeddedResource Include="CommonForms\MyPointListForm.resx">
+      <DependentUpon>MyPointListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\FormReport.resx">
       <DependentUpon>FormReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommonForms\formRouteList.resx">
-      <DependentUpon>formRouteList.cs</DependentUpon>
+    <EmbeddedResource Include="CommonForms\RouteListForm.resx">
+      <DependentUpon>RouteListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\FormWayBillDaily.resx">
       <DependentUpon>FormWayBillDaily.cs</DependentUpon>
@@ -544,8 +549,8 @@
     <EmbeddedResource Include="CommonForms\TemplateAddEdit.resx">
       <DependentUpon>TemplateAddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommonForms\formTemplateList.resx">
-      <DependentUpon>formTemplateList.cs</DependentUpon>
+    <EmbeddedResource Include="CommonForms\TemplateListForm.resx">
+      <DependentUpon>TemplateListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dictionary\formSsDTPList.resx">
       <DependentUpon>formSsDTPList.cs</DependentUpon>

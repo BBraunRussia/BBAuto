@@ -2,32 +2,36 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using BBAuto.App.GUI;
-using BBAuto.Logic.Entities;
-using BBAuto.Logic.ForCar;
-using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.App.Utils.DGV
 {
-  internal class DGVFormat
+  internal class DgvFormatter : IDgvFormatter
   {
     private DataGridView _dgv;
 
-    internal DGVFormat(DataGridView dgv)
+    private readonly IDiagCardService _diagCardService;
+
+    public DgvFormatter(IDiagCardService diagCardService)
+    {
+      _diagCardService = diagCardService;
+    }
+
+    public void SetDgv(DataGridView dgv)
     {
       _dgv = dgv;
     }
-
-    internal void FormatByOwner()
+    
+    public void FormatByOwner()
     {
-      CarList carList = CarList.getInstance();
+      var carList = CarList.getInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id = 0;
-        int.TryParse(row.Cells[1].Value.ToString(), out id);
-        Car car = carList.getItem(id);
+        int.TryParse(row.Cells[1].Value.ToString(), out int id);
+        var car = carList.getItem(id);
 
         if (car == null)
           return;
@@ -43,13 +47,13 @@ namespace BBAuto.App.Utils.DGV
       }
     }
 
-    internal void HideTwoFirstColumns()
+    public void HideTwoFirstColumns()
     {
       HideColumn(0);
       HideColumn(1);
     }
 
-    internal void Format(Status status)
+    public void FormatDgv(Status status)
     {
       switch (status)
       {
@@ -66,7 +70,7 @@ namespace BBAuto.App.Utils.DGV
           SetFormatPolicy();
           break;
         case Status.DTP:
-          SetFormatDTP();
+          SetFormatDtp();
           break;
         case Status.Violation:
           SetFormatViolation();
@@ -101,14 +105,13 @@ namespace BBAuto.App.Utils.DGV
 
     private void SetFormatInvoice()
     {
-      InvoiceList invoiceList = InvoiceList.getInstance();
+      var invoiceList = InvoiceList.getInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id = 0;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        Invoice invoice = invoiceList.getItem(id);
+        var invoice = invoiceList.getItem(id);
 
         if (invoice.DateMove != string.Empty)
           row.Cells["Дата передачи"].Style.BackColor = Color.MediumPurple;
@@ -137,10 +140,9 @@ namespace BBAuto.App.Utils.DGV
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        Policy policy = policyList.getItem(id);
+        var policy = policyList.getItem(id);
 
         if (policy.File != string.Empty)
           row.Cells["Номер полиса"].Style.BackColor = Color.MediumPurple;
@@ -159,18 +161,17 @@ namespace BBAuto.App.Utils.DGV
       }
     }
 
-    private void SetFormatDTP()
+    private void SetFormatDtp()
     {
       SetCellFormat("Сумма возмещения", "N2");
 
-      DTPList dtpList = DTPList.getInstance();
+      var dtpList = DTPList.getInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        DTP dtp = dtpList.getItem(id);
+        var dtp = dtpList.getItem(id);
 
         if (dtp.GetCurrentStatusAfterDTP() == "Отремонтирован")
         {
@@ -189,14 +190,13 @@ namespace BBAuto.App.Utils.DGV
       SetCellFormat("Сумма штрафа", "N0");
       SetRightAligment("Сумма штрафа");
 
-      ViolationList violationList = ViolationList.getInstance();
+      var violationList = ViolationList.getInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        Violation violation = violationList.getItem(id);
+        var violation = violationList.getItem(id);
 
         if (violation.Sent)
           row.Cells["№ постановления"].Style.BackColor = Color.MediumPurple;
@@ -208,13 +208,10 @@ namespace BBAuto.App.Utils.DGV
 
     private void SetFormatDiagCard()
     {
-      DiagCardList diagCardList = DiagCardList.getInstance();
-
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
-        DiagCard diagCard = diagCardList.getItem(id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
+        var diagCard = _diagCardService.Get(id);
 
         if (diagCard.File != string.Empty)
           row.Cells["№ ДК"].Style.BackColor = Color.MediumPurple;
@@ -226,14 +223,13 @@ namespace BBAuto.App.Utils.DGV
       SetRightAligment("Сумма");
       SetCellFormat("Сумма", "N2");
 
-      AccountList accountList = AccountList.GetInstance();
+      var accountList = AccountList.GetInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        Account account = accountList.getItem(id);
+        var account = accountList.getItem(id);
 
         if (account.Agreed)
           row.Cells["Согласование"].Style.BackColor = Color.MediumPurple;
@@ -245,14 +241,13 @@ namespace BBAuto.App.Utils.DGV
       HideColumn("Начало использования");
       HideColumn("Окончание использования");
 
-      FuelCardList fuelCardList = FuelCardList.getInstance();
+      var fuelCardList = FuelCardList.getInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[1].Value.ToString(), out id);
+        int.TryParse(row.Cells[1].Value.ToString(), out int id);
 
-        FuelCard fuelCard = fuelCardList.getItem(id);
+        var fuelCard = fuelCardList.getItem(id);
 
         if (fuelCard.IsVoid)
           row.DefaultCellStyle.BackColor = BBColors.bbGray4;
@@ -265,24 +260,23 @@ namespace BBAuto.App.Utils.DGV
 
     private void SetFormatDriver()
     {
-      DriverList driverList = DriverList.getInstance();
+      var driverList = DriverList.getInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        if ((row.Cells["Скан водительского удостоверения"].Value.ToString() == "нет")
-            || (row.Cells["Скан медицинской справки"].Value.ToString() == "нет"))
+        if (row.Cells["Скан водительского удостоверения"].Value.ToString() == "нет"
+            || row.Cells["Скан медицинской справки"].Value.ToString() == "нет")
         {
           row.DefaultCellStyle.BackColor = Color.LightYellow;
         }
 
-        int idDriver = 0;
-        int.TryParse(row.Cells[0].Value.ToString(), out idDriver);
-        Driver driver = driverList.getItem(idDriver);
+        int.TryParse(row.Cells[0].Value.ToString(), out int idDriver);
+        var driver = driverList.getItem(idDriver);
 
         if (driver.Fired)
           row.DefaultCellStyle.ForeColor = Color.Red;
 
-        if (((driver.OwnerID < 3) && (string.IsNullOrEmpty(driver.Number))) || (driver.Decret))
+        if (driver.OwnerID < 3 && string.IsNullOrEmpty(driver.Number) || driver.Decret)
           row.DefaultCellStyle.ForeColor = Color.Blue;
 
         if (driver.OwnerID > 2)
@@ -290,19 +284,19 @@ namespace BBAuto.App.Utils.DGV
       }
     }
 
-    internal void SetFormatMileage()
+    public void SetFormatMileage()
     {
       SetCellFormat("Пробег", "N0");
       SetRightAligment("Пробег");
     }
 
-    internal void SetFormatRepair()
+    public void SetFormatRepair()
     {
       SetCellFormat("Стоимость", "N2");
       SetRightAligment("Стоимость");
     }
 
-    internal void HideColumn(int index)
+    public void HideColumn(int index)
     {
       _dgv.Columns[index].Visible = false;
     }

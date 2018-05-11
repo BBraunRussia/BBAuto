@@ -6,17 +6,19 @@ using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Tables;
+using Common.Resources;
 
 namespace BBAuto.App.CommonForms
 {
-  public partial class formMyPointList : Form
+  public partial class MyPointListForm : Form, IMyPointListForm
   {
-    private MainDgv _dgvMain;
+    private readonly MyPointList _myPointList;
 
-    private MyPointList _myPointList;
+    private readonly IMainDgv _mainDgv;
 
-    public formMyPointList()
+    public MyPointListForm(IMainDgv mainDgv)
     {
+      _mainDgv = mainDgv;
       InitializeComponent();
 
       _myPointList = MyPointList.getInstance();
@@ -26,14 +28,14 @@ namespace BBAuto.App.CommonForms
     {
       loadRegions();
 
-      loadData();
+      LoadData();
 
-      _dgvMain = new MainDgv(dgv);
+      _mainDgv.SetDgv(dgv);
 
-      ResizeDGV();
+      ResizeDgv();
     }
 
-    private void loadData()
+    private void LoadData()
     {
       if (cbRegion.SelectedValue == null)
         return;
@@ -63,41 +65,41 @@ namespace BBAuto.App.CommonForms
       int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
 
       if (idRegion != 0)
-        openAddEdit(new MyPoint(idRegion));
+        OpenAddEdit(new MyPoint(idRegion));
     }
 
     private void dgv_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
     {
-      openAddEdit(_myPointList.getItem(_dgvMain.GetId()));
+      OpenAddEdit(_myPointList.getItem(_mainDgv.GetId()));
     }
 
-    private void openAddEdit(MyPoint myPoint)
+    private void OpenAddEdit(MyPoint myPoint)
     {
       MyPoint_AddEdit myPointAE = new MyPoint_AddEdit(myPoint);
-      if (myPointAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-        loadData();
+      if (myPointAE.ShowDialog() == DialogResult.OK)
+        LoadData();
     }
 
     private void btnDel_Click(object sender, EventArgs e)
     {
       try
       {
-        _myPointList.Delete(_dgvMain.GetId());
+        _myPointList.Delete(_mainDgv.GetId());
 
-        loadData();
+        LoadData();
       }
       catch (NotSupportedException ex)
       {
-        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(ex.Message, Captions.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
     private void dgv_Resize(object sender, EventArgs e)
     {
-      ResizeDGV();
+      ResizeDgv();
     }
 
-    private void ResizeDGV()
+    private void ResizeDgv()
     {
       if (dgv.Columns.Count > 0)
         dgv.Columns[1].Width = dgv.Width;
@@ -105,7 +107,7 @@ namespace BBAuto.App.CommonForms
 
     private void cbRegion_SelectedIndexChanged(object sender, EventArgs e)
     {
-      loadData();
+      LoadData();
     }
   }
 }

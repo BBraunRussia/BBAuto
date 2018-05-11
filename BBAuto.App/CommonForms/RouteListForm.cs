@@ -1,8 +1,6 @@
 using System;
-using System.Data;
 using System.Windows.Forms;
 using BBAuto.App.AddEdit;
-using BBAuto.App.GUI;
 using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Lists;
@@ -10,14 +8,15 @@ using BBAuto.Logic.Tables;
 
 namespace BBAuto.App.CommonForms
 {
-  public partial class formRouteList : Form
+  public partial class RouteListForm : Form, IRouteListForm
   {
-    private MainDgv _dgvMain;
+    private readonly RouteList _routeList;
 
-    private RouteList _routeList;
+    private readonly IMainDgv _mainDgv;
 
-    public formRouteList()
+    public RouteListForm(IMainDgv mainDgv)
     {
+      _mainDgv = mainDgv;
       InitializeComponent();
 
       _routeList = RouteList.getInstance();
@@ -25,46 +24,45 @@ namespace BBAuto.App.CommonForms
 
     private void formRouteList_Load(object sender, EventArgs e)
     {
-      loadRegions();
+      LoadRegions();
 
-      loadPoints();
+      LoadPoints();
 
-      _dgvMain = new MainDgv(dgv);
+      _mainDgv.SetDgv(dgv);
     }
 
-    private void loadRegions()
+    private void LoadRegions()
     {
-      Regions regions = Regions.getInstance();
-      DataTable dt = regions.ToDataTable();
+      var regions = Regions.getInstance();
+      var dt = regions.ToDataTable();
 
       cbRegion.DataSource = dt;
       cbRegion.ValueMember = dt.Columns[0].ColumnName;
       cbRegion.DisplayMember = dt.Columns[1].ColumnName;
     }
 
-    private void loadPoints()
+    private void LoadPoints()
     {
-      int idRegion;
-      int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
+      int.TryParse(cbRegion.SelectedValue.ToString(), out int idRegion);
 
-      MyPointList myPointList = MyPointList.getInstance();
-      DataTable dt = myPointList.ToDataTable(idRegion);
+      var myPointList = MyPointList.getInstance();
+      var dt = myPointList.ToDataTable(idRegion);
 
       cbMyPoint1.DataSource = dt;
       cbMyPoint1.ValueMember = dt.Columns[0].ColumnName;
       cbMyPoint1.DisplayMember = dt.Columns[1].ColumnName;
 
-      loadData();
+      LoadData();
 
-      ResizeDGV();
+      ResizeDgv();
     }
 
     private void dgv_Resize(object sender, EventArgs e)
     {
-      ResizeDGV();
+      ResizeDgv();
     }
 
-    private void ResizeDGV()
+    private void ResizeDgv()
     {
       if (dgv.Columns.Count > 0)
       {
@@ -80,45 +78,42 @@ namespace BBAuto.App.CommonForms
         return;
       }
 
-      int idMyPoint1;
-      int.TryParse(cbMyPoint1.SelectedValue.ToString(), out idMyPoint1);
-      MyPointList myPointList = MyPointList.getInstance();
-      MyPoint myPoint1 = myPointList.getItem(idMyPoint1);
+      int.TryParse(cbMyPoint1.SelectedValue.ToString(), out int idMyPoint1);
+      var myPointList = MyPointList.getInstance();
+      var myPoint1 = myPointList.getItem(idMyPoint1);
 
-      openAddEdit(new Route(myPoint1));
+      OpenAddEdit(new Route(myPoint1));
     }
 
     private void dgv_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
     {
-      openAddEdit(_routeList.getItem(_dgvMain.GetId()));
+      OpenAddEdit(_routeList.getItem(_mainDgv.GetId()));
     }
 
     private void btnDel_Click(object sender, EventArgs e)
     {
-      _routeList.Delete(_dgvMain.GetId());
+      _routeList.Delete(_mainDgv.GetId());
 
-      loadData();
+      LoadData();
     }
 
-    private void openAddEdit(Route route)
+    private void OpenAddEdit(Route route)
     {
-      int idRegion;
-      int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
+      int.TryParse(cbRegion.SelectedValue.ToString(), out int idRegion);
 
-      Route_AddEdit routeAE = new Route_AddEdit(route, idRegion);
-      if (routeAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-        loadData();
+      var routeAe = new Route_AddEdit(route, idRegion);
+      if (routeAe.ShowDialog() == DialogResult.OK)
+        LoadData();
     }
 
-    private void loadData()
+    private void LoadData()
     {
       if (cbMyPoint1.SelectedValue == null)
         return;
 
-      int idMyPoint1;
-      int.TryParse(cbMyPoint1.SelectedValue.ToString(), out idMyPoint1);
-      MyPointList myPointList = MyPointList.getInstance();
-      MyPoint myPoint1 = myPointList.getItem(idMyPoint1);
+      int.TryParse(cbMyPoint1.SelectedValue.ToString(), out int idMyPoint1);
+      var myPointList = MyPointList.getInstance();
+      var myPoint1 = myPointList.getItem(idMyPoint1);
 
       dgv.DataSource = _routeList.ToDataTable(myPoint1);
 
@@ -128,12 +123,12 @@ namespace BBAuto.App.CommonForms
 
     private void cbRegion_SelectedIndexChanged(object sender, EventArgs e)
     {
-      loadPoints();
+      LoadPoints();
     }
 
     private void cbMyPoint1_SelectedIndexChanged(object sender, EventArgs e)
     {
-      loadData();
+      LoadData();
     }
   }
 }

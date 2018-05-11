@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.App.GUI;
 using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
@@ -12,9 +11,9 @@ namespace BBAuto.App.Common
 {
   public class DriverMails
   {
-    private MainDgv _dgvMain;
+    private IMainDgv _dgvMain;
 
-    public DriverMails(MainDgv dgvMain)
+    public DriverMails(IMainDgv dgvMain)
     {
       _dgvMain = dgvMain;
     }

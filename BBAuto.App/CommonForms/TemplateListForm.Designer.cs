@@ -1,6 +1,6 @@
 namespace BBAuto.App.CommonForms
 {
-    partial class formTemplateList
+    partial class TemplateListForm
     {
         /// <summary>
         /// Required designer variable.

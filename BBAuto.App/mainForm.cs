@@ -33,8 +33,6 @@ namespace BBAuto.App
 
     private readonly MainStatus _mainStatus;
 
-    private readonly MainDgv _dgvMain;
-
     private readonly SearchInDgv _seacher;
     
     private readonly MyFilter _myFilter;
@@ -50,6 +48,9 @@ namespace BBAuto.App
     private readonly IDiagCardService _diagCardService;
 
     private readonly IMyMenu _myMenu;
+    private readonly IMainDgv _mainDgv;
+
+    private readonly IDgvFormatter _dgvFormatter;
 
     public MainForm(
       ICarForm carForm,
@@ -59,7 +60,9 @@ namespace BBAuto.App
       IMyMenu myMenu,
       IViolationForm formViolation,
       IDiagCardForm diagCardForm,
-      IDiagCardService diagCardService)
+      IDiagCardService diagCardService,
+      IMainDgv mainDgv,
+      IDgvFormatter dgvFormatter)
     {
       _carForm = carForm;
       _saleCarForm = saleCarForm;
@@ -69,15 +72,17 @@ namespace BBAuto.App
       _formViolation = formViolation;
       _diagCardForm = diagCardForm;
       _diagCardService = diagCardService;
+      _mainDgv = mainDgv;
+      _dgvFormatter = dgvFormatter;
 
       InitializeComponent();
 
       _mainStatus = MainStatus.getInstance();
-      _mainStatus.StatusChanged += statusChanged;
+      _mainStatus.StatusChanged += StatusChanged;
       _mainStatus.StatusChanged += SetWindowHeaderText;
       _mainStatus.StatusChanged += ConfigContextMenu;
 
-      _dgvMain = new MainDgv(_dgvCar);
+      _mainDgv.SetDgv(_dgvCar);
 
       _seacher = new SearchInDgv(_dgvCar);
 
@@ -87,7 +92,7 @@ namespace BBAuto.App
       _myFilter.Fill(_dgvCar, _myStatusStrip, this);
     }
 
-    private void statusChanged(Object sender, StatusEventArgs e)
+    private void StatusChanged(Object sender, StatusEventArgs e)
     {
       _myFilter.clearComboList();
       _myFilter.clearFilterValue();
@@ -103,7 +108,7 @@ namespace BBAuto.App
 
     private void ConfigContextMenu(Object sender, StatusEventArgs e)
     {
-      _myMenu.SetMainDgv(_dgvMain);
+      _myMenu.SetMainDgv(_mainDgv);
       
       var menuStrip = _myMenu.CreateMainMenu();
 
@@ -132,7 +137,7 @@ namespace BBAuto.App
       _dgvCar.Columns.Clear();
       _dgvCar.DataSource = dt;
 
-      formatDGV();
+      FormatDgv();
 
       _myFilter.tryCreateComboBox();
 
@@ -220,7 +225,7 @@ namespace BBAuto.App
 
     private void DoubleClickSale(Point point)
     {
-      var carId = _dgvMain.GetCarId();
+      var carId = _mainDgv.GetCarId();
       var car = _carService.GetCars().FirstOrDefault(c => c.Id == carId);
       if (car == null)
         return;
@@ -249,11 +254,11 @@ namespace BBAuto.App
 
     private void DoubleClickInvoice(Point point)
     {
-      if (_dgvMain.GetId() == 0)
+      if (_mainDgv.GetId() == 0)
         return;
 
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(_dgvMain.GetId());
+      Invoice invoice = invoiceList.getItem(_mainDgv.GetId());
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberInvoice && !string.IsNullOrEmpty(invoice.File))
         WorkWithFiles.OpenFile(invoice.File);
@@ -268,11 +273,11 @@ namespace BBAuto.App
 
     private void DoubleClickPolicy(Point point)
     {
-      if (_dgvMain.GetId() == 0)
+      if (_mainDgv.GetId() == 0)
         return;
 
       PolicyList policyList = PolicyList.getInstance();
-      Policy policy = policyList.getItem(_dgvMain.GetId());
+      Policy policy = policyList.getItem(_mainDgv.GetId());
 
       string columnName = _dgvCar.Columns[point.X].HeaderText;
 
@@ -293,11 +298,11 @@ namespace BBAuto.App
 
     private void DoubleClickDTP(Point point)
     {
-      if (_dgvMain.GetId() == 0)
+      if (_mainDgv.GetId() == 0)
         return;
 
       DTPList dtpList = DTPList.getInstance();
-      DTP dtp = dtpList.getItem(_dgvMain.GetId());
+      DTP dtp = dtpList.getItem(_mainDgv.GetId());
 
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
       if (dtpAE.ShowDialog() == DialogResult.OK)
@@ -308,11 +313,11 @@ namespace BBAuto.App
 
     private void DoubleClickViolation(Point point)
     {
-      if (_dgvMain.GetId() == 0)
+      if (_mainDgv.GetId() == 0)
         return;
 
       ViolationList violationList = ViolationList.getInstance();
-      Violation violation = violationList.getItem(_dgvMain.GetId());
+      Violation violation = violationList.getItem(_mainDgv.GetId());
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberViolation && !string.IsNullOrEmpty(violation.File))
         WorkWithFiles.OpenFile(violation.File);
@@ -329,10 +334,10 @@ namespace BBAuto.App
 
     private void DoubleClickDiagCard(Point point)
     {
-      if (_dgvMain.GetId() == 0)
+      if (_mainDgv.GetId() == 0)
         return;
 
-      var diagCard = _diagCardService.Get(_dgvMain.GetId());
+      var diagCard = _diagCardService.Get(_mainDgv.GetId());
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberDiagCard && !string.IsNullOrEmpty(diagCard.File))
         WorkWithFiles.OpenFile(diagCard.File);
@@ -347,11 +352,11 @@ namespace BBAuto.App
 
     private void DoubleClickTempMove(Point point)
     {
-      if (_dgvMain.GetId() == 0)
+      if (_mainDgv.GetId() == 0)
         return;
 
       TempMoveList tempMoveList = TempMoveList.getInstance();
-      TempMove tempMove = tempMoveList.getItem(_dgvMain.GetId());
+      TempMove tempMove = tempMoveList.getItem(_mainDgv.GetId());
 
       TempMove_AddEdit tempMoveAE = new TempMove_AddEdit(tempMove);
       if (tempMoveAE.ShowDialog() == DialogResult.OK)
@@ -362,11 +367,11 @@ namespace BBAuto.App
 
     private void DoubleClickShipPart(Point point)
     {
-      if (_dgvMain.GetId() == 0)
+      if (_mainDgv.GetId() == 0)
         return;
 
       ShipPartList shipPartList = ShipPartList.getInstance();
-      ShipPart shipPart = shipPartList.getItem(_dgvMain.GetId());
+      ShipPart shipPart = shipPartList.getItem(_mainDgv.GetId());
 
       ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
       if (shipPartAE.ShowDialog() == DialogResult.OK)
@@ -379,11 +384,11 @@ namespace BBAuto.App
     {
       try
       {
-        if (_dgvMain.GetId() == 0)
+        if (_mainDgv.GetId() == 0)
           return;
 
         AccountList accountListList = AccountList.GetInstance();
-        Account account = accountListList.getItem(_dgvMain.GetId());
+        Account account = accountListList.getItem(_mainDgv.GetId());
 
         if (_dgvCar.Columns[point.X].HeaderText == Columns.File && !string.IsNullOrEmpty(account.File))
           WorkWithFiles.OpenFile(account.File);
@@ -429,7 +434,7 @@ namespace BBAuto.App
     {
       try
       {
-        var id = _dgvMain.GetId();
+        var id = _mainDgv.GetId();
         if (id == 0)
           return;
 
@@ -489,7 +494,7 @@ namespace BBAuto.App
 
     private void DoubleClickFuelCard(Point point)
     {
-      var id = _dgvMain.GetCarId();
+      var id = _mainDgv.GetCarId();
       if (id == 0)
         return;
 
@@ -503,11 +508,11 @@ namespace BBAuto.App
 
     private void DoubleClickDriver(Point point)
     {
-      if (_dgvMain.GetId() == 0)
+      if (_mainDgv.GetId() == 0)
         return;
 
       DriverList driverList = DriverList.getInstance();
-      DriverForm driverAddEdit = new DriverForm(driverList.getItem(_dgvMain.GetId()));
+      DriverForm driverAddEdit = new DriverForm(driverList.getItem(_mainDgv.GetId()));
 
       if (driverAddEdit.ShowDialog() == DialogResult.OK)
         LoadCars();
@@ -515,7 +520,7 @@ namespace BBAuto.App
 
     private void DoubleClickDefault(Point point)
     {
-      Car car = _dgvMain.GetCar();
+      Car car = _mainDgv.GetCar();
       if (car == null)
         return;
 
@@ -605,12 +610,18 @@ namespace BBAuto.App
     private void _dgvCar_Sorted(object sender, EventArgs e)
     {
       _myFilter.ApplyFilter();
-      formatDGV();
+      FormatDgv();
     }
 
-    private void formatDGV()
+    private void FormatDgv()
     {
-      _dgvMain.Format(_mainStatus.Get());
+      _dgvFormatter.SetDgv(_mainDgv.Dgv);
+      _dgvFormatter.HideTwoFirstColumns();
+
+      if (_mainStatus.Get() != Status.FuelCard)
+        _dgvFormatter.FormatByOwner();
+
+      _dgvFormatter.FormatDgv(_mainStatus.Get());
     }
 
     private void btnBack_Click(object sender, EventArgs e)
@@ -623,15 +634,15 @@ namespace BBAuto.App
 
     private void _dgvCar_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
     {
-      ColumnSize columnSize = GetColumnSize();
+      var columnSize = GetColumnSize();
       columnSize.SetSize(e.Column.Index, e.Column.Width);
     }
 
     private ColumnSize GetColumnSize()
     {
-      Driver driver = User.GetDriver();
+      var driver = User.GetDriver();
 
-      ColumnSizeList columnSizeList = ColumnSizeList.getInstance();
+      var columnSizeList = ColumnSizeList.getInstance();
       return columnSizeList.getItem(driver, _mainStatus.Get());
     }
 

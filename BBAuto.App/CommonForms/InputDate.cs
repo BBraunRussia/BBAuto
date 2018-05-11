@@ -7,16 +7,17 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Static;
+using Common.Resources;
 
 namespace BBAuto.App.CommonForms
 {
   public partial class InputDate : Form
   {
-    private MainDgv _dgvMain;
+    private IMainDgv _dgvMain;
     private Logic.Static.Actions _action;
     private WayBillType _type;
 
-    public InputDate(MainDgv dgvMain, Logic.Static.Actions action, WayBillType type)
+    public InputDate(IMainDgv dgvMain, Logic.Static.Actions action, WayBillType type)
     {
       InitializeComponent();
 
@@ -27,8 +28,8 @@ namespace BBAuto.App.CommonForms
 
     private void btnOK_Click(object sender, EventArgs e)
     {
-      MainStatus _mainStatus = MainStatus.getInstance();
-      Status status = _mainStatus.Get();
+      MainStatus mainStatus = MainStatus.getInstance();
+      Status status = mainStatus.Get();
 
       foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
       {
@@ -58,7 +59,7 @@ namespace BBAuto.App.CommonForms
       if (_action == Logic.Static.Actions.Print)
       {
         MyPrinter printer = new MyPrinter();
-        MessageBox.Show("Документы отправлены на печать на принтер " + printer.GetDefaultPrinterName(), "Информация",
+        MessageBox.Show("Документы отправлены на печать на принтер " + printer.GetDefaultPrinterName(), Captions.Information,
           MessageBoxButtons.OK, MessageBoxIcon.Information);
       }
     }
@@ -85,7 +86,7 @@ namespace BBAuto.App.CommonForms
       }
       catch (NullReferenceException ex)
       {
-        MessageBox.Show(ex.Message, "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        MessageBox.Show(ex.Message, Captions.Warning, MessageBoxButtons.OK, MessageBoxIcon.Information);
         waybill.Exit();
         throw;
       }

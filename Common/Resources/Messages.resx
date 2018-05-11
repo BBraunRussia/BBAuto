@@ -131,4 +131,19 @@
   <data name="DeleteDiagCard" xml:space="preserve">
     <value>Удалить диагностическую карту?</value>
   </data>
+  <data name="DeleteInvoice" xml:space="preserve">
+    <value>Удалить накладную?</value>
+  </data>
+  <data name="DeletePolicy" xml:space="preserve">
+    <value>Удалить полис?</value>
+  </data>
+  <data name="DeleteRepair" xml:space="preserve">
+    <value>Удалить запись о ремонте?</value>
+  </data>
+  <data name="DeleteShipParts" xml:space="preserve">
+    <value>Удалить информацию об отправки запчастей?</value>
+  </data>
+  <data name="PrinterNotFound" xml:space="preserve">
+    <value>Принтер по умолчанию не найден</value>
+  </data>
 </root>

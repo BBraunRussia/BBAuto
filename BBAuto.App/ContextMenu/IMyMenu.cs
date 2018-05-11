@@ -5,7 +5,7 @@ namespace BBAuto.App.ContextMenu
 {
   public interface IMyMenu
   {
-    void SetMainDgv(MainDgv dgvMain);
+    void SetMainDgv(IMainDgv dgvMain);
     MenuStrip CreateMainMenu();
     ContextMenuStrip CreateContextMenu();
   }

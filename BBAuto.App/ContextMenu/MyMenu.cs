@@ -16,7 +16,7 @@ namespace BBAuto.App.ContextMenu
       _factory = myMenuItemFactory;
     }
 
-    public void SetMainDgv(MainDgv dgvMain)
+    public void SetMainDgv(IMainDgv dgvMain)
     {
       _factory.SetMainDgv(dgvMain);
       _mainStatus = MainStatus.getInstance();

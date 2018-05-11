@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using BBAuto.App.GUI;
 using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Static;
+using Common.Resources;
 
 namespace BBAuto.App.CommonForms
 {
@@ -21,7 +21,7 @@ namespace BBAuto.App.CommonForms
     private TabelList tabelList;
     private Driver driverCurrent;
 
-    public FormWayBillDaily(MainDgv dgv)
+    public FormWayBillDaily(IMainDgv dgv)
     {
       InitializeComponent();
 
@@ -46,7 +46,7 @@ namespace BBAuto.App.CommonForms
 
       index = 0;
 
-      lbCar.Text = "Выбранный автомобиль: " + list[index].ToString();
+      lbCar.Text = Texts.SelectedCar + list[index];
     }
 
     private void FormWayBillDaily_Load(object sender, EventArgs e)
@@ -130,7 +130,7 @@ namespace BBAuto.App.CommonForms
 
       try
       {
-        excelWayBill.CreateWaybill(dtpDate.Value, null);
+        excelWayBill.CreateWaybill(dtpDate.Value);
         excelWayBill.AddRouteInWayBill(dtpDate.Value, fields);
 
         if (action == Logic.Static.Actions.Print)
@@ -140,7 +140,7 @@ namespace BBAuto.App.CommonForms
       }
       catch (NullReferenceException ex)
       {
-        MessageBox.Show(ex.Message, "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        MessageBox.Show(ex.Message, Captions.Warning, MessageBoxButtons.OK, MessageBoxIcon.Information);
         excelWayBill.Exit();
       }
 
@@ -178,7 +178,7 @@ namespace BBAuto.App.CommonForms
 
     private void LoadWayBillForNewCar()
     {
-      lbCar.Text = "Выбранный автомобиль: " + list[index].ToString();
+      lbCar.Text = Texts.SelectedCar + list[index];
 
       LoadWayBillCurrentWithoutCreate();
     }

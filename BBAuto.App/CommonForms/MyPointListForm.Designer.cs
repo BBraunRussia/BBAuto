@@ -1,6 +1,6 @@
 namespace BBAuto.App.CommonForms
 {
-    partial class formMyPointList
+    partial class MyPointListForm
     {
         /// <summary>
         /// Required designer variable.

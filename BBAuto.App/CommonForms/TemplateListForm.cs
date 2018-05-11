@@ -1,19 +1,20 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.App.GUI;
 using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Lists;
 
 namespace BBAuto.App.CommonForms
 {
-  public partial class formTemplateList : Form
+  public partial class TemplateListForm : Form, ITemplateListForm
   {
-    private MainDgv _dgvMain;
-    private TemplateList _templateList;
+    private readonly TemplateList _templateList;
 
-    public formTemplateList()
+    private readonly IMainDgv _mainDgv;
+
+    public TemplateListForm(IMainDgv mainDgv)
     {
+      _mainDgv = mainDgv;
       InitializeComponent();
 
       _templateList = TemplateList.getInstance();
@@ -23,9 +24,9 @@ namespace BBAuto.App.CommonForms
     {
       loadData();
 
-      _dgvMain = new MainDgv(_dgvTemplate);
+      _mainDgv.SetDgv(_dgvTemplate);
 
-      ResizeDGV();
+      ResizeDgv();
     }
 
     private void loadData()
@@ -38,15 +39,15 @@ namespace BBAuto.App.CommonForms
 
     private void btnAdd_Click(object sender, EventArgs e)
     {
-      openAddEdit(new Template());
+      OpenAddEdit(new Template());
     }
 
     private void _dgvTemplate_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      openAddEdit(_templateList.getItem(_dgvMain.GetId()));
+      OpenAddEdit(_templateList.getItem(_mainDgv.GetId()));
     }
 
-    private void openAddEdit(Template template)
+    private void OpenAddEdit(Template template)
     {
       TemplateAddEdit templateAE = new TemplateAddEdit(template);
       if (templateAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -55,17 +56,17 @@ namespace BBAuto.App.CommonForms
 
     private void btnDel_Click(object sender, EventArgs e)
     {
-      _templateList.Delete(_dgvMain.GetId());
+      _templateList.Delete(_mainDgv.GetId());
 
       loadData();
     }
 
     private void _dgvTemplate_Resize(object sender, EventArgs e)
     {
-      ResizeDGV();
+      ResizeDgv();
     }
 
-    private void ResizeDGV()
+    private void ResizeDgv()
     {
       _dgvTemplate.Columns[1].Width = _dgvTemplate.Width / 2;
       _dgvTemplate.Columns[2].Width = _dgvTemplate.Width / 2;

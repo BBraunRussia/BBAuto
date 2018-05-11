@@ -44,19 +44,23 @@ namespace BBAuto.App.FormsForCar
 
     private readonly IMileageForm _formMileage;
     private readonly IDiagCardForm _formDiagCard;
+
+    private readonly IDgvFormatter _dgvFormatter;
     
     public CarForm(
       IDealerService dealerService,
       IMileageService mileageService,
       IMileageForm formMileage,
       IDiagCardService diagCardService,
-      IDiagCardForm formDiagCard)
+      IDiagCardForm formDiagCard,
+      IDgvFormatter dgvFormatter)
     {
       _dealerService = dealerService;
       _mileageService = mileageService;
       _formMileage = formMileage;
       _diagCardService = diagCardService;
       _formDiagCard = formDiagCard;
+      _dgvFormatter = dgvFormatter;
     }
 
     public DialogResult ShowDialog(Car car)
@@ -397,11 +401,11 @@ namespace BBAuto.App.FormsForCar
 
     private void FormatDgvInvoice()
     {
-      DGVFormat dgvFormated = new DGVFormat(_dgvInvoice);
-      dgvFormated.HideTwoFirstColumns();
-      dgvFormated.HideColumn(2);
-      dgvFormated.HideColumn(3);
-      dgvFormated.Format(Status.Invoice);
+      _dgvFormatter.SetDgv(_dgvInvoice);
+      _dgvFormatter.HideTwoFirstColumns();
+      _dgvFormatter.HideColumn(2);
+      _dgvFormatter.HideColumn(3);
+      _dgvFormatter.FormatDgv(Status.Invoice);
     }
 
     private void chbIsGet_CheckedChanged(object sender, EventArgs e)
@@ -456,7 +460,7 @@ namespace BBAuto.App.FormsForCar
       else if (tabControl1.SelectedTab == tabRepair)
         LoadRepair();
       else if (tabControl1.SelectedTab == tabShipParts)
-        loadShipPart();
+        LoadShipPart();
     }
 
     private void LoadPolicy()
@@ -468,11 +472,11 @@ namespace BBAuto.App.FormsForCar
 
     private void FormatDgvPolicy()
     {
-      DGVFormat dgvFormated = new DGVFormat(_dgvPolicy);
-      dgvFormated.Format(Status.Policy);
-      dgvFormated.HideTwoFirstColumns();
-      dgvFormated.HideColumn(2);
-      dgvFormated.HideColumn(3);
+      _dgvFormatter.SetDgv(_dgvPolicy);
+      _dgvFormatter.FormatDgv(Status.Policy);
+      _dgvFormatter.HideTwoFirstColumns();
+      _dgvFormatter.HideColumn(2);
+      _dgvFormatter.HideColumn(3);
     }
 
     private void LoadDtp()
@@ -483,9 +487,9 @@ namespace BBAuto.App.FormsForCar
 
     private void FormatDgvDtp()
     {
-      DGVFormat dgvFormated = new DGVFormat(_dgvDTP);
-      dgvFormated.HideTwoFirstColumns();
-      dgvFormated.Format(Status.DTP);
+      _dgvFormatter.SetDgv(_dgvDTP);
+      _dgvFormatter.HideTwoFirstColumns();
+      _dgvFormatter.FormatDgv(Status.DTP);
     }
 
     private void LoadDiagCard()
@@ -496,11 +500,11 @@ namespace BBAuto.App.FormsForCar
 
     private void FormatDgvDiagCard()
     {
-      DGVFormat dgvFormated = new DGVFormat(_dgvDiagCard);
-      dgvFormated.HideTwoFirstColumns();
-      dgvFormated.HideColumn(2);
-      dgvFormated.HideColumn(3);
-      dgvFormated.Format(Status.DiagCard);
+      _dgvFormatter.SetDgv(_dgvDiagCard);
+      _dgvFormatter.HideTwoFirstColumns();
+      _dgvFormatter.HideColumn(2);
+      _dgvFormatter.HideColumn(3);
+      _dgvFormatter.FormatDgv(Status.DiagCard);
     }
 
     private void LoadMileage()
@@ -511,9 +515,9 @@ namespace BBAuto.App.FormsForCar
 
     private void FormatDgvMileage()
     {
-      DGVFormat dgvFormated = new DGVFormat(_dgvMileage);
-      dgvFormated.HideColumn(0);
-      dgvFormated.SetFormatMileage();
+      _dgvFormatter.SetDgv(_dgvMileage);
+      _dgvFormatter.HideColumn(0);
+      _dgvFormatter.SetFormatMileage();
     }
 
     private void LoadRepair()
@@ -524,11 +528,11 @@ namespace BBAuto.App.FormsForCar
 
     private void FormatDgvRepair()
     {
-      DGVFormat dgvFormated = new DGVFormat(dgvRepair);
-      dgvFormated.HideTwoFirstColumns();
-      dgvFormated.HideColumn(2);
-      dgvFormated.HideColumn(3);
-      dgvFormated.SetFormatRepair();
+      _dgvFormatter.SetDgv(dgvRepair);
+      _dgvFormatter.HideTwoFirstColumns();
+      _dgvFormatter.HideColumn(2);
+      _dgvFormatter.HideColumn(3);
+      _dgvFormatter.SetFormatRepair();
     }
 
     private void btnAddInvoice_Click(object sender, EventArgs e)
@@ -551,7 +555,7 @@ namespace BBAuto.App.FormsForCar
 
       var invoice = _invoiceList.getItem(idInvoice);
 
-      if (e.ColumnIndex == 4 && (invoice.File != string.Empty))
+      if (e.ColumnIndex == 4 && invoice.File != string.Empty)
         WorkWithFiles.OpenFile(invoice.File);
       else if (openAddEditDialog(invoice))
         LoadInvoice();
@@ -565,9 +569,9 @@ namespace BBAuto.App.FormsForCar
 
     private void btnDelInvoice_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить накладную?", Captions.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+      if (MessageBox.Show(Messages.DeleteInvoice, Captions.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
       {
-        int idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
+        var idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
         _invoiceList.Delete(idInvoice);
 
         _driverCarList.ReLoad();
@@ -578,16 +582,16 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddInsurance_Click(object sender, EventArgs e)
     {
-      Policy_AddEdit pAE = new Policy_AddEdit(_car.CreatePolicy());
+      var pAE = new Policy_AddEdit(_car.CreatePolicy());
       if (pAE.ShowDialog() == DialogResult.OK)
         LoadPolicy();
     }
 
     private void btnDeletePolicy_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить полис?", Captions.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+      if (MessageBox.Show(Messages.DeletePolicy, Captions.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
       {
-        int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value);
+        var idPolicy = Convert.ToInt32(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value);
 
         _policyList.Delete(idPolicy);
 
@@ -597,18 +601,18 @@ namespace BBAuto.App.FormsForCar
 
     private void _dgvPolicy_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[e.RowIndex].Cells[0].Value);
+      var idPolicy = Convert.ToInt32(_dgvPolicy.Rows[e.RowIndex].Cells[0].Value);
 
-      Policy policy = _policyList.getItem(idPolicy);
+      var policy = _policyList.getItem(idPolicy);
 
-      if ((e.ColumnIndex == 4) && (policy.File != string.Empty))
+      if (e.ColumnIndex == 4 && (policy.File != string.Empty))
       {
         WorkWithFiles.OpenFile(policy.File);
       }
       else
       {
-        Policy_AddEdit pAE = new Policy_AddEdit(policy);
-        pAE.ShowDialog();
+        var pAe = new Policy_AddEdit(policy);
+        pAe.ShowDialog();
 
         LoadPolicy();
       }
@@ -688,16 +692,16 @@ namespace BBAuto.App.FormsForCar
     {
       _dgvViolation.DataSource = _violationList.ToDataTable(_car);
 
-      FormatDGVViolation();
+      FormatDgvViolation();
     }
 
-    private void FormatDGVViolation()
+    private void FormatDgvViolation()
     {
-      DGVFormat dgvFormated = new DGVFormat(_dgvViolation);
-      dgvFormated.HideTwoFirstColumns();
-      dgvFormated.HideColumn(2);
-      dgvFormated.HideColumn(3);
-      dgvFormated.Format(Status.Violation);
+      _dgvFormatter.SetDgv(_dgvViolation);
+      _dgvFormatter.HideTwoFirstColumns();
+      _dgvFormatter.HideColumn(2);
+      _dgvFormatter.HideColumn(3);
+      _dgvFormatter.FormatDgv(Status.Violation);
     }
 
     private void btnAddDiagCard_Click(object sender, EventArgs e)
@@ -785,7 +789,7 @@ namespace BBAuto.App.FormsForCar
 
       foreach (string file in ofd.FileNames)
       {
-        CarDoc carDoc = _car.createCarDoc(file);
+        var carDoc = _car.createCarDoc(file);
         carDoc.Save();
 
         carDocList.Add(carDoc);
@@ -805,8 +809,8 @@ namespace BBAuto.App.FormsForCar
 
     private void FormatDgvCardDoc()
     {
-      DGVFormat dgvFormated = new DGVFormat(dgvCarDoc);
-      dgvFormated.HideColumn(0);
+      _dgvFormatter.SetDgv(dgvCarDoc);
+      _dgvFormatter.HideColumn(0);
     }
 
     private static bool IsCellNoHeader(int rowIndex)
@@ -855,7 +859,7 @@ namespace BBAuto.App.FormsForCar
 
     private void btnDelRepair_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить запись о ремонте?", Captions.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+      if (MessageBox.Show(Messages.DeleteRepair, Captions.Delete, MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
           DialogResult.Yes)
       {
         int idRepair = Convert.ToInt32(dgvRepair.Rows[dgvRepair.SelectedCells[0].RowIndex].Cells[0].Value);
@@ -982,28 +986,28 @@ namespace BBAuto.App.FormsForCar
       }
     }
 
-    private void loadShipPart()
+    private void LoadShipPart()
     {
       dgvShipPart.DataSource = _shipPartList.ToDataTable(_car);
-      FormatDGVShipPart();
+      FormatDgvShipPart();
     }
 
-    private void FormatDGVShipPart()
+    private void FormatDgvShipPart()
     {
-      DGVFormat dgvFormated = new DGVFormat(dgvShipPart);
-      dgvFormated.HideTwoFirstColumns();
-      dgvFormated.HideColumn(2);
+      _dgvFormatter.SetDgv(dgvShipPart);
+      _dgvFormatter.HideTwoFirstColumns();
+      _dgvFormatter.HideColumn(2);
     }
 
     private void btnAddShipPart_Click(object sender, EventArgs e)
     {
-      ShipPart shipPart = _car.createShipPart();
-      ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
+      var shipPart = _car.createShipPart();
+      var shipPartAE = new ShipPart_AddEdit(shipPart);
 
       if (shipPartAE.ShowDialog() == DialogResult.OK)
       {
         _shipPartList.Add(shipPart);
-        loadShipPart();
+        LoadShipPart();
       }
     }
 
@@ -1015,19 +1019,18 @@ namespace BBAuto.App.FormsForCar
       var shipPartAe = new ShipPart_AddEdit(shipPart);
 
       if (shipPartAe.ShowDialog() == DialogResult.OK)
-        loadShipPart();
+        LoadShipPart();
     }
 
     private void btnDelShipPart_Click(object sender, EventArgs e)
     {
-      int idShipPart = 0;
-      int.TryParse(dgvShipPart.Rows[dgvShipPart.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idShipPart);
+      int.TryParse(dgvShipPart.Rows[dgvShipPart.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int idShipPart);
 
-      if (MessageBox.Show("Удалить информацию об отправки запчастей?", Captions.Delete, MessageBoxButtons.YesNo,
+      if (MessageBox.Show(Messages.DeleteShipParts, Captions.Delete, MessageBoxButtons.YesNo,
             MessageBoxIcon.Question) == DialogResult.Yes)
       {
         _shipPartList.Delete(idShipPart);
-        loadShipPart();
+        LoadShipPart();
       }
     }
 
@@ -1096,7 +1099,7 @@ namespace BBAuto.App.FormsForCar
 
     private void _dgvViolation_Sorted(object sender, EventArgs e)
     {
-      FormatDGVViolation();
+      FormatDgvViolation();
     }
 
     private void _dgvDiagCard_Sorted(object sender, EventArgs e)
@@ -1121,7 +1124,7 @@ namespace BBAuto.App.FormsForCar
 
     private void dgvShipPart_Sorted(object sender, EventArgs e)
     {
-      FormatDGVShipPart();
+      FormatDgvShipPart();
     }
 
     private void cbGrade_SelectedIndexChanged(object sender, EventArgs e)

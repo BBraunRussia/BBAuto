@@ -1,6 +1,6 @@
 namespace BBAuto.App.CommonForms
 {
-    partial class formRouteList
+    partial class RouteListForm
     {
         /// <summary>
         /// Required designer variable.

@@ -6,7 +6,7 @@ namespace BBAuto.App.ContextMenu
 {
   public interface IMyMenuItemFactory
   {
-    void SetMainDgv(MainDgv dgvMain);
+    void SetMainDgv(IMainDgv dgvMain);
     ToolStripItem CreateItem(ContextMenuItem separator);
     ToolStripItem CreateItem(Status status);
   }

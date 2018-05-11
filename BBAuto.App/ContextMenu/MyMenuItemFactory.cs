@@ -23,6 +23,7 @@ using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
+using Common.Resources;
 
 namespace BBAuto.App.ContextMenu
 {
@@ -30,7 +31,6 @@ namespace BBAuto.App.ContextMenu
   {
     private const string DocumentsPath = @"\\bbmru08.bbmag.bbraun.com\Depts\Fleet INT\Автохозяйство\документы на авто";
 
-    private MainDgv _dgvMain;
     private MainStatus _mainStatus;
 
     private readonly IMileageForm _formMileage;
@@ -38,21 +38,33 @@ namespace BBAuto.App.ContextMenu
     private readonly IViolationForm _formViolation;
     private readonly IDiagCardForm _diagCardForm;
 
+    private readonly IMyPointListForm _myPointListForm;
+    private readonly IRouteListForm _routeListForm;
+    private readonly ITemplateListForm _templateListForm;
+
+    private IMainDgv _mainDgv;
+
     public MyMenuItemFactory(
       IMileageForm formMileage,
       ICarForm carForm,
       IViolationForm formViolation,
-      IDiagCardForm diagCardForm)
+      IDiagCardForm diagCardForm,
+      IMyPointListForm myPointListForm,
+      IRouteListForm routeListForm,
+      ITemplateListForm templateListForm)
     {
       _formMileage = formMileage;
       _carForm = carForm;
       _formViolation = formViolation;
       _diagCardForm = diagCardForm;
+      _myPointListForm = myPointListForm;
+      _routeListForm = routeListForm;
+      _templateListForm = templateListForm;
     }
 
-    public void SetMainDgv(MainDgv dgvMain)
+    public void SetMainDgv(IMainDgv dgvMain)
     {
-      _dgvMain = dgvMain;
+      _mainDgv = dgvMain;
       _mainStatus = MainStatus.getInstance();
     }
 
@@ -65,7 +77,7 @@ namespace BBAuto.App.ContextMenu
         case ContextMenuItem.NewInvoice:
           return CreateNewInvoice();
         case ContextMenuItem.NewDTP:
-          return CreateNewDTP();
+          return CreateNewDtp();
         case ContextMenuItem.NewViolation:
           return CreateNewViolation();
         case ContextMenuItem.NewPolicy:
@@ -102,9 +114,9 @@ namespace BBAuto.App.ContextMenu
         case ContextMenuItem.ShowAttacheToOrder:
           return CreateShowAttacheToOrder();
         case ContextMenuItem.ShowProxyOnSTO:
-          return CreateShowProxyOnSTO();
+          return CreateShowProxyOnSto();
         case ContextMenuItem.PrintProxyOnSTO:
-          return CreatePrintProxyOnSTO();
+          return CreatePrintProxyOnSto();
         case ContextMenuItem.ShowPolicyKasko:
           return CreateShowPolicyKasko();
         case ContextMenuItem.ShowActFuelCard:
@@ -248,24 +260,24 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateNewInvoice()
     {
-      ToolStripMenuItem item = CreateItem("Новое перемещение");
-      item.Click += delegate { InvoiceDialog.CreateNewInvoiceAndOpen(_dgvMain.GetCar()); };
+      var item = CreateItem("Новое перемещение");
+      item.Click += delegate { InvoiceDialog.CreateNewInvoiceAndOpen(_mainDgv.GetCar()); };
       return item;
     }
 
-    private ToolStripMenuItem CreateNewDTP()
+    private ToolStripMenuItem CreateNewDtp()
     {
-      ToolStripMenuItem item = CreateItem("Новое ДТП");
+      var item = CreateItem("Новое ДТП");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _mainDgv.GetCar();
         if (car == null)
           return;
 
-        DTP dtp = car.createDTP();
+        var dtp = car.createDTP();
 
-        DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
-        dtpAE.ShowDialog();
+        var dtpAe = new DTP_AddEdit(dtp);
+        dtpAe.ShowDialog();
       };
       return item;
     }
@@ -275,7 +287,7 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Новое нарушение ПДД");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        Car car = _mainDgv.GetCar();
         if (car == null)
           return;
 
@@ -288,14 +300,14 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateNewPolicy()
     {
-      ToolStripMenuItem item = CreateItem("Новый полис");
+      var item = CreateItem("Новый полис");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _mainDgv.GetCar();
         if (car == null)
           return;
 
-        Policy_AddEdit policyAE = new Policy_AddEdit(car.CreatePolicy());
+        var policyAE = new Policy_AddEdit(car.CreatePolicy());
         policyAE.ShowDialog();
       };
       return item;
@@ -306,7 +318,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Новая диагностическая карта");
       item.Click += delegate
       {
-        var car = _dgvMain.GetCar();
+        var car = _mainDgv.GetCar();
         if (car == null)
           return;
 
@@ -319,10 +331,10 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateNewMileage()
     {
-      ToolStripMenuItem item = CreateItem("Новая запись о пробеге");
+      var item = CreateItem("Новая запись о пробеге");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _mainDgv.GetCar();
         if (car == null)
           return;
 
@@ -336,27 +348,27 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateNewTempMove()
     {
-      ToolStripMenuItem item = CreateItem("Новое временное перемещение");
+      var item = CreateItem("Новое временное перемещение");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _mainDgv.GetCar();
         if (car == null)
           return;
 
-        TempMove tempMove = car.createTempMove();
+        var tempMove = car.createTempMove();
 
-        TempMove_AddEdit tempMoveAE = new TempMove_AddEdit(tempMove);
-        tempMoveAE.ShowDialog();
+        var tempMoveAe = new TempMove_AddEdit(tempMove);
+        tempMoveAe.ShowDialog();
       };
       return item;
     }
 
     private ToolStripMenuItem CreateToSale()
     {
-      ToolStripMenuItem item = CreateItem("На продажу");
+      var item = CreateItem("На продажу");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _mainDgv.GetCar();
         if (car == null)
           return;
 
@@ -378,7 +390,7 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Снять с продажи");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _mainDgv.GetCar();
         if (car == null)
           return;
 
@@ -400,11 +412,11 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Создать письмо Outlook");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        Car car = _mainDgv.GetCar();
         if (car == null)
           return;
 
-        DriverMails driverMails = new DriverMails(_dgvMain);
+        DriverMails driverMails = new DriverMails(_mainDgv);
         string driverList = driverMails.ToString();
 
         if (string.IsNullOrEmpty(driverList))
@@ -438,11 +450,11 @@ namespace BBAuto.App.ContextMenu
       {
         try
         {
-          MyBuffer.Copy(_dgvMain.Dgv);
+          MyBuffer.Copy(_mainDgv.Dgv);
         }
         catch (Exception ex)
         {
-          MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          MessageBox.Show(ex.Message, Captions.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
       };
       return item;
@@ -450,12 +462,12 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreatePrint()
     {
-      ToolStripMenuItem item = CreateItem("Печать");
+      var item = CreateItem(Captions.Print);
       item.ShortcutKeys = Keys.Control | Keys.P;
       item.Click += delegate
       {
-        CreateDocument doc = new CreateDocument();
-        doc.CreateExcelFromDGV(_dgvMain.Dgv);
+        var doc = new CreateDocument();
+        doc.CreateExcelFromDGV(_mainDgv.Dgv);
         doc.Print();
       };
       return item;
@@ -463,10 +475,10 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreatePrintWayBill()
     {
-      ToolStripMenuItem item = CreateItem("Печать путевого листа");
+      var item = CreateItem("Печать путевого листа");
       item.Click += delegate
       {
-        InputDate inputDate = new InputDate(_dgvMain, Logic.Static.Actions.Print, WayBillType.Month);
+        var inputDate = new InputDate(_mainDgv, Logic.Static.Actions.Print, WayBillType.Month);
         inputDate.ShowDialog();
       };
       return item;
@@ -474,10 +486,10 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateShowWayBill()
     {
-      ToolStripMenuItem item = CreateItem("Просмотр путевого листа");
+      var item = CreateItem("Просмотр путевого листа");
       item.Click += delegate
       {
-        InputDate inputDate = new InputDate(_dgvMain, Logic.Static.Actions.Show, WayBillType.Month);
+        var inputDate = new InputDate(_mainDgv, Logic.Static.Actions.Show, WayBillType.Month);
         inputDate.ShowDialog();
       };
       return item;
@@ -485,10 +497,10 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateShowWayBillDaily()
     {
-      ToolStripMenuItem item = CreateItem("Просмотр путевых листов на каждый день");
+      var item = CreateItem("Просмотр путевых листов на каждый день");
       item.Click += delegate
       {
-        FormWayBillDaily formWayBillDaily = new FormWayBillDaily(_dgvMain);
+        var formWayBillDaily = new FormWayBillDaily(_mainDgv);
         formWayBillDaily.ShowDialog();
       };
       return item;
@@ -496,68 +508,64 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateShowInvoice()
     {
-      ToolStripMenuItem item = CreateItem("Накладная на перемещение");
+      var item = CreateItem("Накладная на перемещение");
       item.Click += delegate
       {
         if (_mainStatus.Get() != Status.Invoice)
         {
-          MessageBox.Show("Для формирования накладной необходимо перейти на страницу \"Перемещения\"", "Предупреждение",
+          MessageBox.Show("Для формирования накладной необходимо перейти на страницу \"Перемещения\"", Captions.Warning,
             MessageBoxButtons.OK, MessageBoxIcon.Warning);
           return;
         }
 
-        CreateDocument doc = createDocument(_dgvMain.CurrentCell);
+        var doc = CreateDocument(_mainDgv.CurrentCell);
 
-        if (doc != null)
-          doc.ShowInvoice();
+        doc?.ShowInvoice();
       };
       return item;
     }
 
     private ToolStripMenuItem CreateShowAttacheToOrder()
     {
-      ToolStripMenuItem item = CreateItem("Приложение к приказу");
+      var item = CreateItem("Приложение к приказу");
       item.Click += delegate
       {
         if (_mainStatus.Get() != Status.Invoice)
         {
-          MessageBox.Show("Для формирования накладной необходимо перейти на страницу \"Перемещения\"", "Предупреждение",
+          MessageBox.Show("Для формирования накладной необходимо перейти на страницу \"Перемещения\"", Captions.Warning,
             MessageBoxButtons.OK, MessageBoxIcon.Warning);
           return;
         }
 
-        CreateDocument doc = createDocument(_dgvMain.CurrentCell);
+        var doc = CreateDocument(_mainDgv.CurrentCell);
 
-        if (doc != null)
-          doc.ShowAttacheToOrder();
+        doc?.ShowAttacheToOrder();
       };
       return item;
     }
 
-    private ToolStripMenuItem CreateShowProxyOnSTO()
+    private ToolStripMenuItem CreateShowProxyOnSto()
     {
       ToolStripMenuItem item = CreateItem("Доверенность на предоставление интересов на СТО");
       item.Click += delegate
       {
-        CreateDocument doc = createDocument(_dgvMain.CurrentCell);
+        CreateDocument doc = CreateDocument(_mainDgv.CurrentCell);
 
-        if (doc != null)
-          doc.ShowProxyOnSto();
+        doc?.ShowProxyOnSto();
       };
       return item;
     }
 
-    private ToolStripMenuItem CreatePrintProxyOnSTO()
+    private ToolStripMenuItem CreatePrintProxyOnSto()
     {
       ToolStripMenuItem item = CreateItem("Печать доверенности на предоставление интересов на СТО");
       item.Click += delegate
       {
-        foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
+        foreach (DataGridViewCell cell in _mainDgv.SelectedCells)
         {
-          CreateDocument doc = createDocument(cell);
+          CreateDocument doc = CreateDocument(cell);
 
-          if (doc != null)
-            doc.PrintProxyOnSto();
+          doc?.PrintProxyOnSto();
         }
       };
       return item;
@@ -568,7 +576,7 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Полис Каско");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        Car car = _mainDgv.GetCar();
         if (car == null)
           return;
 
@@ -586,17 +594,17 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Акт передачи топливной карты");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        Car car = _mainDgv.GetCar();
         if (car == null)
-          MessageBox.Show("Для формирования акта выберите ячейку в таблице", "Предупреждение", MessageBoxButtons.OK,
+          MessageBox.Show("Для формирования акта выберите ячейку в таблице", Captions.Warning, MessageBoxButtons.OK,
             MessageBoxIcon.Warning);
         else
         {
           InvoiceList invoiceList = InvoiceList.getInstance();
-          Invoice invoice = invoiceList.getItem(_dgvMain.GetId());
+          Invoice invoice = invoiceList.getItem(_mainDgv.GetId());
           if (invoice == null)
           {
-            MessageBox.Show("Для формирования акта необходимо перейти на страницу \"Перемещения\"", "Предупреждение",
+            MessageBox.Show("Для формирования акта необходимо перейти на страницу \"Перемещения\"", Captions.Warning,
               MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
           }
@@ -613,21 +621,21 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Извещение о страховом случае");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        Car car = _mainDgv.GetCar();
         if (car == null)
           return;
 
         if (_mainStatus.Get() == Status.DTP)
         {
           DTPList dtpList = DTPList.getInstance();
-          DTP dtp = dtpList.getItem(_dgvMain.GetId());
+          DTP dtp = dtpList.getItem(_mainDgv.GetId());
 
           CreateDocument doc = new CreateDocument(car);
 
           doc.ShowNotice(dtp);
         }
         else
-          MessageBox.Show("Для формирования извещения необходимо перейти на вид \"ДТП\"", "Предупреждение",
+          MessageBox.Show("Для формирования извещения необходимо перейти на вид \"ДТП\"", Captions.Warning,
             MessageBoxButtons.OK, MessageBoxIcon.Warning);
       };
       return item;
@@ -638,7 +646,7 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Свидетельство о регистрации ТС");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        Car car = _mainDgv.GetCar();
         if (car == null)
           return;
 
@@ -656,7 +664,7 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Водительское удостоверение");
       item.Click += delegate
       {
-        if (_dgvMain.GetId() == 0)
+        if (_mainDgv.GetId() == 0)
           return;
 
         DateTime date = DateTime.Today;
@@ -664,11 +672,11 @@ namespace BBAuto.App.ContextMenu
         if (_mainStatus.Get() == Status.DTP)
         {
           DTPList dtpList = DTPList.getInstance();
-          DTP dtp = dtpList.getItem(_dgvMain.GetId());
+          DTP dtp = dtpList.getItem(_mainDgv.GetId());
           date = dtp.Date;
         }
 
-        Car car = _dgvMain.GetCar();
+        Car car = _mainDgv.GetCar();
         if (car == null)
           return;
 
@@ -678,7 +686,7 @@ namespace BBAuto.App.ContextMenu
         LicenseList licencesList = LicenseList.getInstance();
         DriverLicense driverLicense = licencesList.getItem(driver);
 
-        if ((driverLicense != null) && (!string.IsNullOrEmpty(driverLicense.File)))
+        if (!string.IsNullOrEmpty(driverLicense?.File))
           WorkWithFiles.OpenFile(driverLicense.File);
       };
       return item;
@@ -755,14 +763,14 @@ namespace BBAuto.App.ContextMenu
 
         if (string.IsNullOrEmpty(printerName))
         {
-          MessageBox.Show("Принтер по умолчанию не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          MessageBox.Show(Messages.PrinterNotFound, Captions.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
           return;
         }
 
         string message = string.Concat("Вывести справочник \"", _mainStatus.ToString(), "\" на печать на принтер ",
           printerName, "?");
 
-        if (MessageBox.Show(message, "Печать", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+        if (MessageBox.Show(message, Captions.Print, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
         {
           CreateDocument doc = DgvToExcel();
           doc.Print();
@@ -785,7 +793,7 @@ namespace BBAuto.App.ContextMenu
     private CreateDocument DgvToExcel()
     {
       CreateDocument doc = new CreateDocument();
-      doc.CreateExcelFromAllDgv(_dgvMain.Dgv);
+      doc.CreateExcelFromAllDgv(_mainDgv.Dgv);
       doc.CreateHeader("Справочник \"" + _mainStatus + "\"");
 
       return doc;
@@ -1104,18 +1112,17 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateTemplate()
     {
-      ToolStripMenuItem item = CreateItem("Шаблоны документов");
+      var item = CreateItem("Шаблоны документов");
       item.Click += delegate
       {
-        formTemplateList formtemplateList = new formTemplateList();
-        formtemplateList.ShowDialog();
+        _templateListForm.ShowDialog();
       };
       return item;
     }
 
     private ToolStripMenuItem CreateUserAccess()
     {
-      ToolStripMenuItem item = CreateItem("Доступ пользователей");
+      var item = CreateItem("Доступ пользователей");
       item.Click += delegate
       {
         formUsersAccess fUserAccess = new formUsersAccess();
@@ -1126,7 +1133,7 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateProfession()
     {
-      ToolStripMenuItem item = CreateItem("Должности пользователей");
+      var item = CreateItem("Должности пользователей");
       item.Click += delegate
       {
         loadDictionary("EmployeesName", "Справочник \"Профессий\"");
@@ -1139,8 +1146,8 @@ namespace BBAuto.App.ContextMenu
 
     private void loadDictionary(string name, string title)
     {
-      formOneStringDictionary oneSD = new formOneStringDictionary(name, title);
-      oneSD.ShowDialog();
+      formOneStringDictionary oneSd = new formOneStringDictionary(name, title);
+      oneSd.ShowDialog();
     }
 
     private ToolStripMenuItem CreateSort()
@@ -1148,7 +1155,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Сортировать");
       item.Click += delegate
       {
-        var dgv = _dgvMain.Dgv;
+        var dgv = _mainDgv.Dgv;
 
         if (dgv.SelectedCells.Count == 0)
           return;
@@ -1178,7 +1185,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Фильтр по значению этого поля");
       item.Click += delegate
       {
-        var dgv = _dgvMain.Dgv;
+        var dgv = _mainDgv.Dgv;
 
         if (dgv.CurrentCell == null)
           return;
@@ -1210,15 +1217,15 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Удалить водителя");
       item.Click += delegate
       {
-        if (MessageBox.Show("Вы действительно хотите удалить водителя из списка?", "Удаление", MessageBoxButtons.YesNo,
-              MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+        if (MessageBox.Show("Вы действительно хотите удалить водителя из списка?", Captions.Delete, MessageBoxButtons.YesNo,
+              MessageBoxIcon.Question) == DialogResult.Yes)
         {
           DriverList driverList = DriverList.getInstance();
-          Driver driver = driverList.getItem(_dgvMain.GetId());
+          Driver driver = driverList.getItem(_mainDgv.GetId());
           DriverCarList driverCarList = DriverCarList.getInstance();
 
           if (driverCarList.IsDriverHaveCar(driver))
-            MessageBox.Show("За водителем закреплён автомобиль, удаление невозможно", "Удаление", MessageBoxButtons.OK,
+            MessageBox.Show("За водителем закреплён автомобиль, удаление невозможно", Captions.Delete, MessageBoxButtons.OK,
               MessageBoxIcon.Warning);
           else
           {
@@ -1236,8 +1243,7 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Список пунктов назначения");
       item.Click += delegate
       {
-        formMyPointList myPointList = new formMyPointList();
-        myPointList.ShowDialog();
+        _myPointListForm.ShowDialog();
       };
       return item;
     }
@@ -1247,8 +1253,7 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Список маршрутов");
       item.Click += delegate
       {
-        formRouteList routeList = new formRouteList();
-        routeList.ShowDialog();
+        _routeListForm.ShowDialog();
       };
       return item;
     }
@@ -1282,33 +1287,33 @@ namespace BBAuto.App.ContextMenu
 
     private void SendPolicy(PolicyType type)
     {
-      Car car = _dgvMain.GetCar();
+      var car = _mainDgv.GetCar();
       if (car == null)
         return;
 
-      string result = MailPolicy.Send(car, type);
+      var result = MailPolicy.Send(car, type);
 
-      MessageBox.Show(result, "Отправка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      MessageBox.Show(result, Captions.Send, MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
-    private CreateDocument createDocument(DataGridViewCell cell)
+    private CreateDocument CreateDocument(DataGridViewCell cell)
     {
-      int carID = _dgvMain.GetCarId(cell.RowIndex);
+      var carId = _mainDgv.GetCarId(cell.RowIndex);
 
-      if (carID == 0)
+      if (carId == 0)
         return null;
 
-      CarList carList = CarList.getInstance();
-      Car car = carList.getItem(carID);
+      var carList = CarList.getInstance();
+      var car = carList.getItem(carId);
 
       Invoice invoice = null;
 
       if (_mainStatus.Get() == Status.Invoice)
       {
-        int invoiceID = _dgvMain.GetId(cell.RowIndex);
+        var invoiceId = _mainDgv.GetId(cell.RowIndex);
 
-        InvoiceList invoiceList = InvoiceList.getInstance();
-        invoice = invoiceList.getItem(invoiceID);
+        var invoiceList = InvoiceList.getInstance();
+        invoice = invoiceList.getItem(invoiceId);
       }
 
       return new CreateDocument(car, invoice);

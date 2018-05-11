@@ -19,7 +19,7 @@ namespace Common.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Messages {
@@ -88,6 +88,42 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Удалить накладную?.
+        /// </summary>
+        public static string DeleteInvoice {
+            get {
+                return ResourceManager.GetString("DeleteInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить полис?.
+        /// </summary>
+        public static string DeletePolicy {
+            get {
+                return ResourceManager.GetString("DeletePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить запись о ремонте?.
+        /// </summary>
+        public static string DeleteRepair {
+            get {
+                return ResourceManager.GetString("DeleteRepair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить информацию об отправки запчастей?.
+        /// </summary>
+        public static string DeleteShipParts {
+            get {
+                return ResourceManager.GetString("DeleteShipParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удалить нарушение?.
         /// </summary>
         public static string DeleteViolation {
@@ -147,6 +183,15 @@ namespace Common.Resources {
         public static string NoAnswerFromMailServer {
             get {
                 return ResourceManager.GetString("NoAnswerFromMailServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Принтер по умолчанию не найден.
+        /// </summary>
+        public static string PrinterNotFound {
+            get {
+                return ResourceManager.GetString("PrinterNotFound", resourceCulture);
             }
         }
         
