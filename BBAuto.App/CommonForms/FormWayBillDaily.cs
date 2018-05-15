@@ -130,20 +130,21 @@ namespace BBAuto.App.CommonForms
 
     private void CreateWayBill(Car car, Logic.Static.Actions action, Fields fields)
     {
+      IDocument document = null;
       try
       {
-        _documentsService.CreateWaybill(car.Id, dtpDate.Value);
-        _documentsService.AddRouteInWayBill(car.Id, dtpDate.Value, fields);
+        document = _documentsService.CreateWaybill(car.Id, dtpDate.Value);
+        _documentsService.AddRouteInWayBill(document, car.Id, dtpDate.Value, fields);
 
         if (action == Logic.Static.Actions.Print)
-          _documentsService.Print();
+          document.Print();
         else
-          _documentsService.Show();
+          document.Show();
       }
       catch (NullReferenceException ex)
       {
         MessageBox.Show(ex.Message, Captions.Warning, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        _documentsService.Exit();
+        document?.Close();
       }
 
       if (car == list[index])

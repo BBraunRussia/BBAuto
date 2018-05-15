@@ -936,10 +936,9 @@ namespace BBAuto.App.FormsForCar
       int.TryParse(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int idDtp);
 
       var dtp = _dtpList.getItem(idDtp);
-
-      var doc = new DocumentsService(_car);
-
-      doc.ShowNotice(dtp);
+      
+      var document = _documentsService.CreateNotice(_car.Id, dtp);
+      document.Show();
     }
 
     private void btnDelDTP_Click(object sender, EventArgs e)
@@ -974,8 +973,8 @@ namespace BBAuto.App.FormsForCar
       {
         int idCarDoc = Convert.ToInt32(dgvCarDoc.Rows[e.RowIndex].Cells[0].Value);
 
-        CarDocList carDocList = CarDocList.getInstance();
-        CarDoc carDoc = carDocList.getItem(idCarDoc);
+        var carDocList = CarDocList.getInstance();
+        var carDoc = carDocList.getItem(idCarDoc);
 
         if (e.ColumnIndex == 2)
         {
@@ -983,8 +982,8 @@ namespace BBAuto.App.FormsForCar
         }
         else
         {
-          CarDoc_AddEdit carDocAE = new CarDoc_AddEdit(carDoc);
-          if (carDocAE.ShowDialog() == DialogResult.OK)
+          var carDocAe = new CarDoc_AddEdit(carDoc);
+          if (carDocAe.ShowDialog() == DialogResult.OK)
             LoadCarDoc();
         }
       }

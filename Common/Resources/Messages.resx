@@ -155,4 +155,7 @@
   <data name="MoveCarToSale" xml:space="preserve">
     <value>Вы действительно хотите переместить автомобиль на продажу?</value>
   </data>
+  <data name="ForCreateNoticeGotoViewDtp" xml:space="preserve">
+    <value>Для формирования извещения необходимо перейти на вид "ДТП"</value>
+  </data>
 </root>

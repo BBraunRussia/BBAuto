@@ -40,6 +40,11 @@ namespace BBAuto.Logic.Services.Documents
       _excelDoc.SetHeader(text);
     }
 
+    public void CopyRange(string copyCell1, string copyCell2, string pastingCell)
+    {
+      _excelDoc.CopyRange(copyCell1, copyCell2, pastingCell);
+    }
+
     public void SetValue(int rowIndex, int columnIndex, string value)
     {
       _excelDoc.setValue(rowIndex, columnIndex, value);

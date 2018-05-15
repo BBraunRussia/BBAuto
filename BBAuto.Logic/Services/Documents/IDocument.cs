@@ -10,5 +10,6 @@ namespace BBAuto.Logic.Services.Documents
     void SetValue(int rowIndex, int columnIndex, string value);
     void WriteHeader(DataGridView dgv, int minColumn, int columnCount);
     void CreateHeader(string text);
+    void CopyRange(string copingCell1, string copingCell2, string pastingCell);
   }
 }

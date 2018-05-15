@@ -4,7 +4,6 @@ using BBAuto.App.GUI;
 using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Entities;
-using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Static;
@@ -14,9 +13,9 @@ namespace BBAuto.App.CommonForms
 {
   public partial class InputDate : Form
   {
-    private IMainDgv _dgvMain;
-    private Logic.Static.Actions _action;
-    private WayBillType _type;
+    private readonly IMainDgv _dgvMain;
+    private readonly Logic.Static.Actions _action;
+    private readonly WayBillType _type;
 
     private readonly IDocumentsService _documentsService;
 
@@ -36,8 +35,8 @@ namespace BBAuto.App.CommonForms
 
     private void btnOK_Click(object sender, EventArgs e)
     {
-      MainStatus mainStatus = MainStatus.getInstance();
-      Status status = mainStatus.Get();
+      var mainStatus = MainStatus.getInstance();
+      var status = mainStatus.Get();
 
       foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
       {
@@ -45,11 +44,11 @@ namespace BBAuto.App.CommonForms
 
         DateTime date = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
 
-        DocumentsService excelWayBill;
+        IDocument excelWayBill;
 
         try
         {
-          excelWayBill = (status == Status.Invoice)
+          excelWayBill = status == Status.Invoice
             ? CreateWayBill(car, date, _dgvMain.GetId(cell.RowIndex))
             : CreateWayBill(car, date);
         }
@@ -72,32 +71,32 @@ namespace BBAuto.App.CommonForms
       }
     }
 
-    private DocumentsService CreateWayBill(Car car, DateTime date, int idInvoice = 0)
+    private IDocument CreateWayBill(Car car, DateTime date, int idInvoice = 0)
     {
       Driver driver = null;
       if (idInvoice != 0)
       {
-        InvoiceList invoiceList = InvoiceList.getInstance();
-        Invoice invoice = invoiceList.GetItem(idInvoice);
-        DriverList driverList = DriverList.getInstance();
+        var invoiceList = InvoiceList.getInstance();
+        var invoice = invoiceList.GetItem(idInvoice);
+        var driverList = DriverList.getInstance();
         driver = driverList.getItem(Convert.ToInt32(invoice.DriverToID));
       }
 
-      _documentsService.CreateWaybill(car.Id, date, driver);
+      var document = _documentsService.CreateWaybill(car.Id, date, driver);
 
       try
       {
         if (_type == WayBillType.Day)
-          _documentsService.AddRouteInWayBill(car.Id, date, Fields.All);
+          _documentsService.AddRouteInWayBill(document, car.Id, date, Fields.All);
       }
       catch (NullReferenceException ex)
       {
         MessageBox.Show(ex.Message, Captions.Warning, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        _documentsService.Exit();
+        document.Close();
         throw;
       }
 
-      return waybill;
+      return document;
     }
   }
 }

@@ -129,7 +129,7 @@ namespace BBAuto.App.ContextMenu
         case ContextMenuItem.ShowNotice:
           return CreateShowNotice();
         case ContextMenuItem.ShowSTS:
-          return CreateShowSTS();
+          return CreateShowSts();
         case ContextMenuItem.ShowDriverLicense:
           return CreateShowDriverLicense();
         //----------------------------------
@@ -633,16 +633,16 @@ namespace BBAuto.App.ContextMenu
 
           var carId = _mainDgv.GetCarId();
 
-          _documentsService.ShowNotice(carId, dtp);
+          var documnet = _documentsService.CreateNotice(carId, dtp);
+          documnet.Show();
         }
         else
-          MessageBox.Show("Для формирования извещения необходимо перейти на вид \"ДТП\"", Captions.Warning,
-            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+          MessageBox.Show(Messages.ForCreateNoticeGotoViewDtp, Captions.Warning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
       };
       return item;
     }
 
-    private ToolStripMenuItem CreateShowSTS()
+    private ToolStripMenuItem CreateShowSts()
     {
       ToolStripMenuItem item = CreateItem("Свидетельство о регистрации ТС");
       item.Click += delegate

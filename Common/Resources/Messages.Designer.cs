@@ -133,6 +133,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Для формирования извещения необходимо перейти на вид &quot;ДТП&quot;.
+        /// </summary>
+        public static string ForCreateNoticeGotoViewDtp {
+            get {
+                return ResourceManager.GetString("ForCreateNoticeGotoViewDtp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to У вас недостаточно прав для работы с программой.
         /// </summary>
         public static string HaveNotRights {

@@ -126,7 +126,7 @@
     <Compile Include="Services\DiagCard\DiagCardModel.cs" />
     <Compile Include="Services\DiagCard\DiagCardService.cs" />
     <Compile Include="Services\DiagCard\IDiagCardService.cs" />
-    <Compile Include="Services\Documents\Document.cs" />
+    <Compile Include="Services\Documents\ExcelDocument.cs" />
     <Compile Include="Services\Documents\IDocument.cs" />
     <Compile Include="Services\Documents\IDocumentsService.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />

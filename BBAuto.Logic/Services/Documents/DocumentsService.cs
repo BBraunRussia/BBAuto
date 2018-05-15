@@ -54,12 +54,12 @@ namespace BBAuto.Logic.Services.Documents
       {
         if (cell.RowIndex > maxRowIndex)
           maxRowIndex = cell.RowIndex;
-        if ((cell.RowIndex < minRowIndex) || (minRowIndex == 0))
+        if (cell.RowIndex < minRowIndex || minRowIndex == 0)
           minRowIndex = cell.RowIndex;
 
         if (cell.ColumnIndex > maxColumnIndex)
           maxColumnIndex = cell.ColumnIndex;
-        if ((cell.ColumnIndex < minColumnIndex) || (minColumnIndex == 0))
+        if (cell.ColumnIndex < minColumnIndex || minColumnIndex == 0)
           minColumnIndex = cell.ColumnIndex;
       }
 
@@ -172,19 +172,19 @@ namespace BBAuto.Logic.Services.Documents
       return document;
     }
 
-    public void ShowNotice(int carId, DTP dtp)
+    public IDocument CreateNotice(int carId, DTP dtp)
     {
       var car = _carService.GetCarById(carId);
       var mark = MarkList.getInstance().getItem(car.MarkId);
       var model = ModelList.getInstance().getItem(car.ModelId);
 
-      _excelDoc = openDocumentExcel("Извещение о страховом случае");
+      IDocument document = new ExcelDocument("Извещение о страховом случае");
 
       var owners = Owners.getInstance();
 
-      _excelDoc.setValue(6, 5, owners.getItem(Convert.ToInt32(car.OwnerId))); //страхователь
-      _excelDoc.setValue(7, 6, "а/я 34, 196128"); //почтовый адрес
-      _excelDoc.setValue(8, 7, "320-40-04"); //телефон
+      document.SetValue(6, 5, owners.getItem(Convert.ToInt32(car.OwnerId))); //страхователь
+      document.SetValue(7, 6, "а/я 34, 196128"); //почтовый адрес
+      document.SetValue(8, 7, "320-40-04"); //телефон
 
       var driverCarList = DriverCarList.getInstance();
       var driver = driverCarList.GetDriver(car.Id, dtp.Date);
@@ -197,30 +197,30 @@ namespace BBAuto.Logic.Services.Documents
         var number = passport.Number;
         var numbers = number.Split(' ');
 
-        _excelDoc.setValue(10, 3, numbers[0]); //серия
-        _excelDoc.setValue(10, 6, numbers[1]); //номер
+        document.SetValue(10, 3, numbers[0]); //серия
+        document.SetValue(10, 6, numbers[1]); //номер
 
-        _excelDoc.setValue(11, 3, passport.GiveOrg); //кем выдан
-        _excelDoc.setValue(12, 4, passport.GiveDate.ToShortDateString()); //дата выдачи
+        document.SetValue(11, 3, passport.GiveOrg); //кем выдан
+        document.SetValue(12, 4, passport.GiveDate.ToShortDateString()); //дата выдачи
       }
 
       var policyList = PolicyList.getInstance();
       var policy = policyList.getItem(car.Id, PolicyType.КАСКО);
-      _excelDoc.setValue(14, 6, policy.Number); //полис
+      document.SetValue(14, 6, policy.Number); //полис
 
-      _excelDoc.setValue(16, 6, string.Concat(mark.Name, " ", model.Name)); //марка а/м
-      _excelDoc.setValue(18, 6, car.Grz); //рег номер а/м
-      _excelDoc.setValue(20, 6, car.Vin); //вин
+      document.SetValue(16, 6, string.Concat(mark.Name, " ", model.Name)); //марка а/м
+      document.SetValue(18, 6, car.Grz); //рег номер а/м
+      document.SetValue(20, 6, car.Vin); //вин
 
-      _excelDoc.setValue(22, 6, dtp.Date.ToShortDateString()); //дата дтп
+      document.SetValue(22, 6, dtp.Date.ToShortDateString()); //дата дтп
 
-      _excelDoc.setValue(27, 2, driver.GetName(NameType.Full)); //водитель фио
+      document.SetValue(27, 2, driver.GetName(NameType.Full)); //водитель фио
 
       var regions = Regions.getInstance();
 
-      _excelDoc.setValue(29, 3, regions.getItem(Convert.ToInt32(dtp.IDRegion))); //город
-      _excelDoc.setValue(31, 14, dtp.Damage); //повреждения
-      _excelDoc.setValue(33, 2, dtp.Facts); //обстоятельства происшествия
+      document.SetValue(29, 3, regions.getItem(Convert.ToInt32(dtp.IDRegion))); //город
+      document.SetValue(31, 14, dtp.Damage); //повреждения
+      document.SetValue(33, 2, dtp.Facts); //обстоятельства происшествия
 
       //SsDTP ssDTP = SsDTPList.getInstance().getItem(_car.Mark);
 
@@ -233,7 +233,7 @@ namespace BBAuto.Logic.Services.Documents
       //_excelDoc.setValue(71, 4, myDate.MonthToStringGenitive());
       //_excelDoc.setValue(71, 8, date.Year.ToString().Substring(2, 2));
 
-      _excelDoc.Show();
+      return document;
     }
 
     /* Старое извещение
@@ -299,7 +299,7 @@ namespace BBAuto.Logic.Services.Documents
      
      */
 
-    public void CreateWaybill(int carId, DateTime date, Driver driver = null)
+    public IDocument CreateWaybill(int carId, DateTime date, Driver driver = null)
     {
       var car = _carService.GetCarById(carId);
       var mark = MarkList.getInstance().getItem(car.MarkId);
@@ -328,48 +328,48 @@ namespace BBAuto.Logic.Services.Documents
         }
       }
       
-      _excelDoc = openDocumentExcel("Путевой лист");
-      
-      _excelDoc.setValue(4, 28, car.BbNumber);
+      IDocument document = new ExcelDocument("Путевой лист");
+
+      document.SetValue(4, 28, car.BbNumber);
 
       var myDate = new MyDateTime(date.ToShortDateString());
 
-      _excelDoc.setValue(4, 39, driver.Id + "/01/" + myDate.MonthSlashYear());
-      _excelDoc.setValue(6, 15, myDate.DaysRange);
-      _excelDoc.setValue(6, 19, myDate.MonthToStringNominative());
-      _excelDoc.setValue(6, 32, date.Year.ToString());
+      document.SetValue(4, 39, driver.Id + "/01/" + myDate.MonthSlashYear());
+      document.SetValue(6, 15, myDate.DaysRange);
+      document.SetValue(6, 19, myDate.MonthToStringNominative());
+      document.SetValue(6, 32, date.Year.ToString());
 
-      _excelDoc.setValue(29, 35, grade.EngineType.ShortName);
+      document.SetValue(29, 35, grade.EngineType.ShortName);
 
       var mml = new MileageMonthList(carId, date.Year + "-" + date.Month + "-01");
       /* Из файла Татьяны Мироновой пробег за месяц */
-      _excelDoc.setValue(19, 39, mml.PSN);
-      _excelDoc.setValue(33, 41, mml.Gas);
-      _excelDoc.setValue(35, 41, mml.GasBegin);
-      _excelDoc.setValue(36, 41, mml.GasEnd);
-      _excelDoc.setValue(37, 41, mml.GasNorm);
-      _excelDoc.setValue(38, 41, mml.GasNorm);
-      _excelDoc.setValue(43, 39, mml.PSK);
-      _excelDoc.setValue(41, 59, mml.Mileage);
+      document.SetValue(19, 39, mml.PSN);
+      document.SetValue(33, 41, mml.Gas);
+      document.SetValue(35, 41, mml.GasBegin);
+      document.SetValue(36, 41, mml.GasEnd);
+      document.SetValue(37, 41, mml.GasNorm);
+      document.SetValue(38, 41, mml.GasNorm);
+      document.SetValue(43, 39, mml.PSK);
+      document.SetValue(41, 59, mml.Mileage);
 
       var owners = Owners.getInstance();
       var owner = owners.getItem(1);
 
-      _excelDoc.setValue(8, 8, owner);
+      document.SetValue(8, 8, owner);
 
-      _excelDoc.setValue(10, 11, string.Concat(mark.Name, " ", model.Name));
-      _excelDoc.setValue(11, 17, car.Grz);
+      document.SetValue(10, 11, string.Concat(mark.Name, " ", model.Name));
+      document.SetValue(11, 17, car.Grz);
 
-      _excelDoc.setValue(12, 6, driver.GetName(NameType.Full));
-      _excelDoc.setValue(44, 16, driver.GetName(NameType.Short));
-      _excelDoc.setValue(26, 40, driver.GetName(NameType.Short));
+      document.SetValue(12, 6, driver.GetName(NameType.Full));
+      document.SetValue(44, 16, driver.GetName(NameType.Short));
+      document.SetValue(26, 40, driver.GetName(NameType.Short));
 
       var licencesList = LicenseList.getInstance();
       var driverLicense = licencesList.getItem(driver);
 
-      _excelDoc.setValue(14, 10, driverLicense.Number);
+      document.SetValue(14, 10, driverLicense.Number);
 
-      _excelDoc.setValue(20, 9, owner);
+      document.SetValue(20, 9, owner);
 
       string suppyAddressName;
 
@@ -406,8 +406,8 @@ namespace BBAuto.Logic.Services.Documents
         }
       }
 
-      _excelDoc.setValue(25, 8, suppyAddressName);
-      _excelDoc.setValue(26, 1, suppyAddressName2);
+      document.SetValue(25, 8, suppyAddressName);
+      document.SetValue(26, 1, suppyAddressName2);
 
       string mechanicName;
 
@@ -429,16 +429,18 @@ namespace BBAuto.Logic.Services.Documents
       var dispatcher = employeesList.getItem(driver.Region, "Диспечер-нарядчик");
       var dispatcherName = dispatcher.Name;
 
-      _excelDoc.setValue(22, 40, mechanicName);
-      _excelDoc.setValue(44, 40, mechanicName);
+      document.SetValue(22, 40, mechanicName);
+      document.SetValue(44, 40, mechanicName);
 
-      _excelDoc.setValue(31, 18, dispatcherName);
-      _excelDoc.setValue(35, 18, dispatcherName);
+      document.SetValue(31, 18, dispatcherName);
+      document.SetValue(35, 18, dispatcherName);
 
-      _excelDoc.setValue(43, 72, accountant.Name);
+      document.SetValue(43, 72, accountant.Name);
+
+      return document;
     }
 
-    public void AddRouteInWayBill(int carId, DateTime date, Fields fields)
+    public void AddRouteInWayBill(IDocument document, int carId, DateTime date, Fields fields)
     {
       var wayBillDaily = new WayBillDaily(carId, date);
       wayBillDaily.Load();
@@ -453,49 +455,49 @@ namespace BBAuto.Logic.Services.Documents
 
       foreach (WayBillDay wayBillDay in wayBillDaily)
       {
-        var i = 6 + (47 * k);
+        var i = 6 + 47 * k;
         foreach (Route route in wayBillDay)
         {
           var pointBegin = route.MyPoint1;
           var pointEnd = route.MyPoint2;
 
-          _excelDoc.setValue(i, 59, pointBegin.Name);
-          _excelDoc.setValue(i, 64, pointEnd.Name);
-          _excelDoc.setValue(i, 78, route.Distance.ToString());
+          document.SetValue(i, 59, pointBegin.Name);
+          document.SetValue(i, 64, pointEnd.Name);
+          document.SetValue(i, 78, route.Distance.ToString());
           i += 2;
         }
 
-        _excelDoc.setValue(29 + (47 * k), 20, wayBillDay.Date.ToShortDateString());
-        _excelDoc.setValue(19 + (47 * k), 39, curDistance.ToString());
+        document.SetValue(29 + (47 * k), 20, wayBillDay.Date.ToShortDateString());
+        document.SetValue(19 + (47 * k), 39, curDistance.ToString());
         curDistance += wayBillDay.Distance;
         if (fields == Fields.All)
         {
-          _excelDoc.setValue(43 + (47 * k), 39, curDistance.ToString());
-          _excelDoc.setValue(41 + (47 * k), 59, wayBillDay.Distance.ToString());
-          _excelDoc.setValue(33 + (47 * k), 20, wayBillDay.Date.ToShortDateString());
+          document.SetValue(43 + (47 * k), 39, curDistance.ToString());
+          document.SetValue(41 + (47 * k), 59, wayBillDay.Distance.ToString());
+          document.SetValue(33 + (47 * k), 20, wayBillDay.Date.ToShortDateString());
         }
         k++;
       }
 
       if (k > 0 && fields == Fields.All)
-        _excelDoc.setValue(43 + (47 * (k - 1)), 39, endDistance.ToString());
+        document.SetValue(43 + (47 * (k - 1)), 39, endDistance.ToString());
     }
 
-    private void CopyWayBill(WayBillDaily wayBillDaily)
+    private void CopyWayBill(IDocument document, WayBillDaily wayBillDaily)
     {
       var i = 0;
       foreach (WayBillDay item in wayBillDaily)
       {
         if (i > 0)
-          _excelDoc.CopyRange("A1", "CF46", "A" + ((47 * i) + 1).ToString());
+          document.CopyRange("A1", "CF46", "A" + ((47 * i) + 1));
 
-        _excelDoc.setValue(6 + (47 * i), 15, item.Day);
+        document.SetValue(6 + (47 * i), 15, item.Day);
 
-        _excelDoc.setValue(4 + (47 * i), 39, GetWaBillFullNumber(i + 1));
+        document.SetValue(4 + (47 * i), 39, GetWaBillFullNumber(i + 1));
 
-        _excelDoc.setValue(12 + (47 * i), 6, item.Driver.GetName(NameType.Full));
-        _excelDoc.setValue(44 + (47 * i), 16, item.Driver.GetName(NameType.Short));
-        _excelDoc.setValue(26 + (47 * i), 40, item.Driver.GetName(NameType.Short));
+        document.SetValue(12 + (47 * i), 6, item.Driver.GetName(NameType.Full));
+        document.SetValue(44 + (47 * i), 16, item.Driver.GetName(NameType.Short));
+        document.SetValue(26 + (47 * i), 40, item.Driver.GetName(NameType.Short));
 
         i++;
       }
