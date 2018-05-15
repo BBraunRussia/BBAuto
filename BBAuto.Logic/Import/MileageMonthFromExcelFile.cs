@@ -4,6 +4,7 @@ using BBAuto.Logic.Abstract;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.DataBase;
 using BBAuto.Logic.Logger;
+using BBAuto.Logic.Services.Documents.Office;
 
 namespace BBAuto.Domain.Senders
 {
@@ -19,55 +20,55 @@ namespace BBAuto.Domain.Senders
         using (ExcelDoc excel = new ExcelDoc(FilePath))
         {
           excel.SetList("Январь");
-          if (excel.getValue("M2") == null)
+          if (excel.GetValue("M2") == null)
           {
             LogManager.Logger.Debug("В файле {file} на листе Январь в ячейке M2 должен быть указан год!", FilePath);
           }
-          string year = excel.getValue("M2").ToString();
+          string year = excel.GetValue("M2").ToString();
           string date = year + "-01-01";
 
           int i = 2;
           string curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             int psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToInt32(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToInt32(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             int psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToInt32(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToInt32(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             int mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToInt32(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToInt32(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -86,45 +87,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             int psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToInt32(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToInt32(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             int psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToInt32(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToInt32(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             int mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToInt32(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToInt32(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -141,45 +142,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             int psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToInt32(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToInt32(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             int psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToInt32(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToInt32(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             int mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToInt32(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToInt32(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -196,45 +197,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -250,45 +251,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -304,45 +305,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -358,45 +359,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -412,45 +413,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -466,45 +467,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -520,45 +521,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -574,45 +575,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -628,45 +629,45 @@ namespace BBAuto.Domain.Senders
           i = 2;
           curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             string res = mm.Save();
@@ -698,45 +699,45 @@ namespace BBAuto.Domain.Senders
           double i = 2;
           string curCell = "D" + i;
 
-          while (excel.getValue(curCell) != null)
+          while (excel.GetValue(curCell) != null)
           {
             curCell = "D" + i;
-            string number = excel.getValue(curCell).ToString(); // номер машины
+            string number = excel.GetValue(curCell).ToString(); // номер машины
 
             curCell = "F" + i;
             double gasBegin = 0;
-            if (excel.getValue(curCell) != null)
-              gasBegin = Convert.ToDouble(excel.getValue(curCell).ToString()); // на начало
+            if (excel.GetValue(curCell) != null)
+              gasBegin = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на начало
 
             curCell = "E" + i;
             double gas = 0;
-            if (excel.getValue(curCell) != null)
-              gas = Convert.ToDouble(excel.getValue(curCell).ToString()); // получено
+            if (excel.GetValue(curCell) != null)
+              gas = Convert.ToDouble(excel.GetValue(curCell).ToString()); // получено
 
             curCell = "G" + i;
             double gasEnd = 0;
-            if (excel.getValue(curCell) != null)
-              gasEnd = Convert.ToDouble(excel.getValue(curCell).ToString()); // на конец
+            if (excel.GetValue(curCell) != null)
+              gasEnd = Convert.ToDouble(excel.GetValue(curCell).ToString()); // на конец
 
             curCell = "H" + i;
             double psn = 0;
-            if (excel.getValue(curCell) != null)
-              psn = Convert.ToDouble(excel.getValue(curCell).ToString()); // псн
+            if (excel.GetValue(curCell) != null)
+              psn = Convert.ToDouble(excel.GetValue(curCell).ToString()); // псн
 
             curCell = "I" + i;
             double psk = 0;
-            if (excel.getValue(curCell) != null)
-              psk = Convert.ToDouble(excel.getValue(curCell).ToString()); // пск
+            if (excel.GetValue(curCell) != null)
+              psk = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пск
 
             curCell = "J" + i;
             double mileage = 0;
-            if (excel.getValue(curCell) != null)
-              mileage = Convert.ToDouble(excel.getValue(curCell).ToString()); // пробег
+            if (excel.GetValue(curCell) != null)
+              mileage = Convert.ToDouble(excel.GetValue(curCell).ToString()); // пробег
 
             curCell = "K" + i;
             double norm = 0;
-            if (excel.getValue(curCell) != null)
-              norm = Convert.ToDouble(excel.getValue(curCell).ToString()); // норма
+            if (excel.GetValue(curCell) != null)
+              norm = Convert.ToDouble(excel.GetValue(curCell).ToString()); // норма
 
             MileageMonth mm = new MileageMonth(number, date, gas, gasBegin, gasEnd, norm, psn, psk, mileage);
             mm.Save();

@@ -174,7 +174,7 @@ namespace BBAuto.Logic.ForCar
     internal object[] getCulpit()
     {
       DriverCarList driverCarList = DriverCarList.getInstance();
-      Driver driver = driverCarList.GetDriver(Car, Date);
+      Driver driver = driverCarList.GetDriver(Car.Id, Date);
 
       return new object[] {4, driver.GetName(NameType.Full)};
     }
@@ -182,7 +182,7 @@ namespace BBAuto.Logic.ForCar
     public Driver GetDriver()
     {
       DriverCarList driverCarList = DriverCarList.getInstance();
-      return driverCarList.GetDriver(Car, Date);
+      return driverCarList.GetDriver(Car.Id, Date);
     }
 
     public string GetCurrentStatusAfterDTP()

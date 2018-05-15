@@ -130,7 +130,7 @@ namespace BBAuto.App.CommonForms
 
     private void CreateWayBill(Car car, Logic.Static.Actions action, Fields fields)
     {
-      IDocument document = null;
+      ExcelDocument document = null;
       try
       {
         document = _documentsService.CreateWaybill(car.Id, dtpDate.Value);

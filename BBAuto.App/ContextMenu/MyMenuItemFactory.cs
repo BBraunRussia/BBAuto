@@ -467,8 +467,8 @@ namespace BBAuto.App.ContextMenu
       item.ShortcutKeys = Keys.Control | Keys.P;
       item.Click += delegate
       {
-        _documentsService.CreateExcelFromDgv(_mainDgv.Dgv);
-        _documentsService.Print();
+        var document = _documentsService.CreateExcelFromDgv(_mainDgv.Dgv);
+        document.Print();
       };
       return item;
     }
@@ -478,7 +478,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Печать путевого листа");
       item.Click += delegate
       {
-        var inputDate = new InputDate(_mainDgv, Logic.Static.Actions.Print, WayBillType.Month);
+        var inputDate = new InputDate(_mainDgv, Logic.Static.Actions.Print, WayBillType.Month, _documentsService);
         inputDate.ShowDialog();
       };
       return item;
@@ -489,7 +489,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Просмотр путевого листа");
       item.Click += delegate
       {
-        var inputDate = new InputDate(_mainDgv, Logic.Static.Actions.Show, WayBillType.Month);
+        var inputDate = new InputDate(_mainDgv, Logic.Static.Actions.Show, WayBillType.Month, _documentsService);
         inputDate.ShowDialog();
       };
       return item;
@@ -523,7 +523,8 @@ namespace BBAuto.App.ContextMenu
         if (_mainStatus.Get() == Status.Invoice)
           invoiceId = _mainDgv.GetId(_mainDgv.CurrentCell.RowIndex);
 
-        _documentsService.ShowInvoice(carId, invoiceId);
+        var document = _documentsService.CreateDocumentInvoice(carId, invoiceId);
+        document.Show();
       };
       return item;
     }
@@ -561,7 +562,8 @@ namespace BBAuto.App.ContextMenu
         if (_mainStatus.Get() == Status.Invoice)
           invoiceId = _mainDgv.GetId(_mainDgv.CurrentCell.RowIndex);
 
-        _documentsService.ShowProxyOnSto(carId, invoiceId);
+        var document = _documentsService.CreateProxyOnSto(carId, invoiceId);
+        document.Show();
       };
       return item;
     }
@@ -579,6 +581,7 @@ namespace BBAuto.App.ContextMenu
             invoiceId = _mainDgv.GetId(cell.RowIndex);
 
           _documentsService.PrintProxyOnSto(carId, invoiceId);
+          //TODO create print with selected date
         }
       };
       return item;
@@ -615,7 +618,8 @@ namespace BBAuto.App.ContextMenu
         {
           var invoiceId = _mainDgv.GetId();
           
-          _documentsService.ShowActFuelCard(invoiceId);
+          var document = _documentsService.CreateActFuelCard(invoiceId);
+          document.Show();
         }
       };
       return item;
@@ -773,9 +777,9 @@ namespace BBAuto.App.ContextMenu
 
         if (MessageBox.Show(message, Captions.Print, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
         {
-          _documentsService.CreateExcelFromAllDgv(_mainDgv.Dgv);
-          _documentsService.CreateHeader("Справочник \"" + _mainStatus + "\"");
-          _documentsService.Print();
+          var document = _documentsService.CreateExcelFromAllDgv(_mainDgv.Dgv);
+          document.CreateHeader("Справочник \"" + _mainStatus + "\"");
+          document.Print();
         }
       };
       return item;
@@ -786,9 +790,9 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Экспорт текущего справочника в Excel");
       item.Click += delegate
       {
-        _documentsService.CreateExcelFromAllDgv(_mainDgv.Dgv);
-        _documentsService.CreateHeader("Справочник \"" + _mainStatus + "\"");
-        _documentsService.Show();
+        var document = _documentsService.CreateExcelFromAllDgv(_mainDgv.Dgv);
+        document.CreateHeader("Справочник \"" + _mainStatus + "\"");
+        document.Show();
       };
       return item;
     }

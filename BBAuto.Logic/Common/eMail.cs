@@ -123,7 +123,7 @@ namespace BBAuto.Logic.Common
     public void SendMailPolicy(Car car, PolicyType type)
     {
       var policyList = PolicyList.getInstance();
-      var policy = policyList.getItem(car, type);
+      var policy = policyList.getItem(car.Id, type);
 
       if (string.IsNullOrEmpty(policy.File))
         throw new Exception("Не найден файл полиса");
@@ -133,7 +133,7 @@ namespace BBAuto.Logic.Common
       CreateBodyPolicy(type);
 
       var driverCarList = DriverCarList.getInstance();
-      var driver = driverCarList.GetDriver(car);
+      var driver = driverCarList.GetDriver(car.Id);
 
       Send(new List<Driver> {driver}, new [] {_authorEmail},
         new List<Attachment> {new Attachment(policy.File)});

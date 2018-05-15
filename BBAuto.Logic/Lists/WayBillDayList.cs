@@ -54,7 +54,7 @@ namespace BBAuto.Logic.Lists
 
     public IEnumerable<WayBillDay> getList(int carId, DateTime date)
     {
-      return list.Where(item => item.Car.Id == carId && item.Date.Year == date.Year && item.Date.Month == date.Month)
+      return list.Where(item => item.CarId == carId && item.Date.Year == date.Year && item.Date.Month == date.Month)
         .OrderBy(item => item.Date);
     }
   }

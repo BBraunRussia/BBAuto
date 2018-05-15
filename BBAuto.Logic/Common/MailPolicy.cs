@@ -13,7 +13,7 @@ namespace BBAuto.Logic.Common
       mail.SendMailPolicy(car, type);
 
       var driverCarList = DriverCarList.getInstance();
-      var driver = driverCarList.GetDriver(car);
+      var driver = driverCarList.GetDriver(car.Id);
 
       return string.Concat("Полис ", type.ToString(), " отправлен на адрес ", driver.email);
     }

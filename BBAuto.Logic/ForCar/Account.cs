@@ -138,7 +138,7 @@ namespace BBAuto.Logic.ForCar
       Car car = carList.getItem(idCar);
 
       DriverCarList driverCarList = DriverCarList.getInstance();
-      return driverCarList.GetDriver(car);
+      return driverCarList.GetDriver(car.Id);
     }
 
     public bool CanAgree()

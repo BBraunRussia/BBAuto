@@ -1,3 +1,5 @@
+using BBAuto.Logic.Services.Documents.Office;
+
 namespace BBAuto.Logic.Common
 {
   public class MileageReportExcel
@@ -21,7 +23,7 @@ namespace BBAuto.Logic.Common
         {
           if (item.IsFailed)
           {
-            doc.setValue(i, 1, item.ToString());
+            doc.SetValue(i, 1, item.ToString());
             i++;
           }
         }
@@ -34,7 +36,7 @@ namespace BBAuto.Logic.Common
         {
           if (!item.IsFailed)
           {
-            doc.setValue(i, 1, item.ToString());
+            doc.SetValue(i, 1, item.ToString());
             i++;
           }
         }

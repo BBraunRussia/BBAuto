@@ -43,7 +43,7 @@ namespace BBAuto.Logic.ForCar
 
     public Driver Driver
     {
-      get { return DriverCarList.getInstance().GetDriver(_car) ?? new Driver(); }
+      get { return DriverCarList.getInstance().GetDriver(_car.Id) ?? new Driver(); }
     }
 
     public PTS pts

@@ -3,6 +3,7 @@ using System.IO;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Documents.Office;
 
 namespace BBAuto.Logic.Common
 {
@@ -46,13 +47,13 @@ namespace BBAuto.Logic.Common
           {
             excelDoc.SetList("Расходы по а-м");
 
-            var grz = (excelDoc.getValue("B4") != null) ? excelDoc.getValue("B4").ToString() : string.Empty;
+            var grz = (excelDoc.GetValue("B4") != null) ? excelDoc.GetValue("B4").ToString() : string.Empty;
 
             var car = GetCar(grz);
 
             if (car == null)
             {
-              var driverFio = (excelDoc.getValue("B5") != null) ? excelDoc.getValue("B5").ToString() : string.Empty;
+              var driverFio = (excelDoc.GetValue("B5") != null) ? excelDoc.GetValue("B5").ToString() : string.Empty;
 
               var driverList = DriverList.getInstance();
               var driver = driverList.getItemByFIO(driverFio);
@@ -70,7 +71,7 @@ namespace BBAuto.Logic.Common
 
             if (car != null)
             {
-              string value = excelDoc.getValue("C8") != null ? excelDoc.getValue("C8").ToString() : string.Empty;
+              string value = excelDoc.GetValue("C8") != null ? excelDoc.GetValue("C8").ToString() : string.Empty;
 
               SetMileage(car, value);
             }

@@ -44,7 +44,7 @@ namespace BBAuto.App.CommonForms
 
         DateTime date = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
 
-        IDocument excelWayBill;
+        ExcelDocument excelWayBill;
 
         try
         {
@@ -71,7 +71,7 @@ namespace BBAuto.App.CommonForms
       }
     }
 
-    private IDocument CreateWayBill(Car car, DateTime date, int idInvoice = 0)
+    private ExcelDocument CreateWayBill(Car car, DateTime date, int idInvoice = 0)
     {
       Driver driver = null;
       if (idInvoice != 0)

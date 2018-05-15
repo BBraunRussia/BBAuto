@@ -8,17 +8,17 @@ namespace BBAuto.Logic.Services.Documents
 {
   public interface IDocumentsService
   {
-    void ShowActFuelCard(int invoiceId);
-    IDocument CreateDocumentInvoice(int carId, int invoiceId);
-    IDocument CreateExcelFromAllDgv(DataGridView mainDgvDgv);
-    void CreateHeader(string text);
-    IDocument CreatePolicyTable();
-    IDocument CreateNotice(int carId, DTP dtp);
-    IDocument CreateExcelFromDgv(DataGridView mainDgvDgv);
-    IDocument CreateAttacheToOrder(int carId, int invoiceId);
-    void ShowProxyOnSto(int carId, int invoiceId);
+    WordDocument CreateActFuelCard(int invoiceId);
+    WordDocument CreateProxyOnSto(int carId, int invoiceId);
     void PrintProxyOnSto(int carId, int invoiceId);
-    IDocument CreateWaybill(int carId, DateTime date, Driver driver = null);
-    void AddRouteInWayBill(IDocument document, int carId, DateTime dtpDateValue, Fields fields);
+
+    ExcelDocument CreateDocumentInvoice(int carId, int invoiceId);
+    ExcelDocument CreateExcelFromAllDgv(DataGridView mainDgvDgv);
+    ExcelDocument CreatePolicyTable();
+    ExcelDocument CreateNotice(int carId, DTP dtp);
+    ExcelDocument CreateExcelFromDgv(DataGridView mainDgvDgv);
+    ExcelDocument CreateAttacheToOrder(int carId, int invoiceId);
+    ExcelDocument CreateWaybill(int carId, DateTime date, Driver driver = null);
+    void AddRouteInWayBill(ExcelDocument document, int carId, DateTime dtpDateValue, Fields fields);
   }
 }

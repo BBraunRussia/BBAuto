@@ -43,7 +43,7 @@ namespace BBAuto.Logic.Services.Documents
     }
     */
     
-    public IDocument CreateExcelFromDgv(DataGridView dgv)
+    public ExcelDocument CreateExcelFromDgv(DataGridView dgv)
     {
       var minRowIndex = 0;
       var maxRowIndex = 0;
@@ -69,14 +69,14 @@ namespace BBAuto.Logic.Services.Documents
       return CreateExcelFromDGV(dgv, minRowIndex, rowCount, minColumnIndex, columnCount);
     }
 
-    public IDocument CreateExcelFromAllDgv(DataGridView dgv)
+    public ExcelDocument CreateExcelFromAllDgv(DataGridView dgv)
     {
       return CreateExcelFromDGV(dgv, 0, dgv.Rows.Count, 0, dgv.Columns.Count);
     }
 
-    private IDocument CreateExcelFromDGV(DataGridView dgv, int minRow, int rowCount, int minColumn, int columnCount)
+    private ExcelDocument CreateExcelFromDGV(DataGridView dgv, int minRow, int rowCount, int minColumn, int columnCount)
     {
-      IDocument document = new ExcelDocument();
+      var document = new ExcelDocument();
       document.WriteHeader(dgv, minColumn, columnCount);
 
       int diffRow = GetDiffRows(minRow);
@@ -121,7 +121,7 @@ namespace BBAuto.Logic.Services.Documents
       return diff;
     }
 
-    public IDocument CreateDocumentInvoice(int carId, int invoiceId)
+    public ExcelDocument CreateDocumentInvoice(int carId, int invoiceId)
     {
       var invoice = InvoiceList.getInstance().GetItem(invoiceId);
       if (invoice == null)
@@ -133,7 +133,7 @@ namespace BBAuto.Logic.Services.Documents
       var mark = Marks.getInstance().getItem(car.MarkId);
       var model = ModelList.getInstance().getItem(car.ModelId);
 
-      IDocument document = new ExcelDocument("Накладная");
+      var document = new ExcelDocument("Накладная");
 
       document.SetValue(7, 2, owner);
 
@@ -172,13 +172,13 @@ namespace BBAuto.Logic.Services.Documents
       return document;
     }
 
-    public IDocument CreateNotice(int carId, DTP dtp)
+    public ExcelDocument CreateNotice(int carId, DTP dtp)
     {
       var car = _carService.GetCarById(carId);
       var mark = MarkList.getInstance().getItem(car.MarkId);
       var model = ModelList.getInstance().getItem(car.ModelId);
 
-      IDocument document = new ExcelDocument("Извещение о страховом случае");
+      var document = new ExcelDocument("Извещение о страховом случае");
 
       var owners = Owners.getInstance();
 
@@ -299,7 +299,7 @@ namespace BBAuto.Logic.Services.Documents
      
      */
 
-    public IDocument CreateWaybill(int carId, DateTime date, Driver driver = null)
+    public ExcelDocument CreateWaybill(int carId, DateTime date, Driver driver = null)
     {
       var car = _carService.GetCarById(carId);
       var mark = MarkList.getInstance().getItem(car.MarkId);
@@ -328,7 +328,7 @@ namespace BBAuto.Logic.Services.Documents
         }
       }
       
-      IDocument document = new ExcelDocument("Путевой лист");
+      var document = new ExcelDocument("Путевой лист");
 
       document.SetValue(4, 28, car.BbNumber);
 
@@ -440,12 +440,12 @@ namespace BBAuto.Logic.Services.Documents
       return document;
     }
 
-    public void AddRouteInWayBill(IDocument document, int carId, DateTime date, Fields fields)
+    public void AddRouteInWayBill(ExcelDocument document, int carId, DateTime date, Fields fields)
     {
       var wayBillDaily = new WayBillDaily(carId, date);
       wayBillDaily.Load();
 
-      CopyWayBill(wayBillDaily);
+      CopyWayBill(document, wayBillDaily);
 
       var k = 0;
       var beginDistance = wayBillDaily.BeginDistance;
@@ -483,7 +483,7 @@ namespace BBAuto.Logic.Services.Documents
         document.SetValue(43 + (47 * (k - 1)), 39, endDistance.ToString());
     }
 
-    private void CopyWayBill(IDocument document, WayBillDaily wayBillDaily)
+    private void CopyWayBill(ExcelDocument document, WayBillDaily wayBillDaily)
     {
       var i = 0;
       foreach (WayBillDay item in wayBillDaily)
@@ -493,7 +493,7 @@ namespace BBAuto.Logic.Services.Documents
 
         document.SetValue(6 + (47 * i), 15, item.Day);
 
-        document.SetValue(4 + (47 * i), 39, GetWaBillFullNumber(i + 1));
+        document.SetValue(4 + (47 * i), 39, GetWaBillFullNumber(document, i + 1));
 
         document.SetValue(12 + (47 * i), 6, item.Driver.GetName(NameType.Full));
         document.SetValue(44 + (47 * i), 16, item.Driver.GetName(NameType.Short));
@@ -503,9 +503,9 @@ namespace BBAuto.Logic.Services.Documents
       }
     }
 
-    private string GetWaBillFullNumber(int currentNumber)
+    private string GetWaBillFullNumber(ExcelDocument document, int currentNumber)
     {
-      string[] wayBillFullNumber = _excelDoc.getValue("AM4").ToString().Split('/');
+      string[] wayBillFullNumber = document.GetValue("AM4").ToString().Split('/');
 
       wayBillFullNumber[1] = currentNumber < 10 ? "0" : string.Empty;
       wayBillFullNumber[1] += currentNumber;
@@ -523,7 +523,7 @@ namespace BBAuto.Logic.Services.Documents
       return sb.ToString();
     }
 
-    public IDocument CreateAttacheToOrder(int carId, int invoiceId)
+    public ExcelDocument CreateAttacheToOrder(int carId, int invoiceId)
     {
       var car = _carService.GetCarById(carId);
       var mark = MarkList.getInstance().getItem(car.MarkId);
@@ -532,7 +532,7 @@ namespace BBAuto.Logic.Services.Documents
       if (invoice == null)
         return null;
 
-      IDocument document = new ExcelDocument("Приложение к приказу");
+      var document = new ExcelDocument("Приложение к приказу");
 
       var fullNameAuto = string.Concat(mark.Name, " ", model.Name);
 
@@ -547,13 +547,6 @@ namespace BBAuto.Logic.Services.Documents
       return document;
     }
 
-    public void ShowProxyOnSto(int carId, int invoiceId)
-    {
-      var wordDoc = CreateProxyOnSto(carId, invoiceId);
-
-      wordDoc.Show();
-    }
-
     public void PrintProxyOnSto(int carId, int invoiceId)
     {
       var wordDoc = CreateProxyOnSto(carId, invoiceId);
@@ -563,11 +556,10 @@ namespace BBAuto.Logic.Services.Documents
       var myDate = new MyDateTime(DateTime.Today.ToShortDateString());
       wordDoc.setValue(myDate.ToLongString(), "01 января 2018");
 
-      //wordDoc.Show();
       wordDoc.Print();
     }
 
-    private WordDoc CreateProxyOnSto(int carId, int invoiceId)
+    public WordDocument CreateProxyOnSto(int carId, int invoiceId)
     {
       var car = _carService.GetCarById(carId);
       var mark = MarkList.getInstance().getItem(car.MarkId);
@@ -628,14 +620,14 @@ namespace BBAuto.Logic.Services.Documents
       return wordDoc;
     }
 
-    public void ShowActFuelCard(int invoiceId)
+    public WordDocument CreateActFuelCard(int invoiceId)
     {
       var invoice = InvoiceList.getInstance().GetItem(invoiceId);
       if (invoice == null)
       {
         MessageBox.Show("Для формирования акта необходимо перейти на страницу \"Перемещения\"", Captions.Warning,
           MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        return;
+        return null;
       }
 
       var wordDoc = openDocumentWord("Акт передачи топливной карты");
@@ -667,15 +659,15 @@ namespace BBAuto.Logic.Services.Documents
       else if (list.Count != 0)
         wordDoc.setValue("Количество карт", list.Count + "карт(ы).");
 
-      wordDoc.Show();
+      return wordDoc;
     }
 
-    public IDocument CreatePolicyTable()
+    public ExcelDocument CreatePolicyTable()
     {
       const int indexBegin = 6;
       var date = DateTime.Today.AddMonths(1);
 
-      IDocument document = new ExcelDocument("Таблица страхования");
+      var document = new ExcelDocument("Таблица страхования");
 
       var myDate = new MyDateTime(date.ToShortDateString());
 
@@ -726,11 +718,11 @@ namespace BBAuto.Logic.Services.Documents
       return osagoBeginDate;
     }
     
-    private WordDoc openDocumentWord(string name)
+    private WordDocument openDocumentWord(string name)
     {
       var templateList = TemplateList.getInstance();
       var template = templateList.getItem(name);
-      return new WordDoc(template.File);
+      return new WordDocument(template.File);
     }
   }
 }

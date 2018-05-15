@@ -127,8 +127,11 @@
     <Compile Include="Services\DiagCard\DiagCardService.cs" />
     <Compile Include="Services\DiagCard\IDiagCardService.cs" />
     <Compile Include="Services\Documents\ExcelDocument.cs" />
-    <Compile Include="Services\Documents\IDocument.cs" />
     <Compile Include="Services\Documents\IDocumentsService.cs" />
+    <Compile Include="Services\Documents\Office\ExcelDoc.cs" />
+    <Compile Include="Services\Documents\Office\OfficeDoc.cs" />
+    <Compile Include="Services\Documents\Office\WordDoc.cs" />
+    <Compile Include="Services\Documents\WordDocument.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />
@@ -179,7 +182,6 @@
     <Compile Include="Lists\CarDocList.cs" />
     <Compile Include="Services\Documents\DocumentsService.cs" />
     <Compile Include="Common\MyDateTime.cs" />
-    <Compile Include="Common\OfficeDoc.cs" />
     <Compile Include="Common\Template.cs" />
     <Compile Include="Dictionary\Colors.cs" />
     <Compile Include="Dictionary\Comps.cs" />

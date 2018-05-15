@@ -1,10 +1,10 @@
 using System.Windows.Forms;
-using BBAuto.Logic.Common;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Documents.Office;
 
 namespace BBAuto.Logic.Services.Documents
 {
-  public class ExcelDocument : IDocument
+  public class ExcelDocument
   {
     private readonly ExcelDoc _excelDoc;
 
@@ -45,20 +45,25 @@ namespace BBAuto.Logic.Services.Documents
       _excelDoc.CopyRange(copyCell1, copyCell2, pastingCell);
     }
 
+    public object GetValue(string cell)
+    {
+      return _excelDoc.GetValue(cell);
+    }
+
     public void SetValue(int rowIndex, int columnIndex, string value)
     {
-      _excelDoc.setValue(rowIndex, columnIndex, value);
+      _excelDoc.SetValue(rowIndex, columnIndex, value);
     }
 
     public void WriteHeader(DataGridView dgv, int minColumn, int columnCount)
     {
-      int index = 1;
+      var index = 1;
 
-      for (int j = minColumn; j < columnCount; j++)
+      for (var j = minColumn; j < columnCount; j++)
       {
         if (dgv.Columns[j].Visible)
         {
-          _excelDoc.setValue(1, index, dgv.Columns[j].HeaderText);
+          _excelDoc.SetValue(1, index, dgv.Columns[j].HeaderText);
           index++;
         }
       }
