@@ -1,6 +1,7 @@
 using System.Configuration;
 using BBAuto.Logic.Services.Account;
 using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Car.Doc;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
@@ -48,6 +49,9 @@ namespace BBAuto.Logic
         .LifestyleTransient());
       container.Register(Component.For<ISaleCarService>()
         .ImplementedBy<SaleCarService>()
+        .LifestyleTransient());
+      container.Register(Component.For<ICarDocService>()
+        .ImplementedBy<CarDocService>()
         .LifestyleTransient());
 
       container.Register(Component.For<IMileageService>()

@@ -5,6 +5,7 @@ namespace BBAuto.Repositories
   public interface IDbContext
   {
     IDbCar Car { get; }
+    IDbCarDoc CarDoc { get; }
     IDbSaleCar SaleCar { get; }
     IDbDiagCard DiagCard { get; }
     IDbDriver Driver { get; }

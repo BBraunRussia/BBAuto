@@ -363,7 +363,7 @@ namespace BBAuto.Logic.Entities
         mileageDate, info.Owner, info.Guarantee, GetStatus()
       };
     }
-
+    /*
     public CarDoc createCarDoc(string file)
     {
       CarDoc carDoc = new CarDoc(this);
@@ -372,7 +372,7 @@ namespace BBAuto.Logic.Entities
 
       return carDoc;
     }
-
+    */
     public override string ToString()
     {
       return (Id == 0) ? "нет данных" : string.Concat(Mark.Name, " ", info.Model, " ", Grz);

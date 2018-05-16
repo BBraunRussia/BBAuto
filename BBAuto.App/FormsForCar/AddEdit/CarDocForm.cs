@@ -1,35 +1,43 @@
 using System;
 using System.Windows.Forms;
 using BBAuto.App.Events;
-using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Services.Car.Doc;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
-  public partial class CarDoc_AddEdit : Form
+  public partial class CarDocForm : Form, ICarDocForm
   {
-    private readonly CarDoc _carDoc;
+    private CarDocModel _carDoc;
 
     private WorkWithForm _workWithForm;
 
-    public CarDoc_AddEdit(CarDoc carDoc)
-    {
-      InitializeComponent();
+    private readonly ICarDocService _carDocService;
 
+    public CarDocForm(ICarDocService carDocService)
+    {
+      _carDocService = carDocService;
+      InitializeComponent();
+    }
+
+    public DialogResult ShowDialog(CarDocModel carDoc)
+    {
       _carDoc = carDoc;
+
+      return ShowDialog();
     }
 
     private void CarDoc_AddEdit_Load(object sender, EventArgs e)
     {
-      fillFields();
+      FillFields();
 
-      _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+      _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.SetEditMode(_carDoc.Id == 0);
     }
 
-    private void fillFields()
+    private void FillFields()
     {
       tbName.Text = _carDoc.Name;
-      TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
+      var tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _carDoc.File;
     }
 
@@ -38,12 +46,12 @@ namespace BBAuto.App.FormsForCar.AddEdit
       if (_workWithForm.IsEditMode())
       {
         _carDoc.Name = tbName.Text;
-        TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
+        var tbFile = ucFile.Controls["tbFile"] as TextBox;
         _carDoc.File = tbFile.Text;
 
-        _carDoc.Save();
+        _carDocService.Save(_carDoc);
 
-        DialogResult = System.Windows.Forms.DialogResult.OK;
+        DialogResult = DialogResult.OK;
       }
       else
         _workWithForm.SetEditMode(true);

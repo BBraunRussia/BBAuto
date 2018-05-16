@@ -1,29 +1,28 @@
 create procedure [dbo].[UpserCarDoc]
-  @idCarDoc int,
+  @id int,
   @idCar int,
   @name nvarchar(50),
   @file nvarchar(200)
 as
 begin
   begin transaction
-  if (@idCarDoc = 0)
+  if (@id = 0)
   begin
     declare @count int
     select
-      @count = count(carDoc_id)
+      @count = count(Id)
     from
-      carDoc
+      CarDoc
     where
-      carDoc_name = @name
-      and carDoc_file = @file
-      and car_id = @idCar
+      [Name] = @name
+      and [File] = @file
+      and CarId = @idCar
 
-    if (@count = 0
-      and @idCar != 0)
+    if (@count = 0 and @idCar != 0)
     begin
-      insert into carDoc values(@idCar, @name, @file)
+      insert into CarDoc values(@idCar, @name, @file)
 
-      select @idCarDoc = @@identity
+      select @id = scope_identity()
 
       if @@error <> 0
         rollback transaction
@@ -31,15 +30,18 @@ begin
   end
   else
   begin
-    update carDoc
-    set carDoc_name = @name,
-        carDoc_file = @file
-    where carDoc_id = @idCarDoc
+    update
+      CarDoc
+    set
+      [Name] = @name,
+      [File] = @file
+    where
+      Id = @id
 
     if @@error <> 0
       rollback transaction
   end
   commit transaction;
 
-  select @idCarDoc
+  exec dbo.GetCardGetCarDocById @id
 end

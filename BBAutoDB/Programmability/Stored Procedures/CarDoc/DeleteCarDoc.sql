@@ -1,7 +1,5 @@
 create procedure [dbo].[DeleteCarDoc]
-  @idCarDoc int
+  @id int
 as
-begin
-  delete from carDoc
-  where carDoc_id = @idCarDoc
-end
+  delete from CarDoc
+  where Id = @id

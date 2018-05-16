@@ -170,6 +170,7 @@
     <Compile Include="ContextMenu\IMyMenu.cs" />
     <Compile Include="ContextMenu\IMyMenuItemFactory.cs" />
     <Compile Include="Dictionary\IDealerListForm.cs" />
+    <Compile Include="FormsForCar\AddEdit\ICarDocForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IDiagCardForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IMileageForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IViolationForm.cs" />
@@ -239,11 +240,11 @@
     </Compile>
     <Compile Include="Common\MyFilter.cs" />
     <Compile Include="Events\StatusEventArgs.cs" />
-    <Compile Include="FormsForCar\AddEdit\CarDoc_AddEdit.cs">
+    <Compile Include="FormsForCar\AddEdit\CarDocForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\CarDoc_AddEdit.Designer.cs">
-      <DependentUpon>CarDoc_AddEdit.cs</DependentUpon>
+    <Compile Include="FormsForCar\AddEdit\CarDocForm.Designer.cs">
+      <DependentUpon>CarDocForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForCar\AddEdit\DiagCardForm.cs">
       <SubType>Form</SubType>
@@ -558,8 +559,8 @@
     <EmbeddedResource Include="Dictionary\formUsersAccess.resx">
       <DependentUpon>formUsersAccess.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForCar\AddEdit\CarDoc_AddEdit.resx">
-      <DependentUpon>CarDoc_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForCar\AddEdit\CarDocForm.resx">
+      <DependentUpon>CarDocForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForCar\AddEdit\DiagCardForm.resx">
       <DependentUpon>DiagCardForm.cs</DependentUpon>

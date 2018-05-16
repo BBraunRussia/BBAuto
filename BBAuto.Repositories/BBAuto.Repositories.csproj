@@ -59,6 +59,7 @@
     <Compile Include="DbContext.cs" />
     <Compile Include="Entities\DbAccount.cs" />
     <Compile Include="Entities\DbCar.cs" />
+    <Compile Include="Entities\DbCarDoc.cs" />
     <Compile Include="Entities\DbDiagCard.cs" />
     <Compile Include="Entities\DbSaleCar.cs" />
     <Compile Include="Entities\DbDealer.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Entities\DbInvoice.cs" />
     <Compile Include="Entities\DbMileage.cs" />
     <Compile Include="IDbContext.cs" />
+    <Compile Include="Interfaces\IDbCarDoc.cs" />
     <Compile Include="Interfaces\IDbAccount.cs" />
     <Compile Include="Interfaces\IDbCar.cs" />
     <Compile Include="Interfaces\IDbDiagCard.cs" />

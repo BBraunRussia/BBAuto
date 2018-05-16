@@ -111,9 +111,12 @@
     <Compile Include="Services\Account\AccountModel.cs" />
     <Compile Include="Services\Account\AccountService.cs" />
     <Compile Include="Services\Account\IAccountService.cs" />
+    <Compile Include="Services\Car\Doc\CarDocModel.cs" />
+    <Compile Include="Services\Car\Doc\CarDocService.cs" />
+    <Compile Include="Services\Car\Doc\ICarDocService.cs" />
     <Compile Include="Services\Car\Sale\SaleCarModel.cs" />
     <Compile Include="Services\Car\Sale\SaleCarService.cs" />
-    <Compile Include="Services\Car\Sale\ICarSaleService.cs" />
+    <Compile Include="Services\Car\Sale\ISaleCarService.cs" />
     <Compile Include="Services\Car\CarMappingProfile.cs" />
     <Compile Include="Services\Car\CarModel.cs" />
     <Compile Include="Services\Car\CarService.cs" />
@@ -179,7 +182,6 @@
     <Compile Include="ForCar\ShipPart.cs" />
     <Compile Include="ForCar\SsDTP.cs" />
     <Compile Include="ForDriver\UserAccess.cs" />
-    <Compile Include="Lists\CarDocList.cs" />
     <Compile Include="Services\Documents\DocumentsService.cs" />
     <Compile Include="Common\MyDateTime.cs" />
     <Compile Include="Common\Template.cs" />

@@ -9,6 +9,7 @@ using BBAuto.Logic.Common;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car.Doc;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Documents;
@@ -43,9 +44,11 @@ namespace BBAuto.App.FormsForCar
     private readonly IMileageService _mileageService;
     private readonly IDiagCardService _diagCardService;
     private readonly IDocumentsService _documentsService;
+    private readonly ICarDocService _carDocService;
 
     private readonly IMileageForm _formMileage;
     private readonly IDiagCardForm _formDiagCard;
+    private readonly ICarDocForm _carDocForm;
 
     private readonly IDgvFormatter _dgvFormatter;
     
@@ -56,7 +59,8 @@ namespace BBAuto.App.FormsForCar
       IDiagCardService diagCardService,
       IDiagCardForm formDiagCard,
       IDgvFormatter dgvFormatter,
-      IDocumentsService documentsService)
+      IDocumentsService documentsService,
+      ICarDocService carDocService, ICarDocForm carDocForm)
     {
       _dealerService = dealerService;
       _mileageService = mileageService;
@@ -65,6 +69,8 @@ namespace BBAuto.App.FormsForCar
       _formDiagCard = formDiagCard;
       _dgvFormatter = dgvFormatter;
       _documentsService = documentsService;
+      _carDocService = carDocService;
+      _carDocForm = carDocForm;
     }
 
     public DialogResult ShowDialog(Car car)
@@ -788,15 +794,15 @@ namespace BBAuto.App.FormsForCar
     {
       var ofd = new OpenFileDialog {Multiselect = true};
       ofd.ShowDialog();
-
-      CarDocList carDocList = CarDocList.getInstance();
-
-      foreach (string file in ofd.FileNames)
+      
+      foreach (var file in ofd.FileNames)
       {
-        var carDoc = _car.createCarDoc(file);
-        carDoc.Save();
-
-        carDocList.Add(carDoc);
+        _carDocService.Save(new CarDocModel
+        {
+          CarId = _car.Id,
+          Name = System.IO.Path.GetFileNameWithoutExtension(file),
+          File = file
+        });
       }
 
       LoadCarDoc();
@@ -804,8 +810,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadCarDoc()
     {
-      CarDocList carDocList = CarDocList.getInstance();
-      dgvCarDoc.DataSource = carDocList.ToDataTableByCar(_car);
+      dgvCarDoc.DataSource = _carDocService.GetDataTableByCarId(_car.Id);
 
       if (dgvCarDoc.DataSource != null)
         FormatDgvCardDoc();
@@ -829,9 +834,7 @@ namespace BBAuto.App.FormsForCar
       {
         int idCarDoc = Convert.ToInt32(dgvCarDoc.Rows[dgvCarDoc.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        CarDocList carDocList = CarDocList.getInstance();
-
-        carDocList.Delete(idCarDoc);
+        _carDocService.Delete(idCarDoc);
 
         LoadCarDoc();
       }
@@ -971,10 +974,9 @@ namespace BBAuto.App.FormsForCar
     {
       if (IsCellNoHeader(e.RowIndex))
       {
-        int idCarDoc = Convert.ToInt32(dgvCarDoc.Rows[e.RowIndex].Cells[0].Value);
+        var idCarDoc = Convert.ToInt32(dgvCarDoc.Rows[e.RowIndex].Cells[0].Value);
 
-        var carDocList = CarDocList.getInstance();
-        var carDoc = carDocList.getItem(idCarDoc);
+        var carDoc = _carDocService.GetCarDocById(idCarDoc);
 
         if (e.ColumnIndex == 2)
         {
@@ -982,8 +984,7 @@ namespace BBAuto.App.FormsForCar
         }
         else
         {
-          var carDocAe = new CarDoc_AddEdit(carDoc);
-          if (carDocAe.ShowDialog() == DialogResult.OK)
+          if (_carDocForm.ShowDialog(carDoc) == DialogResult.OK)
             LoadCarDoc();
         }
       }

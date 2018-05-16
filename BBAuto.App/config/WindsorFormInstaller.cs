@@ -61,6 +61,9 @@ namespace BBAuto.App.config
       container.Register(Component.For<IDiagCardForm>()
         .ImplementedBy<DiagCardForm>()
         .LifestyleTransient());
+      container.Register(Component.For<ICarDocForm>()
+        .ImplementedBy<CarDocForm>()
+        .LifestyleTransient());
     }
   }
 }

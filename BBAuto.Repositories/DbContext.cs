@@ -41,6 +41,7 @@ namespace BBAuto.Repositories
     }
 
     public IDbCar Car => CreateRepository<IDbCar>();
+    public IDbCarDoc CarDoc => CreateRepository<IDbCarDoc>();
     public IDbSaleCar SaleCar => CreateRepository<IDbSaleCar>();
     public IDbDiagCard DiagCard => CreateRepository<IDbDiagCard>();
     public IDbDriver Driver => CreateRepository<IDbDriver>();
