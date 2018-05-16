@@ -1,4 +1,5 @@
-create procedure [dbo].[GetViolations]
+﻿create procedure dbo.GetViolationById
+  @id int
 as
   select
     Id,
@@ -16,3 +17,5 @@ as
     DateCreate
   from
     Violation
+  where
+    Id = @id

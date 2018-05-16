@@ -6,5 +6,6 @@ namespace BBAuto.Logic.Services.Car.Sale
   {
     IList<SaleCarModel> GetSaleCars();
     void Save(SaleCarModel saleCar);
+    void Delete(int carId);
   }
 }

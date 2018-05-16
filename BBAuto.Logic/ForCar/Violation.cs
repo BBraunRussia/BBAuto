@@ -217,14 +217,6 @@ namespace BBAuto.Logic.ForCar
         WorkWithFiles.Delete(_fileBeginPay);
     }
 
-    public void Agree()
-    {
-      EMail email = new EMail();
-      email.SendMailAccountViolation(this);
-
-      Agreed = true;
-
-      Save();
-    }
+    
   }
 }

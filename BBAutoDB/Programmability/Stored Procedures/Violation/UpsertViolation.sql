@@ -1,16 +1,16 @@
 create procedure [dbo].[UpsertViolation]
-  @idViolation int,
-  @idCar int,
+  @id int,
+  @carId int,
   @date datetime,
   @number nvarchar(50),
   @file nvarchar(200),
   @datePay nvarchar(50),
   @filePay nvarchar(200),
-  @idViolationType int,
+  @violationTypeId int,
   @sum int,
-  @sent int,
-  @noDeduction int,
-  @agreed nvarchar(5) = 'False'
+  @sent bit,
+  @noDeduction bit,
+  @agreed bit
 as
 begin
   declare @event nvarchar(50)
@@ -20,42 +20,42 @@ begin
   else
     set @datePay = cast(@datePay as datetime)
 
-  if (@idViolation = 0)
+  if (@id = 0)
   begin
     declare @count int
     select
-      @count = count(violation_id)
+      @count = count(*)
     from
       Violation
     where
-      violation_date = @date
-      and violation_number = @number
+      [Date] = @date
+      and Number = @number
 
-    insert into Violation values(@idCar, @date, @number, @file, @datePay, @filePay, @idViolationType, @sum, 0, @noDeduction, @agreed, current_timestamp)
+    insert into Violation values(@carId, @date, @number, @file, @datePay, @filePay, @violationTypeId, @sum, 0, @noDeduction, @agreed, getdate())
 
     set @event = 'insert'
 
-    set @idViolation = scope_identity()
+    set @id = scope_identity()
   end
   else
   begin
     update Violation
-    set violation_date = @date,
-        violation_number = @number,
-        violation_file = @file,
-        violation_datePay = @datePay,
-        violation_filePay = @filePay,
-        violationType_id = @idViolationType,
-        violation_sum = @sum,
-        violation_sent = @sent,
-        violation_noDeduction = @noDeduction,
-        violation_agreed = @agreed
-    where violation_id = @idViolation
+    set [Date] = @date,
+        Number = @number,
+        [File] = @file,
+        DatePay = @datePay,
+        FilePay = @filePay,
+        violationTypeId = @violationTypeId,
+        [Sum] = @sum,
+        [Sent] = @sent,
+        NoDeduction = @noDeduction,
+        Agreed = @agreed
+    where Id = @id
 
     set @event = 'update'
   end
 
-  exec InsertHistory 'Violation', @idViolation, @event, @filePay
+  exec InsertHistory 'Violation', @id, @event, @filePay
 
-  select @idViolation
+  select @id
 end

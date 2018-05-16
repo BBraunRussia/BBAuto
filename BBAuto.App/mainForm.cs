@@ -21,6 +21,7 @@ using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using Common.Resources;
 
@@ -46,6 +47,7 @@ namespace BBAuto.App
     private readonly ICarService _carService;
     private readonly ISaleCarService _saleCarService;
     private readonly IDiagCardService _diagCardService;
+    private readonly IViolationService _violationService;
 
     private readonly IMyMenu _myMenu;
     private readonly IMainDgv _mainDgv;
@@ -62,7 +64,8 @@ namespace BBAuto.App
       IDiagCardForm diagCardForm,
       IDiagCardService diagCardService,
       IMainDgv mainDgv,
-      IDgvFormatter dgvFormatter)
+      IDgvFormatter dgvFormatter,
+      IViolationService violationService)
     {
       _carForm = carForm;
       _saleCarForm = saleCarForm;
@@ -74,6 +77,7 @@ namespace BBAuto.App
       _diagCardService = diagCardService;
       _mainDgv = mainDgv;
       _dgvFormatter = dgvFormatter;
+      _violationService = violationService;
 
       InitializeComponent();
 
@@ -438,7 +442,8 @@ namespace BBAuto.App
         if (id == 0)
           return;
 
-        var violation = ViolationList.getInstance().getItem(id);
+        var violation = _violationService.GetById(id);
+        var car = _carService.GetCarById(violation.CarId);
 
         var columnName = _dgvCar.Columns[point.X].HeaderText;
 
@@ -452,7 +457,7 @@ namespace BBAuto.App
             throw new NotImplementedException("Для согласования необходимо прикрепить скан копию счёта");
           if (User.GetRole() == RolesList.Boss || User.GetRole() == RolesList.Adminstrator)
           {
-            violation.Agree();
+            _violationService.Agree(violation, car);
             LoadCars();
           }
           else

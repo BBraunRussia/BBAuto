@@ -25,5 +25,10 @@ namespace BBAuto.Logic.Services.Car.Sale
       var dbModel = Mapper.Map<DbSaleCar>(saleCar);
       _dbContext.SaleCar.UpsertSaleCar(dbModel);
     }
+
+    public void Delete(int carId)
+    {
+      _dbContext.SaleCar.DeleteSaleCar(carId);
+    }
   }
 }

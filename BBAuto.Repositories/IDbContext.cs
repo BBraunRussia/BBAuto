@@ -12,5 +12,6 @@ namespace BBAuto.Repositories
     IDbDealer Dealer { get; }
     IDbMileage Mileage { get; }
     IDbInvoice Invoice { get; }
+    IDbViolation Violation { get; }
   }
 }

@@ -20,6 +20,7 @@ using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Documents;
@@ -45,6 +46,7 @@ namespace BBAuto.App.ContextMenu
     private readonly ITemplateListForm _templateListForm;
 
     private readonly IDocumentsService _documentsService;
+    private readonly ISaleCarService _saleCarService;
 
     private IMainDgv _mainDgv;
 
@@ -56,7 +58,8 @@ namespace BBAuto.App.ContextMenu
       IMyPointListForm myPointListForm,
       IRouteListForm routeListForm,
       ITemplateListForm templateListForm,
-      IDocumentsService documentsService)
+      IDocumentsService documentsService,
+      ISaleCarService saleCarService)
     {
       _formMileage = formMileage;
       _carForm = carForm;
@@ -66,6 +69,7 @@ namespace BBAuto.App.ContextMenu
       _routeListForm = routeListForm;
       _templateListForm = templateListForm;
       _documentsService = documentsService;
+      _saleCarService = saleCarService;
     }
 
     public void SetMainDgv(IMainDgv dgvMain)
@@ -280,7 +284,7 @@ namespace BBAuto.App.ContextMenu
         if (carId == 0)
           return;
 
-        var dtp = new DTP(carId);
+        var dtp = new DTP(CarList.getInstance().getItem(carId));
 
         var dtpAe = new DTP_AddEdit(dtp);
         dtpAe.ShowDialog();
@@ -357,11 +361,11 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Новое временное перемещение");
       item.Click += delegate
       {
-        var car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
-        var tempMove = car.createTempMove();
+        var tempMove = new TempMove(carId);
 
         var tempMoveAe = new TempMove_AddEdit(tempMove);
         tempMoveAe.ShowDialog();
@@ -374,15 +378,14 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("На продажу");
       item.Click += delegate
       {
-        var car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
         if (MessageBox.Show(Messages.MoveCarToSale, Captions.RemoveFromSale, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
         {
-          CarSale carSale = new CarSale(car);
-          carSale.Save();
-
+          _saleCarService.Save(new SaleCarModel { Id = carId });
+          
           _mainStatus.Set(_mainStatus.Get());
         }
       };
@@ -394,15 +397,14 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Снять с продажи");
       item.Click += delegate
       {
-        var car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
         if (MessageBox.Show(Messages.RemoveCarFromSale, Captions.RemoveFromSale, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
         {
-          CarSaleList carSaleList = CarSaleList.getInstance();
-          carSaleList.Delete(car.Id);
-
+          _saleCarService.Delete(carId);
+          
           _mainStatus.Set(_mainStatus.Get());
         }
       };
@@ -414,8 +416,8 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Создать письмо Outlook");
       item.Click += delegate
       {
-        Car car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
         DriverMails driverMails = new DriverMails(_mainDgv);
@@ -593,12 +595,12 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Полис Каско");
       item.Click += delegate
       {
-        Car car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
         PolicyList policyList = PolicyList.getInstance();
-        Policy kasko = policyList.getItem(car.Id, PolicyType.КАСКО);
+        Policy kasko = policyList.getItem(carId, PolicyType.КАСКО);
 
         if (!string.IsNullOrEmpty(kasko.File))
           WorkWithFiles.OpenFile(kasko.File);
@@ -611,8 +613,8 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Акт передачи топливной карты");
       item.Click += delegate
       {
-        Car car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           MessageBox.Show("Для формирования акта выберите ячейку в таблице", Captions.Warning, MessageBoxButtons.OK,
             MessageBoxIcon.Warning);
         else
@@ -652,12 +654,12 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Свидетельство о регистрации ТС");
       item.Click += delegate
       {
-        Car car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
-        STSList stsList = STSList.getInstance();
-        STS sts = stsList.getItem(car);
+        var stsList = STSList.getInstance();
+        var sts = stsList.getItem(carId);
 
         if (!string.IsNullOrEmpty(sts.File))
           WorkWithFiles.OpenFile(sts.File);
@@ -682,12 +684,12 @@ namespace BBAuto.App.ContextMenu
           date = dtp.Date;
         }
 
-        Car car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
         DriverCarList driverCarList = DriverCarList.getInstance();
-        Driver driver = driverCarList.GetDriver(car.Id, date);
+        Driver driver = driverCarList.GetDriver(carId, date);
 
         LicenseList licencesList = LicenseList.getInstance();
         DriverLicense driverLicense = licencesList.getItem(driver);
@@ -1286,9 +1288,11 @@ namespace BBAuto.App.ContextMenu
 
     private void SendPolicy(PolicyType type)
     {
-      var car = _mainDgv.GetCar();
-      if (car == null)
+      var carId = _mainDgv.GetCarId();
+      if (carId == 0)
         return;
+
+      var car = CarList.getInstance().getItem(carId);
 
       var result = MailPolicy.Send(car, type);
 

@@ -14,10 +14,10 @@ namespace BBAuto.Logic.ForCar
     public Car Car { get; set; }
     public Driver Driver { get; set; }
 
-    internal TempMove(Car car)
+    public TempMove(int carId)
     {
       Id = 0;
-      Car = car;
+      Car = CarList.getInstance().getItem(carId);
       DateBegin = DateTime.Today;
       DateEnd = DateTime.Today;
     }

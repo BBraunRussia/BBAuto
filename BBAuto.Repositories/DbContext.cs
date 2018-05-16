@@ -48,5 +48,6 @@ namespace BBAuto.Repositories
     public IDbDealer Dealer => CreateRepository<IDbDealer>();
     public IDbMileage Mileage => CreateRepository<IDbMileage>();
     public IDbInvoice Invoice => CreateRepository<IDbInvoice>();
+    public IDbViolation Violation => CreateRepository<IDbViolation>();
   }
 }

@@ -139,6 +139,10 @@
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />
     <Compile Include="Services\Mileage\MileageService.cs" />
+    <Compile Include="Services\Violation\IViolationService.cs" />
+    <Compile Include="Services\Violation\ViolationMappingProfile.cs" />
+    <Compile Include="Services\Violation\ViolationModel.cs" />
+    <Compile Include="Services\Violation\ViolationService.cs" />
     <Compile Include="Static\MyExtension.cs" />
     <Compile Include="ForCar\CarInfo.cs" />
     <Compile Include="ForDriver\FuelCard.cs" />

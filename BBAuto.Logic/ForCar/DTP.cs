@@ -4,7 +4,6 @@ using BBAuto.Logic.Abstract;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
-using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.ForCar
@@ -23,7 +22,7 @@ namespace BBAuto.Logic.ForCar
     public string Comm { get; set; }
     public string NumberLoss { get; set; }
 
-    public int CarId { get; private set; }
+    public Car Car { get; private set; }
 
     public string IDStatusAfterDTP
     {
@@ -69,10 +68,10 @@ namespace BBAuto.Logic.ForCar
 
     public DateTime Date { get; set; }
 
-    public DTP(int carId)
+    public DTP(Car car)
     {
       Id = 0;
-      CarId = carId;
+      Car = car;
       _idStatusAfterDTP = 0;
       _idRegion = 0;
       Date = DateTime.Now;
@@ -86,7 +85,7 @@ namespace BBAuto.Logic.ForCar
       Id = id;
 
       int.TryParse(row.ItemArray[1].ToString(), out int idCar);
-      CarId = idCar;
+      Car = CarList.getInstance().getItem(idCar);
 
       int number;
       int.TryParse(row.ItemArray[2].ToString(), out number);
@@ -111,7 +110,7 @@ namespace BBAuto.Logic.ForCar
     public override void Save()
     {
       int id;
-      int.TryParse(Provider.Insert("DTP", Id, CarId, Date, _idRegion, _dateCallInsure, IDCulprit, IDStatusAfterDTP,
+      int.TryParse(Provider.Insert("DTP", Id, Car.Id, Date, _idRegion, _dateCallInsure, IDCulprit, IDStatusAfterDTP,
         NumberLoss,
         _sum, Damage, Facts, Comm, IDcurrentStatusAfterDTP), out id);
       Id = id;
@@ -125,7 +124,7 @@ namespace BBAuto.Logic.ForCar
 
     private DataTable getCulpritDataTable()
     {
-      return Provider.DoOther("exec Culprit_SelectWithUser @p1, @p2", CarId, Date);
+      return Provider.DoOther("exec Culprit_SelectWithUser @p1, @p2", Car.Id, Date);
     }
 
     internal override void Delete()
@@ -133,7 +132,7 @@ namespace BBAuto.Logic.ForCar
       Provider.Delete("DTP", Id);
     }
 
-    public new object[] ToRow(ICarService carService)
+    internal override object[] ToRow()
     {
       Regions regions = Regions.getInstance();
 
@@ -145,12 +144,10 @@ namespace BBAuto.Logic.ForCar
       {
         driver = new Driver();
       }
-
-      var car = carService.GetCarById(CarId);
-
+      
       return new object[]
       {
-        Id, CarId, car.BbNumber, car.Grz, Number, Date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
+        Id, Car.Id, Car.BBNumber, Car.Grz, Number, Date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
         _dateCallInsure, GetCurrentStatusAfterDtp(), culpritList.getItem(_idCulprit), _sum, Comm, Facts, Damage,
         statusAfterDTP.getItem(_idStatusAfterDTP), NumberLoss
       };
@@ -165,7 +162,7 @@ namespace BBAuto.Logic.ForCar
 
     public override string ToString()
     {
-      return CarId == 0 ? "нет данных" : string.Concat("№", Number, " дата ", Date.ToShortDateString());
+      return Car == null ? "нет данных" : string.Concat("№", Number, " дата ", Date.ToShortDateString());
     }
 
     public DTPFile createFile()
@@ -176,7 +173,7 @@ namespace BBAuto.Logic.ForCar
     internal object[] getCulpit()
     {
       DriverCarList driverCarList = DriverCarList.getInstance();
-      Driver driver = driverCarList.GetDriver(CarId, Date);
+      Driver driver = driverCarList.GetDriver(Car.Id, Date);
 
       return new object[] {4, driver.GetName(NameType.Full)};
     }
@@ -184,7 +181,7 @@ namespace BBAuto.Logic.ForCar
     public Driver GetDriver()
     {
       DriverCarList driverCarList = DriverCarList.getInstance();
-      return driverCarList.GetDriver(CarId, Date);
+      return driverCarList.GetDriver(Car.Id, Date);
     }
 
     public string GetCurrentStatusAfterDtp()

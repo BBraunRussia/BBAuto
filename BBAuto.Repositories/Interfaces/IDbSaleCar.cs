@@ -8,7 +8,7 @@ namespace BBAuto.Repositories.Interfaces
   public interface IDbSaleCar
   {
     IList<DbSaleCar> GetSaleCars();
-    void DeleteSaleCar(DbSaleCar model);
+    void DeleteSaleCar(int carId);
     void UpsertSaleCar(DbSaleCar model);
   }
 }

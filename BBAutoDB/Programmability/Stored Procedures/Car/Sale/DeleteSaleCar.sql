@@ -1,7 +1,4 @@
 create procedure [dbo].[DeleteSaleCar]
-  @id int
+  @carId int
 as
-begin
-  delete from CarSale
-  where CarId = @id
-end
+  delete from CarSale where CarId = @carId

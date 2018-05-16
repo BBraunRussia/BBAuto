@@ -5,6 +5,7 @@ using BBAuto.App.FormsForDriver.AddEdit;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using Common.Resources;
 
@@ -14,7 +15,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
   {
     private readonly ICarForm _carForm;
 
-    private Violation _violation;
+    private ViolationModel _violation;
 
     private WorkWithForm _workWithForm;
     
@@ -25,7 +26,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       _carForm = carForm;
     }
 
-    public DialogResult ShowDialog(Violation violation)
+    public DialogResult ShowDialog(ViolationModel violation)
     {
       _violation = violation;
 
@@ -51,16 +52,16 @@ namespace BBAuto.App.FormsForCar.AddEdit
       var tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _violation.File;
 
-      cbViolationType.SelectedValue = _violation.IDViolationType;
-      tbSum.Text = _violation.Sum;
+      cbViolationType.SelectedValue = _violation.ViolationTypeId;
+      tbSum.Text = _violation.Sum.ToString();
 
       var violationType = ViolationTypes.getInstance();
       cbViolationType.DataSource = violationType.ToDataTable();
       cbViolationType.ValueMember = "id";
       cbViolationType.DisplayMember = "Название";
 
-      cbViolationType.SelectedValue = _violation.IDViolationType;
-      tbSum.Text = _violation.Sum;
+      cbViolationType.SelectedValue = _violation.ViolationTypeId;
+      tbSum.Text = _violation.Sum.ToString();
 
       var tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
       tbFilePay.Text = _violation.FilePay;
@@ -107,7 +108,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       var tbFile = ucFile.Controls["tbFile"] as TextBox;
       _violation.File = tbFile.Text;
 
-      _violation.IDViolationType = cbViolationType.SelectedValue.ToString();
+      _violation.ViolationTypeId = cbViolationType.SelectedValue;
       _violation.Sum = tbSum.Text;
 
       var tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;

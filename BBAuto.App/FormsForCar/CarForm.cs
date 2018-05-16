@@ -659,7 +659,7 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddDTP_Click(object sender, EventArgs e)
     {
-      DTP dtp = new DTP(_car.Id);
+      DTP dtp = new DTP(CarList.getInstance().getItem(_car.Id));
 
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
 
@@ -955,7 +955,7 @@ namespace BBAuto.App.FormsForCar
     {
       var dtp = _dtpList.getItem(Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value));
 
-      var driver = _driverCarList.GetDriver(dtp.CarId, dtp.Date);
+      var driver = _driverCarList.GetDriver(dtp.Car.Id, dtp.Date);
 
       var licencesList = LicenseList.getInstance();
       var driverLicense = licencesList.getItem(driver);

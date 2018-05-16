@@ -9,6 +9,8 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Logger;
+using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.Common
@@ -35,19 +37,18 @@ namespace BBAuto.Logic.Common
       _authorEmail = driver == null ? employeeTransport == null ? RobotEmail : employeeTransport.email : driver.email;
     }
 
-    public void SendMailAccountViolation(Violation violation)
+    public void SendMailAccountViolation(string driverName, string file, CarModel car)
     {
-      _subject = $"Штраф по а/м {violation.Car.Grz}";
+      _subject = $"Штраф по а/м {car.Grz}";
 
       _body = "Здравствуйте, коллеги!\n"
-              + violation.getDriver().GetName(NameType.Full) + " совершил нарушение ПДД.\n"
+              + driverName + " совершил нарушение ПДД.\n"
               + "Оплачиваем, удерживаем.";
 
-      var owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
+      var owner = Owners.getInstance().getItem(car.OwnerId.Value);
       var drivers = GetAccountants(owner);
 
-      var list = new List<Attachment>();
-      list.Add(new Attachment(violation.File));
+      var list = new List<Attachment> {new Attachment(file)};
       var transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
 
       /* TO DO: добавила в копию Шелякову Марию */
@@ -57,21 +58,21 @@ namespace BBAuto.Logic.Common
         list);
     }
 
-    public void SendMailViolation(Violation violation)
+    public void SendMailViolation(Violation violation, CarModel car)
     {
-      _subject = $"Штраф по а/м {violation.Car.Grz}";
+      _subject = $"Штраф по а/м {car.Grz}";
 
-      CreateMailAndSendViolation(violation);
+      CreateMailAndSendViolation(violation, car);
     }
 
-    private void CreateMailAndSendViolation(Violation violation)
+    private void CreateMailAndSendViolation(Violation violation, CarModel car)
     {
       List<Driver> drivers;
 
       if (violation.NoDeduction)
       {
         CreateBodyViolationNoDeduction(violation);
-        var owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
+        var owner = Owners.getInstance().getItem(car.OwnerId.Value);
         drivers = GetAccountants(owner);
       }
       else

@@ -5,7 +5,6 @@ using System.Linq;
 using BBAuto.Logic.Abstract;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
-using BBAuto.Logic.Services.Car;
 
 namespace BBAuto.Logic.Lists
 {
@@ -81,7 +80,7 @@ namespace BBAuto.Logic.Lists
 
     public DTP GetLast(Car car)
     {
-      List<DTP> dtps = ToList(car);
+      List<DTP> dtps = ToList(car.Id);
 
       return (dtps.Count > 0) ? dtps.First() : new DTP(new Car());
     }
