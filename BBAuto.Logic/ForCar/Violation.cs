@@ -4,6 +4,7 @@ using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.ForCar
@@ -64,15 +65,15 @@ namespace BBAuto.Logic.ForCar
       set { _noDeduction = Convert.ToInt32(value); }
     }
 
-    public Car Car { get; private set; }
+    public int CarId { get; private set; }
 
     public Violation()
     {
     }
 
-    public Violation(Car car)
+    public Violation(int carId)
     {
-      Car = car;
+      CarId = carId;
       Date = DateTime.Today;
       File = string.Empty;
       FilePay = string.Empty;
@@ -85,13 +86,11 @@ namespace BBAuto.Logic.ForCar
 
     private void FillFields(object[] row)
     {
-      int id;
-      int.TryParse(row[0].ToString(), out id);
+      int.TryParse(row[0].ToString(), out int id);
       Id = id;
 
-      int idCar;
-      int.TryParse(row[1].ToString(), out idCar);
-      Car = CarList.getInstance().getItem(idCar);
+      int.TryParse(row[1].ToString(), out int idCar);
+      CarId = idCar;
 
       DateTime date;
       DateTime.TryParse(row[2].ToString(), out date);
@@ -128,8 +127,8 @@ namespace BBAuto.Logic.ForCar
       DeleteFile(File);
       deleteFilePay();
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "Violation", Number);
-      FilePay = WorkWithFiles.FileCopyById(FilePay, "cars", Car.Id, "ViolationPay", Number);
+      File = WorkWithFiles.FileCopyById(File, "cars", CarId, "Violation", Number);
+      FilePay = WorkWithFiles.FileCopyById(FilePay, "cars", CarId, "ViolationPay", Number);
 
       string datePay = string.Empty;
       if (DatePay != null)
@@ -139,7 +138,7 @@ namespace BBAuto.Logic.ForCar
       }
 
       int id;
-      int.TryParse(Provider.Insert("Violation", Id, Car.Id, Date, Number, File, datePay,
+      int.TryParse(Provider.Insert("Violation", Id, CarId, Date, Number, File, datePay,
         FilePay, _idViolationType, _sum, _sent, _noDeduction, Agreed.ToString()), out id);
       Id = id;
     }
@@ -152,36 +151,42 @@ namespace BBAuto.Logic.ForCar
       Provider.Delete("Violation", Id);
     }
 
-    internal override object[] ToRow()
+    public object[] ToRow(ICarService carService)
     {
       Driver driver = getDriver();
 
       ViolationTypes violationType = ViolationTypes.getInstance();
 
+      var car = carService.GetCarById(CarId);
+
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.GetItem(Car.Id);
+      Invoice invoice = invoiceList.GetItemByCarId(CarId);
       Regions regions = Regions.getInstance();
       string regionName = (invoice == null)
-        ? regions.getItem(Convert.ToInt32(Car.regionUsingID))
-        : regions.getItem(Convert.ToInt32(invoice.RegionToID));
+        ? regions.getItem(car.RegionIdUsing.Value)
+        : regions.getItem(Convert.ToInt32(invoice.RegionToId));
 
       return new object[]
       {
-        Id, Car.Id, Car.BBNumber, Car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
+        Id, CarId, car.BbNumber, car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
         violationType.getItem(_idViolationType), _sum
       };
     }
 
-    internal object[] GetRowAccount()
+    internal object[] GetRowAccount(ICarService carService)
     {
-      string btnName = (Agreed) ? string.Empty : "Согласовать";
+      var btnName = Agreed
+        ? string.Empty
+        : "Согласовать";
+
+      var car = carService.GetCarById(CarId);
 
       return new object[]
       {
         Id,
-        Car.Id,
-        Car.BBNumber,
-        Car.Grz,
+        CarId,
+        car.BbNumber,
+        car.Grz,
         Number,
         Date,
         getDriver().GetName(NameType.Full),
@@ -193,13 +198,15 @@ namespace BBAuto.Logic.ForCar
 
     public override string ToString()
     {
-      return (Car == null) ? "нет данных" : string.Concat("№", Number, " от ", Date.ToShortDateString());
+      return CarId == 0
+        ? "нет данных"
+        : string.Concat("№", Number, " от ", Date.ToShortDateString());
     }
 
     public Driver getDriver()
     {
       DriverCarList driverCarList = DriverCarList.getInstance();
-      Driver driver = driverCarList.GetDriver(Car.Id, Date);
+      Driver driver = driverCarList.GetDriver(CarId, Date);
 
       return driver ?? new Driver();
     }

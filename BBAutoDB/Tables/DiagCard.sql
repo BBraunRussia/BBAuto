@@ -2,7 +2,7 @@ create table [dbo].[DiagCard] (
   [Id] [INT] identity (1, 1) not null,
   [CarId] [INT] not null,
   [Number] nvarchar(50) not null,
-  [Date] [DATETIME] not null,
+  [DateEnd] [DATETIME] not null,
   [File] nvarchar(200) null,
   [NotificationSent] bit null,
   constraint [PK_diagCard] primary key clustered

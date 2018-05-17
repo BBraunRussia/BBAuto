@@ -78,10 +78,10 @@ namespace BBAuto.Logic.Lists
       return CreateTableAccount(violations);
     }
 
-    public DataTable ToDataTable(Car car)
+    public DataTable ToDataTable(int carId)
     {
       var violations = from violation in list
-        where violation.Car.Id == car.Id
+        where violation.CarId == carId
         orderby violation.Date descending
         select violation;
 

@@ -1,26 +1,25 @@
 using BBAuto.App.FormsForCar.AddEdit;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 
 namespace BBAuto.App.Actions
 {
   internal static class InvoiceDialog
   {
-    internal static bool CreateNewInvoiceAndOpen(Car car)
+    internal static bool CreateNewInvoiceAndOpen(int carId)
     {
-      if (car == null)
+      if (carId == 0)
         return false;
 
-      Invoice invoice = car.createInvoice();
+      Invoice invoice = new Invoice(carId);
 
       return Open(invoice);
     }
 
     internal static bool Open(Invoice invoice)
     {
-      Invoice_AddEdit invoiceAE = new Invoice_AddEdit(invoice);
+      var invoiceAe = new Invoice_AddEdit(invoice);
 
-      return (invoiceAE.ShowDialog() == System.Windows.Forms.DialogResult.OK);
+      return invoiceAe.ShowDialog() == System.Windows.Forms.DialogResult.OK;
     }
   }
 }

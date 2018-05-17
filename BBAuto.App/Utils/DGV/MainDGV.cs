@@ -1,7 +1,5 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Logic.Entities;
-using BBAuto.Logic.Lists;
 using Common.Resources;
 
 namespace BBAuto.App.Utils.DGV
@@ -9,11 +7,9 @@ namespace BBAuto.App.Utils.DGV
   public class MainDgv : IMainDgv
   {
     public DataGridView Dgv { get; private set; }
-    
     public DataGridViewSelectedCellCollection SelectedCells => Dgv.SelectedCells;
-
     public DataGridViewCell CurrentCell => Dgv.CurrentCell;
-
+    
     public void SetDgv(DataGridView dgv)
     {
       Dgv = dgv;
@@ -30,24 +26,17 @@ namespace BBAuto.App.Utils.DGV
     {
       return GetId(0, rowIndex);
     }
-
-    public Car GetCar()
-    {
-      return Dgv.CurrentCell == null
-        ? null
-        : CarList.getInstance().getItem(GetId(1, Dgv.CurrentCell.RowIndex));
-    }
-
+    
     public DataGridView GetDgv()
     {
       return Dgv;
     }
 
-    public Car GetCar(DataGridViewCell cell)
+    public int GetCarId(DataGridViewCell cell)
     {
       return cell == null
-        ? null
-        : CarList.getInstance().getItem(GetId(1, cell.RowIndex));
+        ? 0
+        : GetId(1, cell.RowIndex);
     }
 
     public int GetCarId()

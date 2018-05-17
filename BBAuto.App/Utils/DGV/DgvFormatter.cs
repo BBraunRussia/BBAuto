@@ -173,7 +173,7 @@ namespace BBAuto.App.Utils.DGV
 
         var dtp = dtpList.getItem(id);
 
-        if (dtp.GetCurrentStatusAfterDTP() == "Отремонтирован")
+        if (dtp.GetCurrentStatusAfterDtp() == "Отремонтирован")
         {
           row.Cells["Текущее состояние"].Style.BackColor = BBColors.bbGreen3;
 

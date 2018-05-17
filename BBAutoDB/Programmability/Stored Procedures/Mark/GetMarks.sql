@@ -3,10 +3,10 @@ create procedure [dbo].[GetMarks]
 as
 begin
   select
-    mark_id,
-    mark_name 'Название'
+    Id,
+    [Name]
   from
-    Mark
+    dbo.Mark
   order by
-    mark_name
+    [Name]
 end

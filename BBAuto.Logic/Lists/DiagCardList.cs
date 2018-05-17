@@ -8,22 +8,22 @@ using BBAuto.Logic.ForCar;
 
 namespace BBAuto.Logic.Lists
 {
-  public class DiagCardList : MainList
+  public class DiagCardList2 : MainList
   {
-    private static DiagCardList uniqueInstance;
+    private static DiagCardList2 uniqueInstance;
     private List<DiagCard> list;
 
-    private DiagCardList()
+    private DiagCardList2()
     {
       list = new List<DiagCard>();
 
       LoadFromSql();
     }
 
-    public static DiagCardList getInstance()
+    public static DiagCardList2 getInstance()
     {
       if (uniqueInstance == null)
-        uniqueInstance = new DiagCardList();
+        uniqueInstance = new DiagCardList2();
 
       return uniqueInstance;
     }

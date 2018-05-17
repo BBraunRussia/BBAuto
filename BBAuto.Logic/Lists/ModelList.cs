@@ -53,9 +53,9 @@ namespace BBAuto.Logic.Lists
         list.Clear();
     }
 
-    public Model getItem(int id)
+    public Model getItem(int? id)
     {
-      return list.FirstOrDefault(m => m.Id == id);
+      return list.FirstOrDefault(m => id.HasValue && m.Id == id);
     }
 
     public void Delete(int idModel)

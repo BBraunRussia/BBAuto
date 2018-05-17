@@ -2,17 +2,21 @@ using System;
 using System.Data;
 using System.Windows.Forms;
 using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 
 namespace BBAuto.App.FormsForCar
 {
   public partial class formCarInfo : Form
   {
-    public formCarInfo(Car car)
+    public formCarInfo(CarModel car)
     {
       InitializeComponent();
 
-      DataTable dt = car.info.ToDataTable();
-      DataTable dt2 = car.info.Grade.ToDataTable();
+      DataTable dt = car.ToDataTableInfo();
+      var grade = GradeList.getInstance().getItem(car.GradeId.Value);
+
+      DataTable dt2 = grade.ToDataTable();
 
       foreach (DataRow row in dt2.Rows)
         dt.Rows.Add(row.ItemArray);

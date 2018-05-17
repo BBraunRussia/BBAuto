@@ -42,7 +42,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     private void FillFields()
     {
       tbNumber.Text = _diagCard.Number;
-      dtpDate.Value = _diagCard.Date;
+      dtpDate.Value = _diagCard.DateEnd;
 
       var tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _diagCard.File;
@@ -56,7 +56,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       if (_workWithForm.IsEditMode())
       {
         _diagCard.Number = tbNumber.Text;
-        _diagCard.Date = dtpDate.Value.Date;
+        _diagCard.DateEnd = dtpDate.Value.Date;
 
         var tbFile = ucFile.Controls["tbFile"] as TextBox;
         _diagCard.File = tbFile.Text;

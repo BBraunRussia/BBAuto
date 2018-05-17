@@ -19,6 +19,7 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Documents;
@@ -266,7 +267,7 @@ namespace BBAuto.App.ContextMenu
     private ToolStripMenuItem CreateNewInvoice()
     {
       var item = CreateItem("Новое перемещение");
-      item.Click += delegate { InvoiceDialog.CreateNewInvoiceAndOpen(_mainDgv.GetCar()); };
+      item.Click += delegate { InvoiceDialog.CreateNewInvoiceAndOpen(_mainDgv.GetCarId()); };
       return item;
     }
 
@@ -275,11 +276,11 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Новое ДТП");
       item.Click += delegate
       {
-        var car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
-        var dtp = car.createDTP();
+        var dtp = new DTP(carId);
 
         var dtpAe = new DTP_AddEdit(dtp);
         dtpAe.ShowDialog();
@@ -292,11 +293,11 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Новое нарушение ПДД");
       item.Click += delegate
       {
-        Car car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
-        var violation = new Violation(car);
+        var violation = new Violation(carId);
 
         _formViolation.ShowDialog(violation);
       };
@@ -308,12 +309,12 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Новый полис");
       item.Click += delegate
       {
-        var car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
-        var policyAE = new Policy_AddEdit(car.CreatePolicy());
-        policyAE.ShowDialog();
+        var policyAe = new Policy_AddEdit(new Policy(carId));
+        policyAe.ShowDialog();
       };
       return item;
     }
@@ -323,11 +324,11 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Новая диагностическая карта");
       item.Click += delegate
       {
-        var car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
-        var diagCard = new DiagCardModel {CarId = car.Id};
+        var diagCard = new DiagCardModel {CarId = carId};
 
         _diagCardForm.ShowDialog(diagCard);
       };
@@ -339,11 +340,11 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Новая запись о пробеге");
       item.Click += delegate
       {
-        var car = _mainDgv.GetCar();
-        if (car == null)
+        var carId = _mainDgv.GetCarId();
+        if (carId == 0)
           return;
 
-        var mileage = new MileageModel(car.Id);
+        var mileage = new MileageModel(carId);
 
         if (_formMileage.ShowDialog(mileage) == DialogResult.OK)
           _mainStatus.Set(_mainStatus.Get());
@@ -716,7 +717,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Покупка автомобиля");
       item.Click += delegate
       {
-        if (_carForm.ShowDialog(new Car()) == DialogResult.OK)
+        if (_carForm.ShowDialog(new CarModel()) == DialogResult.OK)
           _mainStatus.Set(_mainStatus.Get());
       };
       return item;

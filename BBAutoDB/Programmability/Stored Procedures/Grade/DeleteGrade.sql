@@ -3,6 +3,6 @@ create procedure [dbo].[DeleteGrade]
 as
 begin
   delete from Grade
-  where grade_id = @id
+  where Id = @id
   select 'Удален'
 end

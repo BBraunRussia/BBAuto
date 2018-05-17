@@ -40,7 +40,7 @@ namespace BBAuto.App.CommonForms
 
       foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
       {
-        Car car = _dgvMain.GetCar(cell);
+        var carId = _dgvMain.GetCarId(cell);
 
         DateTime date = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
 
@@ -49,8 +49,8 @@ namespace BBAuto.App.CommonForms
         try
         {
           excelWayBill = status == Status.Invoice
-            ? CreateWayBill(car, date, _dgvMain.GetId(cell.RowIndex))
-            : CreateWayBill(car, date);
+            ? CreateWayBill(carId, date, _dgvMain.GetId(cell.RowIndex))
+            : CreateWayBill(carId, date);
         }
         catch (NullReferenceException)
         {
@@ -71,7 +71,7 @@ namespace BBAuto.App.CommonForms
       }
     }
 
-    private ExcelDocument CreateWayBill(Car car, DateTime date, int idInvoice = 0)
+    private ExcelDocument CreateWayBill(int carId, DateTime date, int idInvoice = 0)
     {
       Driver driver = null;
       if (idInvoice != 0)
@@ -79,15 +79,15 @@ namespace BBAuto.App.CommonForms
         var invoiceList = InvoiceList.getInstance();
         var invoice = invoiceList.GetItem(idInvoice);
         var driverList = DriverList.getInstance();
-        driver = driverList.getItem(Convert.ToInt32(invoice.DriverToID));
+        driver = driverList.getItem(Convert.ToInt32(invoice.DriverToId));
       }
 
-      var document = _documentsService.CreateWaybill(car.Id, date, driver);
+      var document = _documentsService.CreateWaybill(carId, date, driver);
 
       try
       {
         if (_type == WayBillType.Day)
-          _documentsService.AddRouteInWayBill(document, car.Id, date, Fields.All);
+          _documentsService.AddRouteInWayBill(document, carId, date, Fields.All);
       }
       catch (NullReferenceException ex)
       {

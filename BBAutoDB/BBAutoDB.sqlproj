@@ -63,9 +63,6 @@
     <Folder Include="Programmability\Functions" />
     <Folder Include="Programmability\Stored Procedures\Account" />
     <Folder Include="Programmability\Stored Procedures\Car" />
-    <Folder Include="Programmability\Stored Procedures\CarBuy" />
-    <Folder Include="Programmability\Stored Procedures\CarDoc" />
-    <Folder Include="Programmability\Stored Procedures\SaleCar" />
     <Folder Include="Programmability\Stored Procedures\Color" />
     <Folder Include="Programmability\Stored Procedures\ColumnSize" />
     <Folder Include="Programmability\Stored Procedures\Comp" />
@@ -127,11 +124,12 @@
     <Folder Include="Deployment" />
     <Folder Include="Deployment\Data" />
     <Folder Include="Programmability\Stored Procedures\Users" />
+    <Folder Include="Programmability\Stored Procedures\Car\Sale" />
+    <Folder Include="Programmability\Stored Procedures\Car\Doc" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
     <Build Include="Tables\Car.sql" />
-    <Build Include="Tables\CarBuy.sql" />
     <Build Include="Tables\CarDoc.sql" />
     <Build Include="Tables\SaleCar.sql" />
     <Build Include="Tables\Color.sql" />
@@ -200,14 +198,6 @@
     <Build Include="Programmability\Stored Procedures\Car\DeleteCar.sql" />
     <Build Include="Programmability\Stored Procedures\Car\UpsertCar.sql" />
     <Build Include="Programmability\Stored Procedures\Car\GetCars.sql" />
-    <Build Include="Programmability\Stored Procedures\CarBuy\UpsertCarBuy.sql" />
-    <Build Include="Programmability\Stored Procedures\CarBuy\GetCarBuys.sql" />
-    <Build Include="Programmability\Stored Procedures\CarDoc\DeleteCarDoc.sql" />
-    <Build Include="Programmability\Stored Procedures\CarDoc\UpserCarDoc.sql" />
-    <Build Include="Programmability\Stored Procedures\CarDoc\GetCarDocById.sql" />
-    <Build Include="Programmability\Stored Procedures\SaleCar\DeleteSaleCar.sql" />
-    <Build Include="Programmability\Stored Procedures\SaleCar\UpsertSaleCar.sql" />
-    <Build Include="Programmability\Stored Procedures\SaleCar\GetSaleCars.sql" />
     <Build Include="Programmability\Stored Procedures\Color\DeleteColor.sql" />
     <Build Include="Programmability\Stored Procedures\Color\UpsertColor.sql" />
     <Build Include="Programmability\Stored Procedures\Color\GetColors.sql" />
@@ -228,7 +218,7 @@
     <Build Include="Programmability\Stored Procedures\Dept\GetDepts.sql" />
     <Build Include="Programmability\Stored Procedures\DiagCard\DeleteDiagCard.sql" />
     <Build Include="Programmability\Stored Procedures\DiagCard\UpsertDiagCard.sql" />
-    <Build Include="Programmability\Stored Procedures\DiagCard\GetDiagCards.sql" />
+    <Build Include="Programmability\Stored Procedures\DiagCard\GetDiagCardsByDate.sql" />
     <Build Include="Programmability\Stored Procedures\Dealer\DeleteDealer.sql" />
     <Build Include="Programmability\Stored Procedures\Dealer\UpsertDealer.sql" />
     <Build Include="Programmability\Stored Procedures\Dealer\GetDealers.sql" />
@@ -406,11 +396,17 @@
     <Build Include="Deployment\Data\InsertFuelCardTypes.sql" />
     <Build Include="Deployment\Data\InsertCurrentStatusAfterDTPs.sql" />
     <Build Include="Programmability\Stored Procedures\Car\GetCarById.sql" />
-    <Build Include="Programmability\Stored Procedures\CarBuy\GetCarBuyInfoByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Car\GetCarByGrz.sql" />
     <Build Include="Programmability\Stored Procedures\Mileage\GetMileageById.sql" />
     <Build Include="Programmability\Stored Procedures\DiagCard\GetDiagCardById.sql" />
-    <Build Include="Programmability\Stored Procedures\CarDoc\GetCarDocByCarId.sql" />
+    <Build Include="Programmability\Stored Procedures\DiagCard\GetDiagCardsForSend.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Sale\DeleteSaleCar.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Sale\GetSaleCars.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Sale\UpsertSaleCar.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Doc\DeleteCarDoc.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Doc\GetCarDocByCarId.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Doc\GetCarDocById.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Doc\UpserCarDoc.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

@@ -76,10 +76,10 @@ namespace BBAuto.Logic.Lists
       return CreateTable(policies.ToList());
     }
 
-    public DataTable ToDataTable(Car car)
+    public DataTable ToDataTable(int carId)
     {
       var policies = from policy in list
-        where policy.Car.Id == car.Id
+        where policy.Car.Id == carId
         orderby policy.DateEnd descending
         select policy;
 

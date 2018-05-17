@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(mark_id)
+      @count = count(Id)
     from
       Mark
     where
-      mark_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,9 @@ begin
   else
   begin
     update Mark
-    set mark_name = @Name
-    where mark_id = @id
+    set [Name] = @Name
+    where Id = @id
+
     select 'Обновлен'
   end
 end

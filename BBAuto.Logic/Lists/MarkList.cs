@@ -45,9 +45,9 @@ namespace BBAuto.Logic.Lists
       list.Add(mark);
     }
 
-    public Mark getItem(int id)
+    public Mark getItem(int? id)
     {
-      return list.FirstOrDefault(m => m.Id == id);
+      return list.FirstOrDefault(m => id.HasValue && m.Id == id);
     }
   }
 }

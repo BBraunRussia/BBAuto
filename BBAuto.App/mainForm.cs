@@ -520,9 +520,11 @@ namespace BBAuto.App
 
     private void DoubleClickDefault(Point point)
     {
-      Car car = _mainDgv.GetCar();
-      if (car == null)
+      var carId = _mainDgv.GetCarId();
+      if (carId == 0)
         return;
+
+      var car = _carService.GetCarById(carId);
 
       /*TODO: Столяровой доступ к информации про водителя и основную о машине */
       if (User.GetDriver().UserRole == RolesList.AccountantWayBill && _dgvCar.Columns[point.X].HeaderText != Columns.Driver)
@@ -532,10 +534,10 @@ namespace BBAuto.App
       }
 
       PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(car);
+      PTS pts = ptsList.getItem(carId);
 
       STSList stsList = STSList.getInstance();
-      STS sts = stsList.getItem(car);
+      STS sts = stsList.getItem(carId);
 
       string columnName = _dgvCar.Columns[point.X].HeaderText;
 
@@ -580,7 +582,7 @@ namespace BBAuto.App
       }
     }
 
-    private void OpenCarAddEdit(Car car)
+    private void OpenCarAddEdit(CarModel car)
     {
       //var carAE = new CarForm(car);
       //_carForm.Create(car);

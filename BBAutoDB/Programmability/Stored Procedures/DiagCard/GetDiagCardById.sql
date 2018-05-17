@@ -5,7 +5,7 @@ as
     Id,
     CarId,
     Number,
-    [Date],
+    DateEnd,
     [File],
     NotificationSent
   from

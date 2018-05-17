@@ -7,8 +7,10 @@ using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car.Sale;
+using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
+using BBAuto.Repositories.Entities;
 
 namespace BBAuto.Logic.Services.Car
 {
@@ -16,13 +18,16 @@ namespace BBAuto.Logic.Services.Car
   {
     private readonly IDbContext _dbContext;
     private readonly ISaleCarService _carSaleService;
+    private readonly IDiagCardService _diagCardService;
 
     public CarService(
       IDbContext dbContext,
-      ISaleCarService carSaleService)
+      ISaleCarService carSaleService,
+      IDiagCardService diagCardService)
     {
       _dbContext = dbContext;
       _carSaleService = carSaleService;
+      _diagCardService = diagCardService;
     }
 
     public CarModel GetCarByGrz(string grz)
@@ -31,12 +36,20 @@ namespace BBAuto.Logic.Services.Car
 
       return Mapper.Map<CarModel>(list.FirstOrDefault(c => c.Grz == grz));
     }
-
+    
     public CarModel GetCarById(int id)
     {
       var dbModel = _dbContext.Car.GetCarById(id);
 
       return Mapper.Map<CarModel>(dbModel);
+    }
+
+    public CarModel Save(CarModel car)
+    {
+      var dbModel = Mapper.Map<DbCar>(car);
+      var result = _dbContext.Car.UpsertCar(dbModel);
+
+      return Mapper.Map<CarModel>(result);
     }
 
     public IList<CarModel> GetCars()
@@ -65,7 +78,7 @@ namespace BBAuto.Logic.Services.Car
         case Status.Violation:
           return ViolationList.getInstance().ToDataTable();
         case Status.DiagCard:
-          return DiagCardList.getInstance().ToDataTable();
+          return _diagCardService.GetDataTable(this);
         case Status.TempMove:
           return TempMoveList.getInstance().ToDataTable();
         case Status.ShipPart:
@@ -137,10 +150,10 @@ namespace BBAuto.Logic.Services.Car
       dt.Columns.Add("№ ПТС");
       dt.Columns.Add("№ СТС");
       dt.Columns.Add("Год выпуска");
-      dt.Columns.Add("Пробег", Type.GetType("System.Int32"));
-      dt.Columns.Add("Дата последней записи о пробеге", Type.GetType("System.DateTime"));
+      dt.Columns.Add("Пробег", typeof(int));
+      dt.Columns.Add("Дата последней записи о пробеге", typeof(DateTime));
       dt.Columns.Add("Собственник");
-      dt.Columns.Add("Дата окончания гарантии", Type.GetType("System.DateTime"));
+      dt.Columns.Add("Дата окончания гарантии", typeof(DateTime));
       dt.Columns.Add("Статус");
 
       foreach (var car in cars)
@@ -158,8 +171,8 @@ namespace BBAuto.Logic.Services.Car
 
       var dbCar = _dbContext.Car.GetCarById(carId);
       var car = Mapper.Map<CarModel>(dbCar);
-
-      var dateEnd = car.DateGet.AddYears(3);
+      
+      var dateEnd = car.DateGet?.AddYears(3);
 
       var miles = 0;
       if (mileage != null)
@@ -188,11 +201,11 @@ namespace BBAuto.Logic.Services.Car
 
       STSList stsList = STSList.getInstance();
       STS sts = stsList.getItem(car.Id);
-
+      
       Regions regions = Regions.getInstance();
       string regionName = invoice == null
-        ? regions.getItem(car.RegionUsingId)
-        : regions.getItem(Convert.ToInt32(invoice.RegionToID));
+        ? regions.getItem(car.RegionIdUsing.Value)
+        : regions.getItem(Convert.ToInt32(invoice.RegionToId));
 
       int mileageInt = 0;
       DateTime mileageDate = DateTime.Today;
@@ -203,7 +216,7 @@ namespace BBAuto.Logic.Services.Car
       }
 
       var driver = DriverCarList.getInstance().GetDriver(car.Id);
-      var owner = Owners.getInstance().getItem(car.OwnerId);
+      var owner = Owners.getInstance().getItem(car.OwnerId.Value);
 
       var guaranteeEndDate = GetGuaranteeEndDate(car.Id);
 
@@ -229,7 +242,7 @@ namespace BBAuto.Logic.Services.Car
         return "продан";
       if (carSale != null)
         return "на продажу";
-
+      
       if (!car.IsGet)
         return "покупка";
 

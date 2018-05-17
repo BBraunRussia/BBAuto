@@ -1,17 +1,17 @@
 using System;
 using System.Data;
-using BBAuto.Logic.Abstract;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.ForCar
 {
-  public class Invoice : MainDictionary
+  public class Invoice
   {
-    private const int DEFAULT_DRIVER_MEDIATOR = 2;
+    private const int DefaultDriverMediator = 2;
 
     private int _idDriverFrom;
     private int _idDriverTo;
@@ -19,55 +19,51 @@ namespace BBAuto.Logic.ForCar
     private int _idRegionTo;
     private DateTime _dateMove;
 
+    public int Id { get; private set; }
+
     public string Number { get; set; }
     public string File { get; set; }
 
-    public string DriverFromID
+    public string DriverFromId
     {
-      get { return _idDriverFrom.ToString(); }
-      set { _idDriverFrom = Convert.ToInt32(value); }
+      get => _idDriverFrom.ToString();
+      set => _idDriverFrom = Convert.ToInt32(value);
     }
 
-    public string DriverToID
+    public string DriverToId
     {
-      get { return _idDriverTo.ToString(); }
-      set { _idDriverTo = Convert.ToInt32(value); }
+      get => _idDriverTo.ToString();
+      set => _idDriverTo = Convert.ToInt32(value);
     }
 
-    public string RegionFromID
+    public string RegionFromId
     {
-      get { return _idRegionFrom.ToString(); }
-      set { _idRegionFrom = Convert.ToInt32(value); }
+      get => _idRegionFrom.ToString();
+      set => _idRegionFrom = Convert.ToInt32(value);
     }
 
-    public string RegionToID
+    public string RegionToId
     {
-      get { return _idRegionTo.ToString(); }
-      set { _idRegionTo = Convert.ToInt32(value); }
+      get => _idRegionTo.ToString();
+      set => _idRegionTo = Convert.ToInt32(value);
     }
 
     public string DateMove
     {
-      get { return (_dateMove.Year == 1) ? string.Empty : _dateMove.ToShortDateString(); }
-      set { DateTime.TryParse(value, out _dateMove); }
+      get => (_dateMove.Year == 1) ? string.Empty : _dateMove.ToShortDateString();
+      set => DateTime.TryParse(value, out _dateMove);
     }
 
-    public string DateMoveForSQL
-    {
-      get
-      {
-        return (_dateMove.Year == 1)
-          ? string.Empty
-          : string.Concat(_dateMove.Year.ToString(), "-", _dateMove.Month.ToString(), "-", _dateMove.Day.ToString());
-      }
-    }
+    public string DateMoveForSql => _dateMove.Year == 1
+      ? string.Empty
+      : string.Concat(_dateMove.Year.ToString(), "-", _dateMove.Month.ToString(), "-", _dateMove.Day.ToString());
 
     public DateTime Date { get; set; }
-    public Car Car { get; private set; }
+    public int CarId { get; private set; }
 
-    internal Invoice(Car car)
+    public Invoice(int carId)
     {
-      Car = car;
+      CarId = carId;
       Id = 0;
       Number = getNextNumber();
       Date = DateTime.Today;
@@ -77,16 +73,15 @@ namespace BBAuto.Logic.ForCar
 
     public Invoice(DataRow row)
     {
-      fillFields(row);
+      FillFields(row);
     }
 
-    private void fillFields(DataRow row)
+    private void FillFields(DataRow row)
     {
       Id = Convert.ToInt32(row.ItemArray[0]);
 
-      int idCar;
-      int.TryParse(row.ItemArray[1].ToString(), out idCar);
-      Car = CarList.getInstance().getItem(idCar);
+      int.TryParse(row.ItemArray[1].ToString(), out int idCar);
+      CarId = idCar;
 
       Number = row.ItemArray[2].ToString();
       int.TryParse(row.ItemArray[3].ToString(), out _idDriverFrom);
@@ -100,20 +95,19 @@ namespace BBAuto.Logic.ForCar
       int.TryParse(row.ItemArray[7].ToString(), out _idRegionFrom);
       int.TryParse(row.ItemArray[8].ToString(), out _idRegionTo);
       File = row.ItemArray[9].ToString();
-      FileBegin = File;
     }
 
     private void fillNewInvoice()
     {
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.GetItem(Car.Id);
+      Invoice invoice = invoiceList.GetItem(CarId);
 
       if (invoice == null)
       {
-        int.TryParse(Car.regionUsingID.ToString(), out _idRegionFrom);
-        _idDriverFrom = DEFAULT_DRIVER_MEDIATOR;
-        int.TryParse(Car.regionUsingID.ToString(), out _idRegionTo);
-        int.TryParse(Car.driverID.ToString(), out _idDriverTo);
+        //int.TryParse(Car.regionUsingID.ToString(), out _idRegionFrom);
+        _idDriverFrom = DefaultDriverMediator;
+        //int.TryParse(Car.regionUsingID.ToString(), out _idRegionTo);
+        //int.TryParse(Car.driverID.ToString(), out _idDriverTo);
       }
       else
       {
@@ -131,37 +125,37 @@ namespace BBAuto.Logic.ForCar
       return number.ToString();
     }
 
-    public override void Save()
+    public void Save()
     {
-      DeleteFile(File);
+      //DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "Invoices", Number);
+      File = WorkWithFiles.FileCopyById(File, "cars", CarId, "Invoices", Number);
 
-      Id = Convert.ToInt32(Provider.Insert("Invoice", Id, Car.Id, Number, DriverFromID, DriverToID, Date,
-        DateMoveForSQL, RegionFromID, RegionToID, File));
+      //Id = Convert.ToInt32(Provider.Insert("Invoice", Id, CarId, Number, DriverFromId, DriverToId, Date,
+        //DateMoveForSql, RegionFromId, RegionToId, File));
     }
 
-    internal override object[] ToRow()
+    internal object[] ToRow()
     {
-      Regions regions = Regions.getInstance();
+      var regions = Regions.getInstance();
 
-      DriverList driverList = DriverList.getInstance();
+      var driverList = DriverList.getInstance();
 
-      Driver driverFrom = driverList.getItem(_idDriverFrom);
-      Driver driverTo = driverList.getItem(_idDriverTo);
+      var driverFrom = driverList.getItem(_idDriverFrom);
+      var driverTo = driverList.getItem(_idDriverTo);
 
       return new object[]
       {
-        Id, Car.Id, Car.BBNumber, Car.Grz, Number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
+        Id, CarId, "car.BbNumber", "car.Grz", Number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
         regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), Date, _dateMove
       };
     }
 
-    internal override void Delete()
+    internal void Delete()
     {
-      DeleteFile(File);
+      //DeleteFile(File);
 
-      Provider.Delete("Invoice", Id);
+      //Provider.Delete("Invoice", Id);
     }
   }
 }

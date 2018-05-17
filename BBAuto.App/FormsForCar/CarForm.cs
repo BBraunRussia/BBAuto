@@ -9,6 +9,7 @@ using BBAuto.Logic.Common;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Car.Doc;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
@@ -23,7 +24,7 @@ namespace BBAuto.App.FormsForCar
   public partial class CarForm : Form, ICarForm
   {
     private System.Drawing.Point _curPosition;
-    private Car _car;
+    private CarModel _car;
     private STS _sts;
     private PTS _pts;
 
@@ -49,6 +50,7 @@ namespace BBAuto.App.FormsForCar
     private readonly IMileageForm _formMileage;
     private readonly IDiagCardForm _formDiagCard;
     private readonly ICarDocForm _carDocForm;
+    private readonly ICarService _carService;
 
     private readonly IDgvFormatter _dgvFormatter;
     
@@ -60,7 +62,9 @@ namespace BBAuto.App.FormsForCar
       IDiagCardForm formDiagCard,
       IDgvFormatter dgvFormatter,
       IDocumentsService documentsService,
-      ICarDocService carDocService, ICarDocForm carDocForm)
+      ICarDocService carDocService,
+      ICarDocForm carDocForm,
+      ICarService carService)
     {
       _dealerService = dealerService;
       _mileageService = mileageService;
@@ -71,12 +75,14 @@ namespace BBAuto.App.FormsForCar
       _documentsService = documentsService;
       _carDocService = carDocService;
       _carDocForm = carDocForm;
+      _carService = carService;
     }
 
-    public DialogResult ShowDialog(Car car)
+    public DialogResult ShowDialog(CarModel car)
     {
-      _car = car;
       InitializeComponent();
+
+      _car = car;
 
       _driverCarList = DriverCarList.getInstance();
       _driverList = DriverList.getInstance();
@@ -95,7 +101,7 @@ namespace BBAuto.App.FormsForCar
       LoadData();
 
       SetWindowHeader();
-
+      
       _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += SetNotEditableItems;
       _workWithForm.SetEditMode(_car.Id == 0 || !_car.IsGet);
@@ -238,31 +244,33 @@ namespace BBAuto.App.FormsForCar
 
     private void FillFields()
     {
-      cbMark.SelectedValue = _car.Mark?.Id.ToString() ?? "0";
-      cbModel.SelectedValue = _car.ModelID;
-      cbGrade.SelectedValue = _car.GradeID;
+      cbMark.SelectedValue = _car.MarkId;
+      cbModel.SelectedValue = _car.ModelId;
+      cbGrade.SelectedValue = _car.GradeId;
       /* когда Audi не заполняется таблица с инфо о машине */
       if (dgvCarInfo.DataSource == null)
         ChangedGrade();
-      cbColor.SelectedValue = _car.ColorID;
+      cbColor.SelectedValue = _car.ColorId;
 
-      tbBbNumber.Text = _car.BBNumber;
-      tbVin.Text = _car.vin;
-      tbYear.Text = _car.Year;
-      tbENumber.Text = _car.eNumber;
-      tbBodyNumber.Text = _car.bodyNumber;
+      tbBbNumber.Text = _car.BbNumber;
+      tbVin.Text = _car.Vin;
+      tbYear.Text = _car.Year.ToString();
+      tbENumber.Text = _car.ENumber;
+      tbBodyNumber.Text = _car.BodyNumber;
       mtbGRZ.Text = _car.Grz;
-      cbOwner.SelectedValue = _car.ownerID;
-      cbRegionBuy.SelectedValue = _car.RegionBuyID;
-      cbRegionUsing.SelectedValue = _car.regionUsingID;
-      cbDriver.SelectedValue = _car.driverID;
-      cbDealer.SelectedValue = _car.idDiller;
-      dtpDateOrder.Value = _car.dateOrder;
+      cbOwner.SelectedValue = _car.OwnerId;
+      cbRegionBuy.SelectedValue = _car.RegionIdBuy;
+      cbRegionUsing.SelectedValue = _car.RegionIdUsing;
+      cbDriver.SelectedValue = _car.DriverId;
+      cbDealer.SelectedValue = _car.DealerId;
+      if (_car.DateOrder.HasValue)
+        dtpDateOrder.Value = _car.DateOrder.Value;
       chbIsGet.Checked = _car.IsGet;
-      dtpDateGet.Value = _car.dateGet;
-      tbEvents.Text = _car.events;
-      tbCost.Text = _car.cost.ToString();
-      tbDOP.Text = _car.dop;
+      if (_car.DateGet.HasValue)
+        dtpDateGet.Value = _car.DateGet.Value;
+      tbEvents.Text = _car.Events;
+      tbCost.Text = _car.Cost.ToString();
+      tbDOP.Text = _car.Dop;
 
       var driver = _driverCarList.GetDriver(_car.Id) ?? new Driver();
       llDriver.Text = driver.GetName(NameType.Full);
@@ -274,7 +282,7 @@ namespace BBAuto.App.FormsForCar
       }
 
       PTSList ptsList = PTSList.getInstance();
-      _pts = ptsList.getItem(_car);
+      _pts = ptsList.getItem(_car.Id);
       mtbNumberPTS.Text = _pts.Number;
       dtpDatePTS.Value = _pts.Date;
       tbGiveOrgPTS.Text = _pts.GiveOrg;
@@ -282,7 +290,7 @@ namespace BBAuto.App.FormsForCar
       tbFilePts.Text = _pts.File;
 
       STSList stsList = STSList.getInstance();
-      _sts = stsList.getItem(_car);
+      _sts = stsList.getItem(_car.Id);
       mtbNumberSTS.Text = _sts.Number;
       dtpDateSTS.Value = _sts.Date;
       tbGiveOrgSTS.Text = _sts.GiveOrg;
@@ -293,21 +301,14 @@ namespace BBAuto.App.FormsForCar
       if (mileage != null)
         lbMileage.Text = mileage.ToString();
 
-      ChangeDealer(_car.idDiller);
+      ChangeDealer(_car.DealerId);
 
-      if (_car.Lising == string.Empty)
-      {
-        lbLising.Visible = false;
-        mtbLising.Visible = false;
-        chbLising.Checked = false;
-      }
-      else
-      {
-        lbLising.Visible = true;
-        mtbLising.Visible = true;
-        chbLising.Checked = true;
-        mtbLising.Text = _car.Lising;
-      }
+      lbLising.Visible = _car.LisingDate.HasValue;
+      mtbLising.Visible = _car.LisingDate.HasValue;
+      chbLising.Checked = _car.LisingDate.HasValue;
+
+      if (_car.LisingDate.HasValue)
+        mtbLising.Text = _car.LisingDate.Value.ToShortDateString();
 
       tbInvertoryNumber.Text = _car.InvertoryNumber;
     }
@@ -320,9 +321,12 @@ namespace BBAuto.App.FormsForCar
       ChangeDealer(Convert.ToInt32(cbDealer.SelectedValue));
     }
 
-    private void ChangeDealer(int selectedId)
+    private void ChangeDealer(int? selectedId)
     {
-      var dealer = (DealerModel)cbDealer.Items[selectedId];
+      if (!selectedId.HasValue)
+        return;
+
+      var dealer = (DealerModel)cbDealer.Items[selectedId.Value];
       
       if (dealer != null)
         tbDealerContacts.Text = dealer.Contacts;
@@ -339,7 +343,7 @@ namespace BBAuto.App.FormsForCar
       {
         if (CopyFields())
         {
-          _car.Save();
+          _carService.Save(_car);
           DialogResult = DialogResult.OK;
         }
       }
@@ -356,28 +360,50 @@ namespace BBAuto.App.FormsForCar
         return false;
       }
 
-      int.TryParse(cbMark.SelectedValue.ToString(), out int idMark);
-      _car.Mark = MarkList.getInstance().getItem(idMark);
-      _car.ModelID = cbModel.SelectedValue.ToString();
-      _car.GradeID = cbGrade.SelectedValue.ToString();
-      _car.ColorID = cbColor.SelectedValue;
-      _car.vin = tbVin.Text;
-      _car.Grz = mtbGRZ.Text;
-      _car.eNumber = tbENumber.Text.ToUpper();
-      _car.bodyNumber = tbBodyNumber.Text.ToUpper();
-      _car.Year = tbYear.Text;
+      if (int.TryParse(cbMark.SelectedValue.ToString(), out int idMark))
+        _car.MarkId = idMark;
 
-      _car.ownerID = cbOwner.SelectedValue;
-      _car.RegionBuyID = cbRegionBuy.SelectedValue;
-      _car.regionUsingID = cbRegionUsing.SelectedValue;
-      _car.driverID = cbDriver.SelectedValue;
-      _car.dateOrder = dtpDateOrder.Value;
+      if (int.TryParse(cbModel.SelectedValue.ToString(), out int modelId))
+        _car.ModelId = modelId;
+
+      if (int.TryParse(cbGrade.SelectedValue.ToString(), out int gradeId))
+        _car.GradeId = gradeId;
+
+      if (int.TryParse(cbColor.SelectedValue.ToString(), out int colorId))
+        _car.ColorId = colorId;
+
+      _car.Vin = tbVin.Text;
+      _car.Grz = mtbGRZ.Text;
+      _car.ENumber = tbENumber.Text.ToUpper();
+      _car.BodyNumber = tbBodyNumber.Text.ToUpper();
+
+      if (int.TryParse(tbYear.Text, out int year))
+        _car.Year = year;
+
+      if (int.TryParse(cbOwner.SelectedValue.ToString(), out int ownerId))
+        _car.OwnerId = ownerId;
+      
+      if (int.TryParse(cbRegionBuy.SelectedValue.ToString(), out int regionIdBuy))
+        _car.RegionIdBuy = regionIdBuy;
+      
+      if (int.TryParse(cbRegionUsing.SelectedValue.ToString(), out int regionIdUsing))
+        _car.RegionIdUsing = regionIdUsing;
+
+      if (int.TryParse(cbDriver.SelectedValue.ToString(), out int driverId))
+        _car.DriverId = driverId;
+
+      _car.DateOrder = dtpDateOrder.Value;
       _car.IsGet = chbIsGet.Checked;
-      _car.dateGet = dtpDateGet.Value;
-      _car.cost = Convert.ToDouble(tbCost.Text);
-      _car.dop = tbDOP.Text;
-      _car.events = tbEvents.Text;
-      _car.idDiller = Convert.ToInt32(cbDealer.SelectedValue);
+      _car.DateGet = dtpDateGet.Value;
+
+      if (decimal.TryParse(tbCost.Text, out decimal cost))
+        _car.Cost = cost;
+
+      _car.Dop = tbDOP.Text;
+      _car.Events = tbEvents.Text;
+
+      if (int.TryParse(cbDealer.SelectedValue.ToString(), out int dealerId))
+        _car.DealerId = dealerId;
 
       _pts.Number = mtbNumberPTS.Text;
       _pts.Date = Convert.ToDateTime(dtpDatePTS.Text);
@@ -395,7 +421,10 @@ namespace BBAuto.App.FormsForCar
       _sts.File = tbFileSTS.Text;
       _sts.Save();
 
-      _car.Lising = (chbLising.Checked) ? mtbLising.Text : string.Empty;
+      if (chbLising.Checked && DateTime.TryParse(mtbLising.Text, out DateTime dateLising))
+        _car.LisingDate = dateLising;
+      else
+        _car.LisingDate = null;
 
       _car.InvertoryNumber = tbInvertoryNumber.Text;
 
@@ -404,7 +433,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadInvoice()
     {
-      _dgvInvoice.DataSource = _invoiceList.ToDataTable(_car);
+      _dgvInvoice.DataSource = _invoiceList.ToDataTable(_car.Id);
 
       FormatDgvInvoice();
     }
@@ -475,7 +504,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadPolicy()
     {
-      _dgvPolicy.DataSource = _policyList.ToDataTable(_car);
+      _dgvPolicy.DataSource = _policyList.ToDataTable(_car.Id);
 
       FormatDgvPolicy();
     }
@@ -491,7 +520,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadDtp()
     {
-      _dgvDTP.DataSource = _dtpList.ToDataTable(_car);
+      _dgvDTP.DataSource = _dtpList.ToDataTable(_car.Id);
       FormatDgvDtp();
     }
 
@@ -504,7 +533,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadDiagCard()
     {
-      _dgvDiagCard.DataSource = _car.getDataTableDiagCard();
+      _dgvDiagCard.DataSource = _diagCardService.GetDataTableByCar(_car);
       FormatDgvDiagCard();
     }
 
@@ -532,7 +561,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadRepair()
     {
-      dgvRepair.DataSource = _repairList.ToDataTableByCar(_car);
+      dgvRepair.DataSource = _repairList.ToDataTableByCar(_car.Id);
       FormatDgvRepair();
     }
 
@@ -547,7 +576,7 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddInvoice_Click(object sender, EventArgs e)
     {
-      Invoice invoice = _car.createInvoice();
+      Invoice invoice = new Invoice(_car.Id);
 
       if (openAddEditDialog(invoice))
       {
@@ -592,7 +621,7 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddInsurance_Click(object sender, EventArgs e)
     {
-      var pAE = new Policy_AddEdit(_car.CreatePolicy());
+      var pAE = new Policy_AddEdit(new Policy(_car.Id));
       if (pAE.ShowDialog() == DialogResult.OK)
         LoadPolicy();
     }
@@ -630,7 +659,7 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddDTP_Click(object sender, EventArgs e)
     {
-      DTP dtp = _car.createDTP();
+      DTP dtp = new DTP(_car.Id);
 
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
 
@@ -656,7 +685,7 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddViolation_Click(object sender, EventArgs e)
     {
-      var violation = _car.createViolation();
+      var violation = new Violation(_car.Id);
 
       var formViolation = new ViolationForm(this);
 
@@ -700,7 +729,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadViolation()
     {
-      _dgvViolation.DataSource = _violationList.ToDataTable(_car);
+      _dgvViolation.DataSource = _violationList.ToDataTable(_car.Id);
 
       FormatDgvViolation();
     }
@@ -842,10 +871,10 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddRepair_Click(object sender, EventArgs e)
     {
-      Repair repair = _car.createRepair();
-      Repair_AddEdit repairAE = new Repair_AddEdit(repair);
+      var repair = new Repair(_car.Id);
+      var repairAe = new Repair_AddEdit(repair);
 
-      if (repairAE.ShowDialog() == DialogResult.OK)
+      if (repairAe.ShowDialog() == DialogResult.OK)
       {
         _repairList.Add(repair);
         LoadRepair();
@@ -926,7 +955,7 @@ namespace BBAuto.App.FormsForCar
     {
       var dtp = _dtpList.getItem(Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value));
 
-      var driver = _driverCarList.GetDriver(dtp.Car.Id, dtp.Date);
+      var driver = _driverCarList.GetDriver(dtp.CarId, dtp.Date);
 
       var licencesList = LicenseList.getInstance();
       var driverLicense = licencesList.getItem(driver);
@@ -992,7 +1021,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadShipPart()
     {
-      dgvShipPart.DataSource = _shipPartList.ToDataTable(_car);
+      dgvShipPart.DataSource = _shipPartList.ToDataTable(_car.Id);
       FormatDgvShipPart();
     }
 
@@ -1005,10 +1034,10 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddShipPart_Click(object sender, EventArgs e)
     {
-      var shipPart = _car.createShipPart();
-      var shipPartAE = new ShipPart_AddEdit(shipPart);
+      var shipPart = new ShipPart(_car.Id);
+      var shipPartAe = new ShipPart_AddEdit(shipPart);
 
-      if (shipPartAE.ShowDialog() == DialogResult.OK)
+      if (shipPartAe.ShowDialog() == DialogResult.OK)
       {
         _shipPartList.Add(shipPart);
         LoadShipPart();
@@ -1040,7 +1069,7 @@ namespace BBAuto.App.FormsForCar
 
     private void copyToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      DataGridView dgv = FindDgv();
+      var dgv = FindDgv();
       if (dgv != null)
         tryCopy(dgv);
     }
@@ -1077,13 +1106,13 @@ namespace BBAuto.App.FormsForCar
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      Driver driver = _driverCarList.GetDriver(_car.Id);
+      var driver = _driverCarList.GetDriver(_car.Id);
 
       if (driver == null)
         return;
 
-      DriverForm driverAE = new DriverForm(driver);
-      driverAE.ShowDialog();
+      var driverAe = new DriverForm(driver);
+      driverAe.ShowDialog();
     }
 
     private void _dgvInvoice_Sorted(object sender, EventArgs e)
@@ -1147,12 +1176,12 @@ namespace BBAuto.App.FormsForCar
         if (id == 0)
           return;
 
-        GradeList gradeList = GradeList.getInstance();
-        Grade grade = gradeList.getItem(id);
+        var gradeList = GradeList.getInstance();
+        var grade = gradeList.getItem(id);
 
-        DataTable dt = _car.info.ToDataTable();
+        var dt = _car.ToDataTableInfo();
 
-        DataTable dt2 = grade.ToDataTable();
+        var dt2 = grade.ToDataTable();
         foreach (DataRow row in dt2.Rows)
           dt.Rows.Add(row.ItemArray);
 

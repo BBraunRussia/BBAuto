@@ -1,33 +1,29 @@
-CREATE TABLE [dbo].[Grade](
-	[grade_Id] [int] IDENTITY(1,1) NOT NULL,
-	[grade_name] NVARCHAR(50) NOT NULL,
-	[grade_epower] [int] NOT NULL,
-	[grade_evol] [int] NOT NULL,
-	[grade_maxLoad] [int] NOT NULL,
-	[grade_noLoad] [int] NOT NULL,
-	[engineType_id] [int] NOT NULL,
-	[model_id] [int] NOT NULL,
- CONSTRAINT [PK_Grade] PRIMARY KEY CLUSTERED 
-(
-	[grade_Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+create table [dbo].[Grade] (
+  [Id] [INT] identity (1, 1) not null,
+  [Name] nvarchar(50) not null,
+  [Epower] [INT] not null,
+  [Evol] [INT] not null,
+  [MaxLoad] [INT] not null,
+  [NoLoad] [INT] not null,
+  [EngineTypeId] [INT] not null,
+  [ModelId] [INT] not null,
+  constraint [PK_Grade] primary key clustered
+  (
+  [Id] asc
+  ) with (pad_index = off, statistics_norecompute = off, ignore_dup_key = off, allow_row_locks = on, allow_page_locks = on) on [PRIMARY]
+) on [PRIMARY]
+go
 
-ALTER TABLE [dbo].[Grade]  WITH CHECK ADD  CONSTRAINT [FK_Grade_engineType] FOREIGN KEY([engineType_id])
-REFERENCES [dbo].[engineType] ([engineType_id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
+alter table [dbo].[Grade] with check add constraint [FK_Grade_engineType] foreign key ([EngineTypeId])
+references [dbo].[engineType] ([engineType_id])
+go
 
-ALTER TABLE [dbo].[Grade] CHECK CONSTRAINT [FK_Grade_engineType]
-GO
+alter table [dbo].[Grade] check constraint [FK_Grade_engineType]
+go
 
-ALTER TABLE [dbo].[Grade]  WITH CHECK ADD  CONSTRAINT [FK_Grade_Model] FOREIGN KEY([model_id])
-REFERENCES [dbo].[Model] ([model_id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
+alter table [dbo].[Grade] with check add constraint [FK_Grade_Model] foreign key ([ModelId])
+references [dbo].[model] ([Id])
+go
 
-ALTER TABLE [dbo].[Grade] CHECK CONSTRAINT [FK_Grade_Model]
-GO
+alter table [dbo].[Grade] check constraint [FK_Grade_Model]
+go

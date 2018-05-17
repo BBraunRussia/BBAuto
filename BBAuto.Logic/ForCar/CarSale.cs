@@ -78,7 +78,7 @@ namespace BBAuto.Logic.ForCar
       Regions regions = Regions.getInstance();
       string regionName = (invoice == null)
         ? regions.getItem(idRegion)
-        : regions.getItem(Convert.ToInt32(invoice.RegionToID));
+        : regions.getItem(Convert.ToInt32(invoice.RegionToId));
 
       return new object[]
         {Id, Id, Car.BBNumber, Car.Grz, regionName, _date, comm, pts.Number, sts.Number, Car.GetStatus()};

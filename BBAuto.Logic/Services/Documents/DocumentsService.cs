@@ -129,8 +129,8 @@ namespace BBAuto.Logic.Services.Documents
       
       var car = _carService.GetCarById(carId);
 
-      var owner = Owners.getInstance().getItem(car.OwnerId);
-      var mark = Marks.getInstance().getItem(car.MarkId);
+      var owner = Owners.getInstance().getItem(car.OwnerId.Value);
+      var mark = Marks.getInstance().getItem(car.MarkId.Value);
       var model = ModelList.getInstance().getItem(car.ModelId);
 
       var document = new ExcelDocument("Накладная");
@@ -143,11 +143,11 @@ namespace BBAuto.Logic.Services.Documents
       string fullNameAuto = string.Concat("Автомобиль ", mark, " ", model.Name, ", ", car.Grz);
 
       document.SetValue(22, 10, fullNameAuto);
-      document.SetValue(22, 53, car.DateGet.ToShortDateString());
+      document.SetValue(22, 53, car.DateGet?.ToShortDateString());
 
       var grades = GradeList.getInstance();
 
-      var grade = grades.getItem(car.GradeId);
+      var grade = grades.getItem(car.GradeId.Value);
 
       var ptsList = PTSList.getInstance();
       var pts = ptsList.getItem(car.Id);
@@ -158,8 +158,8 @@ namespace BBAuto.Logic.Services.Documents
 
       document.SetValue(47, 2, fullDetailAuto);
 
-      Driver driver1 = _driverList.getItem(Convert.ToInt32(invoice.DriverFromID));
-      Driver driver2 = _driverList.getItem(Convert.ToInt32(invoice.DriverToID));
+      Driver driver1 = _driverList.getItem(Convert.ToInt32(invoice.DriverFromId));
+      Driver driver2 = _driverList.getItem(Convert.ToInt32(invoice.DriverToId));
 
       document.SetValue(9, 10, driver1.Dept);
       document.SetValue(56, 11, driver1.Position);
@@ -304,7 +304,7 @@ namespace BBAuto.Logic.Services.Documents
       var car = _carService.GetCarById(carId);
       var mark = MarkList.getInstance().getItem(car.MarkId);
       var model = ModelList.getInstance().getItem(car.ModelId);
-      var grade = GradeList.getInstance().getItem(car.GradeId);
+      var grade = GradeList.getInstance().getItem(car.GradeId.Value);
 
       date = new DateTime(date.Year, date.Month, 1);
 
@@ -539,7 +539,7 @@ namespace BBAuto.Logic.Services.Documents
       document.SetValue(18, 2, fullNameAuto);
       document.SetValue(18, 3, car.Grz);
 
-      var driver = _driverList.getItem(Convert.ToInt32(invoice.DriverToID));
+      var driver = _driverList.getItem(Convert.ToInt32(invoice.DriverToId));
 
       document.SetValue(18, 4, driver.GetName(NameType.Full));
       document.SetValue(18, 5, driver.Position);
@@ -567,7 +567,7 @@ namespace BBAuto.Logic.Services.Documents
       var invoice = InvoiceList.getInstance().GetItem(invoiceId);
       if (invoice == null)
         return null;
-      var color = Colors.GetInstance().getItem(car.ColorId);
+      var color = Colors.GetInstance().getItem(car.ColorId.Value);
 
       var wordDoc = openDocumentWord("Доверенность на предоставление интересов на СТО");
 
@@ -575,7 +575,7 @@ namespace BBAuto.Logic.Services.Documents
 
       var driver = invoice == null
         ? driverCarList.GetDriver(carId)
-        : _driverList.getItem(Convert.ToInt32(invoice.DriverToID));
+        : _driverList.getItem(Convert.ToInt32(invoice.DriverToId));
 
       var myDate = new MyDateTime(DateTime.Today.ToShortDateString());
       wordDoc.setValue("текущая дата", myDate.ToLongString());
@@ -634,11 +634,11 @@ namespace BBAuto.Logic.Services.Documents
 
       var fuelCardDriverList = FuelCardDriverList.getInstance();
 
-      var driverTo = _driverList.getItem(Convert.ToInt32(invoice.DriverToID));
+      var driverTo = _driverList.getItem(Convert.ToInt32(invoice.DriverToId));
       var list = fuelCardDriverList.ToList(driverTo);
 
       var regions = Regions.getInstance();
-      var regionName = regions.getItem(Convert.ToInt32(invoice.RegionToID));
+      var regionName = regions.getItem(Convert.ToInt32(invoice.RegionToId));
 
       var i = 1;
 
@@ -696,7 +696,7 @@ namespace BBAuto.Logic.Services.Documents
 
         if (diagCard != null)
         {
-          document.SetValue(rowIndex, 12, diagCard.Date.ToShortDateString());
+          document.SetValue(rowIndex, 12, diagCard.DateEnd.ToShortDateString());
           document.SetValue(rowIndex, 13, diagCard.Number);
         }
 

@@ -17,14 +17,15 @@ begin
   else
   begin
     update Grade
-    set grade_name = @Name,
-        grade_epower = @ePower,
-        grade_evol = @eVol,
-        grade_maxLoad = @maxLoad,
-        grade_noLoad = @noLoad,
-        engineType_id = @idEngineType
-    where grade_Id = @id
-    and model_id = @idModel
+    set [Name] = @Name,
+        Epower = @ePower,
+        Evol = @eVol,
+        MaxLoad = @maxLoad,
+        NoLoad = @noLoad,
+        EngineTypeId = @idEngineType
+    where
+      Id = @id and
+      ModelId = @idModel
   end
 
   select @id

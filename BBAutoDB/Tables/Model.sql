@@ -1,19 +1,17 @@
-CREATE TABLE [dbo].[Model](
-	[model_id] [int] IDENTITY(1,1) NOT NULL,
-	[model_name] NVARCHAR(50) NOT NULL,
-	[mark_id] [int] NOT NULL,
- CONSTRAINT [PK_Model] PRIMARY KEY CLUSTERED 
-(
-	[model_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+create table [dbo].[Model] (
+  [Id] [INT] identity (1, 1) not null,
+  [Name] nvarchar(50) not null,
+  [MarkId] [INT] not null,
+  constraint [PK_Model] primary key clustered
+  (
+  [Id] asc
+  ) with (pad_index = off, statistics_norecompute = off, ignore_dup_key = off, allow_row_locks = on, allow_page_locks = on) on [PRIMARY]
+) on [PRIMARY]
+go
 
-ALTER TABLE [dbo].[Model]  WITH CHECK ADD  CONSTRAINT [FK_Model_Mark] FOREIGN KEY([mark_id])
-REFERENCES [dbo].[Mark] ([mark_id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
+alter table [dbo].[Model] with check add constraint [FK_Model_Mark] foreign key ([MarkId])
+references [dbo].[Mark] ([Id])
+go
 
-ALTER TABLE [dbo].[Model] CHECK CONSTRAINT [FK_Model_Mark]
-GO
+alter table [dbo].[Model] check constraint [FK_Model_Mark]
+go

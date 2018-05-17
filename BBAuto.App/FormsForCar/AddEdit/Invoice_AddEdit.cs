@@ -31,19 +31,19 @@ namespace BBAuto.App.FormsForCar.AddEdit
         _check.Location = new System.Drawing.Point(12, 225);
         _check.Width = 250;
         _check.Text = "удалить сдающего из списка Водителей";
-        this.Controls.Add(_check);
+        Controls.Add(_check);
       }
 
-      lbMoveCar.Text = "Перемещение автомобиля " + _invoice.Car.ToString();
+      lbMoveCar.Text = "Перемещение автомобиля " + _invoice.CarId;
     }
 
     private void Invoice_AddEdit_Load(object sender, EventArgs e)
     {
       loadData();
 
-      this.Text = "Перемещение №" + _invoice.Number;
+      Text = "Перемещение №" + _invoice.Number;
 
-      _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+      _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += EditModeChanged;
       _workWithForm.SetEditMode(_invoice.Id == 0);
     }
@@ -60,14 +60,14 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void loadData()
     {
-      loadDictionary();
+      LoadDictionary();
 
       lbNumber.Text = "Накладная №" + _invoice.Number;
 
-      cbRegionFrom.SelectedValue = _invoice.RegionFromID;
-      cbRegionTo.SelectedValue = _invoice.RegionToID;
-      cbDriverFrom.SelectedValue = _invoice.DriverFromID;
-      cbDriverTo.SelectedValue = _invoice.DriverToID;
+      cbRegionFrom.SelectedValue = _invoice.RegionFromId;
+      cbRegionTo.SelectedValue = _invoice.RegionToId;
+      cbDriverFrom.SelectedValue = _invoice.DriverFromId;
+      cbDriverTo.SelectedValue = _invoice.DriverToId;
 
       dtpDate.Value = _invoice.Date;
       mtbDateMove.Text = _invoice.DateMove;
@@ -76,22 +76,22 @@ namespace BBAuto.App.FormsForCar.AddEdit
       tbFile.Text = _invoice.File;
     }
 
-    private void loadDictionary()
+    private void LoadDictionary()
     {
       _load = false;
 
       setDataSourceRegion(cbRegionFrom);
       setDataSourceRegion(cbRegionTo);
 
-      setDataSourceDriver(cbDriverFrom);
-      setDataSourceDriver(cbDriverTo);
+      SetDataSourceDriver(cbDriverFrom);
+      SetDataSourceDriver(cbDriverTo);
 
       _load = true;
     }
 
-    private void setDataSourceDriver(ComboBox combo)
+    private void SetDataSourceDriver(ComboBox combo)
     {
-      DriverList driverList = DriverList.getInstance();
+      var driverList = DriverList.getInstance();
 
       combo.DataSource = driverList.ToDataTable(_invoice.Id != 0);
       combo.DisplayMember = "ФИО";
@@ -109,10 +109,10 @@ namespace BBAuto.App.FormsForCar.AddEdit
     {
       if (_workWithForm.IsEditMode())
       {
-        _invoice.DriverFromID = cbDriverFrom.SelectedValue.ToString();
-        _invoice.DriverToID = cbDriverTo.SelectedValue.ToString();
-        _invoice.RegionFromID = cbRegionFrom.SelectedValue.ToString();
-        _invoice.RegionToID = cbRegionTo.SelectedValue.ToString();
+        _invoice.DriverFromId = cbDriverFrom.SelectedValue.ToString();
+        _invoice.DriverToId = cbDriverTo.SelectedValue.ToString();
+        _invoice.RegionFromId = cbRegionFrom.SelectedValue.ToString();
+        _invoice.RegionToId = cbRegionTo.SelectedValue.ToString();
         _invoice.Date = dtpDate.Value;
         _invoice.DateMove = mtbDateMove.Text;
 
@@ -123,8 +123,8 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
         if (_check.Checked)
         {
-          DriverList driverList = DriverList.getInstance();
-          Driver driver = driverList.getItem(Convert.ToInt32(cbDriverFrom.SelectedValue.ToString()));
+          var driverList = DriverList.getInstance();
+          var driver = driverList.getItem(Convert.ToInt32(cbDriverFrom.SelectedValue.ToString()));
           driver.IsDriver = false;
           driver.Save();
         }
@@ -142,9 +142,9 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void changeDataSourceDriverTo()
     {
-      if (isRegionToNotNull())
+      if (IsRegionToNotNull())
       {
-        Region region = getRegion();
+        Region region = GetRegion();
 
         DriverList driverList = DriverList.getInstance();
         cbDriverTo.DataSource = driverList.ToDataTableByRegion(region, _invoice.Id != 0);
@@ -153,22 +153,21 @@ namespace BBAuto.App.FormsForCar.AddEdit
       }
     }
 
-    private Region getRegion()
+    private Region GetRegion()
     {
-      int idRegion = 0;
-      int.TryParse(cbRegionTo.SelectedValue.ToString(), out idRegion);
-      RegionList regionList = RegionList.getInstance();
+      int.TryParse(cbRegionTo.SelectedValue.ToString(), out int idRegion);
+      var regionList = RegionList.getInstance();
       return regionList.getItem(idRegion);
     }
 
-    private bool isRegionToNotNull()
+    private bool IsRegionToNotNull()
     {
-      return ((_load) && (cbRegionTo.SelectedValue != null));
+      return _load && cbRegionTo.SelectedValue != null;
     }
 
     private void cbDriverTo_SelectedIndexChanged(object sender, EventArgs e)
     {
-      DriverList driverList = DriverList.getInstance();
+      var driverList = DriverList.getInstance();
 
       if (cbDriverTo.SelectedValue == null)
         return;

@@ -1,16 +1,14 @@
 create procedure [dbo].[GetMarkByGradeId]
   @idGrade int
 as
-begin
   select
-    Mark.mark_id,
-    mark_name
+    Mark.Id,
+    Mark.[Name]
   from
     Grade g
     join Model m
-      on m.model_id = g.model_id
+      on m.Id = g.ModelId
     join Mark
-      on Mark.mark_id = m.mark_id
+      on Mark.Id = m.MarkId
   where
-    grade_Id = @idGrade
-end
+    g.Id = @idGrade

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using BBAuto.Logic.Abstract;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 
 namespace BBAuto.Logic.Lists
@@ -66,7 +65,7 @@ namespace BBAuto.Logic.Lists
       DataTable dt = createTable();
 
       var repairs = from repair in list
-        orderby repair.Date ascending
+        orderby repair.Date
         select repair;
 
       foreach (Repair repair in repairs)
@@ -75,13 +74,13 @@ namespace BBAuto.Logic.Lists
       return dt;
     }
 
-    public DataTable ToDataTableByCar(Car car)
+    public DataTable ToDataTableByCar(int carId)
     {
       DataTable dt = createTable();
 
       var repairs = from repair in list
-        where repair.Car.Id == car.Id
-        orderby repair.Date ascending
+        where repair.Car.Id == carId
+        orderby repair.Date
         select repair;
 
       foreach (Repair repair in repairs)
@@ -99,8 +98,8 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("ГРЗ");
       dt.Columns.Add("Вид ремонта");
       dt.Columns.Add("СТО");
-      dt.Columns.Add("Дата", Type.GetType("System.DateTime"));
-      dt.Columns.Add("Стоимость", Type.GetType("System.Double"));
+      dt.Columns.Add("Дата", typeof(DateTime));
+      dt.Columns.Add("Стоимость", typeof(double));
       dt.Columns.Add("Файл");
 
       return dt;

@@ -72,9 +72,9 @@ namespace BBAuto.Logic.Lists
       return createTable(dtps);
     }
 
-    public DataTable ToDataTable(Car car)
+    public DataTable ToDataTable(int carId)
     {
-      List<DTP> dtps = ToList(car);
+      List<DTP> dtps = ToList(carId);
 
       return createTable(dtps);
     }
@@ -86,9 +86,9 @@ namespace BBAuto.Logic.Lists
       return (dtps.Count > 0) ? dtps.First() : new DTP(new Car());
     }
     
-    private List<DTP> ToList(Car car)
+    private List<DTP> ToList(int carId)
     {
-      return list.Where(item => item.Car.Id == car.Id).OrderByDescending(item => item.Date).ToList();
+      return list.Where(item => item.Car.Id == carId).OrderByDescending(item => item.Date).ToList();
     }
 
     public DTP GetLast(int carId)

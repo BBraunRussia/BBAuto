@@ -1,17 +1,28 @@
 create table [dbo].[Car] (
   [Id] [INT] identity (1, 1) not null,
-  [bbnumber] [INT] not null,
-  [grz] nvarchar(50) null,
-  [vin] nvarchar(17) null,
-  [year] [INT] null,
-  [enumber] nvarchar(50) null,
-  [bodynumber] nvarchar(50) null,
-  [ptsId] [INT] null,
-  [stsId] [INT] null,
-  [gradeId] [INT] null,
-  [colorId] [INT] null,
+  [BBNumber] [INT] not null,
+  [Grz] nvarchar(50) null,
+  [Vin] nvarchar(17) null,
+  [Year] [INT] null,
+  [Enumber] nvarchar(50) null,
+  [Bodynumber] nvarchar(50) null,
+  [PtsId] [INT] null,
+  [StsId] [INT] null,
+  [GradeId] [INT] null,
+  [ColorId] [INT] null,
   [LisingDate] [DATETIME] null,
   [InvertoryNumber] nvarchar(50) null,
+  [OwnerId] [INT] null,
+  [RegionIdBuy] [INT] null,
+  [RegionIdUsing] [INT] null,
+  [DriverId] [INT] null,
+  [DateOrder] [DATETIME] null,
+  [IsGet] bit not null,
+  [DateGet] [DATETIME] null,
+  [Cost] decimal(20, 2) null,
+  [Dop] nvarchar(100) null,
+  [Events] nvarchar(500) null,
+  [DealerId] [INT] null,
   constraint [PK_Car] primary key clustered
   (
   [Id] asc
@@ -19,17 +30,15 @@ create table [dbo].[Car] (
 ) on [PRIMARY]
 go
 
-alter table [dbo].[Car] with check add constraint [FK_Car_Color] foreign key ([colorId])
+alter table [dbo].[Car] with check add constraint [FK_Car_Color] foreign key ([ColorId])
 references [dbo].[Color] ([color_id])
-on update cascade
-on delete cascade
 go
 
 alter table [dbo].[Car] check constraint [FK_Car_Color]
 go
 
-alter table [dbo].[Car] with check add constraint [FK_Car_Grade] foreign key ([gradeId])
-references [dbo].[Grade] ([grade_Id])
+alter table [dbo].[Car] with check add constraint [FK_Car_Grade] foreign key ([GradeId])
+references [dbo].[Grade] ([Id])
 go
 
 alter table [dbo].[Car] check constraint [FK_Car_Grade]

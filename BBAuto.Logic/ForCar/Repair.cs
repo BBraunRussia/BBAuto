@@ -14,7 +14,7 @@ namespace BBAuto.Logic.ForCar
     private int _idServiceStantion;
     private double _cost;
 
-    public Car Car { get; private set; }
+    public int CarId { get; private set; }
     public DateTime Date { get; set; }
     public string File { get; set; }
 
@@ -36,16 +36,16 @@ namespace BBAuto.Logic.ForCar
       set { double.TryParse(value, out _cost); }
     }
 
-    public Repair(Car car)
+    public Repair(int carId)
     {
       Id = 0;
-      Car = car;
+      CarId = carId;
       Date = DateTime.Today;
     }
 
-    public Repair(Car car, DataRow row)
+    public Repair(int carId, DataRow row)
     {
-      Car = car;
+      CarId = carId;
 
       fillFields(row);
     }
@@ -61,9 +61,8 @@ namespace BBAuto.Logic.ForCar
       int.TryParse(row.ItemArray[0].ToString(), out id);
       Id = id;
 
-      int idCar;
-      int.TryParse(row.ItemArray[1].ToString(), out idCar);
-      Car = CarList.getInstance().getItem(idCar);
+      int.TryParse(row.ItemArray[1].ToString(), out int idCar);
+      CarId = idCar;
 
       int.TryParse(row.ItemArray[2].ToString(), out _idRepairType);
       int.TryParse(row.ItemArray[3].ToString(), out _idServiceStantion);
@@ -88,7 +87,7 @@ namespace BBAuto.Logic.ForCar
 
       return new object[]
       {
-        Id, Car.Id, Car.BBNumber, Car.Grz, repairTypes.getItem(_idRepairType),
+        Id, CarId, "Car.BBNumber", "Car.Grz", repairTypes.getItem(_idRepairType),
         serviceStantions.getItem(_idServiceStantion),
         Date, _cost, show
       };
@@ -100,15 +99,15 @@ namespace BBAuto.Logic.ForCar
 
       if (Id == 0)
       {
-        int.TryParse(Provider.Insert("Repair", Id, Car.Id, _idRepairType, _idServiceStantion, Date, _cost, File),
+        int.TryParse(Provider.Insert("Repair", Id, CarId, _idRepairType, _idServiceStantion, Date, _cost, File),
           out id);
         Id = id;
       }
 
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "Repair", Id.ToString());
-      int.TryParse(Provider.Insert("Repair", Id, Car.Id, _idRepairType, _idServiceStantion, Date, _cost, File),
+      File = WorkWithFiles.FileCopyById(File, "cars", CarId, "Repair", Id.ToString());
+      int.TryParse(Provider.Insert("Repair", Id, CarId, _idRepairType, _idServiceStantion, Date, _cost, File),
         out id);
       Id = id;
     }

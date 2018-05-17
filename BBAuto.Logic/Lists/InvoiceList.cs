@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using BBAuto.Logic.Abstract;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 
 namespace BBAuto.Logic.Lists
@@ -22,10 +21,7 @@ namespace BBAuto.Logic.Lists
 
     public static InvoiceList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new InvoiceList();
-
-      return uniqueInstance;
+      return uniqueInstance ?? (uniqueInstance = new InvoiceList());
     }
 
     protected override void LoadFromSql()
@@ -55,7 +51,7 @@ namespace BBAuto.Logic.Lists
     public Invoice GetItemByCarId(int carId)
     {
       var invoices = from invoice in list
-        where invoice.Car.Id == carId && invoice.DateMove != string.Empty
+        where invoice.CarId == carId && invoice.DateMove != string.Empty
         orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
         select invoice;
 
@@ -71,10 +67,10 @@ namespace BBAuto.Logic.Lists
       return createTable(invoices.ToList());
     }
 
-    public DataTable ToDataTable(Car car)
+    public DataTable ToDataTable(int carId)
     {
       var invoices = from invoice in list
-        where invoice.Car.Id == car.Id
+        where invoice.CarId == carId
         orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
         select invoice;
 
@@ -83,20 +79,20 @@ namespace BBAuto.Logic.Lists
 
     private DataTable createTable(List<Invoice> invoices)
     {
-      DataTable dt = new DataTable();
+      var dt = new DataTable();
       dt.Columns.Add("id");
       dt.Columns.Add("idCar");
       dt.Columns.Add("Бортовой номер");
       dt.Columns.Add("Регистрационный знак");
-      dt.Columns.Add("№ накладной", Type.GetType("System.Int32"));
+      dt.Columns.Add("№ накладной", typeof(int));
       dt.Columns.Add("Откуда");
       dt.Columns.Add("Сдал");
       dt.Columns.Add("Куда");
       dt.Columns.Add("Принял");
-      dt.Columns.Add("Дата накладной", Type.GetType("System.DateTime"));
-      dt.Columns.Add("Дата передачи", Type.GetType("System.DateTime"));
+      dt.Columns.Add("Дата накладной", typeof(DateTime));
+      dt.Columns.Add("Дата передачи", typeof(DateTime));
 
-      foreach (Invoice invoice in invoices)
+      foreach (var invoice in invoices)
         dt.Rows.Add(invoice.ToRow());
 
       return dt;
@@ -115,7 +111,7 @@ namespace BBAuto.Logic.Lists
       var invoices = list.Where(item => item.Date.Year == DateTime.Today.Year)
         .OrderByDescending(item => Convert.ToInt32(item.Number));
 
-      return (invoices.Count() == 0) ? 1 : Convert.ToInt32(invoices.First().Number) + 1;
+      return !invoices.Any() ? 1 : Convert.ToInt32(invoices.First().Number) + 1;
     }
   }
 }

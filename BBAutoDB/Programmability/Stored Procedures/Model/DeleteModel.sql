@@ -5,16 +5,16 @@ begin
   declare @count int
 
   select
-    @count = count(model_id)
+    @count = count(Id)
   from
     Grade
   where
-    model_id = @id
+    ModelId = @id
 
   if (@count = 0)
   begin
     delete from Model
-    where model_id = @id
+    where Id = @id
     select 'Удален'
   end
   else

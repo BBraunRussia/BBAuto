@@ -1,19 +1,17 @@
-CREATE TABLE [dbo].[CarSale](
-	[CarId] [int] NOT NULL,
-	[Date] [datetime] NULL,
-	[Comment] NVARCHAR(100) NULL,
- CONSTRAINT [PK_CarSale] PRIMARY KEY CLUSTERED 
-(
-	[CarId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+create table [dbo].[SaleCar] (
+  [CarId] [INT] not null,
+  [Date] [DATETIME] null,
+  [Comment] nvarchar(100) null,
+  constraint [PK_SaleCar] primary key clustered
+  (
+  [CarId] asc
+  ) with (pad_index = off, statistics_norecompute = off, ignore_dup_key = off, allow_row_locks = on, allow_page_locks = on) on [PRIMARY]
+) on [PRIMARY]
+go
 
-ALTER TABLE [dbo].[CarSale]  WITH CHECK ADD  CONSTRAINT [FK_CarSale_Car] FOREIGN KEY([CarId])
-REFERENCES [dbo].[Car] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
+alter table [dbo].[SaleCar] with check add constraint [FK_SaleCar_Car] foreign key ([CarId])
+references [dbo].[Car] ([id])
+go
 
-ALTER TABLE [dbo].[CarSale] CHECK CONSTRAINT [FK_CarSale_Car]
-GO
+alter table [dbo].[SaleCar] check constraint [FK_SaleCar_Car]
+go

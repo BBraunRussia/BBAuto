@@ -238,19 +238,11 @@ namespace BBAuto.Logic.Entities
 
       CarList carList = CarList.getInstance();
       carList.Add(this);
-
-      saveCarBuy();
     }
-
-    private void saveCarBuy()
-    {
-      Provider.Insert("CarBuy", Id, _idOwner, _idRegionBuy, _idRegionUsing, driverID, dateOrder, _isGet, dateGet, cost,
-        dop, events, idDiller);
-    }
-
+    
     public DTP createDTP()
     {
-      return new DTP(this);
+      return new DTP(Id);
     }
 
     public Policy CreatePolicy()
@@ -260,12 +252,12 @@ namespace BBAuto.Logic.Entities
 
     public Violation createViolation()
     {
-      return new Violation(this);
+      return new Violation(Id);
     }
 
     public ShipPart createShipPart()
     {
-      return new ShipPart(this);
+      return new ShipPart(Id);
     }
 
     public DataTable getCarInfo()
@@ -287,14 +279,14 @@ namespace BBAuto.Logic.Entities
 
       return dt2;
     }
-
+    /*
     public DataTable getDataTableDiagCard()
     {
       DiagCardList diagCardList = DiagCardList.getInstance();
 
       return diagCardList.ToDataTable(this);
     }
-
+    */
     public DiagCard createDiagCard()
     {
       return new DiagCard(this);
@@ -307,12 +299,12 @@ namespace BBAuto.Logic.Entities
 
     public Invoice createInvoice()
     {
-      return new Invoice(this);
+      return new Invoice(Id);
     }
 
     public Repair createRepair()
     {
-      return new Repair(this);
+      return new Repair(Id);
     }
 
     public PTS createPTS()
@@ -346,7 +338,7 @@ namespace BBAuto.Logic.Entities
       Regions regions = Regions.getInstance();
       string regionName = (invoice == null)
         ? regions.getItem(_idRegionUsing)
-        : regions.getItem(Convert.ToInt32(invoice.RegionToID));
+        : regions.getItem(Convert.ToInt32(invoice.RegionToId));
 
       int mileageInt = 0;
       DateTime mileageDate = DateTime.Today;

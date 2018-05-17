@@ -5,16 +5,16 @@ begin
   declare @count int
 
   select
-    @count = count(mark_id)
+    @count = count(*)
   from
     Model
   where
-    mark_id = @id
+    MarkId = @id
 
   if (@count = 0)
   begin
     delete from Mark
-    where mark_id = @id
+    where Id = @id
     select 'Удален'
   end
   else

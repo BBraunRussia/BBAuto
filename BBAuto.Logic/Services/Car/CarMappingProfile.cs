@@ -1,4 +1,5 @@
 using AutoMapper;
+using BBAuto.Logic.Services.Car.Buy;
 using BBAuto.Logic.Services.Car.Doc;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Repositories.Entities;
@@ -12,6 +13,7 @@ namespace BBAuto.Logic.Services.Car
       CreateMap<DbCar, CarModel>().ReverseMap();
       CreateMap<DbSaleCar, SaleCarModel>().ReverseMap();
       CreateMap<DbCarDoc, CarDocModel>().ReverseMap();
+      CreateMap<DbCarBuy, CarBuyModel>().ReverseMap();
     }
   }
 }

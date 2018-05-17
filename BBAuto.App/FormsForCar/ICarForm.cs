@@ -1,10 +1,10 @@
 using System.Windows.Forms;
-using BBAuto.Logic.Entities;
+using BBAuto.Logic.Services.Car;
 
 namespace BBAuto.App.FormsForCar
 {
   public interface ICarForm
   {
-    DialogResult ShowDialog(Car car);
+    DialogResult ShowDialog(CarModel car);
   }
 }

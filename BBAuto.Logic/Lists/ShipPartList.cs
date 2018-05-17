@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using BBAuto.Logic.Abstract;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 
 namespace BBAuto.Logic.Lists
@@ -66,9 +65,9 @@ namespace BBAuto.Logic.Lists
       return createTable(list);
     }
 
-    public DataTable ToDataTable(Car car)
+    public DataTable ToDataTable(int carId)
     {
-      var shipParts = list.Where(item => item.Car.Id == car.Id);
+      var shipParts = list.Where(item => item.Car.Id == carId);
 
       return createTable(shipParts.ToList());
     }
@@ -82,8 +81,8 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Регистрационный знак");
       dt.Columns.Add("Водитель");
       dt.Columns.Add("Номер заказа");
-      dt.Columns.Add("Дата заказа", Type.GetType("System.DateTime"));
-      dt.Columns.Add("Дата отправки", Type.GetType("System.DateTime"));
+      dt.Columns.Add("Дата заказа", typeof(DateTime));
+      dt.Columns.Add("Дата отправки", typeof(DateTime));
 
       foreach (ShipPart shipPart in shipParts)
         dt.Rows.Add(shipPart.ToRow());

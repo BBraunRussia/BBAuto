@@ -8,12 +8,12 @@ begin
   begin
     declare @count int
     select
-      @count = count(model_id)
+      @count = count(Id)
     from
       Model
     where
-      model_name = @Name
-      and mark_id = @idMark
+      [Name] = @Name
+      and MarkId = @idMark
 
     if (@count = 0)
     begin
@@ -26,9 +26,9 @@ begin
   else
   begin
     update Model
-    set model_name = @Name,
-        mark_id = @idMark
-    where model_id = @id
+    set [Name] = @Name,
+        MarkId = @idMark
+    where Id = @id
     select 'Обновлен'
   end
 end

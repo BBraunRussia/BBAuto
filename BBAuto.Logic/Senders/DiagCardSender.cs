@@ -4,87 +4,84 @@ using System.Linq;
 using System.Text;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Entities;
-using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.Senders
 {
   public class DiagCardSender
   {
-    private const int SEND_DAY = 5;
-    private const int MAILS_COUNT = 100;
+    private const int SendDay = 5;
+    private const int MailsCount = 100;
+
+    private readonly IDiagCardService _diagCardService;
+    private readonly ICarService _carService;
+
+    public DiagCardSender(
+      IDiagCardService diagCardService,
+      ICarService carService)
+    {
+      _diagCardService = diagCardService;
+      _carService = carService;
+    }
 
     public void SendNotification()
     {
-      if (DateTime.Today.Day != SEND_DAY)
+      if (DateTime.Today.Day != SendDay)
         return;
 
-      DiagCardList diagCardList = DiagCardList.getInstance();
-      List<DiagCard> list = diagCardList.GetDiagCardEnds().ToList();
+      var diagCards = _diagCardService.GetDiagCardsForSend();
 
-      int begin = 0;
-      int end = 0;
+      var end = 0;
 
-      if (!ListEmpty(list))
+      if (diagCards.Any())
       {
-        STSList stsList = STSList.getInstance();
+        var stsList = STSList.getInstance();
 
-        while (end < list.Count)
+        while (end < diagCards.Count)
         {
-          begin = end;
-          end += ((end + MAILS_COUNT) < list.Count) ? MAILS_COUNT : (list.Count - end);
+          var begin = end;
+          end += end + MailsCount < diagCards.Count ? MailsCount : diagCards.Count - end;
 
-          List<DiagCard> listCut = new List<DiagCard>();
+          var listCut = new List<DiagCardModel>();
 
-          for (int i = begin; i < end; i++)
-            listCut.Add(list[i]);
+          for (var i = begin; i < end; i++)
+            listCut.Add(diagCards[i]);
 
-          IEnumerable<Car> carList = diagCardList.GetCarListFromDiagCardList(listCut);
-          List<string> files = new List<string>();
+          var carIds = diagCards.Select(diagCard => diagCard.CarId).Distinct();
+          var files = (from carId in carIds select stsList.getItem(carId) into sts where sts.File != string.Empty select sts.File).ToList();
 
-          foreach (Car car in carList)
-          {
-            STS sts = stsList.getItem(car);
-            if (sts.File != string.Empty)
-              files.Add(sts.File);
-          }
+          var mailText = CreateMail(listCut);
 
-          string mailText = CreateMail(listCut);
+          var email = new EMail();
 
-          EMail email = new EMail();
-
-          Driver employeeAutoDept = GetDriverForSending();
+          var employeeAutoDept = GetDriverForSending();
           email.SendNotification(employeeAutoDept, mailText, true, files);
         }
       }
     }
-
-    private bool ListEmpty(IEnumerable<DiagCard> list)
+    
+    private static Driver GetDriverForSending()
     {
-      return list.Count() == 0;
-    }
-
-    private Driver GetDriverForSending()
-    {
-      DriverList driverList = DriverList.getInstance();
+      var driverList = DriverList.getInstance();
 
       return driverList.GetDriverListByRole(RolesList.Editor).First();
     }
 
-    private string CreateMail(IEnumerable<DiagCard> diagCards)
+    private string CreateMail(IList<DiagCardModel> diagCards)
     {
-      StringBuilder sb = new StringBuilder();
+      var mailTextList = MailTextList.getInstance();
+      var mailText = mailTextList.getItemByType(MailTextType.DiagCard);
+      if (mailText == null)
+        return "Шаблон текста письма не найден";
 
-      foreach (DiagCard diagCard in diagCards)
-      {
-        sb.AppendLine(diagCard.ToMail());
-      }
+      var sb = new StringBuilder();
 
-      MailTextList mailTextList = MailTextList.getInstance();
-      MailText mailText = mailTextList.getItemByType(MailTextType.DiagCard);
-
-      return mailText == null ? "Шаблон текста письма не найден" : mailText.Text.Replace("List", sb.ToString());
+      diagCards.ToList().ForEach(diagCard => sb.AppendLine(diagCard.ToMail(_carService)));
+      
+      return mailText.Text.Replace("List", sb.ToString());
     }
   }
 }
