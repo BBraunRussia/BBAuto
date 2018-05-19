@@ -18,7 +18,7 @@ namespace BBAuto.Logic.Services.Violation
 
     public int Id { get; set; }
     public int CarId { get; private set; }
-    public DateTime Date { get; set; }
+    public DateTime? Date { get; set; }
     public string Number { get; set; }
     public string File { get; set; }
     public DateTime? DatePay { get; set; }

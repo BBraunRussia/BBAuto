@@ -4,8 +4,8 @@ as
 begin
 	if (@all = 1)
 		select
-      region_id,
-      region_name as 'Название'
+      Id,
+      [Name]
     from
       Region
 		union
@@ -13,13 +13,13 @@ begin
       0,
       '(все)'
 		order by
-      region_name
+      [Name]
 	else
 		select
-      region_id,
-      region_name as 'Название'
+      Id,
+      [Name]
 		from
       Region
 		order by
-      region_name
+      [Name]
 end

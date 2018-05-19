@@ -5,8 +5,8 @@ begin
   if (@all = 1)
   begin
     select
-      owner_id,
-      owner_name as 'Название'
+      Id,
+      [Name]
     from
       Owner
     union
@@ -14,10 +14,10 @@ begin
       0,
       '(все)'
     order by
-      owner_name
+      [Name]
   end
   else
   begin
-    select owner_id, owner_name as 'Название' from Owner
+    select Id, [Name] from Owner
   end
 end

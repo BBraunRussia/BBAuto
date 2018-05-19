@@ -133,6 +133,11 @@ namespace BBAuto.App
 
     private void LoadCars()
     {
+      var status = _mainStatus.Get();
+
+      if (status == Status.Violation)
+        LoadCars(_violationService.GetDataTable(_carService));
+
       LoadCars(_carService.ToDataTable(_mainStatus.Get()));
     }
 

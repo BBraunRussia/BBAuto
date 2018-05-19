@@ -39,7 +39,7 @@ ALTER TABLE [dbo].[DTP] CHECK CONSTRAINT [FK_DTP_Culprit]
 GO
 
 ALTER TABLE [dbo].[DTP]  WITH CHECK ADD  CONSTRAINT [FK_dtp_Region] FOREIGN KEY([region_id])
-REFERENCES [dbo].[Region] ([region_id])
+REFERENCES [dbo].[Region] ([Id])
 GO
 
 ALTER TABLE [dbo].[DTP] CHECK CONSTRAINT [FK_dtp_Region]

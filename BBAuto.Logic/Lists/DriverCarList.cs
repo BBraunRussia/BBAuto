@@ -68,17 +68,22 @@ namespace BBAuto.Logic.Lists
       return driverList.getItem(Convert.ToInt32(car.driverID));
     }
 
-    public Driver GetDriver(int carId, DateTime date)
+    public Driver GetDriver(int carId, DateTime? date)
     {
-      var driverCars = from driverCar in list
-        where driverCar.IsDriverCar(carId, date)
-        orderby driverCar.dateEnd descending, driverCar.Number descending
-        select driverCar;
+      if (!date.HasValue)
+        date = DateTime.Today;
 
       TempMoveList tempMoveList = TempMoveList.getInstance();
+      var driver = tempMoveList.GetDriver(carId, date.Value);
+      if (driver != null)
+        return driver;
 
-      Driver driver = tempMoveList.GetDriver(carId, date);
-      return driver ?? getDriver(driverCars.ToList());
+      var driverCars = from driverCar in list
+        where driverCar.IsDriverCar(carId, date.Value)
+        orderby driverCar.dateEnd descending, driverCar.Number descending
+        select driverCar;
+      
+      return getDriver(driverCars.ToList());
     }
 
     private Driver getDriver(List<DriverCar> driverCars)

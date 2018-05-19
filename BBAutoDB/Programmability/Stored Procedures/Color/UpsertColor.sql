@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(color_id)
+      @count = count(*)
     from
       Color
     where
-      color_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update Color
-    set color_name = @Name
-    where color_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

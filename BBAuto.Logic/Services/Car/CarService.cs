@@ -8,6 +8,7 @@ using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
@@ -19,15 +20,18 @@ namespace BBAuto.Logic.Services.Car
     private readonly IDbContext _dbContext;
     private readonly ISaleCarService _carSaleService;
     private readonly IDiagCardService _diagCardService;
+    private readonly IViolationService _violationService;
 
     public CarService(
       IDbContext dbContext,
       ISaleCarService carSaleService,
-      IDiagCardService diagCardService)
+      IDiagCardService diagCardService,
+      IViolationService violationService)
     {
       _dbContext = dbContext;
       _carSaleService = carSaleService;
       _diagCardService = diagCardService;
+      _violationService = violationService;
     }
 
     public CarModel GetCarByGrz(string grz)
@@ -78,8 +82,8 @@ namespace BBAuto.Logic.Services.Car
           return PolicyList.getInstance().ToDataTable();
         case Status.DTP:
           return DTPList.getInstance().ToDataTable();
-        case Status.Violation:
-          return ViolationList.getInstance().ToDataTable();
+     //   case Status.Violation:
+      //    return ViolationList.getInstance().ToDataTable();
         case Status.DiagCard:
           return _diagCardService.GetDataTable(this);
         case Status.TempMove:

@@ -10,6 +10,7 @@ namespace BBAuto.Logic.Services.Violation
     void Agree(ViolationModel violation, CarModel car);
     ViolationModel GetById(int id);
     void Delete(int id);
+    DataTable GetDataTable(ICarService carService);
     DataTable GetDataTableByCar(CarModel car);
     Driver GetDriver(ViolationModel violation);
   }

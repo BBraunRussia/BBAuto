@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using BBAuto.App.GUI;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.App.Utils.DGV
@@ -13,10 +14,14 @@ namespace BBAuto.App.Utils.DGV
     private DataGridView _dgv;
 
     private readonly IDiagCardService _diagCardService;
+    private readonly IViolationService _violationService;
 
-    public DgvFormatter(IDiagCardService diagCardService)
+    public DgvFormatter(
+      IDiagCardService diagCardService,
+      IViolationService violationService)
     {
       _diagCardService = diagCardService;
+      _violationService = violationService;
     }
 
     public void SetDgv(DataGridView dgv)
@@ -190,13 +195,11 @@ namespace BBAuto.App.Utils.DGV
       SetCellFormat("Сумма штрафа", "N0");
       SetRightAligment("Сумма штрафа");
 
-      var violationList = ViolationList.getInstance();
-
       foreach (DataGridViewRow row in _dgv.Rows)
       {
         int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        var violation = violationList.getItem(id);
+        var violation = _violationService.GetById(id);
 
         if (violation.Sent)
           row.Cells["№ постановления"].Style.BackColor = Color.MediumPurple;

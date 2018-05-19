@@ -1,7 +1,4 @@
 create procedure [dbo].[DeleteColor]
-  @idColor int
+  @id int
 as
-begin
-  delete from Color
-  where Color_id = @idColor
-end
+  delete from Color where Id = @id

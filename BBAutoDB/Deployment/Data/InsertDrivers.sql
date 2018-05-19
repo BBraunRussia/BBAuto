@@ -1,7 +1,7 @@
 create procedure dbo.InsertDrivers
 as
   declare @regionId int
-  select top 1 @regionId = region_id from dbo.Region
+  select top 1 @regionId = Id from dbo.Region
 
   declare @positionId int
   select top 1 @positionId = position_id from dbo.Position

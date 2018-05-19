@@ -59,6 +59,16 @@ namespace BBAuto.Logic.Services.Violation
       _dbContext.Violation.DeleteViolationById(id);
     }
 
+    public DataTable GetDataTable(ICarService carService)
+    {
+      var dbList = _dbContext.Violation.GetViolations();
+      var list = Mapper.Map<IList<ViolationModel>>(dbList);
+
+      var violations = list.OrderByDescending(v => v.Date);
+
+      return CreateTable(violations, null, carService);
+    }
+
     public DataTable GetDataTableByCar(CarModel car)
     {
       var dbList = _dbContext.Violation.GetViolationsByCarId(car.Id);
@@ -66,7 +76,7 @@ namespace BBAuto.Logic.Services.Violation
 
       var violations = list.OrderByDescending(v => v.Date);
 
-      return CreateTable(violations.ToList(), car);
+      return CreateTable(violations, car, null);
     }
     
     public Driver GetDriver(ViolationModel violation)
@@ -77,8 +87,10 @@ namespace BBAuto.Logic.Services.Violation
       return driver ?? new Driver();
     }
 
-    private DataTable CreateTable(IEnumerable<ViolationModel> violations, CarModel car)
+    private static DataTable CreateTable(IEnumerable<ViolationModel> violations, CarModel car, ICarService carService)
     {
+      var violationList = violations.OrderByDescending(v => v.Date).ToList();
+
       var dt = new DataTable();
       dt.Columns.Add("id");
       dt.Columns.Add("idCar");
@@ -92,8 +104,7 @@ namespace BBAuto.Logic.Services.Violation
       dt.Columns.Add("Тип нарушения");
       dt.Columns.Add("Сумма штрафа", typeof(int));
 
-      foreach (var violation in violations)
-        dt.Rows.Add(violation.GetRow(car));
+      violationList.ForEach(v => dt.Rows.Add(v.GetRow(car ?? carService?.GetCarById(v.CarId))));
 
       return dt;
     }

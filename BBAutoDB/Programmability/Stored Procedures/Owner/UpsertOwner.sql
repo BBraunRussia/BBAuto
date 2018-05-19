@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(owner_id)
+      @count = count(*)
     from
-      Owner
+      [Owner]
     where
-      owner_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update Owner
-    set owner_name = @Name
-    where owner_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

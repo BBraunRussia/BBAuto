@@ -31,7 +31,7 @@ create table [dbo].[Car] (
 go
 
 alter table [dbo].[Car] with check add constraint [FK_Car_Color] foreign key ([ColorId])
-references [dbo].[Color] ([color_id])
+references [dbo].[Color] ([Id])
 go
 
 alter table [dbo].[Car] check constraint [FK_Car_Color]

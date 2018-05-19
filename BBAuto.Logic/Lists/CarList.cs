@@ -149,8 +149,8 @@ namespace BBAuto.Logic.Lists
           return PolicyList.getInstance().ToDataTable();
         case Status.DTP:
           return DTPList.getInstance().ToDataTable();
-        case Status.Violation:
-          return ViolationList.getInstance().ToDataTable();
+    //    case Status.Violation:
+    //      return ViolationList.getInstance().ToDataTable();
     //    case Status.DiagCard:
     //      return DiagCardList.getInstance().ToDataTable();
         case Status.TempMove:
@@ -159,8 +159,8 @@ namespace BBAuto.Logic.Lists
           return ShipPartList.getInstance().ToDataTable();
         case Status.Account:
           return AccountList.GetInstance().ToDataTable();
-        case Status.AccountViolation:
-          return ViolationList.getInstance().ToDataTableAccount();
+       // case Status.AccountViolation:
+       //   return ViolationList.getInstance().ToDataTableAccount();
         case Status.FuelCard:
           return FuelCardList.getInstance().ToDataTable();
         case Status.Driver:

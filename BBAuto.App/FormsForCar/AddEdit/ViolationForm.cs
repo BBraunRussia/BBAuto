@@ -51,9 +51,9 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void FillFields()
     {
-      dtpDate.Value = _violation.Date;
+      dtpDate.Value = _violation.Date ?? DateTime.Today;
       tbNumber.Text = _violation.Number;
-      chbPaid.Checked = (_violation.DatePay != null);
+      chbPaid.Checked = _violation.DatePay != null;
 
       var tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _violation.File;

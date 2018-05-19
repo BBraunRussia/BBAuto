@@ -41,7 +41,7 @@ ALTER TABLE [dbo].[Policy] CHECK CONSTRAINT [FK_Kasko_Comp]
 GO
 
 ALTER TABLE [dbo].[Policy]  WITH CHECK ADD  CONSTRAINT [FK_Kasko_Owner] FOREIGN KEY([owner_id])
-REFERENCES [dbo].[Owner] ([owner_id])
+REFERENCES [dbo].[Owner] ([Id])
 GO
 
 ALTER TABLE [dbo].[Policy] CHECK CONSTRAINT [FK_Kasko_Owner]

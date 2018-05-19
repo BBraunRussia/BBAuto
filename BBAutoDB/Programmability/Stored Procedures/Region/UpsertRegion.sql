@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(region_id)
+      @count = count(*)
     from
       Region
     where
-      region_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -22,8 +22,8 @@ begin
   else
   begin
     update Region
-    set region_name = @Name
-    where region_id = @id
+    set [Name] = @Name
+    where Id = @id
   end
 
   select @id

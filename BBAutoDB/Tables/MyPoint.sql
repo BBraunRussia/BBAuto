@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[MyPoint](
 GO
 
 ALTER TABLE [dbo].[MyPoint]  WITH CHECK ADD  CONSTRAINT [FK_Region] FOREIGN KEY([region_id])
-REFERENCES [dbo].[Region] ([region_id])
+REFERENCES [dbo].[Region] ([Id])
 GO
 
 ALTER TABLE [dbo].[MyPoint] CHECK CONSTRAINT [FK_Region]

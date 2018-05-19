@@ -1,11 +1,9 @@
 create procedure [dbo].[GetColors]
 as
-begin
   select
-    color_id,
-    color_name 'Название'
+    Id,
+    [Name]
   from
     Color
   order by
-    color_name
-end
+    [Name]

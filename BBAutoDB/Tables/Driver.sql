@@ -35,7 +35,7 @@ alter table [dbo].[Driver] check constraint [FK_Driver_Position]
 go
 
 alter table [dbo].[Driver] with check add constraint [FK_Driver_Region] foreign key ([regionId])
-references [dbo].[Region] ([region_id])
+references [dbo].[Region] ([Id])
 on update cascade
 on delete cascade
 go

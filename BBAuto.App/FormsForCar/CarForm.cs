@@ -198,8 +198,8 @@ namespace BBAuto.App.FormsForCar
     private void loadOneStringDictionary(ComboBox combo, string name)
     {
       combo.DataSource = OneStringDictionary.getDataTable(name);
-      combo.DisplayMember = "Название";
-      combo.ValueMember = name + "_id";
+      combo.DisplayMember = "Name";
+      combo.ValueMember = "Id";
     }
 
     private void SetWindowHeader()
