@@ -19,7 +19,6 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
-using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
@@ -294,16 +293,14 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateNewViolation()
     {
-      ToolStripMenuItem item = CreateItem("Новое нарушение ПДД");
+      var item = CreateItem("Новое нарушение ПДД");
       item.Click += delegate
       {
         var carId = _mainDgv.GetCarId();
         if (carId == 0)
           return;
 
-        var violation = new Violation(carId);
-
-        _formViolation.ShowDialog(violation);
+        _formViolation.ShowDialog(0, carId, _carForm);
       };
       return item;
     }
@@ -719,7 +716,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Покупка автомобиля");
       item.Click += delegate
       {
-        if (_carForm.ShowDialog(new CarModel()) == DialogResult.OK)
+        if (_carForm.ShowDialog(0) == DialogResult.OK)
           _mainStatus.Set(_mainStatus.Get());
       };
       return item;

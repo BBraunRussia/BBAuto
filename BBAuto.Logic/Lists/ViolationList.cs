@@ -113,8 +113,8 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Тип нарушения");
       dt.Columns.Add("Сумма штрафа", Type.GetType("System.Int32"));
 
-      foreach (Violation violation in violations)
-        dt.Rows.Add(violation.ToRow());
+   //   foreach (Violation violation in violations)
+  //      dt.Rows.Add(violation.ToRow());
 
       return dt;
     }
@@ -133,8 +133,8 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Сумма штрафа", Type.GetType("System.Int32"));
       dt.Columns.Add("Согласование");
 
-      foreach (Violation violation in violations)
-        dt.Rows.Add(violation.GetRowAccount());
+    //  foreach (Violation violation in violations)
+    //    dt.Rows.Add(violation.GetRowAccount());
 
       return dt;
     }
@@ -145,7 +145,7 @@ namespace BBAuto.Logic.Lists
 
       list.Remove(violation);
 
-      violation.Delete();
+      //violation.Delete();
     }
 
     private IEnumerable<Violation> GetListViolationAccount()

@@ -21,7 +21,7 @@ namespace BBAuto.App.FormsForCar
 
       _dtpList = DTPList.getInstance();
 
-      loadDTP();
+      LoadDtp();
     }
 
     private void Add_Click(object sender, EventArgs e)
@@ -36,12 +36,12 @@ namespace BBAuto.App.FormsForCar
 
       _dtpList.Delete(idDTP);
 
-      loadDTP();
+      LoadDtp();
     }
 
-    private void loadDTP()
+    private void LoadDtp()
     {
-      _dgvDTP.DataSource = _dtpList.ToDataTable(_car);
+      _dgvDTP.DataSource = _dtpList.ToDataTable(_car.Id);
     }
 
     private void _dgvDTP_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

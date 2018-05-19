@@ -151,8 +151,8 @@ namespace BBAuto.Logic.Lists
           return DTPList.getInstance().ToDataTable();
         case Status.Violation:
           return ViolationList.getInstance().ToDataTable();
-        case Status.DiagCard:
-          return DiagCardList.getInstance().ToDataTable();
+    //    case Status.DiagCard:
+    //      return DiagCardList.getInstance().ToDataTable();
         case Status.TempMove:
           return TempMoveList.getInstance().ToDataTable();
         case Status.ShipPart:

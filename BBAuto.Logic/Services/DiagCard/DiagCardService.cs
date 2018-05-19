@@ -47,6 +47,32 @@ namespace BBAuto.Logic.Services.DiagCard
       var diagCards = Mapper.Map<IList<DiagCardModel>>(dbDiagCards)
         .OrderByDescending(item => item.DateEnd).ToList();
 
+      var dt = CreateTable();
+
+      diagCards.ForEach(diagCard =>
+      {
+        var car = carService.GetCarById(diagCard.CarId);
+        dt.Rows.Add(diagCard.ToRow(car));
+      });
+      
+      return dt;
+    }
+
+    public DataTable GetDataTableByCar(CarModel car)
+    {
+      var dbDiagCards = _dbContext.DiagCard.GetDiagCardById(car.Id);
+      var diagCards = Mapper.Map<IList<DiagCardModel>>(dbDiagCards)
+        .OrderByDescending(item => item.DateEnd).ToList();
+
+      var dt = CreateTable();
+
+      diagCards.ForEach(diagCard => dt.Rows.Add(diagCard.ToRow(car)));
+
+      return dt;
+    }
+
+    private static DataTable CreateTable()
+    {
       var dt = new DataTable();
       dt.Columns.Add("id");
       dt.Columns.Add("idCar");
@@ -54,8 +80,6 @@ namespace BBAuto.Logic.Services.DiagCard
       dt.Columns.Add("Регистрационный знак");
       dt.Columns.Add("№ ДК");
       dt.Columns.Add("Срок действия до", typeof(DateTime));
-
-      diagCards.ForEach(diagCard => dt.Rows.Add(diagCard.ToRow(carService)));
       
       return dt;
     }

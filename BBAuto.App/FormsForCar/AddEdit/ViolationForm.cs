@@ -4,7 +4,7 @@ using BBAuto.App.Events;
 using BBAuto.App.FormsForDriver.AddEdit;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
-using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using Common.Resources;
@@ -13,22 +13,28 @@ namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class ViolationForm : Form, IViolationForm
   {
-    private readonly ICarForm _carForm;
+    private ICarForm _carForm;
+    private readonly IViolationService _violationService;
+    private readonly ICarService _carService;
 
     private ViolationModel _violation;
 
     private WorkWithForm _workWithForm;
     
-    public ViolationForm(ICarForm carForm)
+    public ViolationForm(
+      IViolationService violationService,
+      ICarService carService)
     {
       InitializeComponent();
 
-      _carForm = carForm;
+      _violationService = violationService;
+      _carService = carService;
     }
 
-    public DialogResult ShowDialog(ViolationModel violation)
+    public DialogResult ShowDialog(int violationId, int carId, ICarForm carForm)
     {
-      _violation = violation;
+      _violation = _violationService.GetById(violationId) ?? new ViolationModel(carId);
+      _carForm = carForm;
 
       return ShowDialog();
     }
@@ -68,8 +74,8 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
       chbNoDeduction.Checked = _violation.NoDeduction;
 
-      llDriver.Text = _violation.getDriver().GetName(NameType.Full);
-      llCar.Text = _violation.Car.ToString();
+      llDriver.Text = _violation.GetDriver().GetName(NameType.Full);
+      llCar.Text = _carService.GetCarById(_violation.CarId).ToString();
     }
 
     private void btnSave_Click(object sender, EventArgs e)
@@ -108,15 +114,17 @@ namespace BBAuto.App.FormsForCar.AddEdit
       var tbFile = ucFile.Controls["tbFile"] as TextBox;
       _violation.File = tbFile.Text;
 
-      _violation.ViolationTypeId = cbViolationType.SelectedValue;
-      _violation.Sum = tbSum.Text;
+      int.TryParse(cbViolationType.SelectedValue.ToString(), out var violationTypeId);
+      _violation.ViolationTypeId = violationTypeId;
+      int.TryParse(tbSum.Text, out var sum);
+      _violation.Sum = sum;
 
       var tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
       _violation.FilePay = tbFilePay.Text;
 
       _violation.NoDeduction = chbNoDeduction.Checked;
 
-      _violation.Save();
+      _violationService.Save(_violation);
     }
 
     private void chbPaid_CheckedChanged(object sender, EventArgs e)
@@ -164,19 +172,22 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void Send()
     {
+      var car = _carService.GetCarById(_violation.CarId);
+      var driver = _violationService.GetDriver(_violation);
+
       var mail = new EMail();
-      mail.SendMailViolation(_violation);
+      mail.SendMailViolation(_violation, car, driver);
     }
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      var driverAe = new DriverForm(_violation.getDriver());
+      var driverAe = new DriverForm(_violation.GetDriver());
       driverAe.ShowDialog();
     }
 
     private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     { 
-      _carForm.ShowDialog(_violation.Car);
+      _carForm.ShowDialog(_violation.CarId);
     }
   }
 }

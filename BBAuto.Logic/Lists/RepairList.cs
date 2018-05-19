@@ -79,7 +79,7 @@ namespace BBAuto.Logic.Lists
       DataTable dt = createTable();
 
       var repairs = from repair in list
-        where repair.Car.Id == carId
+        where repair.CarId == carId
         orderby repair.Date
         select repair;
 

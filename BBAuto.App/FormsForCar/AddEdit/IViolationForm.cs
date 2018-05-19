@@ -1,10 +1,9 @@
 using System.Windows.Forms;
-using BBAuto.Logic.Services.Violation;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
   public interface IViolationForm
   {
-    DialogResult ShowDialog(ViolationModel violation);
+    DialogResult ShowDialog(int violationId, int carId, ICarForm carForm);
   }
 }

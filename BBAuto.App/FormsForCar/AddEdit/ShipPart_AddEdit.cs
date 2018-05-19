@@ -45,7 +45,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void loadData()
     {
-      cbCar.SelectedValue = _shipPart.Car.Id;
+      cbCar.SelectedValue = _shipPart.CarId;
       cbDriver.SelectedValue = _shipPart.Driver.Id;
       tbNumber.Text = _shipPart.Number;
       mtbDateRequest.Text = _shipPart.DateRequest;
@@ -59,7 +59,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     {
       if (_workWithForm.IsEditMode())
       {
-        _shipPart.Car = CarList.getInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
+        _shipPart.CarId = Convert.ToInt32(cbCar.SelectedValue);
         _shipPart.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
         _shipPart.Number = tbNumber.Text;
         _shipPart.DateRequest = mtbDateRequest.Text;

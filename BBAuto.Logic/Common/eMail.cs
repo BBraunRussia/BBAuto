@@ -58,27 +58,27 @@ namespace BBAuto.Logic.Common
         list);
     }
 
-    public void SendMailViolation(Violation violation, CarModel car)
+    public void SendMailViolation(ViolationModel violation, CarModel car, Driver driver)
     {
       _subject = $"Штраф по а/м {car.Grz}";
 
-      CreateMailAndSendViolation(violation, car);
+      CreateMailAndSendViolation(violation, car, driver);
     }
 
-    private void CreateMailAndSendViolation(Violation violation, CarModel car)
+    private void CreateMailAndSendViolation(ViolationModel violation, CarModel car, Driver driver)
     {
       List<Driver> drivers;
 
       if (violation.NoDeduction)
       {
-        CreateBodyViolationNoDeduction(violation);
+        CreateBodyViolationNoDeduction(violation, driver);
         var owner = Owners.getInstance().getItem(car.OwnerId.Value);
         drivers = GetAccountants(owner);
       }
       else
       {
-        CreateBodyViolation(violation);
-        drivers = new List<Driver> {violation.getDriver()};
+        CreateBodyViolation(violation, driver);
+        drivers = new List<Driver> {driver};
       }
 
       var list = new List<Attachment>();
@@ -87,11 +87,11 @@ namespace BBAuto.Logic.Common
       Send(drivers, new[] {_authorEmail}, list);
     }
 
-    private void CreateBodyViolation(Violation violation)
+    private void CreateBodyViolation(ViolationModel violation, Driver driver)
     {
-      var driver = violation.getDriver();
-
-      var appeal = (driver.Sex == "мужской") ? "Уважаемый" : "Уважаемая";
+      var appeal = driver.Sex == "мужской"
+        ? "Уважаемый"
+        : "Уважаемая";
 
       _body = $"{appeal} {driver.GetName(NameType.Full)}!\n\n" +
               "Информирую Вас о том, что пришло постановление о штрафе за нарушения ПДД.\n" +
@@ -102,10 +102,8 @@ namespace BBAuto.Logic.Common
               "Скан копия постановления во вложении.";
     }
 
-    private void CreateBodyViolationNoDeduction(Violation violation)
+    private void CreateBodyViolationNoDeduction(ViolationModel violation, Driver driver)
     {
-      Driver driver = violation.getDriver();
-
       var sb = new StringBuilder();
       sb.AppendLine("Добрый день!");
       sb.AppendLine("");

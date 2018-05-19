@@ -1,4 +1,6 @@
-﻿using BBAuto.Logic.Services.Car;
+﻿using System.Data;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Services.Car;
 
 namespace BBAuto.Logic.Services.Violation
 {
@@ -7,5 +9,8 @@ namespace BBAuto.Logic.Services.Violation
     ViolationModel Save(ViolationModel violation);
     void Agree(ViolationModel violation, CarModel car);
     ViolationModel GetById(int id);
+    void Delete(int id);
+    DataTable GetDataTableByCar(CarModel car);
+    Driver GetDriver(ViolationModel violation);
   }
 }

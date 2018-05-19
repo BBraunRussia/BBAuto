@@ -15,6 +15,7 @@ using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Mileage;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 using Common.Resources;
@@ -36,7 +37,6 @@ namespace BBAuto.App.FormsForCar
     private InvoiceList _invoiceList;
     private PolicyList _policyList;
     private RepairList _repairList;
-    private ViolationList _violationList;
     private ShipPartList _shipPartList;
 
     private WorkWithForm _workWithForm;
@@ -51,8 +51,11 @@ namespace BBAuto.App.FormsForCar
     private readonly IDiagCardForm _formDiagCard;
     private readonly ICarDocForm _carDocForm;
     private readonly ICarService _carService;
+    private readonly IViolationService _violationService;
 
     private readonly IDgvFormatter _dgvFormatter;
+
+    private readonly IViolationForm _violationForm;
     
     public CarForm(
       IDealerService dealerService,
@@ -64,7 +67,9 @@ namespace BBAuto.App.FormsForCar
       IDocumentsService documentsService,
       ICarDocService carDocService,
       ICarDocForm carDocForm,
-      ICarService carService)
+      ICarService carService,
+      IViolationForm violationForm,
+      IViolationService violationService)
     {
       _dealerService = dealerService;
       _mileageService = mileageService;
@@ -76,13 +81,15 @@ namespace BBAuto.App.FormsForCar
       _carDocService = carDocService;
       _carDocForm = carDocForm;
       _carService = carService;
+      _violationForm = violationForm;
+      _violationService = violationService;
     }
 
-    public DialogResult ShowDialog(CarModel car)
+    public DialogResult ShowDialog(int carId)
     {
       InitializeComponent();
 
-      _car = car;
+      _car = _carService.GetCarById(carId) ?? new CarModel();
 
       _driverCarList = DriverCarList.getInstance();
       _driverList = DriverList.getInstance();
@@ -90,7 +97,6 @@ namespace BBAuto.App.FormsForCar
       _invoiceList = InvoiceList.getInstance();
       _policyList = PolicyList.getInstance();
       _repairList = RepairList.getInstance();
-      _violationList = ViolationList.getInstance();
       _shipPartList = ShipPartList.getInstance();
 
       return ShowDialog();
@@ -244,13 +250,17 @@ namespace BBAuto.App.FormsForCar
 
     private void FillFields()
     {
-      cbMark.SelectedValue = _car.MarkId;
-      cbModel.SelectedValue = _car.ModelId;
-      cbGrade.SelectedValue = _car.GradeId;
+      if (_car.MarkId.HasValue)
+        cbMark.SelectedValue = _car.MarkId;
+      if (_car.ModelId.HasValue)
+        cbModel.SelectedValue = _car.ModelId;
+      if (_car.GradeId.HasValue)
+        cbGrade.SelectedValue = _car.GradeId;
       /* когда Audi не заполняется таблица с инфо о машине */
       if (dgvCarInfo.DataSource == null)
         ChangedGrade();
-      cbColor.SelectedValue = _car.ColorId;
+      if (_car.ColorId.HasValue)
+        cbColor.SelectedValue = _car.ColorId;
 
       tbBbNumber.Text = _car.BbNumber;
       tbVin.Text = _car.Vin;
@@ -258,18 +268,24 @@ namespace BBAuto.App.FormsForCar
       tbENumber.Text = _car.ENumber;
       tbBodyNumber.Text = _car.BodyNumber;
       mtbGRZ.Text = _car.Grz;
-      cbOwner.SelectedValue = _car.OwnerId;
-      cbRegionBuy.SelectedValue = _car.RegionIdBuy;
-      cbRegionUsing.SelectedValue = _car.RegionIdUsing;
-      cbDriver.SelectedValue = _car.DriverId;
-      cbDealer.SelectedValue = _car.DealerId;
+      if (_car.OwnerId.HasValue)
+        cbOwner.SelectedValue = _car.OwnerId;
+      if (_car.RegionIdBuy.HasValue)
+        cbRegionBuy.SelectedValue = _car.RegionIdBuy;
+      if (_car.RegionIdUsing.HasValue)
+        cbRegionUsing.SelectedValue = _car.RegionIdUsing;
+      if (_car.DriverId.HasValue)
+        cbDriver.SelectedValue = _car.DriverId;
+      if (_car.DealerId.HasValue)
+        cbDealer.SelectedValue = _car.DealerId;
       if (_car.DateOrder.HasValue)
         dtpDateOrder.Value = _car.DateOrder.Value;
       chbIsGet.Checked = _car.IsGet;
       if (_car.DateGet.HasValue)
         dtpDateGet.Value = _car.DateGet.Value;
       tbEvents.Text = _car.Events;
-      tbCost.Text = _car.Cost.ToString();
+      if (_car.Cost.HasValue)
+        tbCost.Text = _car.Cost.ToString();
       tbDOP.Text = _car.Dop;
 
       var driver = _driverCarList.GetDriver(_car.Id) ?? new Driver();
@@ -685,22 +701,15 @@ namespace BBAuto.App.FormsForCar
 
     private void btnAddViolation_Click(object sender, EventArgs e)
     {
-      var violation = new Violation(_car.Id);
-
-      var formViolation = new ViolationForm(this);
-
-      if (formViolation.ShowDialog(violation) == DialogResult.OK)
-      {
-        _violationList.Add(violation);
+      if (_violationForm.ShowDialog(0, _car.Id, this) == DialogResult.OK)
         LoadViolation();
-      }
     }
 
     private void _dgvViolation_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      int idViolation = Convert.ToInt32(_dgvViolation.Rows[e.RowIndex].Cells[0].Value);
+      var idViolation = Convert.ToInt32(_dgvViolation.Rows[e.RowIndex].Cells[0].Value);
 
-      var violation = _violationList.getItem(idViolation);
+      var violation = _violationService.GetById(idViolation);
 
       if (e.ColumnIndex == 6 && violation.File != string.Empty)
         WorkWithFiles.OpenFile(violation.File);
@@ -708,9 +717,7 @@ namespace BBAuto.App.FormsForCar
         WorkWithFiles.OpenFile(violation.FilePay);
       else
       {
-        var formViolation = new ViolationForm(this);
-
-        if (formViolation.ShowDialog(violation) == DialogResult.OK)
+        if (_violationForm.ShowDialog(idViolation, _car.Id, this) == DialogResult.OK)
           LoadViolation();
       }
     }
@@ -721,7 +728,7 @@ namespace BBAuto.App.FormsForCar
       {
         int idViolation = Convert.ToInt32(_dgvViolation.Rows[_dgvViolation.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        _violationList.Delete(idViolation);
+        _violationService.Delete(idViolation);
 
         LoadViolation();
       }
@@ -729,7 +736,7 @@ namespace BBAuto.App.FormsForCar
 
     private void LoadViolation()
     {
-      _dgvViolation.DataSource = _violationList.ToDataTable(_car.Id);
+      _dgvViolation.DataSource = _violationService.GetDataTableByCar(_car);
 
       FormatDgvViolation();
     }

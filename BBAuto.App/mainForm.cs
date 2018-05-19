@@ -174,7 +174,7 @@ namespace BBAuto.App
         return;
       }
 
-      if (isCellNoHeader(e.RowIndex))
+      if (IsCellNoHeader(e.RowIndex))
       {
         if (_dgvCar.Columns[e.ColumnIndex].HeaderText == Columns.BBNumber &&
             _mainStatus.Get() != Status.AccountViolation)
@@ -320,8 +320,7 @@ namespace BBAuto.App
       if (_mainDgv.GetId() == 0)
         return;
 
-      ViolationList violationList = ViolationList.getInstance();
-      Violation violation = violationList.getItem(_mainDgv.GetId());
+      var violation = _violationService.GetById(_mainDgv.GetId());
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.NumberViolation && !string.IsNullOrEmpty(violation.File))
         WorkWithFiles.OpenFile(violation.File);
@@ -329,7 +328,7 @@ namespace BBAuto.App
         WorkWithFiles.OpenFile(violation.FilePay);
       else
       {
-        if (_formViolation.ShowDialog(violation) == DialogResult.OK)
+        if (_formViolation.ShowDialog(violation.Id, violation.CarId, _carForm) == DialogResult.OK)
         {
           LoadCars();
         }
@@ -360,10 +359,10 @@ namespace BBAuto.App
         return;
 
       TempMoveList tempMoveList = TempMoveList.getInstance();
-      TempMove tempMove = tempMoveList.GetItem(_mainDgv.GetId());
+      var tempMove = tempMoveList.GetItem(_mainDgv.GetId());
 
-      TempMove_AddEdit tempMoveAE = new TempMove_AddEdit(tempMove);
-      if (tempMoveAE.ShowDialog() == DialogResult.OK)
+      var tempMoveAe = new TempMove_AddEdit(tempMove);
+      if (tempMoveAe.ShowDialog() == DialogResult.OK)
       {
         LoadCars();
       }
@@ -375,10 +374,10 @@ namespace BBAuto.App
         return;
 
       ShipPartList shipPartList = ShipPartList.getInstance();
-      ShipPart shipPart = shipPartList.getItem(_mainDgv.GetId());
+      var shipPart = shipPartList.getItem(_mainDgv.GetId());
 
-      ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
-      if (shipPartAE.ShowDialog() == DialogResult.OK)
+      var shipPartAe = new ShipPart_AddEdit(shipPart);
+      if (shipPartAe.ShowDialog() == DialogResult.OK)
       {
         LoadCars();
       }
@@ -392,7 +391,7 @@ namespace BBAuto.App
           return;
 
         AccountList accountListList = AccountList.GetInstance();
-        Account account = accountListList.getItem(_mainDgv.GetId());
+        var account = accountListList.getItem(_mainDgv.GetId());
 
         if (_dgvCar.Columns[point.X].HeaderText == Columns.File && !string.IsNullOrEmpty(account.File))
           WorkWithFiles.OpenFile(account.File);
@@ -413,8 +412,8 @@ namespace BBAuto.App
         }
         else
         {
-          Account_AddEdit accountAE = new Account_AddEdit(account);
-          if (accountAE.ShowDialog() == DialogResult.OK)
+          var accountAe = new Account_AddEdit(account);
+          if (accountAe.ShowDialog() == DialogResult.OK)
           {
             LoadCars();
           }
@@ -467,7 +466,7 @@ namespace BBAuto.App
           _myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
         else
         {
-          if (_formViolation.ShowDialog(violation) == DialogResult.OK)
+          if (_formViolation.ShowDialog(violation.Id, violation.CarId, _carForm) == DialogResult.OK)
           {
             LoadCars();
           }
@@ -504,9 +503,9 @@ namespace BBAuto.App
         return;
 
       FuelCardList fuelCardList = FuelCardList.getInstance();
-      FuelCard fuelCard = fuelCardList.getItem(id);
+      var fuelCard = fuelCardList.getItem(id);
 
-      FuelCard_AddEdit fuelCardAddEdit = new FuelCard_AddEdit(fuelCard);
+      var fuelCardAddEdit = new FuelCard_AddEdit(fuelCard);
       if (fuelCardAddEdit.ShowDialog() == DialogResult.OK)
         LoadCars();
     }
@@ -517,7 +516,7 @@ namespace BBAuto.App
         return;
 
       DriverList driverList = DriverList.getInstance();
-      DriverForm driverAddEdit = new DriverForm(driverList.getItem(_mainDgv.GetId()));
+      var driverAddEdit = new DriverForm(driverList.getItem(_mainDgv.GetId()));
 
       if (driverAddEdit.ShowDialog() == DialogResult.OK)
         LoadCars();
@@ -539,33 +538,32 @@ namespace BBAuto.App
       }
 
       PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(carId);
+      var pts = ptsList.getItem(carId);
 
       STSList stsList = STSList.getInstance();
-      STS sts = stsList.getItem(carId);
+      var sts = stsList.getItem(carId);
 
-      string columnName = _dgvCar.Columns[point.X].HeaderText;
+      var columnName = _dgvCar.Columns[point.X].HeaderText;
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.VIN)
       {
-        formCarInfo formcarInfo = new formCarInfo(car);
+        var formcarInfo = new formCarInfo(car);
         formcarInfo.ShowDialog();
       }
       else if (_dgvCar.Columns[point.X].HeaderText == Columns.Driver)
       {
-        if (isCellNoHeader(point.X))
+        if (IsCellNoHeader(point.X))
         {
           DriverCarList driverCarList = DriverCarList.getInstance();
-          Driver driver = driverCarList.GetDriver(car.Id);
+          var driver = driverCarList.GetDriver(car.Id);
 
           if (driver == null)
           {
             return;
           }
 
-          DriverList driverList = DriverList.getInstance();
-          DriverForm dAE = new DriverForm(driver);
-          if (dAE.ShowDialog() == DialogResult.OK)
+          var dAe = new DriverForm(driver);
+          if (dAe.ShowDialog() == DialogResult.OK)
           {
             LoadCars();
           }
@@ -588,17 +586,12 @@ namespace BBAuto.App
     }
 
     private void OpenCarAddEdit(CarModel car)
-    {
-      //var carAE = new CarForm(car);
-      //_carForm.Create(car);
-      
-      if (_carForm.ShowDialog(car) == DialogResult.OK)
-      {
+    {    
+      if (_carForm.ShowDialog(car.Id) == DialogResult.OK)
         LoadCars();
-      }
     }
 
-    private bool isCellNoHeader(int rowIndex)
+    private bool IsCellNoHeader(int rowIndex)
     {
       return rowIndex >= 0;
     }

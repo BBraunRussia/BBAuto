@@ -242,7 +242,7 @@ namespace BBAuto.Logic.Entities
     
     public DTP createDTP()
     {
-      return new DTP(Id);
+      throw new NotImplementedException();
     }
 
     public Policy CreatePolicy()
@@ -319,7 +319,7 @@ namespace BBAuto.Logic.Entities
 
     public TempMove createTempMove()
     {
-      return new TempMove(this);
+      throw new NotImplementedException();
     }
 
     internal override object[] ToRow()

@@ -39,6 +39,9 @@ namespace BBAuto.Logic.Services.Car
     
     public CarModel GetCarById(int id)
     {
+      if (id == 0)
+        return null;
+
       var dbModel = _dbContext.Car.GetCarById(id);
 
       return Mapper.Map<CarModel>(dbModel);

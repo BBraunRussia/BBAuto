@@ -67,7 +67,7 @@ namespace BBAuto.Logic.Lists
 
     public DataTable ToDataTable(int carId)
     {
-      var shipParts = list.Where(item => item.Car.Id == carId);
+      var shipParts = list.Where(item => item.CarId == carId);
 
       return createTable(shipParts.ToList());
     }

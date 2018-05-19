@@ -13,10 +13,8 @@ namespace BBAuto.Logic.Services.DiagCard
     public string File { get; set; }
     public bool NotificationSent { get; set; }
 
-    public object[] ToRow(ICarService carService)
+    public object[] ToRow(CarModel car)
     {
-      var car = carService.GetCarById(CarId);
-
       return new object[] { Id, CarId, car.BbNumber, car.Grz, Number, DateEnd };
     }
 

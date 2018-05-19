@@ -9,7 +9,7 @@ using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.ForCar
 {
-  public class Violation : MainDictionary
+  public class Violation
   {
     private readonly DateTime default_date = new DateTime(1, 1, 1);
 
@@ -19,6 +19,9 @@ namespace BBAuto.Logic.ForCar
     private string _fileBeginPay;
     private DateTime? _datePay;
     private int _noDeduction;
+
+    public int Id { get; set; }
+    public string FileBegin { get; set; }
 
     public string Number { get; set; }
     public DateTime Date { get; set; }
@@ -121,8 +124,8 @@ namespace BBAuto.Logic.ForCar
       DateTime.TryParse(row[12].ToString(), out dateCreate);
       DateCreate = new DateTime(dateCreate.Year, dateCreate.Month, dateCreate.Day);
     }
-
-    public override void Save()
+    /*
+    public void Save()
     {
       DeleteFile(File);
       deleteFilePay();
@@ -142,7 +145,7 @@ namespace BBAuto.Logic.ForCar
         FilePay, _idViolationType, _sum, _sent, _noDeduction, Agreed.ToString()), out id);
       Id = id;
     }
-
+    
     internal override void Delete()
     {
       DeleteFile(File);
@@ -150,7 +153,7 @@ namespace BBAuto.Logic.ForCar
 
       Provider.Delete("Violation", Id);
     }
-
+    */
     public object[] ToRow(ICarService carService)
     {
       Driver driver = getDriver();

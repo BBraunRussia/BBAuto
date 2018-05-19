@@ -5,6 +5,6 @@ namespace BBAuto.App.FormsForCar
 {
   public interface ICarForm
   {
-    DialogResult ShowDialog(CarModel car);
+    DialogResult ShowDialog(int carId);
   }
 }

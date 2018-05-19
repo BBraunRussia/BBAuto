@@ -33,7 +33,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     {
       loadDictionary();
 
-      cbCar.SelectedValue = _repair.Car.Id;
+      cbCar.SelectedValue = _repair.CarId;
       cbRepairType.SelectedValue = _repair.RepairTypeID;
       cbServiceStantion.SelectedValue = _repair.ServiceStantionID;
 

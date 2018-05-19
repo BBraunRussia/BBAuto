@@ -7,6 +7,7 @@ using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Mileage;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Repositories;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -64,6 +65,10 @@ namespace BBAuto.Logic
 
       container.Register(Component.For<IDocumentsService>()
         .ImplementedBy<DocumentsService>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IViolationService>()
+        .ImplementedBy<ViolationService>()
         .LifestyleTransient());
     }
   }
