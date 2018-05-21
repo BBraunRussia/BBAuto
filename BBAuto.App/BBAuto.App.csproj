@@ -88,6 +88,7 @@
     <Compile Include="AddEdit\FuelCard_AddEdit.Designer.cs">
       <DependentUpon>FuelCard_AddEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEdit\IGradeForm.cs" />
     <Compile Include="AddEdit\ISaleCarForm.cs" />
     <Compile Include="AddEdit\MyPoint_AddEdit.cs">
       <SubType>Form</SubType>
@@ -170,11 +171,13 @@
     <Compile Include="ContextMenu\IMyMenu.cs" />
     <Compile Include="ContextMenu\IMyMenuItemFactory.cs" />
     <Compile Include="Dictionary\IDealerListForm.cs" />
+    <Compile Include="Dictionary\IGradeListForm.cs" />
     <Compile Include="FormsForCar\AddEdit\ICarDocForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IDiagCardForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IMileageForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IViolationForm.cs" />
     <Compile Include="FormsForCar\ICarForm.cs" />
+    <Compile Include="FormsForCar\ICarInfoForm.cs" />
     <Compile Include="FormsForDriver\AddNewDriver.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -282,11 +285,11 @@
     <Compile Include="FormsForCar\AddEdit\TempMove_AddEdit.Designer.cs">
       <DependentUpon>TempMove_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForCar\formCarInfo.cs">
+    <Compile Include="FormsForCar\CarInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForCar\formCarInfo.Designer.cs">
-      <DependentUpon>formCarInfo.cs</DependentUpon>
+    <Compile Include="FormsForCar\CarInfoForm.Designer.cs">
+      <DependentUpon>CarInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForCar\CarForm.cs">
       <SubType>Form</SubType>
@@ -300,11 +303,11 @@
     <Compile Include="FormsForCar\AddEdit\DTP_AddEdit.Designer.cs">
       <DependentUpon>DTP_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddEdit\Grade_AddEdit.cs">
+    <Compile Include="AddEdit\GradeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddEdit\Grade_AddEdit.Designer.cs">
-      <DependentUpon>Grade_AddEdit.cs</DependentUpon>
+    <Compile Include="AddEdit\GradeForm.Designer.cs">
+      <DependentUpon>GradeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddEdit\Model_AddEdit.cs">
       <SubType>Form</SubType>
@@ -360,11 +363,11 @@
     <Compile Include="FormsForDriver\formDriversList.Designer.cs">
       <DependentUpon>formDriversList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dictionary\formGradeList.cs">
+    <Compile Include="Dictionary\GradeListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dictionary\formGradeList.Designer.cs">
-      <DependentUpon>formGradeList.cs</DependentUpon>
+    <Compile Include="Dictionary\GradeListForm.Designer.cs">
+      <DependentUpon>GradeListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dictionary\formModelList.cs">
       <SubType>Form</SubType>
@@ -580,8 +583,8 @@
     <EmbeddedResource Include="FormsForCar\AddEdit\TempMove_AddEdit.resx">
       <DependentUpon>TempMove_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForCar\formCarInfo.resx">
-      <DependentUpon>formCarInfo.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForCar\CarInfoForm.resx">
+      <DependentUpon>CarInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForCar\CarForm.resx">
       <DependentUpon>CarForm.cs</DependentUpon>
@@ -590,8 +593,8 @@
     <EmbeddedResource Include="FormsForCar\AddEdit\DTP_AddEdit.resx">
       <DependentUpon>DTP_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddEdit\Grade_AddEdit.resx">
-      <DependentUpon>Grade_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="AddEdit\GradeForm.resx">
+      <DependentUpon>GradeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\Model_AddEdit.resx">
       <DependentUpon>Model_AddEdit.cs</DependentUpon>
@@ -620,8 +623,8 @@
     <EmbeddedResource Include="FormsForDriver\formDriversList.resx">
       <DependentUpon>formDriversList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dictionary\formGradeList.resx">
-      <DependentUpon>formGradeList.cs</DependentUpon>
+    <EmbeddedResource Include="Dictionary\GradeListForm.resx">
+      <DependentUpon>GradeListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dictionary\formModelList.resx">
       <DependentUpon>formModelList.cs</DependentUpon>

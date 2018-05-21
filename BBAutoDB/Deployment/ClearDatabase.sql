@@ -4,8 +4,7 @@ as
   if ident_current('dbo.Account') > 1
     dbcc checkident ('dbo.Account', reseed, 0);
   
-  delete from dbo.CarBuy
-  delete from dbo.CarSale
+  delete from dbo.SaleCar
   
   delete from dbo.CarDoc
   if ident_current('dbo.CarDoc') > 1
@@ -79,6 +78,18 @@ as
   if ident_current('dbo.EmployeesName') > 1
     dbcc checkident ('dbo.EmployeesName', reseed, 0);
 
+  delete from dbo.Grade
+  if ident_current('dbo.Grade') > 1
+    dbcc checkident ('dbo.Grade', reseed, 0);
+
+  delete from dbo.Model
+  if ident_current('dbo.Model') > 1
+    dbcc checkident ('dbo.Model', reseed, 0);
+
+  delete from dbo.Mark
+  if ident_current('dbo.Mark') > 1
+    dbcc checkident ('dbo.Mark', reseed, 0);
+
   delete from dbo.EngineType
   if ident_current('dbo.EngineType') > 1
     dbcc checkident ('dbo.EngineType', reseed, 0);
@@ -99,10 +110,6 @@ as
   if ident_current('dbo.FuelCardType') > 1
     dbcc checkident ('dbo.FuelCardType', reseed, 0);
 
-  delete from dbo.Grade
-  if ident_current('dbo.Grade') > 1
-    dbcc checkident ('dbo.Grade', reseed, 0);
-
   delete from dbo.History
   if ident_current('dbo.History') > 1
     dbcc checkident ('dbo.History', reseed, 0);
@@ -121,10 +128,6 @@ as
 
   delete from dbo.MainPoint
   
-  delete from dbo.Mark
-  if ident_current('dbo.Mark') > 1
-    dbcc checkident ('dbo.Mark', reseed, 0);
-
   delete from dbo.MedicalCert
   if ident_current('dbo.MedicalCert') > 1
     dbcc checkident ('dbo.MedicalCert', reseed, 0);
@@ -136,11 +139,7 @@ as
   delete from dbo.MileageMonth
   if ident_current('dbo.MileageMonth') > 1
     dbcc checkident ('dbo.MileageMonth', reseed, 0);
-
-  delete from dbo.Model
-  if ident_current('dbo.Model') > 1
-    dbcc checkident ('dbo.Model', reseed, 0);
-
+    
   delete from dbo.MyPoint
   if ident_current('dbo.MyPoint') > 1
     dbcc checkident ('dbo.MyPoint', reseed, 0);

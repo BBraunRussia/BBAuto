@@ -3,18 +3,17 @@ create procedure [dbo].[UpsertSaleCar]
   @comm nvarchar(100) = '',
   @date nvarchar(50) = ''
 as
-begin
   declare @count int
   select
-    @count = count(CarId)
+    @count = count(*)
   from
-    CarSale
+    SaleCar
   where
     CarId = @idCar
 
   if (@count = 0)
   begin
-    insert into CarSale values(@idCar, null, null)
+    insert into SaleCar values(@idCar, null, null)
   end
   else
   begin
@@ -22,9 +21,11 @@ begin
       set @date = null
     else
       set @date = cast(@date as datetime)
-    update CarSale
-    set Date = @date,
-        Comment = @comm
-    where CarId = @idCar
+    update
+      SaleCar
+    set
+      [Date] = @date,
+      Comment = @comm
+    where
+      CarId = @idCar
   end
-end

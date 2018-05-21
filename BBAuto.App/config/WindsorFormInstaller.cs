@@ -45,6 +45,9 @@ namespace BBAuto.App.config
       container.Register(Component.For<ITemplateListForm>()
         .ImplementedBy<TemplateListForm>()
         .LifestyleTransient());
+      container.Register(Component.For<IGradeListForm>()
+        .ImplementedBy<GradeListForm>()
+        .LifestyleTransient());
 
       container.Register(Component.For<ICarForm>()
         .ImplementedBy<CarForm>()
@@ -63,6 +66,12 @@ namespace BBAuto.App.config
         .LifestyleTransient());
       container.Register(Component.For<ICarDocForm>()
         .ImplementedBy<CarDocForm>()
+        .LifestyleTransient());
+      container.Register(Component.For<ICarInfoForm>()
+        .ImplementedBy<CarInfoForm>()
+        .LifestyleTransient());
+      container.Register(Component.For<IGradeForm>()
+        .ImplementedBy<GradeForm>()
         .LifestyleTransient());
     }
   }

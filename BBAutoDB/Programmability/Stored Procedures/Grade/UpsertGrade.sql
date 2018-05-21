@@ -8,7 +8,6 @@ create procedure [dbo].[UpsertGrade]
   @idEngineType int,
   @idModel int
 as
-begin
   if (@id = 0)
   begin
     insert into Grade values(@Name, @ePower, @eVol, @maxLoad, @noLoad, @idEngineType, @idModel)
@@ -16,17 +15,18 @@ begin
   end
   else
   begin
-    update Grade
-    set [Name] = @Name,
-        Epower = @ePower,
-        Evol = @eVol,
-        MaxLoad = @maxLoad,
-        NoLoad = @noLoad,
-        EngineTypeId = @idEngineType
+    update
+      Grade
+    set
+      [Name] = @Name,
+      Epower = @ePower,
+      Evol = @eVol,
+      MaxLoad = @maxLoad,
+      NoLoad = @noLoad,
+      EngineTypeId = @idEngineType
     where
       Id = @id and
       ModelId = @idModel
   end
 
-  select @id
-end
+  exec dbo.GetGradeById @id

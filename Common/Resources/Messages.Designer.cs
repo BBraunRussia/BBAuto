@@ -133,11 +133,65 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Введите мощность двигателя.
+        /// </summary>
+        public static string EnterEPower {
+            get {
+                return ResourceManager.GetString("EnterEPower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Введите объём двигателя.
+        /// </summary>
+        public static string EnterEVol {
+            get {
+                return ResourceManager.GetString("EnterEVol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Введите разрешенную максимальную массу.
+        /// </summary>
+        public static string EnterMaxLoad {
+            get {
+                return ResourceManager.GetString("EnterMaxLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Введите название.
+        /// </summary>
+        public static string EnterName {
+            get {
+                return ResourceManager.GetString("EnterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Введите массу без нагрузки.
+        /// </summary>
+        public static string EnterNoLoad {
+            get {
+                return ResourceManager.GetString("EnterNoLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Для формирования извещения необходимо перейти на вид &quot;ДТП&quot;.
         /// </summary>
         public static string ForCreateNoticeGotoViewDtp {
             get {
                 return ResourceManager.GetString("ForCreateNoticeGotoViewDtp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Комплектация не может быть создана без указания модели.
+        /// </summary>
+        public static string GradeCannotBeCreated {
+            get {
+                return ResourceManager.GetString("GradeCannotBeCreated", resourceCulture);
             }
         }
         

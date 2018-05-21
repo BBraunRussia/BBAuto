@@ -20,18 +20,15 @@ namespace BBAuto.Logic.Services.Car
     private readonly IDbContext _dbContext;
     private readonly ISaleCarService _carSaleService;
     private readonly IDiagCardService _diagCardService;
-    private readonly IViolationService _violationService;
 
     public CarService(
       IDbContext dbContext,
       ISaleCarService carSaleService,
-      IDiagCardService diagCardService,
-      IViolationService violationService)
+      IDiagCardService diagCardService)
     {
       _dbContext = dbContext;
       _carSaleService = carSaleService;
       _diagCardService = diagCardService;
-      _violationService = violationService;
     }
 
     public CarModel GetCarByGrz(string grz)

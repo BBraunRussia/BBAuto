@@ -270,10 +270,10 @@ namespace BBAuto.Logic.Entities
       dt2.Rows.Add("Цвет", info.Color);
       dt2.Rows.Add("Собственник", info.Owner);
       dt2.Rows.Add("Дата покупки", dateGet.ToShortDateString());
-      dt2.Rows.Add("Мощность двигателя", info.Grade.EPower);
-      dt2.Rows.Add("Объем двигателя", info.Grade.EVol);
-      dt2.Rows.Add("Разрешенная максимальная масса", info.Grade.MaxLoad);
-      dt2.Rows.Add("Масса без нагрузки", info.Grade.NoLoad);
+      //dt2.Rows.Add("Мощность двигателя", info.Grade.EPower);
+      //dt2.Rows.Add("Объем двигателя", info.Grade.EVol);
+      //dt2.Rows.Add("Разрешенная максимальная масса", info.Grade.MaxLoad);
+      //dt2.Rows.Add("Масса без нагрузки", info.Grade.NoLoad);
       dt2.Rows.Add("Модель № двигателя", eNumber);
       dt2.Rows.Add("№ кузова", bodyNumber);
 

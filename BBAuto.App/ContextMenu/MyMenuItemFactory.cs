@@ -43,6 +43,7 @@ namespace BBAuto.App.ContextMenu
     private readonly IMyPointListForm _myPointListForm;
     private readonly IRouteListForm _routeListForm;
     private readonly ITemplateListForm _templateListForm;
+    private readonly IGradeListForm _gradeListForm;
 
     private readonly IDocumentsService _documentsService;
     private readonly ISaleCarService _saleCarService;
@@ -58,7 +59,8 @@ namespace BBAuto.App.ContextMenu
       IRouteListForm routeListForm,
       ITemplateListForm templateListForm,
       IDocumentsService documentsService,
-      ISaleCarService saleCarService)
+      ISaleCarService saleCarService,
+      IGradeListForm gradeListForm)
     {
       _formMileage = formMileage;
       _carForm = carForm;
@@ -69,6 +71,7 @@ namespace BBAuto.App.ContextMenu
       _templateListForm = templateListForm;
       _documentsService = documentsService;
       _saleCarService = saleCarService;
+      _gradeListForm = gradeListForm;
     }
 
     public void SetMainDgv(IMainDgv dgvMain)
@@ -940,7 +943,7 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateModel()
     {
-      ToolStripMenuItem item = CreateItem("Модели");
+      var item = CreateItem("Модели");
       item.Click += delegate
       {
         formModelList mList = new formModelList();
@@ -951,25 +954,24 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateGrade()
     {
-      ToolStripMenuItem item = CreateItem("Комплектации");
+      var item = CreateItem("Комплектации");
       item.Click += delegate
       {
-        formGradeList gList = new formGradeList();
-        gList.ShowDialog();
+        _gradeListForm.ShowDialog();
       };
       return item;
     }
 
     private ToolStripMenuItem CreateEngineType()
     {
-      ToolStripMenuItem item = CreateItem("Типы двигателей");
+      var item = CreateItem("Типы двигателей");
       item.Click += delegate { loadDictionary("EngineType", "Справочник \"Типы двигателей\""); };
       return item;
     }
 
     private ToolStripMenuItem CreateColor()
     {
-      ToolStripMenuItem item = CreateItem("Цвета");
+      var item = CreateItem("Цвета");
       item.Click += delegate { loadDictionary("Color", "Справочник \"Цветов кузова\""); };
       return item;
     }

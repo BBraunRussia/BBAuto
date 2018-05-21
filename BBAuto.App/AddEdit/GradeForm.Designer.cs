@@ -1,6 +1,6 @@
 namespace BBAuto.App.AddEdit
 {
-    partial class Grade_AddEdit
+    partial class GradeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -73,7 +73,7 @@ namespace BBAuto.App.AddEdit
             this.btnSave.TabIndex = 8;
             this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnOK_Click);
+            this.btnSave.Click += new System.EventHandler(this.BtnOK_Click);
             // 
             // tbName
             // 
@@ -97,7 +97,7 @@ namespace BBAuto.App.AddEdit
             this.tbEVol.Name = "tbEVol";
             this.tbEVol.Size = new System.Drawing.Size(207, 20);
             this.tbEVol.TabIndex = 4;
-            this.tbEVol.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbEVol_KeyPress);
+            this.tbEVol.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TbEVol_KeyPress);
             // 
             // label4
             // 
@@ -114,7 +114,7 @@ namespace BBAuto.App.AddEdit
             this.tbMaxLoad.Name = "tbMaxLoad";
             this.tbMaxLoad.Size = new System.Drawing.Size(207, 20);
             this.tbMaxLoad.TabIndex = 6;
-            this.tbMaxLoad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbMaxLoad_KeyPress);
+            this.tbMaxLoad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TbMaxLoad_KeyPress);
             // 
             // label5
             // 
@@ -131,7 +131,7 @@ namespace BBAuto.App.AddEdit
             this.tbNoLoad.Name = "tbNoLoad";
             this.tbNoLoad.Size = new System.Drawing.Size(207, 20);
             this.tbNoLoad.TabIndex = 7;
-            this.tbNoLoad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbNoLoad_KeyPress);
+            this.tbNoLoad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TbNoLoad_KeyPress);
             // 
             // label6
             // 
@@ -166,7 +166,7 @@ namespace BBAuto.App.AddEdit
             this.tbEPower.Name = "tbEPower";
             this.tbEPower.Size = new System.Drawing.Size(207, 20);
             this.tbEPower.TabIndex = 5;
-            this.tbEPower.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbEPower_KeyPress);
+            this.tbEPower.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TbEPower_KeyPress);
             // 
             // Grade_AddEdit
             // 

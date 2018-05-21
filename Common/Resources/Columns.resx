@@ -171,4 +171,7 @@
   <data name="BBNumber" xml:space="preserve">
     <value>Бортовой номер</value>
   </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
 </root>

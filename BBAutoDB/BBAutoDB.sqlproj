@@ -256,7 +256,7 @@
     <Build Include="Programmability\Stored Procedures\FuelCardType\GetFuelCardTypes.sql" />
     <Build Include="Programmability\Stored Procedures\Grade\DeleteGrade.sql" />
     <Build Include="Programmability\Stored Procedures\Grade\UpsertGrade.sql" />
-    <Build Include="Programmability\Stored Procedures\Grade\GetGrades.sql" />
+    <Build Include="Programmability\Stored Procedures\Grade\GetGradesByModelId.sql" />
     <Build Include="Programmability\Stored Procedures\History\InsertHistory.sql" />
     <Build Include="Programmability\Stored Procedures\Instraction\DeleteInstraction.sql" />
     <Build Include="Programmability\Stored Procedures\Instraction\GetLastInstraction.sql" />
@@ -409,6 +409,7 @@
     <Build Include="Programmability\Stored Procedures\Car\Doc\UpserCarDoc.sql" />
     <Build Include="Programmability\Stored Procedures\Violation\GetViolationsByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Violation\GetViolationById.sql" />
+    <Build Include="Programmability\Stored Procedures\Grade\GetGradeById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

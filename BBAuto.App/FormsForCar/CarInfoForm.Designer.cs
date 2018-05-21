@@ -1,6 +1,6 @@
 namespace BBAuto.App.FormsForCar
 {
-    partial class formCarInfo
+    partial class CarInfoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -76,7 +76,7 @@ namespace BBAuto.App.FormsForCar
             this.Name = "formCarInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Техническая информация";
-            this.Resize += new System.EventHandler(this.formCarInfo_Resize);
+            this.Resize += new System.EventHandler(this.FormCarInfo_Resize);
             ((System.ComponentModel.ISupportInitialize)(this._dgvCarInfo)).EndInit();
             this.ResumeLayout(false);
 

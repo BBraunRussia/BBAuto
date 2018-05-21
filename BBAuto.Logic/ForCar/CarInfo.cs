@@ -30,12 +30,7 @@ namespace BBAuto.Logic.ForCar
     {
       get { return Owners.getInstance().getItem(Convert.ToInt32(_car.ownerID)); }
     }
-
-    public Grade Grade
-    {
-      get { return GradeList.getInstance().getItem(Convert.ToInt32(_car.GradeID)); }
-    }
-
+    
     public bool IsSale
     {
       get { return CarSaleList.getInstance().getItem(_car.Id) != null; }

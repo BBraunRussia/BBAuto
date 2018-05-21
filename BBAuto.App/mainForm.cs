@@ -14,9 +14,7 @@ using BBAuto.App.FormsForDriver.AddEdit;
 using BBAuto.App.GUI;
 using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Common;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
-using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Car.Sale;
@@ -43,6 +41,7 @@ namespace BBAuto.App
     private readonly ISaleCarForm _saleCarForm;
     private readonly IViolationForm _formViolation;
     private readonly IDiagCardForm _diagCardForm;
+    private readonly ICarInfoForm _carInfoForm;
     
     private readonly ICarService _carService;
     private readonly ISaleCarService _saleCarService;
@@ -65,7 +64,8 @@ namespace BBAuto.App
       IDiagCardService diagCardService,
       IMainDgv mainDgv,
       IDgvFormatter dgvFormatter,
-      IViolationService violationService)
+      IViolationService violationService,
+      ICarInfoForm carInfoForm)
     {
       _carForm = carForm;
       _saleCarForm = saleCarForm;
@@ -78,6 +78,7 @@ namespace BBAuto.App
       _mainDgv = mainDgv;
       _dgvFormatter = dgvFormatter;
       _violationService = violationService;
+      _carInfoForm = carInfoForm;
 
       InitializeComponent();
 
@@ -552,8 +553,7 @@ namespace BBAuto.App
 
       if (_dgvCar.Columns[point.X].HeaderText == Columns.VIN)
       {
-        var formcarInfo = new formCarInfo(car);
-        formcarInfo.ShowDialog();
+        _carInfoForm.ShowDialog(car);
       }
       else if (_dgvCar.Columns[point.X].HeaderText == Columns.Driver)
       {

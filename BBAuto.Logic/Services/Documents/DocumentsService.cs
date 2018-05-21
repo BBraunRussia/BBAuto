@@ -11,6 +11,7 @@ using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 using Common.Resources;
@@ -23,13 +24,16 @@ namespace BBAuto.Logic.Services.Documents
 
     private readonly IDiagCardService _diagCardService;
     private readonly ICarService _carService;
+    private readonly IGradeService _gradeService;
 
     public DocumentsService(
       IDiagCardService diagCardService,
-      ICarService carService)
+      ICarService carService,
+      IGradeService gradeService)
     {
       _diagCardService = diagCardService;
       _carService = carService;
+      _gradeService = gradeService;
 
       _driverList = DriverList.getInstance();
     }
@@ -145,21 +149,19 @@ namespace BBAuto.Logic.Services.Documents
       document.SetValue(22, 10, fullNameAuto);
       document.SetValue(22, 53, car.DateGet?.ToShortDateString());
 
-      var grades = GradeList.getInstance();
-
-      var grade = grades.getItem(car.GradeId.Value);
+      var grade = _gradeService.GetById(car.GradeId ?? 0);
 
       var ptsList = PTSList.getInstance();
       var pts = ptsList.getItem(car.Id);
 
       var fullDetailAuto = string.Concat("VIN ", car.Vin, ", Двигатель ", car.ENumber, ", № кузова ",
         car.BodyNumber, ", Год выпуска ", car.Year, " г., Паспорт ",
-        pts.Number, " от ", pts.Date.ToShortDateString(), ", мощность двигателя ", grade.EPower, " л.с.");
+        pts.Number, " от ", pts.Date.ToShortDateString(), ", мощность двигателя ", grade.Epower, " л.с.");
 
       document.SetValue(47, 2, fullDetailAuto);
 
-      Driver driver1 = _driverList.getItem(Convert.ToInt32(invoice.DriverFromId));
-      Driver driver2 = _driverList.getItem(Convert.ToInt32(invoice.DriverToId));
+      var driver1 = _driverList.getItem(Convert.ToInt32(invoice.DriverFromId));
+      var driver2 = _driverList.getItem(Convert.ToInt32(invoice.DriverToId));
 
       document.SetValue(9, 10, driver1.Dept);
       document.SetValue(56, 11, driver1.Position);
@@ -304,7 +306,8 @@ namespace BBAuto.Logic.Services.Documents
       var car = _carService.GetCarById(carId);
       var mark = MarkList.getInstance().getItem(car.MarkId);
       var model = ModelList.getInstance().getItem(car.ModelId);
-      var grade = GradeList.getInstance().getItem(car.GradeId.Value);
+      var grade = _gradeService.GetById(car.GradeId ?? 0);
+      var engineType = EngineTypeList.getInstance().getItem(grade.EngineTypeId);
 
       date = new DateTime(date.Year, date.Month, 1);
 
@@ -339,7 +342,7 @@ namespace BBAuto.Logic.Services.Documents
       document.SetValue(6, 19, myDate.MonthToStringNominative());
       document.SetValue(6, 32, date.Year.ToString());
 
-      document.SetValue(29, 35, grade.EngineType.ShortName);
+      document.SetValue(29, 35, engineType.ShortName);
 
       var mml = new MileageMonthList(carId, date.Year + "-" + date.Month + "-01");
       /* Из файла Татьяны Мироновой пробег за месяц */

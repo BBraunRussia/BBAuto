@@ -1,6 +1,6 @@
 namespace BBAuto.App.Dictionary
 {
-    partial class formGradeList
+    partial class GradeListForm
     {
         /// <summary>
         /// Required designer variable.
@@ -77,7 +77,7 @@ namespace BBAuto.App.Dictionary
             this.btnDel.TabIndex = 10;
             this.btnDel.Text = "Удалить";
             this.btnDel.UseVisualStyleBackColor = true;
-            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
+            this.btnDel.Click += new System.EventHandler(this.BtnDel_Click);
             // 
             // btnAdd
             // 
@@ -87,7 +87,7 @@ namespace BBAuto.App.Dictionary
             this.btnAdd.TabIndex = 9;
             this.btnAdd.Text = "Добавить";
             this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
             // _dgv
             // 

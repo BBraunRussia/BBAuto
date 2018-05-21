@@ -1,4 +1,5 @@
-create procedure [dbo].[GetGrades]
+create procedure dbo.GetGradeById
+  @id int
 as
   select
     Id,
@@ -11,3 +12,5 @@ as
     ModelId
   from
     Grade
+  where
+    Id = @id

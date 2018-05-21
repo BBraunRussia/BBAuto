@@ -135,6 +135,10 @@
     <Compile Include="Services\Documents\Office\OfficeDoc.cs" />
     <Compile Include="Services\Documents\Office\WordDoc.cs" />
     <Compile Include="Services\Documents\WordDocument.cs" />
+    <Compile Include="Services\Grade\GradeMappingProfile.cs" />
+    <Compile Include="Services\Grade\GradeModel.cs" />
+    <Compile Include="Services\Grade\GradeService.cs" />
+    <Compile Include="Services\Grade\IGradeService.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />
@@ -177,7 +181,6 @@
     <Compile Include="Abstract\IDictionaryMVC.cs" />
     <Compile Include="Abstract\INotificationList.cs" />
     <Compile Include="Lists\AccountList.cs" />
-    <Compile Include="Lists\GradeList.cs" />
     <Compile Include="Dictionary\Positions.cs" />
     <Compile Include="Lists\MailTextList.cs" />
     <Compile Include="Lists\ShipPartList.cs" />
@@ -221,7 +224,6 @@
     <Compile Include="ForCar\TempMove.cs" />
     <Compile Include="ForDriver\DriverLicense.cs" />
     <Compile Include="ForCar\DTP.cs" />
-    <Compile Include="ForCar\Grade.cs" />
     <Compile Include="ForDriver\Instraction.cs" />
     <Compile Include="Abstract\INotification.cs" />
     <Compile Include="ForCar\Invoice.cs" />

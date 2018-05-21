@@ -14,6 +14,7 @@ using BBAuto.Logic.Services.Car.Doc;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Documents;
+using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
@@ -46,16 +47,16 @@ namespace BBAuto.App.FormsForCar
     private readonly IDiagCardService _diagCardService;
     private readonly IDocumentsService _documentsService;
     private readonly ICarDocService _carDocService;
+    private readonly ICarService _carService;
+    private readonly IViolationService _violationService;
+    private readonly IGradeService _gradeService;
 
     private readonly IMileageForm _formMileage;
     private readonly IDiagCardForm _formDiagCard;
     private readonly ICarDocForm _carDocForm;
-    private readonly ICarService _carService;
-    private readonly IViolationService _violationService;
+    private readonly IViolationForm _violationForm;
 
     private readonly IDgvFormatter _dgvFormatter;
-
-    private readonly IViolationForm _violationForm;
     
     public CarForm(
       IDealerService dealerService,
@@ -69,7 +70,8 @@ namespace BBAuto.App.FormsForCar
       ICarDocForm carDocForm,
       ICarService carService,
       IViolationForm violationForm,
-      IViolationService violationService)
+      IViolationService violationService,
+      IGradeService gradeService)
     {
       _dealerService = dealerService;
       _mileageService = mileageService;
@@ -83,6 +85,7 @@ namespace BBAuto.App.FormsForCar
       _carService = carService;
       _violationForm = violationForm;
       _violationService = violationService;
+      _gradeService = gradeService;
     }
 
     public DialogResult ShowDialog(int carId)
@@ -240,11 +243,11 @@ namespace BBAuto.App.FormsForCar
         var idModel = 0;
         if (cbModel.SelectedValue != null)
           int.TryParse(cbModel.SelectedValue.ToString(), out idModel);
-        var grades = GradeList.getInstance();
+        var grades = _gradeService.GetGrades(idModel);
 
-        cbGrade.DataSource = grades.ToDataTable(idModel);
-        cbGrade.DisplayMember = "Название";
-        cbGrade.ValueMember = "id";
+        cbGrade.DataSource = grades;
+        cbGrade.DisplayMember = "Name";
+        cbGrade.ValueMember = "Id";
       }
     }
 
@@ -1176,15 +1179,14 @@ namespace BBAuto.App.FormsForCar
     {
       if (_load)
       {
-        int id = 0;
+        var id = 0;
         if (cbGrade.SelectedValue != null)
           int.TryParse(cbGrade.SelectedValue.ToString(), out id);
 
         if (id == 0)
           return;
 
-        var gradeList = GradeList.getInstance();
-        var grade = gradeList.getItem(id);
+        var grade = _gradeService.GetById(id);
 
         var dt = _car.ToDataTableInfo();
 

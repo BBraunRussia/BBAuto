@@ -1,5 +1,3 @@
-create procedure [dbo].[GetSaleCars]
+create procedure dbo.GetSaleCars
 as
-begin
-  select CarId, Date, Comment from CarSale
-end
+  select CarId, [Date], Comment from SaleCar
