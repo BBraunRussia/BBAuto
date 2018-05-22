@@ -12,6 +12,7 @@ namespace BBAuto.Repositories
     IDbDriver Driver { get; }
     IDbDealer Dealer { get; }
     IDbGrade Grade { get; }
+    IDbMark Mark { get; }
     IDbMileage Mileage { get; }
     IDbInvoice Invoice { get; }
     IDbViolation Violation { get; }

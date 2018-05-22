@@ -410,6 +410,7 @@
     <Build Include="Programmability\Stored Procedures\Violation\GetViolationsByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Violation\GetViolationById.sql" />
     <Build Include="Programmability\Stored Procedures\Grade\GetGradeById.sql" />
+    <Build Include="Programmability\Stored Procedures\Mark\GetMarkById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

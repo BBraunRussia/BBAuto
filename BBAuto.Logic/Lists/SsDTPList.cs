@@ -3,7 +3,6 @@ using System.Data;
 using System.Linq;
 using BBAuto.Logic.Abstract;
 using BBAuto.Logic.ForCar;
-using BBAuto.Logic.Tables;
 
 namespace BBAuto.Logic.Lists
 {
@@ -31,56 +30,56 @@ namespace BBAuto.Logic.Lists
     {
       DataTable dt = Provider.Select("ssDTP");
 
-      clearList();
+      ClearList();
 
       foreach (DataRow row in dt.Rows)
       {
-        SsDTP ssDTP = new SsDTP(row);
-        Add(ssDTP);
+        var ssDtp = new SsDTP(row);
+        Add(ssDtp);
       }
     }
 
-    public void Add(SsDTP ssDTP)
+    public void Add(SsDTP ssDtp)
     {
-      if (list.Exists(item => item == ssDTP))
+      if (list.Exists(item => item == ssDtp))
         return;
 
-      list.Add(ssDTP);
+      list.Add(ssDtp);
     }
 
-    private void clearList()
+    private void ClearList()
     {
       if (list.Count > 0)
         list.Clear();
     }
 
-    public SsDTP getItem(Mark mark)
+    public SsDTP GetItem(int markId)
     {
-      return list.FirstOrDefault(item => item.Mark.Id == mark.Id);
+      return list.FirstOrDefault(item => item.MarkId == markId);
     }
 
     public DataTable ToDataTable()
     {
-      DataTable dt = new DataTable();
+      var dt = new DataTable();
       dt.Columns.Add("id");
       dt.Columns.Add("Марка");
       dt.Columns.Add("СТО");
 
-      foreach (SsDTP ssDTP in list)
+      foreach (var ssDtp in list)
       {
-        dt.Rows.Add(ssDTP.ToRow());
+        dt.Rows.Add(ssDtp.ToRow());
       }
 
       return dt;
     }
 
-    public void Delete(Mark mark)
+    public void Delete(int markId)
     {
-      SsDTP ssDTP = getItem(mark);
+      var ssDtp = GetItem(markId);
 
-      list.Remove(ssDTP);
+      list.Remove(ssDtp);
 
-      ssDTP.Delete();
+      ssDtp.Delete();
     }
   }
 }

@@ -44,6 +44,8 @@ namespace BBAuto.App.ContextMenu
     private readonly IRouteListForm _routeListForm;
     private readonly ITemplateListForm _templateListForm;
     private readonly IGradeListForm _gradeListForm;
+    private readonly IModelListForm _modelListForm;
+    private readonly ISsDtpListForm _ssDtpListForm;
 
     private readonly IDocumentsService _documentsService;
     private readonly ISaleCarService _saleCarService;
@@ -60,7 +62,9 @@ namespace BBAuto.App.ContextMenu
       ITemplateListForm templateListForm,
       IDocumentsService documentsService,
       ISaleCarService saleCarService,
-      IGradeListForm gradeListForm)
+      IGradeListForm gradeListForm,
+      IModelListForm modelListForm,
+      ISsDtpListForm ssDtpListForm)
     {
       _formMileage = formMileage;
       _carForm = carForm;
@@ -72,6 +76,8 @@ namespace BBAuto.App.ContextMenu
       _documentsService = documentsService;
       _saleCarService = saleCarService;
       _gradeListForm = gradeListForm;
+      _modelListForm = modelListForm;
+      _ssDtpListForm = ssDtpListForm;
     }
 
     public void SetMainDgv(IMainDgv dgvMain)
@@ -946,8 +952,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Модели");
       item.Click += delegate
       {
-        formModelList mList = new formModelList();
-        mList.ShowDialog();
+        _modelListForm.ShowDialog();
       };
       return item;
     }
@@ -1009,7 +1014,7 @@ namespace BBAuto.App.ContextMenu
       {
         loadDictionary("ServiceStantion", "Справочник \"Станции технического обслуживания\"");
 
-        ServiceStantions serviceStantions = ServiceStantions.getInstance();
+        var serviceStantions = ServiceStantions.getInstance();
         serviceStantions.ReLoad();
       };
       return item;
@@ -1017,25 +1022,24 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateServiceStantionComp()
     {
-      ToolStripMenuItem item = CreateItem("СТО страховых");
+      var item = CreateItem("СТО страховых");
       item.Click += delegate
       {
-        formSsDTPList formssDTPList = new formSsDTPList();
-        formssDTPList.ShowDialog();
+        _ssDtpListForm.ShowDialog();
       };
       return item;
     }
 
     private ToolStripMenuItem CreateCulprit()
     {
-      ToolStripMenuItem item = CreateItem("Виновники ДТП");
+      var item = CreateItem("Виновники ДТП");
       item.Click += delegate { loadDictionary("culprit", "Справочник \"Виновники ДТП\""); };
       return item;
     }
 
     private ToolStripMenuItem CreateRepairType()
     {
-      ToolStripMenuItem item = CreateItem("Виды ремонта");
+      var item = CreateItem("Виды ремонта");
       item.Click += delegate
       {
         loadDictionary("RepairType", "Справочник \"Типы ремонта\"");

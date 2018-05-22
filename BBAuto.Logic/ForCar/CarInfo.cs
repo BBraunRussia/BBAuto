@@ -76,10 +76,10 @@ namespace BBAuto.Logic.ForCar
       dt.Columns.Add("Название");
       dt.Columns.Add("Значение");
 
-      if (_car.Mark == null)
+      if (_car.MarkId == 0)
         return dt;
 
-      dt.Rows.Add("Марка", _car.Mark.Name);
+      dt.Rows.Add("Марка", _car.MarkId);
       dt.Rows.Add("Модель", Model);
       dt.Rows.Add("Год выпуска", _car.Year);
       dt.Rows.Add("Цвет", Color);

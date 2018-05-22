@@ -1,6 +1,6 @@
 namespace BBAuto.App.Dictionary
 {
-    partial class formSsDTPList
+    partial class SsDtpListForm
     {
         /// <summary>
         /// Required designer variable.
@@ -96,7 +96,7 @@ namespace BBAuto.App.Dictionary
             this.Name = "formSsDTPList";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "СТО для страховых по маркам";
-            this.Load += new System.EventHandler(this.formSsDTPList_Load);
+            this.Load += new System.EventHandler(this.FormSsDTPList_Load);
             ((System.ComponentModel.ISupportInitialize)(this._dgvSsDTP)).EndInit();
             this.ResumeLayout(false);
 

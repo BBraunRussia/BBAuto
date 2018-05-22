@@ -62,6 +62,7 @@
     <Compile Include="Entities\DbCarDoc.cs" />
     <Compile Include="Entities\DbDiagCard.cs" />
     <Compile Include="Entities\DbGrade.cs" />
+    <Compile Include="Entities\DbMark.cs" />
     <Compile Include="Entities\DbSaleCar.cs" />
     <Compile Include="Entities\DbDealer.cs" />
     <Compile Include="Entities\DbDriver.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Interfaces\IDbCar.cs" />
     <Compile Include="Interfaces\IDbDiagCard.cs" />
     <Compile Include="Interfaces\IDbGrade.cs" />
+    <Compile Include="Interfaces\IDbMark.cs" />
     <Compile Include="Interfaces\IDbSaleCar.cs" />
     <Compile Include="Interfaces\IDbDealer.cs" />
     <Compile Include="Interfaces\IDbDriver.cs" />

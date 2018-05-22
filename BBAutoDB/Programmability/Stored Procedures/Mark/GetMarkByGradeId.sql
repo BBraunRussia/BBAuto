@@ -1,5 +1,5 @@
 create procedure [dbo].[GetMarkByGradeId]
-  @idGrade int
+  @gradeId int
 as
   select
     Mark.Id,
@@ -11,4 +11,4 @@ as
     join Mark
       on Mark.Id = m.MarkId
   where
-    g.Id = @idGrade
+    g.Id = @gradeId

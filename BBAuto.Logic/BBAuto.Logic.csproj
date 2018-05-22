@@ -139,6 +139,10 @@
     <Compile Include="Services\Grade\GradeModel.cs" />
     <Compile Include="Services\Grade\GradeService.cs" />
     <Compile Include="Services\Grade\IGradeService.cs" />
+    <Compile Include="Services\Mark\IMarkService.cs" />
+    <Compile Include="Services\Mark\MarkMappingProfile.cs" />
+    <Compile Include="Services\Mark\MarkModel.cs" />
+    <Compile Include="Services\Mark\MarkService.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />

@@ -22,7 +22,7 @@ namespace BBAuto.Logic.ForCar
       set { int.TryParse(value, out idServiceStantion); }
     }
 
-    public Mark Mark { get; set; }
+    public int MarkId { get; set; }
 
     public SsDTP()
     {
@@ -31,26 +31,26 @@ namespace BBAuto.Logic.ForCar
 
     public SsDTP(DataRow row)
     {
-      int idMark;
-      int.TryParse(row.ItemArray[0].ToString(), out idMark);
-      Mark = MarkList.getInstance().getItem(idMark);
+      int.TryParse(row.ItemArray[0].ToString(), out int markId);
+      MarkId = markId;
 
       int.TryParse(row.ItemArray[1].ToString(), out idServiceStantion);
     }
 
     public override void Save()
     {
-      Provider.Insert("ssDTP", Mark.Id, idServiceStantion);
+      Provider.Insert("ssDTP", MarkId, idServiceStantion);
     }
 
     internal override void Delete()
     {
-      Provider.Delete("ssDTP", Mark.Id);
+      Provider.Delete("ssDTP", MarkId);
     }
 
     internal override object[] ToRow()
     {
-      return new object[3] {Mark.Id, Mark.Name, ServiceStantion};
+      
+      return new object[] {MarkId, "Mark.Name", ServiceStantion};
     }
   }
 }

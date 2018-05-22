@@ -7,6 +7,7 @@ using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Grade;
+using BBAuto.Logic.Services.Mark;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Repositories;
@@ -74,6 +75,9 @@ namespace BBAuto.Logic
 
       container.Register(Component.For<IGradeService>()
         .ImplementedBy<GradeService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IMarkService>()
+        .ImplementedBy<MarkService>()
         .LifestyleTransient());
     }
   }

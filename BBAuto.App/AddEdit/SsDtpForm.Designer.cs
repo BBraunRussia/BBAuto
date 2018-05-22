@@ -1,6 +1,6 @@
 namespace BBAuto.App.AddEdit
 {
-    partial class SsDTP_AddEdit
+    partial class SsDtpForm
     {
         /// <summary>
         /// Required designer variable.
@@ -113,7 +113,7 @@ namespace BBAuto.App.AddEdit
             this.Name = "SsDTP_AddEdit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "СТО по марке автомобиля";
-            this.Load += new System.EventHandler(this.aeSsDTP_Load);
+            this.Load += new System.EventHandler(this.AeSsDTP_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

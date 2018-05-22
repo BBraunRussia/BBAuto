@@ -207,7 +207,7 @@ namespace BBAuto.App.FormsForCar
 
     private void SetWindowHeader()
     {
-      Text = string.Concat("Карточка автомобиля: ", _car.ToString());
+      Text = string.Concat("Карточка автомобиля: ", _carService.CarToString(_car.Id));
     }
 
     private void cbMark_SelectedValueChanged(object sender, EventArgs e)
@@ -1188,7 +1188,7 @@ namespace BBAuto.App.FormsForCar
 
         var grade = _gradeService.GetById(id);
 
-        var dt = _car.ToDataTableInfo();
+        var dt = _carService.GetDataTableInfoByCarId(_car.Id);
 
         var dt2 = grade.ToDataTable();
         foreach (DataRow row in dt2.Rows)

@@ -52,7 +52,7 @@ namespace BBAuto.Logic.Entities
       set { int.TryParse(value, out _idModel); }
     }
 
-    public Mark Mark { get; set; }
+    public int MarkId { get; set; }
 
     public string Year
     {
@@ -191,9 +191,8 @@ namespace BBAuto.Logic.Entities
       eNumber = row.ItemArray[5].ToString();
       bodyNumber = row.ItemArray[6].ToString();
 
-      int idMark;
-      int.TryParse(row.ItemArray[7].ToString(), out idMark);
-      Mark = MarkList.getInstance().getItem(idMark);
+      int.TryParse(row.ItemArray[7].ToString(), out int markId);
+      MarkId = markId;
 
       int.TryParse(row.ItemArray[8].ToString(), out _idModel);
       GradeID = row.ItemArray[9].ToString();
@@ -350,7 +349,7 @@ namespace BBAuto.Logic.Entities
 
       return new object[]
       {
-        Id, Id, BBNumber, Grz, Mark.Name, info.Model, vin, regionName,
+        Id, Id, BBNumber, Grz, "Mark.Name", info.Model, vin, regionName,
         info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
         mileageDate, info.Owner, info.Guarantee, GetStatus()
       };
@@ -367,7 +366,7 @@ namespace BBAuto.Logic.Entities
     */
     public override string ToString()
     {
-      return (Id == 0) ? "нет данных" : string.Concat(Mark.Name, " ", info.Model, " ", Grz);
+      return (Id == 0) ? "нет данных" : string.Concat("Mark.Name", " ", info.Model, " ", Grz);
     }
 
     internal override void Delete()

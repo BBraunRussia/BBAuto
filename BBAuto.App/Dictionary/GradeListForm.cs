@@ -1,10 +1,9 @@
 using System;
 using System.Windows.Forms;
 using BBAuto.App.AddEdit;
-using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Grade;
-using BBAuto.Logic.Static;
+using BBAuto.Logic.Services.Mark;
 using Common.Resources;
 
 namespace BBAuto.App.Dictionary
@@ -14,14 +13,19 @@ namespace BBAuto.App.Dictionary
     private bool _load;
 
     private readonly IGradeService _gradeService;
+    private readonly IMarkService _markService;
+
     private readonly IGradeForm _gradeForm;
 
     public GradeListForm(
       IGradeService gradeService,
-      IGradeForm gradeForm)
+      IGradeForm gradeForm,
+      IMarkService markService)
     {
       _gradeService = gradeService;
       _gradeForm = gradeForm;
+      _markService = markService;
+
       InitializeComponent();
     }
 
@@ -37,9 +41,9 @@ namespace BBAuto.App.Dictionary
     private void LoadMark()
     {
       _load = false;
-      cbMark.DataSource = OneStringDictionary.getDataTable("Mark");
-      cbMark.DisplayMember = "Название";
-      cbMark.ValueMember = "mark_id";
+      cbMark.DataSource = _markService.GetMarks();
+      cbMark.DisplayMember = Columns.Name;
+      cbMark.ValueMember = Columns.Id;
       _load = true;
     }
 
@@ -47,10 +51,10 @@ namespace BBAuto.App.Dictionary
     {
       _load = false;
 
-      int.TryParse(cbMark.SelectedValue.ToString(), out int idMark);
+      int.TryParse(cbMark.SelectedValue.ToString(), out int markId);
       var models = ModelList.getInstance();
 
-      cbModel.DataSource = models.ToDataTable(idMark);
+      cbModel.DataSource = models.ToDataTable(markId);
       cbModel.DisplayMember = "Название";
       cbModel.ValueMember = "id";
 

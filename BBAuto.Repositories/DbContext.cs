@@ -47,6 +47,7 @@ namespace BBAuto.Repositories
     public IDbDriver Driver => CreateRepository<IDbDriver>();
     public IDbDealer Dealer => CreateRepository<IDbDealer>();
     public IDbGrade Grade => CreateRepository<IDbGrade>();
+    public IDbMark Mark => CreateRepository<IDbMark>();
     public IDbMileage Mileage => CreateRepository<IDbMileage>();
     public IDbInvoice Invoice => CreateRepository<IDbInvoice>();
     public IDbViolation Violation => CreateRepository<IDbViolation>();

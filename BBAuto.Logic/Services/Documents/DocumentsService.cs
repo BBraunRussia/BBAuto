@@ -12,6 +12,7 @@ using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Grade;
+using BBAuto.Logic.Services.Mark;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 using Common.Resources;
@@ -25,15 +26,18 @@ namespace BBAuto.Logic.Services.Documents
     private readonly IDiagCardService _diagCardService;
     private readonly ICarService _carService;
     private readonly IGradeService _gradeService;
+    private readonly IMarkService _markService;
 
     public DocumentsService(
       IDiagCardService diagCardService,
       ICarService carService,
-      IGradeService gradeService)
+      IGradeService gradeService,
+      IMarkService markService)
     {
       _diagCardService = diagCardService;
       _carService = carService;
       _gradeService = gradeService;
+      _markService = markService;
 
       _driverList = DriverList.getInstance();
     }
@@ -177,7 +181,7 @@ namespace BBAuto.Logic.Services.Documents
     public ExcelDocument CreateNotice(int carId, DTP dtp)
     {
       var car = _carService.GetCarById(carId);
-      var mark = MarkList.getInstance().getItem(car.MarkId);
+      var mark = _markService.GetMarkById(car.MarkId ?? 0);
       var model = ModelList.getInstance().getItem(car.ModelId);
 
       var document = new ExcelDocument("Извещение о страховом случае");
@@ -304,7 +308,7 @@ namespace BBAuto.Logic.Services.Documents
     public ExcelDocument CreateWaybill(int carId, DateTime date, Driver driver = null)
     {
       var car = _carService.GetCarById(carId);
-      var mark = MarkList.getInstance().getItem(car.MarkId);
+      var mark = _markService.GetMarkById(car.MarkId ?? 0);
       var model = ModelList.getInstance().getItem(car.ModelId);
       var grade = _gradeService.GetById(car.GradeId ?? 0);
       var engineType = EngineTypeList.getInstance().getItem(grade.EngineTypeId);
@@ -529,7 +533,7 @@ namespace BBAuto.Logic.Services.Documents
     public ExcelDocument CreateAttacheToOrder(int carId, int invoiceId)
     {
       var car = _carService.GetCarById(carId);
-      var mark = MarkList.getInstance().getItem(car.MarkId);
+      var mark = _markService.GetMarkById(car.MarkId ?? 0);
       var model = ModelList.getInstance().getItem(car.ModelId);
       var invoice = InvoiceList.getInstance().GetItem(invoiceId);
       if (invoice == null)
@@ -565,7 +569,7 @@ namespace BBAuto.Logic.Services.Documents
     public WordDocument CreateProxyOnSto(int carId, int invoiceId)
     {
       var car = _carService.GetCarById(carId);
-      var mark = MarkList.getInstance().getItem(car.MarkId);
+      var mark = _markService.GetMarkById(car.MarkId ?? 0);
       var model = ModelList.getInstance().getItem(car.ModelId);
       var invoice = InvoiceList.getInstance().GetItem(invoiceId);
       if (invoice == null)
@@ -682,10 +686,13 @@ namespace BBAuto.Logic.Services.Documents
       
       var rowIndex = indexBegin;
 
+      var marks = _markService.GetMarks();
+
       foreach (var car in listCar)
       {
         document.SetValue(rowIndex, 2, car.Grz);
-        document.SetValue(rowIndex, 3, car.Mark.Name);
+        var mark = marks.FirstOrDefault(m => m.Id == car.MarkId);
+        document.SetValue(rowIndex, 3, mark?.Name ?? "отсутствует");
         document.SetValue(rowIndex, 4, car.info.Model);
         document.SetValue(rowIndex, 5, car.vin);
         document.SetValue(rowIndex, 6, car.Year);

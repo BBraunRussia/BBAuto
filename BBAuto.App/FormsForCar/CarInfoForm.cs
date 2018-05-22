@@ -9,17 +9,21 @@ namespace BBAuto.App.FormsForCar
   public partial class CarInfoForm : Form, ICarInfoForm
   {
     private readonly IGradeService _gradeService;
+    private readonly ICarService _carService;
 
-    public CarInfoForm(IGradeService gradeService)
+    public CarInfoForm(
+      IGradeService gradeService,
+      ICarService carService)
     {
       _gradeService = gradeService;
+      _carService = carService;
 
       InitializeComponent();
     }
 
     public DialogResult ShowDialog(CarModel car)
     {
-      var dt = car.ToDataTableInfo();
+      var dt = _carService.GetDataTableInfoByCarId(car.Id);
 
       var grade = _gradeService.GetById(car.GradeId ?? 0);
 

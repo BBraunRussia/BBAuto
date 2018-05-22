@@ -1,7 +1,5 @@
 create procedure [dbo].[GetMarks]
-  @all int = 0
 as
-begin
   select
     Id,
     [Name]
@@ -9,4 +7,3 @@ begin
     dbo.Mark
   order by
     [Name]
-end

@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="AddEdit\IGradeForm.cs" />
     <Compile Include="AddEdit\ISaleCarForm.cs" />
+    <Compile Include="AddEdit\ISsDtpForm.cs" />
     <Compile Include="AddEdit\MyPoint_AddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,11 +103,11 @@
     <Compile Include="AddEdit\Route_AddEdit.Designer.cs">
       <DependentUpon>Route_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddEdit\SsDTP_AddEdit.cs">
+    <Compile Include="AddEdit\SsDtpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddEdit\SsDTP_AddEdit.Designer.cs">
-      <DependentUpon>SsDTP_AddEdit.cs</DependentUpon>
+    <Compile Include="AddEdit\SsDtpForm.Designer.cs">
+      <DependentUpon>SsDtpForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddEdit\SuppyAddress_AddEdit.cs">
       <SubType>Form</SubType>
@@ -172,6 +173,8 @@
     <Compile Include="ContextMenu\IMyMenuItemFactory.cs" />
     <Compile Include="Dictionary\IDealerListForm.cs" />
     <Compile Include="Dictionary\IGradeListForm.cs" />
+    <Compile Include="Dictionary\IModelListForm.cs" />
+    <Compile Include="Dictionary\ISsDtpListForm.cs" />
     <Compile Include="FormsForCar\AddEdit\ICarDocForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IDiagCardForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IMileageForm.cs" />
@@ -229,11 +232,11 @@
     <Compile Include="CommonForms\TemplateListForm.Designer.cs">
       <DependentUpon>TemplateListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dictionary\formSsDTPList.cs">
+    <Compile Include="Dictionary\SsDtpListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dictionary\formSsDTPList.Designer.cs">
-      <DependentUpon>formSsDTPList.cs</DependentUpon>
+    <Compile Include="Dictionary\SsDtpListForm.Designer.cs">
+      <DependentUpon>SsDtpListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dictionary\formUsersAccess.cs">
       <SubType>Form</SubType>
@@ -369,11 +372,11 @@
     <Compile Include="Dictionary\GradeListForm.Designer.cs">
       <DependentUpon>GradeListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dictionary\formModelList.cs">
+    <Compile Include="Dictionary\ModelListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dictionary\formModelList.Designer.cs">
-      <DependentUpon>formModelList.cs</DependentUpon>
+    <Compile Include="Dictionary\ModelListForm.Designer.cs">
+      <DependentUpon>ModelListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dictionary\formOneStringDictionary.cs">
       <SubType>Form</SubType>
@@ -502,8 +505,8 @@
     <EmbeddedResource Include="AddEdit\Route_AddEdit.resx">
       <DependentUpon>Route_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddEdit\SsDTP_AddEdit.resx">
-      <DependentUpon>SsDTP_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="AddEdit\SsDtpForm.resx">
+      <DependentUpon>SsDtpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\SuppyAddress_AddEdit.resx">
       <DependentUpon>SuppyAddress_AddEdit.cs</DependentUpon>
@@ -556,8 +559,8 @@
     <EmbeddedResource Include="CommonForms\TemplateListForm.resx">
       <DependentUpon>TemplateListForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dictionary\formSsDTPList.resx">
-      <DependentUpon>formSsDTPList.cs</DependentUpon>
+    <EmbeddedResource Include="Dictionary\SsDtpListForm.resx">
+      <DependentUpon>SsDtpListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dictionary\formUsersAccess.resx">
       <DependentUpon>formUsersAccess.cs</DependentUpon>
@@ -626,8 +629,8 @@
     <EmbeddedResource Include="Dictionary\GradeListForm.resx">
       <DependentUpon>GradeListForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dictionary\formModelList.resx">
-      <DependentUpon>formModelList.cs</DependentUpon>
+    <EmbeddedResource Include="Dictionary\ModelListForm.resx">
+      <DependentUpon>ModelListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dictionary\formOneStringDictionary.resx">
       <DependentUpon>formOneStringDictionary.cs</DependentUpon>

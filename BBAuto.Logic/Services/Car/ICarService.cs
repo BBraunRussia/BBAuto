@@ -11,8 +11,11 @@ namespace BBAuto.Logic.Services.Car
     IList<CarModel> GetCars();
 
     DataTable ToDataTable(Status status);
+    DataTable GetDataTableInfoByCarId(int id);
 
     CarModel GetCarById(int id);
     CarModel Save(CarModel car);
+
+    string CarToString(int carId);
   }
 }

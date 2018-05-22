@@ -47,8 +47,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       var tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _diagCard.File;
 
-      var car = _carService.GetCarById(_diagCard.CarId);
-      lbCarInfo.Text = car.ToString();
+      lbCarInfo.Text = _carService.CarToString(_diagCard.CarId);
     }
 
     private void btnSave_Click(object sender, EventArgs e)
