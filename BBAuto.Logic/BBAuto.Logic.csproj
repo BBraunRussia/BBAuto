@@ -76,6 +76,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\Dictionary\EmployeesName\EmployeesNameModel.cs" />
+    <Compile Include="Services\Dictionary\EmployeesName\EmployeesNameService.cs" />
+    <Compile Include="Services\Dictionary\EmployeesName\IEmployeesNameService.cs" />
+    <Compile Include="Services\Dictionary\IBasicDictionaryService.cs" />
+    <Compile Include="Services\Dictionary\IDictionaryService.cs" />
     <Compile Include="Abstract\IDictionaryWithTextModel.cs" />
     <Compile Include="Abstract\IDictionaryWithTextService.cs" />
     <Compile Include="Common\MileageMonth.cs" />
@@ -139,10 +144,10 @@
     <Compile Include="Services\Grade\GradeModel.cs" />
     <Compile Include="Services\Grade\GradeService.cs" />
     <Compile Include="Services\Grade\IGradeService.cs" />
-    <Compile Include="Services\Mark\IMarkService.cs" />
-    <Compile Include="Services\Mark\MarkMappingProfile.cs" />
-    <Compile Include="Services\Mark\MarkModel.cs" />
-    <Compile Include="Services\Mark\MarkService.cs" />
+    <Compile Include="Services\Dictionary\Mark\IMarkService.cs" />
+    <Compile Include="Services\Dictionary\Mark\MarkMappingProfile.cs" />
+    <Compile Include="Services\Dictionary\Mark\MarkModel.cs" />
+    <Compile Include="Services\Dictionary\Mark\MarkService.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />
@@ -162,7 +167,6 @@
     <Compile Include="Lists\FuelCardDriverList.cs" />
     <Compile Include="Lists\FuelCardList.cs" />
     <Compile Include="Lists\FuelList.cs" />
-    <Compile Include="Lists\MarkList.cs" />
     <Compile Include="Lists\MyPointList.cs" />
     <Compile Include="Lists\RegionList.cs" />
     <Compile Include="Lists\RouteList.cs" />
@@ -199,7 +203,6 @@
     <Compile Include="Dictionary\Colors.cs" />
     <Compile Include="Dictionary\Comps.cs" />
     <Compile Include="Dictionary\Culprits.cs" />
-    <Compile Include="Dictionary\Marks.cs" />
     <Compile Include="Lists\ModelList.cs" />
     <Compile Include="Dictionary\Owners.cs" />
     <Compile Include="Dictionary\Regions.cs" />
@@ -358,6 +361,7 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

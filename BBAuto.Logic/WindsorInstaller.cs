@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Configuration;
 using BBAuto.Logic.Services.Account;
 using BBAuto.Logic.Services.Car;
@@ -5,9 +6,10 @@ using BBAuto.Logic.Services.Car.Doc;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Dictionary;
+using BBAuto.Logic.Services.Dictionary.Mark;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Grade;
-using BBAuto.Logic.Services.Mark;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Repositories;
@@ -76,7 +78,8 @@ namespace BBAuto.Logic
       container.Register(Component.For<IGradeService>()
         .ImplementedBy<GradeService>()
         .LifestyleTransient());
-      container.Register(Component.For<IMarkService>()
+      container.Register(Component.For<IDictionaryService<MarkModel>>()
+        .Forward<IMarkService>()
         .ImplementedBy<MarkService>()
         .LifestyleTransient());
     }

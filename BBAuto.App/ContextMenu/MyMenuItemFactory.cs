@@ -22,6 +22,7 @@ using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Dictionary.EmployeesName;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
@@ -46,9 +47,11 @@ namespace BBAuto.App.ContextMenu
     private readonly IGradeListForm _gradeListForm;
     private readonly IModelListForm _modelListForm;
     private readonly ISsDtpListForm _ssDtpListForm;
+    private readonly IOneStringDictionaryListForm _oneStringDictionaryListForm;
 
     private readonly IDocumentsService _documentsService;
     private readonly ISaleCarService _saleCarService;
+    private readonly IEmployeesNameService _employeesNameService;
 
     private IMainDgv _mainDgv;
 
@@ -64,7 +67,9 @@ namespace BBAuto.App.ContextMenu
       ISaleCarService saleCarService,
       IGradeListForm gradeListForm,
       IModelListForm modelListForm,
-      ISsDtpListForm ssDtpListForm)
+      ISsDtpListForm ssDtpListForm,
+      IOneStringDictionaryListForm oneStringDictionaryListForm,
+      IEmployeesNameService employeesNameService)
     {
       _formMileage = formMileage;
       _carForm = carForm;
@@ -78,6 +83,8 @@ namespace BBAuto.App.ContextMenu
       _gradeListForm = gradeListForm;
       _modelListForm = modelListForm;
       _ssDtpListForm = ssDtpListForm;
+      _oneStringDictionaryListForm = oneStringDictionaryListForm;
+      _employeesNameService = employeesNameService;
     }
 
     public void SetMainDgv(IMainDgv dgvMain)
@@ -1140,8 +1147,8 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Должности пользователей");
       item.Click += delegate
       {
-        loadDictionary("EmployeesName", "Справочник \"Профессий\"");
-
+        _oneStringDictionaryListForm.ShowDialog("Справочник \"Профессий\"", _employeesNameService);
+        
         EmployeesNames employeesNames = EmployeesNames.getInstance();
         employeesNames.ReLoad();
       };
@@ -1150,7 +1157,7 @@ namespace BBAuto.App.ContextMenu
 
     private void loadDictionary(string name, string title)
     {
-      formOneStringDictionary oneSd = new formOneStringDictionary(name, title);
+      OneStringDictionaryListForm oneSd = new OneStringDictionaryListForm(name, title);
       oneSd.ShowDialog();
     }
 

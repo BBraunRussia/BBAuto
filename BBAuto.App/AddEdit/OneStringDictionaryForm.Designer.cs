@@ -1,6 +1,6 @@
 namespace BBAuto.App.AddEdit
 {
-    partial class OneString_AddEdit
+    partial class OneStringDictionaryForm
     {
         /// <summary>
         /// Required designer variable.

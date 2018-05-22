@@ -1,4 +1,4 @@
-namespace BBAuto.Logic.Services.Mark
+namespace BBAuto.Logic.Services.Dictionary.Mark
 {
   public class MarkModel
   {

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using BBAuto.App.AddEdit;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
-using BBAuto.Logic.Services.Mark;
+using BBAuto.Logic.Services.Dictionary.Mark;
 using BBAuto.Logic.Static;
 using Common.Resources;
 
@@ -32,7 +32,7 @@ namespace BBAuto.App.Dictionary
     private void LoadMark()
     {
       _load = false;
-      cbMark.DataSource = _markService.GetMarks();
+      cbMark.DataSource = _markService.GetItems();
       cbMark.DisplayMember = Columns.Name;
       cbMark.ValueMember = Columns.Id;
       _load = true;

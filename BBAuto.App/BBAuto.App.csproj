@@ -89,6 +89,7 @@
       <DependentUpon>FuelCard_AddEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="AddEdit\IGradeForm.cs" />
+    <Compile Include="AddEdit\IOneStringDictionaryForm.cs" />
     <Compile Include="AddEdit\ISaleCarForm.cs" />
     <Compile Include="AddEdit\ISsDtpForm.cs" />
     <Compile Include="AddEdit\MyPoint_AddEdit.cs">
@@ -174,6 +175,7 @@
     <Compile Include="Dictionary\IDealerListForm.cs" />
     <Compile Include="Dictionary\IGradeListForm.cs" />
     <Compile Include="Dictionary\IModelListForm.cs" />
+    <Compile Include="Dictionary\IOneStringDictionaryListForm.cs" />
     <Compile Include="Dictionary\ISsDtpListForm.cs" />
     <Compile Include="FormsForCar\AddEdit\ICarDocForm.cs" />
     <Compile Include="FormsForCar\AddEdit\IDiagCardForm.cs" />
@@ -318,11 +320,11 @@
     <Compile Include="AddEdit\Model_AddEdit.Designer.cs">
       <DependentUpon>Model_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddEdit\OneString_AddEdit.cs">
+    <Compile Include="AddEdit\OneStringDictionaryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddEdit\OneString_AddEdit.Designer.cs">
-      <DependentUpon>OneString_AddEdit.cs</DependentUpon>
+    <Compile Include="AddEdit\OneStringDictionaryForm.Designer.cs">
+      <DependentUpon>OneStringDictionaryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddEdit\Dictionary_AddEdit.cs">
       <SubType>Form</SubType>
@@ -378,11 +380,11 @@
     <Compile Include="Dictionary\ModelListForm.Designer.cs">
       <DependentUpon>ModelListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dictionary\formOneStringDictionary.cs">
+    <Compile Include="Dictionary\OneStringDictionaryListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dictionary\formOneStringDictionary.Designer.cs">
-      <DependentUpon>formOneStringDictionary.cs</DependentUpon>
+    <Compile Include="Dictionary\OneStringDictionaryListForm.Designer.cs">
+      <DependentUpon>OneStringDictionaryListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForCar\ListDTP.cs">
       <SubType>Form</SubType>
@@ -602,8 +604,8 @@
     <EmbeddedResource Include="AddEdit\Model_AddEdit.resx">
       <DependentUpon>Model_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddEdit\OneString_AddEdit.resx">
-      <DependentUpon>OneString_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="AddEdit\OneStringDictionaryForm.resx">
+      <DependentUpon>OneStringDictionaryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\Dictionary_AddEdit.resx">
       <DependentUpon>Dictionary_AddEdit.cs</DependentUpon>
@@ -632,8 +634,8 @@
     <EmbeddedResource Include="Dictionary\ModelListForm.resx">
       <DependentUpon>ModelListForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dictionary\formOneStringDictionary.resx">
-      <DependentUpon>formOneStringDictionary.cs</DependentUpon>
+    <EmbeddedResource Include="Dictionary\OneStringDictionaryListForm.resx">
+      <DependentUpon>OneStringDictionaryListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForCar\ListDTP.resx">
       <DependentUpon>ListDTP.cs</DependentUpon>

@@ -8,7 +8,7 @@ using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.DiagCard;
-using BBAuto.Logic.Services.Mark;
+using BBAuto.Logic.Services.Dictionary.Mark;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
@@ -195,7 +195,7 @@ namespace BBAuto.Logic.Services.Car
 
     public object[] GetRowByCar(CarModel car)
     {
-      var mark = _markService.GetMarkById(car.MarkId ?? 0);
+      var mark = _markService.GetItemById(car.MarkId ?? 0);
       var model = ModelList.getInstance().getItem(car.ModelId);
 
       var mileageList = MileageList.getInstance();
@@ -229,7 +229,7 @@ namespace BBAuto.Logic.Services.Car
 
       return new object[]
       {
-        car.Id, car.Id, car.BbNumber, car.Grz, mark?.Name ?? "отсутствует", model.Name, car.Vin, regionName,
+        car.Id, car.Id, car.BbNumber, car.Grz, mark.Value ?? "отсутствует", model.Name, car.Vin, regionName,
         driver.GetName(NameType.Full), pts.Number, sts.Number, car.Year, mileageInt,
         mileageDate, owner, guaranteeEndDate, GetStatus(car)
       };
@@ -270,14 +270,14 @@ namespace BBAuto.Logic.Services.Car
       if (!car.MarkId.HasValue)
         return dt;
 
-      var mark = _markService.GetMarkById(car.MarkId.Value);
+      var mark = _markService.GetItemById(car.MarkId.Value);
       var model = ModelList.getInstance().getItem(car.ModelId ?? 0);
       var color = Colors.GetInstance().getItem(car.ColorId ?? 0);
       var owner = Owners.getInstance().getItem(car.OwnerId ?? 0);
       var pts = PTSList.getInstance().getItem(car.Id);
       var sts = STSList.getInstance().getItem(car.Id);
 
-      dt.Rows.Add("Марка", mark.Name);
+      dt.Rows.Add("Марка", mark.Value);
       dt.Rows.Add("Модель", model.Name);
       dt.Rows.Add("Год выпуска", car.Year);
       dt.Rows.Add("Цвет", color);
@@ -299,11 +299,11 @@ namespace BBAuto.Logic.Services.Car
         return string.Empty;
 
       var model = ModelList.getInstance().getItem(car.ModelId.Value);
-      var mark = _markService.GetMarkById(car.MarkId ?? 0);
+      var mark = _markService.GetItemById(car.MarkId ?? 0);
 
       return car.Id == 0
         ? "нет данных"
-        : string.Concat(mark.Name ?? "отсутствует", " ", model.Name, " ", car.Grz);
+        : string.Concat(mark.Value ?? "отсутствует", " ", model.Name, " ", car.Grz);
     }
   }
 }

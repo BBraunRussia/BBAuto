@@ -1,6 +1,6 @@
 namespace BBAuto.App.Dictionary
 {
-    partial class formOneStringDictionary
+    partial class OneStringDictionaryListForm
     {
         /// <summary>
         /// Required designer variable.
