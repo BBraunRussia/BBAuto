@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(dept_id)
+      @count = count(*)
     from
       Dept
     where
-      dept_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update Dept
-    set dept_name = @Name
-    where dept_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

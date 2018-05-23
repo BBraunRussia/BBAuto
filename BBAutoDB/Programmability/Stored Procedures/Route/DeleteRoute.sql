@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteRoute]
 as
 begin
   delete from Route
-  where route_id = @id
+  where Id = @id
 end

@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteDriverLicense]
-  @idLicense int
+  @id int
 as
 begin
   delete from DriverLicense
-  where DriverLicense_id = @idLicense
+  where Id = @id
 end

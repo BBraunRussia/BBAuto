@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteRepair]
-  @idRepair int
+  @id int
 as
 begin
   delete from Repair
-  where repair_id = @idRepair
+  where Id = @id
 end

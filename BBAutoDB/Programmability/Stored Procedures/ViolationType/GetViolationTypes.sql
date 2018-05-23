@@ -3,10 +3,10 @@ create procedure [dbo].[GetViolationTypes]
 as
 begin
   select
-    violationType_id,
-    violationType_name 'Название'
+    Id,
+    [Name]
   from
     ViolationType
   order by
-    violationType_name
+    [Name]
 end

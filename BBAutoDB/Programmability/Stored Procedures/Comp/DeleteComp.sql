@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteComp]
 as
 begin
   delete from Comp
-  where Comp_id = @id
+  where Id = @id
 end

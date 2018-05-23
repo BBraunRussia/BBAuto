@@ -1,9 +1,9 @@
 create procedure [dbo].[DeleteEmployee]
-  @idRegion int,
-  @idEmployeeName int
+  @RegionId int,
+  @EmployeeNameId int
 as
 begin
   delete from Employees
-  where region_id = @idRegion
-    and EmployeesName_id = @idEmployeeName
+  where RegionId = @RegionId
+    and EmployeesNameId = @EmployeeNameId
 end

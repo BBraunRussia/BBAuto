@@ -1,22 +1,22 @@
 create procedure [dbo].[GetLastInstraction]
-  @idDriver int
+  @DriverId int
 as
 begin
   declare @last nvarchar(100)
 
   select top 1
-    @last = '№ ' + cast(Instraction_number as nvarchar(50)) + ' до ' +
-    +case when day(Instraction_date) < 10 then '0' else '' end
-    + cast(day(Instraction_date) as nvarchar(50)) + '.'
-    + case when month(Instraction_date) < 10 then '0' else '' end
-    + cast(month(Instraction_date) as nvarchar(50))
-    + '.' + cast(year(Instraction_date) as nvarchar(50))
+    @last = '№ ' + cast(Number as nvarchar(50)) + ' до ' +
+    +case when day([Date]) < 10 then '0' else '' end
+    + cast(day([Date]) as nvarchar(50)) + '.'
+    + case when month([Date]) < 10 then '0' else '' end
+    + cast(month([Date]) as nvarchar(50))
+    + '.' + cast(year([Date]) as nvarchar(50))
   from
     Instraction
   where
-    driver_id = @idDriver
+    DriverId = @DriverId
   order by
-    Instraction_date desc
+    [Date] desc
 
   if (@last is null)
     select 'нет данных'

@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(violationType_id)
+      @count = count(*)
     from
       ViolationType
     where
-      violationType_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update ViolationType
-    set violationType_name = @Name
-    where violationType_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

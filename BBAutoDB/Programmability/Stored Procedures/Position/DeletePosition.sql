@@ -3,5 +3,5 @@ create procedure [dbo].[DeletePosition]
 as
 begin
   delete from Position
-  where position_id = @id
+  where Id = @id
 end

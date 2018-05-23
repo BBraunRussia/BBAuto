@@ -4,7 +4,7 @@ create procedure [dbo].[GetMileageMonths]
 as
 begin
   select
-    MileageMonth_count,
+    [Count],
     psn_count,
     psk_count,
     gas_count,
@@ -14,6 +14,6 @@ begin
   from
     MileageMonth
   where
-    car_id = @car
-    and MileageMonth_date = @date
+    CarId = @car
+    and [Date] = @date
 end

@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(StatusAfterDTP_id)
+      @count = count(*)
     from
       StatusAfterDTP
     where
-      StatusAfterDTP_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update StatusAfterDTP
-    set StatusAfterDTP_name = @Name
-    where StatusAfterDTP_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteDTPFile]
-  @idDtpFile int
+  @id int
 as
 begin
   delete from dtpFile
-  where dtpFile_id = @idDtpFile
+  where Id = @id
 end

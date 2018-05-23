@@ -1,26 +1,26 @@
 create procedure [dbo].[UpsertEmployee]
-  @idRegion int,
-  @idEmployeesName int,
-  @idDriver int
+  @RegionId int,
+  @EmployeesNameId int,
+  @DriverId int
 as
 begin
   declare @count int
 
   select
-    @count = count(region_id)
+    @count = count(*)
   from
     Employees
   where
-    region_id = @idRegion
-    and employeesName_id = @idEmployeesName
+    RegionId = @RegionId
+    and EmployeesNameId = @EmployeesNameId
 
   if (@count = 0)
-    insert into Employees values(@idRegion, @idEmployeesName, @idDriver)
+    insert into Employees values(@RegionId, @EmployeesNameId, @DriverId)
   else
   begin
     update Employees
-    set driver_id = @idDriver
-    where region_id = @idRegion
-    and employeesName_id = @idEmployeesName
+    set DriverId = @DriverId
+    where RegionId = @RegionId
+    and EmployeesNameId = @EmployeesNameId
   end
 end

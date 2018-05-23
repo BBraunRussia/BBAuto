@@ -2,13 +2,13 @@ create procedure [dbo].[GetMedicalCerts]
 as
 begin
   select
-    MedicalCert_id,
-    MedicalCert_number,
-    MedicalCert_dateBegin,
-    MedicalCert_dateEnd,
-    driver_id,
-    MedicalCert_file,
-    MedicalCert_notificationSent
+    Id,
+    Number,
+    DateBegin,
+    DateEnd,
+    DriverId,
+    [File],
+    NotificationSent
   from
     MedicalCert
 end

@@ -4,17 +4,17 @@ create procedure [dbo].[GetFuelByCarAndDate]
 as
 begin
   select
-    fuel_id
+    Fuel.Id
   from
     Fuel
     join FuelCardDriver fcd
-      on Fuel.fuelCard_id = fcd.fuelCard_id
+      on Fuel.fuelCardId = fcd.FuelCardId
     join Function_DriverCar_Select() dc
-      on fcd.driver_id = dc.DriverId
+      on fcd.DriverId = dc.DriverId
   where
     CarId = @idCar
     and @date > date1
     and @date <= date2
-    and year(fuel_date) = year(@date)
-    and month(fuel_date) = month(@date)
+    and year([Date]) = year(@date)
+    and month([Date]) = month(@date)
 end

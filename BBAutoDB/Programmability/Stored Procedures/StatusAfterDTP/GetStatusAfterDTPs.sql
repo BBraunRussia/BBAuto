@@ -3,10 +3,10 @@ create procedure [dbo].[GetStatusAfterDTPs]
 as
 begin
   select
-    StatusAfterDTP_id,
-    StatusAfterDTP_name 'Название'
+    Id,
+    [Name]
   from
     StatusAfterDTP
   order by
-    StatusAfterDTP_name
+    [Name]
 end

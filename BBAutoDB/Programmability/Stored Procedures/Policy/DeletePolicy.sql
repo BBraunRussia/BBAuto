@@ -1,7 +1,7 @@
 create procedure [dbo].[DeletePolicy]
-  @idPolicy int
+  @id int
 as
 begin
   delete from Policy
-  where policy_id = @idPolicy
+  where Id = @id
 end

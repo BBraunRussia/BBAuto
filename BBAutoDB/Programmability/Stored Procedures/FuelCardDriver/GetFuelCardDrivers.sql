@@ -2,11 +2,11 @@ create procedure [dbo].[GetFuelCardDrivers]
 as
 begin
   select
-    FuelCardDriver_id,
-    FuelCard_id,
-    driver_id,
-    FuelCardDriver_dateBegin,
-    FuelCardDriver_dateEnd
+    Id,
+    FuelCardId,
+    DriverId,
+    DateBegin,
+    DateEnd
   from
     FuelCardDriver
 end

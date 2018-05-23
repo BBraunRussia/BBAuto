@@ -3,5 +3,5 @@ create table dbo.Users (
   [Login] nvarchar(50) not null, 
   RoleId int not null,
   constraint [PK_Users] primary key clustered (Id),
-  constraint FK_Users_Roles foreign key (RoleId) references dbo.Role (Role_id)
+  constraint FK_Users_Roles foreign key (RoleId) references dbo.Role ([Id])
 )

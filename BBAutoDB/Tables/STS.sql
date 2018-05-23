@@ -1,13 +1,13 @@
 CREATE TABLE [dbo].[STS](
-	[car_id] [int] NOT NULL,
-	[sts_number] NVARCHAR(50) NOT NULL,
-	[sts_date] [datetime] NOT NULL,
-	[sts_giveOrg] NVARCHAR(100) NULL,
-	[sts_file] NVARCHAR(200) NULL
+	[CarId] [int] NOT NULL,
+	[Number] NVARCHAR(50) NOT NULL,
+	[Date] [datetime] NOT NULL,
+	[GiveOrg] NVARCHAR(100) NULL,
+	[File] NVARCHAR(200) NULL
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[STS]  WITH CHECK ADD  CONSTRAINT [FK_STS_Car] FOREIGN KEY([car_id])
+ALTER TABLE [dbo].[STS]  WITH CHECK ADD  CONSTRAINT [FK_STS_Car] FOREIGN KEY([CarId])
 REFERENCES [dbo].[Car] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE

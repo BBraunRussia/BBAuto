@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteMailText]
 as
 begin
   delete from MailText
-  where mailText_id = @id
+  where Id = @id
 end

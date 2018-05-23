@@ -1,7 +1,7 @@
 create procedure [dbo].[DeletePTS]
-  @idCar int
+  @CarId int
 as
 begin
   delete from PTS
-  where car_id = @idCar
+  where CarId = @CarId
 end

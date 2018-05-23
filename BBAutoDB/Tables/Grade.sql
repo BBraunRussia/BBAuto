@@ -15,7 +15,7 @@ create table [dbo].[Grade] (
 go
 
 alter table [dbo].[Grade] with check add constraint [FK_Grade_engineType] foreign key ([EngineTypeId])
-references [dbo].[engineType] ([engineType_id])
+references [dbo].[engineType] ([Id])
 go
 
 alter table [dbo].[Grade] check constraint [FK_Grade_engineType]

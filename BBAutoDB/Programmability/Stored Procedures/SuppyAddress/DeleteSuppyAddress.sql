@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteSuppyAddress]
-  @idMyPoint int
+  @MyPointId int
 as
 begin
   delete from SuppyAddress
-  where mypoint_id = @idMyPoint
+  where myPointId = @MyPointId
 end

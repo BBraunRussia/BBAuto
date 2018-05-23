@@ -1,6 +1,6 @@
 create procedure [dbo].[UpsertColumnSize]
-  @idDriver int,
-  @idStatus int,
+  @DriverId int,
+  @StatusId int,
   @column0 int,
   @column1 int,
   @column2 int,
@@ -26,13 +26,13 @@ begin
   from
     ColumnSize
   where
-    driver_id = @idDriver
-    and status_id = @idStatus
+    DriverId = @DriverId
+    and StatusId = @StatusId
 
   if (@count = 0)
   begin
     insert into ColumnSize
-    values(@idDriver, @idStatus, @column0, @column1, @column2, @column3, @column4, @column5, @column6, @column7, @column8, @column9, @column10, @column11, @column12, @column13, @column14, @column15, @column16)
+    values(@DriverId, @StatusId, @column0, @column1, @column2, @column3, @column4, @column5, @column6, @column7, @column8, @column9, @column10, @column11, @column12, @column13, @column14, @column15, @column16)
   end
   else
   begin
@@ -54,7 +54,7 @@ begin
         column14 = @column14,
         column15 = @column15,
         column16 = @column16
-    where driver_id = @idDriver
-    and status_id = @idStatus
+    where DriverId = @DriverId
+    and StatusId = @StatusId
   end
 end

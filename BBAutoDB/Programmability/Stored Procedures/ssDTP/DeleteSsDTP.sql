@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteSsDTP]
-  @idMark int
+  @MarkId int
 as
 begin
   delete from ssDTP
-  where mark_id = @idMark
+  where MarkId = @MarkId
 end

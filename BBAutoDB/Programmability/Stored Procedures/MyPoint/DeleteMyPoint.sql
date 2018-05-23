@@ -8,10 +8,10 @@ begin
   from
     Route
   where
-    mypoint1_id = @id
-    or mypoint2_id = @id
+    MypointId1 = @id
+    or MypointId2 = @id
 
   if (@count = 0)
     delete from MyPoint
-    where myPoint_id = @id
+    where Id = @id
 end

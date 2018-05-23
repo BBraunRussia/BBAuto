@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(comp_id)
+      @count = count(*)
     from
       Comp
     where
-      comp_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update Comp
-    set comp_name = @Name
-    where comp_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

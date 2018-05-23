@@ -1,10 +1,10 @@
 CREATE TABLE [dbo].[ssDTP](
-	[mark_id] [int] NOT NULL,
-	[serviceStantion_id] [int] NOT NULL,
+	[MarkId] [int] NOT NULL,
+	[ServiceStantionId] [int] NOT NULL,
  CONSTRAINT [PK_ssDTP_1] PRIMARY KEY CLUSTERED 
 (
-	[mark_id] ASC,
-	[serviceStantion_id] ASC
+	[MarkId] ASC,
+	[ServiceStantionId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

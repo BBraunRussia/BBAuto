@@ -1,9 +1,9 @@
 create procedure [dbo].[DeleteUserAccess]
-  @idDriver int,
-  @idRole int
+  @DriverId int,
+  @RoleId int
 as
 begin
   delete from UserAccess
-  where driver_id = @idDriver
-    and role_id = @idRole
+  where DriverId = @DriverId
+    and RoleId = @RoleId
 end

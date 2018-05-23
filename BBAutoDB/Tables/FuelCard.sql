@@ -1,15 +1,15 @@
 CREATE TABLE [dbo].[FuelCard](
-	[FuelCard_id] [int] IDENTITY(1,1) NOT NULL,
-	[FuelCardType_id] [int] NOT NULL,
-	[FuelCard_number] NVARCHAR(50) NOT NULL,
-	[FuelCard_dateEnd] [datetime] NULL,
-	[region_id] [int] NOT NULL,
-	[FuelCard_pin] NVARCHAR(4) NOT NULL,
-	[FuelCard_lost] [int] NOT NULL,
-	[FuelCard_comment] NVARCHAR(100) NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FuelCardTypeId] [int] NOT NULL,
+	[Number] NVARCHAR(50) NOT NULL,
+	[DateEnd] [datetime] NULL,
+	[RegionId] [int] NOT NULL,
+	[Pin] NVARCHAR(4) NOT NULL,
+	[Lost] bit NOT NULL,
+	[Comment] NVARCHAR(100) NOT NULL,
  CONSTRAINT [PK_FuelCard] PRIMARY KEY CLUSTERED 
 (
-	[FuelCard_id] ASC
+	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

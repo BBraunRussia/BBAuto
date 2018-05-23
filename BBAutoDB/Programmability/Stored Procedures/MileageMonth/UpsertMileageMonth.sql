@@ -12,7 +12,7 @@ as
 begin
 
   declare @count int
-  declare @carID int
+  declare @carId int
 
   select
     @count = count(id)
@@ -32,34 +32,35 @@ begin
   end
 
   select
-    @carID = id
+    @carId = id
   from
     Car
   where
     grz = @carNumber
 
   select
-    @count = count(MileageMonth_id)
+    @count = count(*)
   from
     MileageMonth
   where
-    car_id = @carID
-    and MileageMonth_date = @date
+    CarId = @carId
+    and [Date] = @date
 
 
   if (@count = 0)
-    insert into MileageMonth(car_id, MileageMonth_date, MileageMonth_count, psn_count, psk_count, gas_count, gas_begin, gas_end, gas_norm) values(@carID, @date, @mileageCount, @psn, @psk, @gasCount, @gasBegin, @gasEnd, @gasNorm)
+    insert into MileageMonth(CarId, [Date], [Count], psn_count, psk_count, gas_count, gas_begin, gas_end, gas_norm)
+      values(@carId, @date, @mileageCount, @psn, @psk, @gasCount, @gasBegin, @gasEnd, @gasNorm)
   else
     update MileageMonth
-    set MileageMonth_count = @mileageCount,
+    set [Count] = @mileageCount,
         psn_count = @psn,
         psk_count = @psk,
         gas_count = @gasCount,
         gas_begin = @gasBegin,
         gas_end = @gasEnd,
         gas_norm = @gasNorm
-    where car_id = @carID
-    and MileageMonth_date = @date
+    where CarId = @carId
+    and [Date] = @date
 
   select '1'
 end

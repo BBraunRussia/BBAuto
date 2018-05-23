@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteMainPoint]
 as
 begin
   delete from MainPoint
-  where point_id = @id
+  where PointId = @id
 end

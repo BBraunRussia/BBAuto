@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[ColumnSize](
-	[driver_id] [int] NOT NULL,
-	[status_id] [int] NOT NULL,
+	[DriverId] [int] NOT NULL,
+	[StatusId] [int] NOT NULL,
 	[column0] [int] NOT NULL,
 	[column1] [int] NOT NULL,
 	[column2] [int] NOT NULL,
@@ -20,8 +20,8 @@ CREATE TABLE [dbo].[ColumnSize](
 	[column16] [int] NOT NULL,
  CONSTRAINT [PK_ColumnSize] PRIMARY KEY CLUSTERED 
 (
-	[driver_id] ASC,
-	[status_id] ASC
+	[DriverId] ASC,
+	[StatusId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

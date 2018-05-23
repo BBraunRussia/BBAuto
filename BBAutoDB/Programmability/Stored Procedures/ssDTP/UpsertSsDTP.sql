@@ -1,18 +1,18 @@
 create procedure [dbo].[UpsertSsDTP]
-  @idMark int,
-  @idServiceStantion int
+  @MarkId int,
+  @ServiceStantionId int
 as
 begin
   declare @count int
   select
-    @count = count(mark_id)
+    @count = count(MarkId)
   from
     ssDTP
   where
-    mark_id = @idMark
+    MarkId = @MarkId
   if (@count = 0)
-    insert into ssDTP values(@idMark, @idServiceStantion)
+    insert into ssDTP values(@MarkId, @ServiceStantionId)
   else
     update ssDTP
-    set serviceStantion_id = @idServiceStantion
+    set ServiceStantionId = @ServiceStantionId
 end

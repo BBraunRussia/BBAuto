@@ -1,4 +1,5 @@
-create procedure [dbo].[GetEngineTypes]
+﻿create procedure [dbo].[GetEngineTypeById]
+  @id int
 as
 begin
   select
@@ -7,4 +8,6 @@ begin
     ShortName
   from
     EngineType
+  where
+    Id = @id
 end

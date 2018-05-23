@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteWayBillDay]
 as
 begin
   delete from WayBillDay
-  where wayBillDay_id = @id
+  where Id = @id
 end

@@ -3,10 +3,10 @@ create procedure [dbo].[GetServiceStantions]
 as
 begin
   select
-    ServiceStantion_id,
-    ServiceStantion_name 'Название'
+    Id,
+    [Name]
   from
     ServiceStantion
   order by
-    ServiceStantion_name
+    [Name]
 end

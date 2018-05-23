@@ -3,10 +3,10 @@ create procedure [dbo].[GetTemplateByName]
 as
 begin
   select
-    Template_id,
-    Template_path
+    Id,
+    [Path]
   from
     Template
   where
-    Template_name = @name
+    [Name] = @name
 end

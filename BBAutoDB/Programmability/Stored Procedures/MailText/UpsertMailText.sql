@@ -13,9 +13,9 @@ begin
   else
   begin
     update MailText
-    set mailText_name = @name,
-        mailText_text = @text
-    where mailText_id = @id
+    set [Name] = @name,
+        [Text] = @text
+    where Id = @id
   end
 
   select @id

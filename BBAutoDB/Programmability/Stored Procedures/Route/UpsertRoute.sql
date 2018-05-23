@@ -1,7 +1,7 @@
 create procedure [dbo].[UpsertRoute]
   @id int,
-  @idMyPoint1 int,
-  @idMyPoint2 int,
+  @MyPointId1 int,
+  @MyPointId2 int,
   @distance int
 as
 begin
@@ -13,22 +13,22 @@ begin
     from
       Route
     where
-      (mypoint1_id = @idMyPoint1
-      and mypoint2_id = @idMyPoint2)
-      or (mypoint1_id = @idMyPoint2
-      and mypoint2_id = @idMyPoint1)
+      (MypointId1 = @MyPointId1
+      and MypointId2 = @MyPointId2)
+      or (MypointId1 = @MyPointId2
+      and MypointId2 = @MyPointId1)
 
     if (@count = 0)
     begin
-      insert into Route values(@idMyPoint1, @idMyPoint2, @distance)
+      insert into Route values(@MyPointId1, @MyPointId2, @distance)
       set @id = scope_identity()
     end
   end
   else
   begin
     update Route
-    set route_distance = @distance
-    where route_id = @id
+    set Distance = @distance
+    where id = @id
   end
 
   select @id

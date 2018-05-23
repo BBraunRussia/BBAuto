@@ -1,6 +1,6 @@
 create procedure [dbo].[UpsertMyPoint]
   @id int,
-  @idRegion int,
+  @RegionId int,
   @name nvarchar(100)
 as
 begin
@@ -12,21 +12,21 @@ begin
     from
       MyPoint
     where
-      mypoint_name = @name
-      and region_id = @idRegion
+      [Name] = @name
+      and RegionId = @RegionId
 
     if (@count = 0)
     begin
-      insert into MyPoint values(@idRegion, @name)
+      insert into MyPoint values(@RegionId, @name)
       set @id = scope_identity()
     end
   end
   else
   begin
     update MyPoint
-    set region_id = @idRegion,
-        mypoint_name = @name
-    where mypoint_id = @id
+    set RegionId = @RegionId,
+        [Name] = @name
+    where Id = @id
   end
 
   select @id

@@ -3,10 +3,10 @@ create procedure [dbo].[GetPositions]
 as
 begin
   select
-    position_id,
-    position_name 'Название'
+    Id,
+    [Name]
   from
     Position
   order by
-    position_name
+    [Name]
 end

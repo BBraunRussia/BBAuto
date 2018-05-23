@@ -1,20 +1,20 @@
 create procedure [dbo].[UpsertDTPFile]
-  @idDtpFile int,
-  @idDtp int,
+  @id int,
+  @DtpId int,
   @name nvarchar(100),
   @file nvarchar(300)
 as
 begin
-  if (@idDtpFile = 0)
+  if (@id = 0)
   begin
-    insert into dtpFile values(@idDtp, @name, @file)
-    select @idDtpFile = @@identity
+    insert into dtpFile values(@DtpId, @name, @file)
+    select @id = @@identity
   end
   else
     update dtpFile
-    set dtpFile_name = @name,
-        dtpFile_file = @file
-    where dtpFile_id = @idDtpFile
+    set [Name] = @name,
+        [File] = @file
+    where Id = @id
 
-  select @idDtpFile
+  select @id
 end

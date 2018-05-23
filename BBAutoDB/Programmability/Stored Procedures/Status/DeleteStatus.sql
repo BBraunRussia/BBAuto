@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteStatus]
 as
 begin
   delete from Status
-  where status_id = @id
+  where Id = @id
 end

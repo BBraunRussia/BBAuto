@@ -1,28 +1,28 @@
 create procedure [dbo].[UpsertRepair]
-  @idRepair int,
-  @idCar int,
-  @idRepairType int,
-  @idServiceStantion int,
+  @id int,
+  @CarId int,
+  @RepairTypeId int,
+  @ServiceStantionId int,
   @date datetime,
   @cost float,
   @file nvarchar(200)
 as
 begin
-  if (@idRepair = 0)
+  if (@id = 0)
   begin
-    insert into Repair values(@idCar, @idRepairType, @idServiceStantion, @date, @cost, @file)
-    set @idRepair = scope_identity()
+    insert into Repair values(@CarId, @RepairTypeId, @ServiceStantionId, @date, @cost, @file)
+    set @id = scope_identity()
   end
   else
   begin
     update Repair
-    set repairType_id = @idRepairType,
-        ServiceStantion_id = @idServiceStantion,
-        repair_date = @date,
-        repair_cost = @cost,
-        repair_file = @file
-    where repair_id = @idRepair
+    set RepairTypeId = @RepairTypeId,
+        ServiceStantionId = @ServiceStantionId,
+        [Date] = @date,
+        Cost = @cost,
+        [File] = @file
+    where Id = @id
   end
 
-  select @idRepair
+  select @id
 end

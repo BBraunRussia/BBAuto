@@ -1,18 +1,23 @@
-CREATE PROCEDURE [dbo].[CulpritSelectWithUser]
-@idCar int,
-@date datetime
-AS
-BEGIN
-	SELECT * INTO #table1 FROM GetDriverCars()
-	
-	Declare @idDriver int
-	
-	SELECT @idDriver=driver_id
-	FROM #table1
-	WHERE car_id=@idCar and @date >= date1 and @date < date2
-	
-	SELECT culprit_id, culprit_name FROM Culprit WHERE culprit_id != 4
-	UNION
-	SELECT 4, Fio culprit_name FROM Driver WHERE Id=@idDriver
-END
-GO
+create procedure [dbo].[CulpritSelectWithUser]
+  @idCar int,
+  @date datetime
+as
+begin
+  select * into #table1 from GetDriverCars()
+
+  declare @DriverId int
+
+  select
+    @DriverId = driverId
+  from
+    #table1
+  where
+    car_id = @idCar
+    and @date >= date1
+    and @date < date2
+
+  select id, [Name] from Culprit where id != 4
+  union
+  select 4, Fio from Driver where id = @DriverId
+end
+go

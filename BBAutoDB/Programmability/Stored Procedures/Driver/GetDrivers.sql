@@ -24,9 +24,9 @@ begin
   from
     Driver dr
     left join Position pos
-      on pos.position_id = dr.PositionId
+      on pos.Id = dr.PositionId
     left join Dept
-      on Dept.dept_id = dr.DeptId
+      on Dept.Id = dr.DeptId
   order by
     Fio
 end

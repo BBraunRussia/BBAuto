@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(culprit_id)
+      @count = count(*)
     from
       Culprit
     where
-      culprit_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update Culprit
-    set culprit_name = @Name
-    where culprit_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

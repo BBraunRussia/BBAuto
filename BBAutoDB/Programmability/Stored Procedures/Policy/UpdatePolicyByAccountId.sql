@@ -1,15 +1,15 @@
 create procedure [dbo].[UpdatePolicyByAccountId]
-  @idPolicy int,
-  @idAccount int,
-  @idNumber int
+  @id int,
+  @AccountId int,
+  @NumberId int
 as
 begin
-  if (@idNumber = 1)
+  if (@NumberId = 1)
     update Policy
-    set account_id = @idAccount
-    where policy_id = @idPolicy
+    set AccountId = @AccountId
+    where Id = @id
   else
     update Policy
-    set account_id2 = @idAccount
-    where policy_id = @idPolicy
+    set AccountId2 = @AccountId
+    where Id = @id
 end

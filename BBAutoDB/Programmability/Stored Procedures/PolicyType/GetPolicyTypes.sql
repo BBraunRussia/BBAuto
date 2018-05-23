@@ -3,15 +3,15 @@ create procedure [dbo].[GetPolicyTypes]
 as
 begin
   if (@all = 0)
-    select policyType_id, policyType_name 'Название' from policyType
+    select Id, [Name] from policyType
   else
     select
-      0 policyType_id,
-      '(все)' 'Название'
+      0 as 'Id',
+      '(все)' as 'Name'
     union
     select
-      policyType_id,
-      policyType_name 'Название'
+      Id,
+      [Name]
     from
       policyType
 end

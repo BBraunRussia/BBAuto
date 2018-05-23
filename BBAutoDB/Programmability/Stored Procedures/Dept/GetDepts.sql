@@ -3,10 +3,10 @@ create procedure [dbo].[GetDepts]
 as
 begin
   select
-    dept_id,
-    dept_name 'Название'
+    Id,
+    [Name]
   from
     Dept
   order by
-    dept_name
+    [Name]
 end

@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(proxyType_id)
+      @count = count(*)
     from
       proxyType
     where
-      proxyType_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update proxyType
-    set proxyType_name = @Name
-    where proxyType_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

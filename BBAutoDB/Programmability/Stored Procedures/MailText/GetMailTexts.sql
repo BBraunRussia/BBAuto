@@ -1,5 +1,5 @@
 create procedure [dbo].[GetMailTexts]
 as
 begin
-  select mailText_id, mailText_name, mailText_text from MailText
+  select Id, [Name], [Text] from MailText
 end

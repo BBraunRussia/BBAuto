@@ -2,11 +2,11 @@ create procedure [dbo].[GetTempMoves]
 as
 begin
   select
-    tempMove_id,
-    car_id,
-    driver_id,
-    tempMove_dateBegin,
-    tempMove_dateEnd
+    Id,
+    CarId,
+    DriverId,
+    DateBegin,
+    DateEnd
   from
     TempMove
 end

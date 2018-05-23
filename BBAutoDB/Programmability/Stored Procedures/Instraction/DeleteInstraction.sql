@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteInstraction]
 as
 begin
   delete from Instraction
-  where instraction_id = @id
+  where Id = @id
 end

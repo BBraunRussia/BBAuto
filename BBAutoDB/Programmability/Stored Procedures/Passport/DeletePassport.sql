@@ -1,7 +1,7 @@
 create procedure [dbo].[DeletePassport]
-  @idPassport int
+  @id int
 as
 begin
   delete from Passport
-  where passport_id = @idPassport
+  where id = @id
 end

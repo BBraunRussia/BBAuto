@@ -411,6 +411,10 @@
     <Build Include="Programmability\Stored Procedures\Violation\GetViolationById.sql" />
     <Build Include="Programmability\Stored Procedures\Grade\GetGradeById.sql" />
     <Build Include="Programmability\Stored Procedures\Mark\GetMarkById.sql" />
+    <Build Include="Programmability\Stored Procedures\EmployeeName\GetEmployeeNameById.sql" />
+    <Build Include="Programmability\Stored Procedures\Region\GetRegionById.sql" />
+    <Build Include="Programmability\Stored Procedures\EngineType\GetEngineTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\Color\GetColorById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

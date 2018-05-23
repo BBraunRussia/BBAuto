@@ -11,8 +11,8 @@ begin
   end
   else
     update CurrentStatusAfterDTP
-    set CurrentStatusAfterDTP_name = @name
-    where CurrentStatusAfterDTP_id = @id
+    set [Name] = @name
+    where Id = @id
 
   select @id
 end

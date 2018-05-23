@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteProxyType]
 as
 begin
   delete from proxyType
-  where ProxyType_id = @id
+  where Id = @id
 end

@@ -2,12 +2,12 @@ create procedure [dbo].[GetEmployees]
 as
 begin
   select
-    region_id,
-    employeesName_id,
-    driver_id
+    RegionId,
+    EmployeesNameId,
+    DriverId
   from
     Employees
   order by
-    region_id,
-    employeesName_id
+    RegionId,
+    EmployeesNameId
 end

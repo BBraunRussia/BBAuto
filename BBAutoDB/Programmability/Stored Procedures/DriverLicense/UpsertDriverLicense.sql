@@ -1,27 +1,27 @@
 create procedure [dbo].[UpsertDriverLicense]
-  @idDriverLicense int,
-  @idDriver int,
+  @id int,
+  @DriverId int,
   @number nvarchar(50),
   @dateBegin datetime,
   @dateEnd datetime,
   @file nvarchar(100),
-  @notificationSent int
+  @notificationSent bit
 as
 begin
-  if (@idDriverLicense = 0)
+  if (@id = 0)
   begin
-    insert into DriverLicense values(@number, @dateBegin, @dateEnd, @idDriver, @file, 0)
+    insert into DriverLicense values(@number, @dateBegin, @dateEnd, @DriverId, @file, 0)
 
-    set @idDriverLicense = scope_identity()
+    set @id = scope_identity()
   end
   else
     update DriverLicense
-    set DriverLicense_number = @number,
-        DriverLicense_dateBegin = @dateBegin,
-        DriverLicense_dateEnd = @dateEnd,
-        DriverLicense_file = @file,
-        DriverLicense_notificationSent = @notificationSent
-    where DriverLicense_id = @idDriverLicense
+    set Number = @number,
+        DateBegin = @dateBegin,
+        DateEnd = @dateEnd,
+        [File] = @file,
+        NotificationSent = @notificationSent
+    where Id = @id
 
-  select @idDriverLicense
+  select @id
 end

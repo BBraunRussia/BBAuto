@@ -2,10 +2,10 @@ create procedure [dbo].[GetRoutes]
 as
 begin
   select
-    route_id,
-    mypoint1_id,
-    mypoint2_id,
-    route_distance
+    Id,
+    MypointId1,
+    MypointId2,
+    Distance
   from
     Route
 end

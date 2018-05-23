@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteDept]
 as
 begin
   delete from Dept
-  where dept_id = @id
+  where Id = @id
 end

@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteCulprit]
 as
 begin
   delete from Culprit
-  where culprit_id = @id
+  where Id = @id
 end

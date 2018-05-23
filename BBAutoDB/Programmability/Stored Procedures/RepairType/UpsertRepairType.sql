@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(repairType_id)
+      @count = count(*)
     from
       RepairType
     where
-      repairType_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update RepairType
-    set repairType_name = @Name
-    where repairType_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

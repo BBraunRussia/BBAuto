@@ -1,9 +1,9 @@
 create procedure [dbo].[UpsertPolicy]
-  @idPolicy int,
-  @idPolicyType int,
-  @idCar int,
-  @idOwner int,
-  @idComp int,
+  @id int,
+  @PolicyTypeId int,
+  @CarId int,
+  @OwnerId int,
+  @CompId int,
   @Number nvarchar(50),
   @dateBegin datetime,
   @dateEnd datetime,
@@ -12,7 +12,7 @@ create procedure [dbo].[UpsertPolicy]
   @pay2 float,
   @pay2DateText nvarchar(50),
   @file nvarchar(100),
-  @notificationSent int,
+  @notificationSent bit,
   @comment nvarchar(100)
 as
 begin
@@ -23,29 +23,30 @@ begin
   else
     set @pay2Date = cast(@pay2DateText as datetime)
 
-  if (@idPolicy = 0)
+  if (@id = 0)
   begin
-    insert into Policy values(@idCar, @idPolicyType, @idOwner, @idComp, @Number, @dateBegin, @dateEnd, @pay1, @cost, @pay2, @pay2Date, @file, null, null, 0, @comment, current_timestamp)
+    insert into dbo.[Policy]
+      values(@CarId, @PolicyTypeId, @OwnerId, @CompId, @Number, @dateBegin, @dateEnd, @pay1, @cost, @pay2, @pay2Date, @file, null, null, 0, @comment, current_timestamp)
 
-    set @idPolicy = scope_identity()
+    set @id = scope_identity()
   end
   else
   begin
     update Policy
-    set owner_id = @idOwner,
-        comp_id = @idComp,
-        policy_number = @Number,
-        policy_dateBegin = @dateBegin,
-        policy_dateEnd = @dateEnd,
-        policy_pay1 = @pay1,
-        policy_limitCost = @cost,
-        policy_pay2 = @pay2,
-        policy_pay2Date = @pay2Date,
-        policy_file = @file,
-        policy_notificationSent = @notificationSent,
-        policy_comment = @comment
-    where policy_id = @idPolicy
+    set OwnerId = @OwnerId,
+        CompId = @CompId,
+        Number = @Number,
+        DateBegin = @dateBegin,
+        DateEnd = @dateEnd,
+        Pay1 = @pay1,
+        LimitCost = @cost,
+        Pay2 = @pay2,
+        Pay2Date = @pay2Date,
+        [File] = @file,
+        NotificationSent = @notificationSent,
+        Comment = @comment
+    where Id = @id
   end
 
-  select @idPolicy
+  select @id
 end

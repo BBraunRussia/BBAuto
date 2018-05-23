@@ -3,10 +3,10 @@ create procedure [dbo].[GetStatuses]
 as
 begin
   select
-    Status_id,
-    Status_name 'Название'
+    Id,
+    [Name]
   from
     Status
   order by
-    Status_seq
+    StatusSeq
 end

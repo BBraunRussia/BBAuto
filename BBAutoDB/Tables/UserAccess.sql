@@ -1,9 +1,9 @@
 CREATE TABLE [dbo].[UserAccess](
-	[driver_id] [int] NOT NULL,
-	[role_id] [int] NOT NULL,
+	[DriverId] [int] NOT NULL,
+	[RoleId] [int] NOT NULL,
  CONSTRAINT [PK_UserAccess_1] PRIMARY KEY CLUSTERED 
 (
-	[driver_id] ASC
+	[DriverId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

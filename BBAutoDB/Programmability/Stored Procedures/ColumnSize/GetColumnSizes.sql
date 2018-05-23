@@ -2,8 +2,8 @@ create procedure [dbo].[GetColumnSizes]
 as
 begin
   select
-    driver_id,
-    status_id,
+    DriverId,
+    StatusId,
     column0,
     column1,
     column2,

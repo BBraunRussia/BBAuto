@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteShipPart]
-  @idShipPart int
+  @id int
 as
 begin
   delete from ShipPart
-  where shipPart_id = @idShipPart
+  where Id = @id
 end

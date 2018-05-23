@@ -1,25 +1,25 @@
 create procedure [dbo].[UpsertTempMove]
-  @idTempMove int,
-  @idCar int,
-  @idDriver int,
+  @id int,
+  @CarId int,
+  @DriverId int,
   @dateBegin datetime,
   @dateEnd datetime
 as
 begin
-  if (@idTempMove = 0)
+  if (@id = 0)
   begin
-    insert into TempMove values(@idCar, @idDriver, @dateBegin, @dateEnd)
+    insert into TempMove values(@CarId, @DriverId, @dateBegin, @dateEnd)
 
-    set @idTempMove = scope_identity()
+    set @id = scope_identity()
   end
   else
   begin
     update TempMove
-    set driver_id = @idDriver,
-        tempMove_dateBegin = @dateBegin,
-        tempMove_dateEnd = @dateEnd
-    where tempMove_id = @idTempMove
+    set DriverId = @DriverId,
+        DateBegin = @dateBegin,
+        DateEnd = @dateEnd
+    where Id = @id
   end
 
-  select @idTempMove
+  select @id
 end

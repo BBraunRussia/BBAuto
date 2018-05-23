@@ -1,17 +1,17 @@
 create procedure [dbo].[UpsertFuelCardType]
-  @idFuelCardType int,
+  @id int,
   @name nvarchar(50)
 as
 begin
-  if (@idFuelCardType = 0)
+  if (@id = 0)
   begin
     insert into FuelCardType values(@name)
 
-    set @idFuelCardType = scope_identity()
+    set @id = scope_identity()
   end
   else
     update FuelCardType
-    set FuelCardType_name = @name
+    set [Name] = @name
 
-  select @idFuelCardType
+  select @id
 end

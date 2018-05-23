@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteMedicalCert]
-  @idMedicalCert int
+  @id int
 as
 begin
   delete from MedicalCert
-  where medicalCert_id = @idMedicalCert
+  where Id = @id
 end

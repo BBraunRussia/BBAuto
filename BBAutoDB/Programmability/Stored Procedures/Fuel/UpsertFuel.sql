@@ -1,32 +1,32 @@
 create procedure [dbo].[UpsertFuel]
-  @idFuelCard int,
+  @FuelCardId int,
   @date datetime,
   @count float,
-  @idEngineType int
+  @EngineTypeId int
 as
 begin
   declare @id int
 
   select
-    @id = fuel_id
+    @id = Id
   from
     Fuel
   where
-    fuelCard_id = @idFuelCard
-    and fuel_date = @date
-    and engineType_id = @idEngineType
+    FuelCardId = @FuelCardId
+    and [Date] = @date
+    and EngineTypeId = @EngineTypeId
 
   if (@id is null)
   begin
-    insert into Fuel values(@idFuelCard, @date, @count, @idEngineType)
+    insert into Fuel values(@FuelCardId, @date, @count, @EngineTypeId)
 
     set @id = scope_identity()
   end
   else
   begin
     update Fuel
-    set fuel_count = fuel_count + @count
-    where fuel_id = @id
+    set [Count] = [Count] + @count
+    where Id = @id
   end
 
   select @id

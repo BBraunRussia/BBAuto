@@ -30,7 +30,7 @@ ALTER TABLE [dbo].[DTP] CHECK CONSTRAINT [FK_dtp_Car]
 GO
 
 ALTER TABLE [dbo].[DTP]  WITH CHECK ADD  CONSTRAINT [FK_DTP_Culprit] FOREIGN KEY([culprit_id])
-REFERENCES [dbo].[Culprit] ([culprit_id])
+REFERENCES [dbo].[Culprit] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO
@@ -46,7 +46,7 @@ ALTER TABLE [dbo].[DTP] CHECK CONSTRAINT [FK_dtp_Region]
 GO
 
 ALTER TABLE [dbo].[DTP]  WITH CHECK ADD  CONSTRAINT [FK_dtp_StatusAfterDTP] FOREIGN KEY([StatusAfterDTP_id])
-REFERENCES [dbo].[StatusAfterDTP] ([StatusAfterDTP_id])
+REFERENCES [dbo].[StatusAfterDTP] ([Id])
 GO
 
 ALTER TABLE [dbo].[DTP] CHECK CONSTRAINT [FK_dtp_StatusAfterDTP]

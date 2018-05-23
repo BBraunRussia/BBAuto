@@ -3,10 +3,10 @@ create procedure [dbo].[GetCulprits]
 as
 begin
   select
-    culprit_id,
-    culprit_name 'Название'
+    Id,
+    [Name]
   from
     Culprit
   order by
-    culprit_name
+    [Name]
 end

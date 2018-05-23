@@ -2,12 +2,12 @@ create procedure [dbo].[GetTabels]
 as
 begin
   select
-    driver_id,
-    tabel_date,
-    tabel_comment
+    DriverId,
+    [Date],
+    Comment
   from
     Tabel
   order by
-    driver_id,
-    tabel_date
+    DriverId,
+    [Date]
 end

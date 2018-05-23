@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteTemplate]
-  @idTemplate int
+  @id int
 as
 begin
   delete from Template
-  where template_id = @idTemplate
+  where Id = @id
 end

@@ -1,9 +1,9 @@
 create procedure [dbo].[UpsertSuppyAddress]
-  @idMyPoint int
+  @MyPointId int
 as
 begin
-  declare @idRegion int
-  select region_id from MyPoint where myPoint_id = @idMyPoint
+  declare @RegionId int
+  select @RegionId = RegionId from MyPoint where Id = @MyPointId
 
   declare @count int
 
@@ -12,11 +12,11 @@ begin
   from
     SuppyAddress sa
     join MyPoint mp
-      on sa.myPoint_id = mp.myPoint_id
+      on sa.myPointId = mp.Id
   where
-    sa.myPoint_id = @idMyPoint
-    or mp.region_id = @idRegion
+    sa.myPointId = @MyPointId
+    or mp.RegionId = @RegionId
 
   if (@count = 0)
-    insert into SuppyAddress values(@idMyPoint)
+    insert into SuppyAddress values(@MyPointId)
 end

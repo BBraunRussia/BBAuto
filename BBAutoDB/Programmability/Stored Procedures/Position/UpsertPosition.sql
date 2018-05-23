@@ -7,11 +7,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(position_id)
+      @count = count(*)
     from
       Position
     where
-      position_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -24,8 +24,8 @@ begin
   else
   begin
     update Position
-    set position_name = @Name
-    where position_id = @id
+    set [Name] = @Name
+    where Id = @id
     select 'Обновлен'
   end
 end

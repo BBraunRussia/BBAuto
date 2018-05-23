@@ -1,6 +1,6 @@
 create procedure [dbo].[UpsertPassport]
-  @idPassport int,
-  @idDriver int,
+  @id int,
+  @DriverId int,
   @firstName nvarchar(50),
   @lastName nvarchar(50),
   @secondName nvarchar(50),
@@ -11,26 +11,26 @@ create procedure [dbo].[UpsertPassport]
   @file nvarchar(100)
 as
 begin
-  if (@idPassport = 0)
+  if (@id = 0)
   begin
-    insert into Passport values(@idDriver, @firstName, @lastName, @secondName, @number, @giveOrg, @giveDate, @address, @file)
+    insert into Passport values(@DriverId, @firstName, @lastName, @secondName, @number, @giveOrg, @giveDate, @address, @file)
 
-    set @idPassport = scope_identity()
+    set @id = scope_identity()
   end
   else
   begin
     update Passport
-    set passport_firstName = @firstName,
-        passport_lastName = @lastName,
-        passport_secondName = @secondName,
-        passport_number = @number,
-        passport_GiveOrg = @giveOrg,
-        passport_GiveDate = @giveDate,
-        passport_address = @address,
-        passport_file = @file
+    set FirstName = @firstName,
+        LastName = @lastName,
+        SecondName = @secondName,
+        Number = @number,
+        GiveOrg = @giveOrg,
+        GiveDate = @giveDate,
+        [Address] = @address,
+        [File] = @file
     from Passport
-    where passport_id = @idPassport
+    where Id = @id
   end
 
-  select @idPassport
+  select @id
 end

@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteFuelCardDriver]
-  @idFuelCardDriver int
+  @id int
 as
 begin
   delete from FuelCardDriver
-  where FuelCardDriver_id = @idFuelCardDriver
+  where id = @id
 end

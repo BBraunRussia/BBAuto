@@ -1,33 +1,33 @@
 create procedure [dbo].[UpsertPTS]
-  @idCar int,
+  @CarId int,
   @number nvarchar(50),
   @date datetime,
   @giveOrg nvarchar(100),
   @file nvarchar(200)
 as
 begin
-  if (@idCar = 0)
+  if (@CarId = 0)
     return
 
   declare @count int
   select
-    @count = count(car_id)
+    @count = count(*)
   from
     PTS
   where
-    car_id = @idCar
+    CarId = @CarId
 
   if (@count = 0)
   begin
-    insert into PTS values(@idCar, @number, @date, @giveOrg, @file)
+    insert into PTS values(@CarId, @number, @date, @giveOrg, @file)
   end
   else
   begin
     update PTS
-    set pts_number = @number,
-        pts_date = @date,
-        pts_giveOrg = @giveOrg,
-        pts_file = @file
-    where car_id = @idCar
+    set Number = @number,
+        [Date] = @date,
+        GiveOrg = @giveOrg,
+        [File] = @file
+    where CarId = @CarId
   end
 end

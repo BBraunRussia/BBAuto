@@ -2,10 +2,10 @@ create procedure [dbo].[GetWayBillDays]
 as
 begin
   select
-    wayBillDay_id,
-    car_id,
-    driver_id,
-    wayBillDay_date
+    Id,
+    CarId,
+    DriverId,
+    [Date]
   from
     WayBillDay
 end

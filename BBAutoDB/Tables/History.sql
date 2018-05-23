@@ -1,13 +1,13 @@
 CREATE TABLE [dbo].[History](
-	[his_id] [int] IDENTITY(1,1) NOT NULL,
-	[his_comment] NVARCHAR(50) NOT NULL,
-	[id] [int] NOT NULL,
-	[his_date] [datetime] NOT NULL,
-	[his_event] NVARCHAR(50) NOT NULL,
-	[his_file] NVARCHAR(MAX) NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Comment] NVARCHAR(50) NOT NULL,
+	[ObjectId] [int] NOT NULL,
+	[Date] [datetime] NOT NULL,
+	[Event] NVARCHAR(50) NOT NULL,
+	[File] NVARCHAR(MAX) NULL,
  CONSTRAINT [PK_History] PRIMARY KEY CLUSTERED 
 (
-	[his_id] ASC
+	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO

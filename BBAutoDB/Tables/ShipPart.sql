@@ -1,14 +1,14 @@
 CREATE TABLE [dbo].[ShipPart](
-	[shipPart_id] [int] IDENTITY(1,1) NOT NULL,
-	[car_id] [int] NOT NULL,
-	[driver_id] [int] NOT NULL,
-	[shipPart_name] NVARCHAR(50) NOT NULL,
-	[shipPart_dateRequest] [datetime] NULL,
-	[shipPart_dateSent] [datetime] NULL,
-	[shipPart_file] NVARCHAR(500) NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CarId] [int] NOT NULL,
+	[DriverId] [int] NOT NULL,
+	[Name] NVARCHAR(50) NOT NULL,
+	[DateRequest] [datetime] NULL,
+	[DateSent] [datetime] NULL,
+	[File] NVARCHAR(500) NULL,
  CONSTRAINT [PK_ShipParts] PRIMARY KEY CLUSTERED 
 (
-	[shipPart_id] ASC
+	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

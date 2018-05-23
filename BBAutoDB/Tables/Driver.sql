@@ -26,7 +26,7 @@ create table [dbo].[Driver] (
 go
 
 alter table [dbo].[Driver] with check add constraint [FK_Driver_Position] foreign key ([positionId])
-references [dbo].[Position] ([position_id])
+references [dbo].[Position] ([Id])
 on update cascade
 on delete cascade
 go

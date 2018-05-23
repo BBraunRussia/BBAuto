@@ -1,6 +1,6 @@
 create procedure [dbo].[UpsertUserAccess]
-  @idDriver int,
-  @idRole int
+  @DriverId int,
+  @RoleId int
 as
 begin
   declare @count int
@@ -9,12 +9,12 @@ begin
   from
     UserAccess
   where
-    driver_id = @idDriver
+    DriverId = @DriverId
 
   if (@count = 0)
-    insert into UserAccess values(@idDriver, @idRole)
+    insert into UserAccess values(@DriverId, @RoleId)
   else
     update UserAccess
-    set role_id = @idRole
-    where driver_id = @idDriver
+    set RoleId = @RoleId
+    where DriverId = @DriverId
 end

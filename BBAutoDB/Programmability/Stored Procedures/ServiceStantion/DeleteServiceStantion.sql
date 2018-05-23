@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteServiceStantion]
-  @idServiceStantion int
+  @id int
 as
 begin
   delete from ServiceStantion
-  where ServiceStantion_id = @idServiceStantion
+  where Id = @id
 end

@@ -1,7 +1,7 @@
 create procedure [dbo].[DeleteViolationType]
-  @idViolationType int
+  @id int
 as
 begin
   delete from ViolationType
-  where violationType_id = @idViolationType
+  where Id = @id
 end

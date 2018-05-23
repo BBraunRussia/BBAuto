@@ -8,11 +8,11 @@ begin
   begin
     declare @count int
     select
-      @count = count(engineType_id)
+      @count = count(*)
     from
       EngineType
     where
-      engineType_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
@@ -25,9 +25,9 @@ begin
   else
   begin
     update EngineType
-    set engineType_name = @Name,
-        engineType_shortName = @ShortName
-    where engineType_id = @id
+    set [Name] = @Name,
+        ShortName = @ShortName
+    where Id = @id
 
     select 'Обновлен'
   end

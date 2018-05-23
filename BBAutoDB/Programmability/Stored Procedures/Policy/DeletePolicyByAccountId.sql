@@ -1,14 +1,14 @@
 create procedure [dbo].[DeletePolicyByAccountId]
-  @idPolicy int,
-  @idNumber int
+  @id int,
+  @NumberId int
 as
 begin
-  if (@idNumber = 1)
+  if (@NumberId = 1)
     update Policy
-    set account_id = 0
-    where policy_id = @idPolicy
+    set AccountId = 0
+    where Id = @id
   else
     update Policy
-    set account_id2 = 0
-    where policy_id = @idPolicy
+    set AccountId2 = 0
+    where Id = @id
 end

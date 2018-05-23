@@ -3,5 +3,5 @@ create procedure [dbo].[DeleteCurrentStatusAfterDTP]
 as
 begin
   delete from CurrentStatusAfterDTP
-  where CurrentStatusAfterDTP_id = @id
+  where Id = @id
 end

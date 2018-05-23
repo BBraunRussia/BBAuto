@@ -7,15 +7,15 @@ begin
   begin
     declare @count int
     select
-      @count = count(Status_id)
+      @count = count(*)
     from
       Status
     where
-      Status_name = @Name
+      [Name] = @Name
 
     if (@count = 0)
     begin
-      insert into Status(Status_name) values(@Name)
+      insert into Status([Name]) values(@Name)
 
       select scope_identity(), @Name
     end
@@ -23,8 +23,8 @@ begin
   else
   begin
     update Status
-    set Status_name = @Name
-    where Status_id = @id
+    set [Name] = @Name
+    where Id = @id
 
     select @id, @Name
   end
