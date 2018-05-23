@@ -43,13 +43,16 @@ namespace BBAuto.Repositories
     public IDbCar Car => CreateRepository<IDbCar>();
     public IDbCarDoc CarDoc => CreateRepository<IDbCarDoc>();
     public IDbSaleCar SaleCar => CreateRepository<IDbSaleCar>();
+    public IDbEngineType EngineType => CreateRepository<IDbEngineType>();
     public IDbDiagCard DiagCard => CreateRepository<IDbDiagCard>();
     public IDbDriver Driver => CreateRepository<IDbDriver>();
     public IDbDealer Dealer => CreateRepository<IDbDealer>();
+    public IDbEmployeeName EmployeeName => CreateRepository<IDbEmployeeName>();
     public IDbGrade Grade => CreateRepository<IDbGrade>();
     public IDbMark Mark => CreateRepository<IDbMark>();
     public IDbMileage Mileage => CreateRepository<IDbMileage>();
     public IDbInvoice Invoice => CreateRepository<IDbInvoice>();
+    public IDbRegion Region => CreateRepository<IDbRegion>();
     public IDbViolation Violation => CreateRepository<IDbViolation>();
   }
 }

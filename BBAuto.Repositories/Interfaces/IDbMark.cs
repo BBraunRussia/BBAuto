@@ -8,9 +8,9 @@ namespace BBAuto.Repositories.Interfaces
   public interface IDbMark
   {
     void DeleteMark(int id);
-    IList<DbMark> GetMarkByGradeId(int gradeId);
-    IList<DbMark> GetMarks();
-    DbMark GetMarkById(int id);
-    DbMark UpsertMark(DbMark mark);
+    IList<DbDictionary> GetMarkByGradeId(int gradeId);
+    IList<DbDictionary> GetMarks();
+    DbDictionary GetMarkById(int id);
+    DbDictionary UpsertMark(DbDictionary model);
   }
 }

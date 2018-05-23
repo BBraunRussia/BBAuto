@@ -23,6 +23,9 @@ using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Dictionary.EmployeesName;
+using BBAuto.Logic.Services.Dictionary.EngineType;
+using BBAuto.Logic.Services.Dictionary.Mark;
+using BBAuto.Logic.Services.Dictionary.Region;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
@@ -52,6 +55,9 @@ namespace BBAuto.App.ContextMenu
     private readonly IDocumentsService _documentsService;
     private readonly ISaleCarService _saleCarService;
     private readonly IEmployeesNameService _employeesNameService;
+    private readonly IRegionService _regionService;
+    private readonly IMarkService _markService;
+    private readonly IEngineTypeService _engineTypeService;
 
     private IMainDgv _mainDgv;
 
@@ -69,7 +75,10 @@ namespace BBAuto.App.ContextMenu
       IModelListForm modelListForm,
       ISsDtpListForm ssDtpListForm,
       IOneStringDictionaryListForm oneStringDictionaryListForm,
-      IEmployeesNameService employeesNameService)
+      IEmployeesNameService employeesNameService,
+      IRegionService regionService,
+      IMarkService markService,
+      IEngineTypeService engineTypeService)
     {
       _formMileage = formMileage;
       _carForm = carForm;
@@ -85,6 +94,9 @@ namespace BBAuto.App.ContextMenu
       _ssDtpListForm = ssDtpListForm;
       _oneStringDictionaryListForm = oneStringDictionaryListForm;
       _employeesNameService = employeesNameService;
+      _regionService = regionService;
+      _markService = markService;
+      _engineTypeService = engineTypeService;
     }
 
     public void SetMainDgv(IMainDgv dgvMain)
@@ -921,7 +933,7 @@ namespace BBAuto.App.ContextMenu
     private ToolStripMenuItem CreateRegion()
     {
       ToolStripMenuItem item = CreateItem("Регионы");
-      item.Click += delegate { loadDictionary("Region", "Справочник \"Регионы\""); };
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Регионы""", _regionService); };
       return item;
     }
 
@@ -950,7 +962,7 @@ namespace BBAuto.App.ContextMenu
     private ToolStripMenuItem CreateMark()
     {
       ToolStripMenuItem item = CreateItem("Марки");
-      item.Click += delegate { loadDictionary("Mark", "Справочник \"Марки автомобилей\""); };
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Марки автомобилей""", _markService); };
       return item;
     }
 
@@ -977,7 +989,7 @@ namespace BBAuto.App.ContextMenu
     private ToolStripMenuItem CreateEngineType()
     {
       var item = CreateItem("Типы двигателей");
-      item.Click += delegate { loadDictionary("EngineType", "Справочник \"Типы двигателей\""); };
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Типы двигателей""", _engineTypeService); };
       return item;
     }
 
@@ -1147,20 +1159,14 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Должности пользователей");
       item.Click += delegate
       {
-        _oneStringDictionaryListForm.ShowDialog("Справочник \"Профессий\"", _employeesNameService);
+        _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Профессий""", _employeesNameService);
         
         EmployeesNames employeesNames = EmployeesNames.getInstance();
         employeesNames.ReLoad();
       };
       return item;
     }
-
-    private void loadDictionary(string name, string title)
-    {
-      OneStringDictionaryListForm oneSd = new OneStringDictionaryListForm(name, title);
-      oneSd.ShowDialog();
-    }
-
+    
     private ToolStripMenuItem CreateSort()
     {
       var item = CreateItem("Сортировать");
@@ -1177,7 +1183,7 @@ namespace BBAuto.App.ContextMenu
         DataGridViewColumn column = dgv.Columns[dgv.CurrentCell.ColumnIndex];
         System.ComponentModel.ListSortDirection sortDirection;
 
-        if ((dgv.SortedColumn == null) || (dgv.SortedColumn != column))
+        if (dgv.SortedColumn == null || dgv.SortedColumn != column)
           sortDirection = System.ComponentModel.ListSortDirection.Ascending;
         else if (dgv.SortOrder == SortOrder.Ascending)
           sortDirection = System.ComponentModel.ListSortDirection.Descending;

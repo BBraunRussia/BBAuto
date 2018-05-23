@@ -76,9 +76,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\Dictionary\DictionaryModel.cs" />
     <Compile Include="Services\Dictionary\EmployeesName\EmployeesNameModel.cs" />
     <Compile Include="Services\Dictionary\EmployeesName\EmployeesNameService.cs" />
     <Compile Include="Services\Dictionary\EmployeesName\IEmployeesNameService.cs" />
+    <Compile Include="Services\Dictionary\EngineType\EngineTypeModel.cs" />
+    <Compile Include="Services\Dictionary\EngineType\EngineTypeService.cs" />
+    <Compile Include="Services\Dictionary\EngineType\IEngineTypeService.cs" />
     <Compile Include="Services\Dictionary\IBasicDictionaryService.cs" />
     <Compile Include="Services\Dictionary\IDictionaryService.cs" />
     <Compile Include="Abstract\IDictionaryWithTextModel.cs" />
@@ -134,6 +138,10 @@
     <Compile Include="Services\DiagCard\DiagCardModel.cs" />
     <Compile Include="Services\DiagCard\DiagCardService.cs" />
     <Compile Include="Services\DiagCard\IDiagCardService.cs" />
+    <Compile Include="Services\Dictionary\Mark\IMarkService.cs" />
+    <Compile Include="Services\Dictionary\Region\IRegionService.cs" />
+    <Compile Include="Services\Dictionary\Region\RegionModel.cs" />
+    <Compile Include="Services\Dictionary\Region\RegionService.cs" />
     <Compile Include="Services\Documents\ExcelDocument.cs" />
     <Compile Include="Services\Documents\IDocumentsService.cs" />
     <Compile Include="Services\Documents\Office\ExcelDoc.cs" />
@@ -144,8 +152,6 @@
     <Compile Include="Services\Grade\GradeModel.cs" />
     <Compile Include="Services\Grade\GradeService.cs" />
     <Compile Include="Services\Grade\IGradeService.cs" />
-    <Compile Include="Services\Dictionary\Mark\IMarkService.cs" />
-    <Compile Include="Services\Dictionary\Mark\MarkMappingProfile.cs" />
     <Compile Include="Services\Dictionary\Mark\MarkModel.cs" />
     <Compile Include="Services\Dictionary\Mark\MarkService.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />
