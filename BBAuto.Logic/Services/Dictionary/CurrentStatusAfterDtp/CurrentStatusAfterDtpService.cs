@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
 
@@ -14,16 +15,16 @@ namespace BBAuto.Logic.Services.Dictionary.CurrentStatusAfterDtp
       _dbContext = dbContext;
     }
 
-    public Dictionary<int, string> GetItems()
+    public IList<DictionaryModel> GetItems()
     {
       var items = _dbContext.CurrentStatusAfterDtp.GetCurrentStatusAfterDtps();
-      return items.ToDictionary(item => item.Id, item => item.Name);
+      return Mapper.Map<IList<DictionaryModel>>(items);
     }
 
-    public KeyValuePair<int, string> GetItemById(int id)
+    public DictionaryModel GetItemById(int id)
     {
       var item = _dbContext.CurrentStatusAfterDtp.GetCurrentStatusAfterDtpById(id);
-      return new KeyValuePair<int, string>(item.Id, item.Name);
+      return Mapper.Map<DictionaryModel>(item);
     }
 
     public void Delete(int id)
@@ -31,9 +32,11 @@ namespace BBAuto.Logic.Services.Dictionary.CurrentStatusAfterDtp
       _dbContext.CurrentStatusAfterDtp.DeleteCurrentStatusAfterDtp(id);
     }
 
-    public void Save(int id, string name)
+    public void Save(DictionaryModel model)
     {
-      _dbContext.CurrentStatusAfterDtp.UpsertCurrentStatusAfterDtp(new DbDictionary(id, name));
+      var dbModel = Mapper.Map<DbDictionary>(model);
+
+      _dbContext.CurrentStatusAfterDtp.UpsertCurrentStatusAfterDtp(dbModel);
     }
   }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Windows.Forms;
 using BBAuto.Logic.Services.Dictionary;
-using BBAuto.Logic.Static;
 using Common.Resources;
 
 namespace BBAuto.App.AddEdit
@@ -23,13 +22,13 @@ namespace BBAuto.App.AddEdit
 
       if (id != 0)
       {
-        Text = "Редактирование";
+        Text = Captions.Edit;
         var item = _dictionaryService.GetItemById(id);
-        tbName.Text = item.Value;
+        tbName.Text = item.Name;
       }
       else
       {
-        Text = "Добавление";
+        Text = Captions.Add;
         tbName.Text = string.Empty;
       }
       
@@ -51,7 +50,11 @@ namespace BBAuto.App.AddEdit
 
     private void TrySave()
     {
-      _dictionaryService.Save(_id, tbName.Text);
+      _dictionaryService.Save(new DictionaryModel
+      {
+        Id = _id,
+        Name = tbName.Text
+      });
     }
   }
 }

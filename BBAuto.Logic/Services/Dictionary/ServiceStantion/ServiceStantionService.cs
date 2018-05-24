@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
 
@@ -14,16 +15,16 @@ namespace BBAuto.Logic.Services.Dictionary.ServiceStantion
       _dbContext = dbContext;
     }
 
-    public Dictionary<int, string> GetItems()
+    public IList<DictionaryModel> GetItems()
     {
       var items = _dbContext.ServiceStantion.GetServiceStantions();
-      return items.ToDictionary(item => item.Id, item => item.Name);
+      return Mapper.Map<IList<DictionaryModel>>(items);
     }
 
-    public KeyValuePair<int, string> GetItemById(int id)
+    public DictionaryModel GetItemById(int id)
     {
       var item = _dbContext.ServiceStantion.GetServiceStantionById(id);
-      return new KeyValuePair<int, string>(item.Id, item.Name);
+      return Mapper.Map<DictionaryModel>(item);
     }
 
     public void Delete(int id)
@@ -31,9 +32,11 @@ namespace BBAuto.Logic.Services.Dictionary.ServiceStantion
       _dbContext.ServiceStantion.DeleteServiceStantion(id);
     }
 
-    public void Save(int id, string name)
+    public void Save(DictionaryModel model)
     {
-      _dbContext.ServiceStantion.UpsertServiceStantion(new DbDictionary(id, name));
+      var dbModel = Mapper.Map<DbDictionary>(model);
+
+      _dbContext.ServiceStantion.UpsertServiceStantion(dbModel);
     }
   }
 }

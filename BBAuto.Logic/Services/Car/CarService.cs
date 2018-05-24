@@ -8,6 +8,7 @@ using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Dictionary.Color;
 using BBAuto.Logic.Services.Dictionary.Mark;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
@@ -21,17 +22,20 @@ namespace BBAuto.Logic.Services.Car
     private readonly ISaleCarService _carSaleService;
     private readonly IDiagCardService _diagCardService;
     private readonly IMarkService _markService;
+    private readonly IColorService _colorService;
 
     public CarService(
       IDbContext dbContext,
       ISaleCarService carSaleService,
       IDiagCardService diagCardService,
-      IMarkService markService)
+      IMarkService markService,
+      IColorService colorService)
     {
       _dbContext = dbContext;
       _carSaleService = carSaleService;
       _diagCardService = diagCardService;
       _markService = markService;
+      _colorService = colorService;
     }
 
     public CarModel GetCarByGrz(string grz)
@@ -144,7 +148,7 @@ namespace BBAuto.Logic.Services.Car
 
     internal DataTable CreateTable(List<CarModel> cars)
     {
-      DataTable dt = new DataTable();
+      var dt = new DataTable();
       dt.Columns.Add("id");
       dt.Columns.Add("idCar");
       dt.Columns.Add("Бортовой номер");
@@ -229,7 +233,7 @@ namespace BBAuto.Logic.Services.Car
 
       return new object[]
       {
-        car.Id, car.Id, car.BbNumber, car.Grz, mark.Value ?? "отсутствует", model.Name, car.Vin, regionName,
+        car.Id, car.Id, car.BbNumber, car.Grz, mark.Name ?? "отсутствует", model.Name, car.Vin, regionName,
         driver.GetName(NameType.Full), pts.Number, sts.Number, car.Year, mileageInt,
         mileageDate, owner, guaranteeEndDate, GetStatus(car)
       };
@@ -262,22 +266,25 @@ namespace BBAuto.Logic.Services.Car
     public DataTable GetDataTableInfoByCarId(int id)
     {
       var car = GetCarById(id);
-
+      
       var dt = new DataTable();
       dt.Columns.Add("Название");
       dt.Columns.Add("Значение");
+
+      if (car == null)
+        return dt;
 
       if (!car.MarkId.HasValue)
         return dt;
 
       var mark = _markService.GetItemById(car.MarkId.Value);
       var model = ModelList.getInstance().getItem(car.ModelId ?? 0);
-      var color = Colors.GetInstance().getItem(car.ColorId ?? 0);
+      var color = _colorService.GetItemById(car.ColorId ?? 0);
       var owner = Owners.getInstance().getItem(car.OwnerId ?? 0);
       var pts = PTSList.getInstance().getItem(car.Id);
       var sts = STSList.getInstance().getItem(car.Id);
 
-      dt.Rows.Add("Марка", mark.Value);
+      dt.Rows.Add("Марка", mark.Name);
       dt.Rows.Add("Модель", model.Name);
       dt.Rows.Add("Год выпуска", car.Year);
       dt.Rows.Add("Цвет", color);
@@ -295,7 +302,7 @@ namespace BBAuto.Logic.Services.Car
     {
       var car = GetCarById(carId);
 
-      if (!car.MarkId.HasValue || !car.ModelId.HasValue)
+      if (car?.MarkId == null  || car.ModelId == null)
         return string.Empty;
 
       var model = ModelList.getInstance().getItem(car.ModelId.Value);
@@ -303,7 +310,7 @@ namespace BBAuto.Logic.Services.Car
 
       return car.Id == 0
         ? "нет данных"
-        : string.Concat(mark.Value ?? "отсутствует", " ", model.Name, " ", car.Grz);
+        : string.Concat(mark.Name ?? "отсутствует", " ", model.Name, " ", car.Grz);
     }
   }
 }

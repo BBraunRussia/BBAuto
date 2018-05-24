@@ -54,7 +54,13 @@ namespace BBAuto.App.config
       container.Register(Component.For<ISsDtpListForm>()
         .ImplementedBy<SsDtpListForm>()
         .LifestyleTransient());
-      
+      container.Register(Component.For<IOneStringDictionaryListForm>()
+        .ImplementedBy<OneStringDictionaryListForm>()
+        .LifestyleTransient());
+      container.Register(Component.For<IOneStringDictionaryForm>()
+        .ImplementedBy<OneStringDictionaryForm>()
+        .LifestyleTransient());
+
       container.Register(Component.For<ICarForm>()
         .ImplementedBy<CarForm>()
         .LifestyleTransient());

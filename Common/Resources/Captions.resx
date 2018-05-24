@@ -140,4 +140,10 @@
   <data name="RemoveFromSale" xml:space="preserve">
     <value>Снятие с продажи</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактирование</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавление</value>
+  </data>
 </root>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
 
@@ -14,16 +15,16 @@ namespace BBAuto.Logic.Services.Dictionary.ViolationType
       _dbContext = dbContext;
     }
 
-    public Dictionary<int, string> GetItems()
+    public IList<DictionaryModel> GetItems()
     {
       var items = _dbContext.ViolationType.GetViolationTypes();
-      return items.ToDictionary(item => item.Id, item => item.Name);
+      return Mapper.Map<IList<DictionaryModel>>(items);
     }
 
-    public KeyValuePair<int, string> GetItemById(int id)
+    public DictionaryModel GetItemById(int id)
     {
       var item = _dbContext.ViolationType.GetViolationTypeById(id);
-      return new KeyValuePair<int, string>(item.Id, item.Name);
+      return Mapper.Map<DictionaryModel>(item);
     }
 
     public void Delete(int id)
@@ -31,9 +32,11 @@ namespace BBAuto.Logic.Services.Dictionary.ViolationType
       _dbContext.ViolationType.DeleteViolationType(id);
     }
 
-    public void Save(int id, string name)
+    public void Save(DictionaryModel model)
     {
-      _dbContext.ViolationType.UpsertViolationType(new DbDictionary(id, name));
+      var dbModel = Mapper.Map<DbDictionary>(model);
+
+      _dbContext.ViolationType.UpsertViolationType(dbModel);
     }
   }
 }

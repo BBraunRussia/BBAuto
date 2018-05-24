@@ -214,7 +214,7 @@ namespace BBAuto.Logic.Services.Documents
       var policy = policyList.getItem(car.Id, PolicyType.КАСКО);
       document.SetValue(14, 6, policy.Number); //полис
 
-      document.SetValue(16, 6, string.Concat(mark.Value, " ", model.Name)); //марка а/м
+      document.SetValue(16, 6, string.Concat(mark.Name, " ", model.Name)); //марка а/м
       document.SetValue(18, 6, car.Grz); //рег номер а/м
       document.SetValue(20, 6, car.Vin); //вин
 
@@ -364,7 +364,7 @@ namespace BBAuto.Logic.Services.Documents
 
       document.SetValue(8, 8, owner);
 
-      document.SetValue(10, 11, string.Concat(mark.Value, " ", model.Name));
+      document.SetValue(10, 11, string.Concat(mark.Name, " ", model.Name));
       document.SetValue(11, 17, car.Grz);
 
       document.SetValue(12, 6, driver.GetName(NameType.Full));
@@ -541,7 +541,7 @@ namespace BBAuto.Logic.Services.Documents
 
       var document = new ExcelDocument("Приложение к приказу");
 
-      var fullNameAuto = string.Concat(mark.Value, " ", model.Name);
+      var fullNameAuto = string.Concat(mark.Name, " ", model.Name);
 
       document.SetValue(18, 2, fullNameAuto);
       document.SetValue(18, 3, car.Grz);
@@ -607,7 +607,7 @@ namespace BBAuto.Logic.Services.Documents
 
       wordDoc.setValue("паспорт регионального представителя", passportToString);
 
-      var fullNameAuto = $"{mark.Value} {model.Name}";
+      var fullNameAuto = $"{mark.Name} {model.Name}";
       wordDoc.setValue("Название марки автомобиля", fullNameAuto);
       wordDoc.setValue("VIN-автомобиля", car.Vin);
       wordDoc.setValue("Модель и марка двигателя автомобиля", car.ENumber);
@@ -691,8 +691,8 @@ namespace BBAuto.Logic.Services.Documents
       foreach (var car in listCar)
       {
         document.SetValue(rowIndex, 2, car.Grz);
-        var mark = marks.FirstOrDefault(m => m.Key == car.MarkId);
-        document.SetValue(rowIndex, 3, mark.Value ?? "отсутствует");
+        var mark = marks.FirstOrDefault(m => m.Id == car.MarkId);
+        document.SetValue(rowIndex, 3, mark?.Name ?? "отсутствует");
         document.SetValue(rowIndex, 4, car.info.Model);
         document.SetValue(rowIndex, 5, car.vin);
         document.SetValue(rowIndex, 6, car.Year);
