@@ -7,7 +7,21 @@ using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Dictionary;
+using BBAuto.Logic.Services.Dictionary.Color;
+using BBAuto.Logic.Services.Dictionary.Comp;
+using BBAuto.Logic.Services.Dictionary.Culprit;
+using BBAuto.Logic.Services.Dictionary.CurrentStatusAfterDtp;
+using BBAuto.Logic.Services.Dictionary.EmployeesName;
+using BBAuto.Logic.Services.Dictionary.EngineType;
+using BBAuto.Logic.Services.Dictionary.FuelCardType;
 using BBAuto.Logic.Services.Dictionary.Mark;
+using BBAuto.Logic.Services.Dictionary.Owner;
+using BBAuto.Logic.Services.Dictionary.ProxyType;
+using BBAuto.Logic.Services.Dictionary.Region;
+using BBAuto.Logic.Services.Dictionary.RepairType;
+using BBAuto.Logic.Services.Dictionary.ServiceStantion;
+using BBAuto.Logic.Services.Dictionary.StatusAfterDtp;
+using BBAuto.Logic.Services.Dictionary.ViolationType;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Services.Mileage;
@@ -78,9 +92,66 @@ namespace BBAuto.Logic
       container.Register(Component.For<IGradeService>()
         .ImplementedBy<GradeService>()
         .LifestyleTransient());
+
+      container.Register(Component.For<IDictionaryService<ColorModel>>()
+        .Forward<IColorService>()
+        .ImplementedBy<ColorService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<CompModel>>()
+        .Forward<ICompService>()
+        .ImplementedBy<CompService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<CulpritModel>>()
+        .Forward<ICulpritService>()
+        .ImplementedBy<CulpritService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<CurrentStatusAfterDtpModel>>()
+        .Forward<ICurrentStatusAfterDtpService>()
+        .ImplementedBy<CurrentStatusAfterDtpService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<EmployeesNameModel>>()
+        .Forward<IEmployeesNameService>()
+        .ImplementedBy<EmployeesNameService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<EngineTypeModel>>()
+        .Forward<IEngineTypeService>()
+        .ImplementedBy<EngineTypeService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<FuelCardTypeModel>>()
+        .Forward<IFuelCardTypeService>()
+        .ImplementedBy<FuelCardTypeService>()
+        .LifestyleTransient());
       container.Register(Component.For<IDictionaryService<MarkModel>>()
         .Forward<IMarkService>()
         .ImplementedBy<MarkService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<OwnerModel>>()
+        .Forward<IOwnerService>()
+        .ImplementedBy<OwnerService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<ProxyTypeModel>>()
+        .Forward<IProxyTypeService>()
+        .ImplementedBy<ProxyTypeService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<RegionModel>>()
+        .Forward<IRegionService>()
+        .ImplementedBy<RegionService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<RepairTypeModel>>()
+        .Forward<IRepairTypeService>()
+        .ImplementedBy<RepairTypeService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<ServiceStantionModel>>()
+        .Forward<IServiceStantionService>()
+        .ImplementedBy<ServiceStantionService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<StatusAfterDtpModel>>()
+        .Forward<IStatusAfterDtpService>()
+        .ImplementedBy<StatusAfterDtpService>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDictionaryService<ViolationTypeModel>>()
+        .Forward<IViolationTypeService>()
+        .ImplementedBy<ViolationTypeService>()
         .LifestyleTransient());
     }
   }
