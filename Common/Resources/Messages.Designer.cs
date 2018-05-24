@@ -61,6 +61,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to За водителем закреплён автомобиль, удаление невозможно.
+        /// </summary>
+        public static string CannotDeleteDriver {
+            get {
+                return ResourceManager.GetString("CannotDeleteDriver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удалить диагностическую карту?.
         /// </summary>
         public static string DeleteDiagCard {
@@ -75,6 +84,15 @@ namespace Common.Resources {
         public static string DeleteDocument {
             get {
                 return ResourceManager.GetString("DeleteDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы действительно хотите удалить водителя из списка?.
+        /// </summary>
+        public static string DeleteDriver {
+            get {
+                return ResourceManager.GetString("DeleteDriver", resourceCulture);
             }
         }
         

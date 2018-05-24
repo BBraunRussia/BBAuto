@@ -73,6 +73,16 @@
     <Compile Include="Interfaces\IDbCarDoc.cs" />
     <Compile Include="Interfaces\IDbAccount.cs" />
     <Compile Include="Interfaces\IDbCar.cs" />
+    <Compile Include="Interfaces\IDbFuelCardType.cs" />
+    <Compile Include="Interfaces\IDbProxyType.cs" />
+    <Compile Include="Interfaces\IDbViolationType.cs" />
+    <Compile Include="Interfaces\IDbCurrentStatusAfterDtp.cs" />
+    <Compile Include="Interfaces\IDbStatusAfterDtp.cs" />
+    <Compile Include="Interfaces\IDbRepairType.cs" />
+    <Compile Include="Interfaces\IDbCulprit.cs" />
+    <Compile Include="Interfaces\IDbServiceStantion.cs" />
+    <Compile Include="Interfaces\IDbComp.cs" />
+    <Compile Include="Interfaces\IDbOwner.cs" />
     <Compile Include="Interfaces\IDbColor.cs" />
     <Compile Include="Interfaces\IDbDiagCard.cs" />
     <Compile Include="Interfaces\IDbEmployeeName.cs" />

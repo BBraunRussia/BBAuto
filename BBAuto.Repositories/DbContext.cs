@@ -43,16 +43,27 @@ namespace BBAuto.Repositories
     public IDbCar Car => CreateRepository<IDbCar>();
     public IDbCarDoc CarDoc => CreateRepository<IDbCarDoc>();
     public IDbSaleCar SaleCar => CreateRepository<IDbSaleCar>();
+    public IDbColor Color => CreateRepository<IDbColor>();
+    public IDbComp Comp => CreateRepository<IDbComp>();
+    public IDbCulprit Culprit => CreateRepository<IDbCulprit>();
+    public IDbCurrentStatusAfterDtp CurrentStatusAfterDtp => CreateRepository<IDbCurrentStatusAfterDtp>();
     public IDbEngineType EngineType => CreateRepository<IDbEngineType>();
     public IDbDiagCard DiagCard => CreateRepository<IDbDiagCard>();
     public IDbDriver Driver => CreateRepository<IDbDriver>();
     public IDbDealer Dealer => CreateRepository<IDbDealer>();
     public IDbEmployeeName EmployeeName => CreateRepository<IDbEmployeeName>();
+    public IDbFuelCardType FuelCardType => CreateRepository<IDbFuelCardType>();
     public IDbGrade Grade => CreateRepository<IDbGrade>();
     public IDbMark Mark => CreateRepository<IDbMark>();
     public IDbMileage Mileage => CreateRepository<IDbMileage>();
     public IDbInvoice Invoice => CreateRepository<IDbInvoice>();
+    public IDbOwner Owner => CreateRepository<IDbOwner>();
+    public IDbProxyType ProxyType => CreateRepository<IDbProxyType>();
     public IDbRegion Region => CreateRepository<IDbRegion>();
+    public IDbRepairType RepairType => CreateRepository<IDbRepairType>();
+    public IDbServiceStantion ServiceStantion => CreateRepository<IDbServiceStantion>();
+    public IDbStatusAfterDtp StatusAfterDtp => CreateRepository<IDbStatusAfterDtp>();
     public IDbViolation Violation => CreateRepository<IDbViolation>();
+    public IDbViolationType ViolationType => CreateRepository<IDbViolationType>();
   }
 }

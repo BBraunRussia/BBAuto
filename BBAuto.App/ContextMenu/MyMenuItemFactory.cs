@@ -22,10 +22,21 @@ using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Dictionary.Color;
+using BBAuto.Logic.Services.Dictionary.Comp;
+using BBAuto.Logic.Services.Dictionary.Culprit;
+using BBAuto.Logic.Services.Dictionary.CurrentStatusAfterDtp;
 using BBAuto.Logic.Services.Dictionary.EmployeesName;
 using BBAuto.Logic.Services.Dictionary.EngineType;
+using BBAuto.Logic.Services.Dictionary.FuelCardType;
 using BBAuto.Logic.Services.Dictionary.Mark;
+using BBAuto.Logic.Services.Dictionary.Owner;
+using BBAuto.Logic.Services.Dictionary.ProxyType;
 using BBAuto.Logic.Services.Dictionary.Region;
+using BBAuto.Logic.Services.Dictionary.RepairType;
+using BBAuto.Logic.Services.Dictionary.ServiceStantion;
+using BBAuto.Logic.Services.Dictionary.StatusAfterDtp;
+using BBAuto.Logic.Services.Dictionary.ViolationType;
 using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
@@ -58,6 +69,17 @@ namespace BBAuto.App.ContextMenu
     private readonly IRegionService _regionService;
     private readonly IMarkService _markService;
     private readonly IEngineTypeService _engineTypeService;
+    private readonly IColorService _colorService;
+    private readonly IOwnerService _ownerService;
+    private readonly ICompService _compService;
+    private readonly IServiceStantionService _serviceStantionService;
+    private readonly ICulpritService _culpritService;
+    private readonly IRepairTypeService _repairTypeService;
+    private readonly IStatusAfterDtpService _statusAfterDtpService;
+    private readonly ICurrentStatusAfterDtpService _currentStatusAfterDtpService;
+    private readonly IViolationTypeService _violationTypeService;
+    private readonly IProxyTypeService _proxyTypeService;
+    private readonly IFuelCardTypeService _fuelCardTypeService;
 
     private IMainDgv _mainDgv;
 
@@ -78,7 +100,18 @@ namespace BBAuto.App.ContextMenu
       IEmployeesNameService employeesNameService,
       IRegionService regionService,
       IMarkService markService,
-      IEngineTypeService engineTypeService)
+      IEngineTypeService engineTypeService,
+      IColorService colorService,
+      IOwnerService ownerService,
+      ICompService compService,
+      IServiceStantionService serviceStantionService,
+      ICulpritService culpritService,
+      IRepairTypeService repairTypeService,
+      IStatusAfterDtpService statusAfterDtpService,
+      ICurrentStatusAfterDtpService currentStatusAfterDtpService,
+      IViolationTypeService violationTypeService,
+      IProxyTypeService proxyTypeService,
+      IFuelCardTypeService fuelCardTypeService)
     {
       _formMileage = formMileage;
       _carForm = carForm;
@@ -97,6 +130,17 @@ namespace BBAuto.App.ContextMenu
       _regionService = regionService;
       _markService = markService;
       _engineTypeService = engineTypeService;
+      _colorService = colorService;
+      _ownerService = ownerService;
+      _compService = compService;
+      _serviceStantionService = serviceStantionService;
+      _culpritService = culpritService;
+      _repairTypeService = repairTypeService;
+      _statusAfterDtpService = statusAfterDtpService;
+      _currentStatusAfterDtpService = currentStatusAfterDtpService;
+      _violationTypeService = violationTypeService;
+      _proxyTypeService = proxyTypeService;
+      _fuelCardTypeService = fuelCardTypeService;
     }
 
     public void SetMainDgv(IMainDgv dgvMain)
@@ -215,9 +259,9 @@ namespace BBAuto.App.ContextMenu
         case ContextMenuItem.RepairType:
           return CreateRepairType();
         case ContextMenuItem.StatusAfterDTP:
-          return CreateStatusAfterDTP();
+          return CreateStatusAfterDtp();
         case ContextMenuItem.CurrentStatusAfterDTP:
-          return CreateCurrentStatusAfterDTP();
+          return CreateCurrentStatusAfterDtp();
         case ContextMenuItem.ViolationType:
           return CreateViolationType();
         case ContextMenuItem.ProxyType:
@@ -911,35 +955,35 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateAccountViolation()
     {
-      ToolStripMenuItem item = CreateItem("Штрафы");
+      var item = CreateItem("Штрафы");
       item.Click += delegate { _mainStatus.Set(Status.AccountViolation); };
       return item;
     }
 
     private ToolStripMenuItem CreateFuelCard()
     {
-      ToolStripMenuItem item = CreateItem("Топливные карты");
+      var item = CreateItem("Топливные карты");
       item.Click += delegate { _mainStatus.Set(Status.FuelCard); };
       return item;
     }
 
     private ToolStripMenuItem CreateDriver()
     {
-      ToolStripMenuItem item = CreateItem("Водители");
+      var item = CreateItem("Водители");
       item.Click += delegate { _mainStatus.Set(Status.Driver); };
       return item;
     }
 
     private ToolStripMenuItem CreateRegion()
     {
-      ToolStripMenuItem item = CreateItem("Регионы");
+      var item = CreateItem("Регионы");
       item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Регионы""", _regionService); };
       return item;
     }
 
     private ToolStripMenuItem CreateSuppyAddress()
     {
-      ToolStripMenuItem item = CreateItem("Адреса подачи");
+      var item = CreateItem("Адреса подачи");
       item.Click += delegate
       {
         formSuppyAddressList formsuppyAddressList = new formSuppyAddressList();
@@ -950,7 +994,7 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateEmployee()
     {
-      ToolStripMenuItem item = CreateItem("Сотрудники в регионе");
+      var item = CreateItem("Сотрудники в регионе");
       item.Click += delegate
       {
         formEmployeesList formemployeesList = new formEmployeesList();
@@ -961,7 +1005,7 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateMark()
     {
-      ToolStripMenuItem item = CreateItem("Марки");
+      var item = CreateItem("Марки");
       item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Марки автомобилей""", _markService); };
       return item;
     }
@@ -996,7 +1040,7 @@ namespace BBAuto.App.ContextMenu
     private ToolStripMenuItem CreateColor()
     {
       var item = CreateItem("Цвета");
-      item.Click += delegate { loadDictionary("Color", "Справочник \"Цветов кузова\""); };
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Цветов кузова""", _colorService); };
       return item;
     }
 
@@ -1014,117 +1058,84 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateOwner()
     {
-      ToolStripMenuItem item = CreateItem("Собственники");
-      item.Click += delegate { loadDictionary("Owner", "Справочник \"Собственники\""); };
+      var item = CreateItem("Собственники");
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Собственники""", _ownerService); };
       return item;
     }
 
     private ToolStripMenuItem CreateComp()
     {
-      ToolStripMenuItem item = CreateItem("Страховые компании");
-      item.Click += delegate { loadDictionary("Comp", "Справочник \"Страховые компании\""); };
+      var item = CreateItem("Страховые компании");
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Страховые компании""", _compService); };
       return item;
     }
 
     private ToolStripMenuItem CreateServiceStantion()
     {
-      ToolStripMenuItem item = CreateItem("СТО");
-      item.Click += delegate
-      {
-        loadDictionary("ServiceStantion", "Справочник \"Станции технического обслуживания\"");
-
-        var serviceStantions = ServiceStantions.getInstance();
-        serviceStantions.ReLoad();
-      };
+      var item = CreateItem("СТО");
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Станции технического обслуживания""", _serviceStantionService); };
       return item;
     }
 
     private ToolStripMenuItem CreateServiceStantionComp()
     {
       var item = CreateItem("СТО страховых");
-      item.Click += delegate
-      {
-        _ssDtpListForm.ShowDialog();
-      };
+      item.Click += delegate { _ssDtpListForm.ShowDialog(); };
       return item;
     }
 
     private ToolStripMenuItem CreateCulprit()
     {
       var item = CreateItem("Виновники ДТП");
-      item.Click += delegate { loadDictionary("culprit", "Справочник \"Виновники ДТП\""); };
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Виновники ДТП""", _culpritService); };
       return item;
     }
 
     private ToolStripMenuItem CreateRepairType()
     {
       var item = CreateItem("Виды ремонта");
-      item.Click += delegate
-      {
-        loadDictionary("RepairType", "Справочник \"Типы ремонта\"");
-
-        RepairTypes repairTypes = RepairTypes.getInstance();
-        repairTypes.ReLoad();
-      };
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Типы ремонта""", _repairTypeService); };
       return item;
     }
 
-    private ToolStripMenuItem CreateStatusAfterDTP()
+    private ToolStripMenuItem CreateStatusAfterDtp()
     {
-      ToolStripMenuItem item = CreateItem("Статусы после ДТП");
-      item.Click += delegate { loadDictionary("StatusAfterDTP", "Справочник \"Статусы автомобиля после ДТП\""); };
+      var item = CreateItem("Статусы после ДТП");
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Статусы автомобиля после ДТП""", _statusAfterDtpService); };
       return item;
     }
 
-    private ToolStripMenuItem CreateCurrentStatusAfterDTP()
+    private ToolStripMenuItem CreateCurrentStatusAfterDtp()
     {
-      ToolStripMenuItem item = CreateItem("Текущее состояние после ДТП");
-      item.Click += delegate
-      {
-        loadDictionary("CurrentStatusAfterDTP", "Справочник \"Текущее состояние после ДТП\"");
-
-        CurrentStatusAfterDTPs currentStatusAfterDTPs = CurrentStatusAfterDTPs.getInstance();
-        currentStatusAfterDTPs.ReLoad();
-      };
+      var item = CreateItem("Текущее состояние после ДТП");
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Текущее состояние после ДТП""", _currentStatusAfterDtpService); };
       return item;
     }
 
     private ToolStripMenuItem CreateViolationType()
     {
-      ToolStripMenuItem item = CreateItem("Типы нарушений ПДД");
-      item.Click += delegate
-      {
-        loadDictionary("ViolationType", "Справочник \"Типы нарушений ПДД\"");
-
-        ViolationTypes violationType = ViolationTypes.getInstance();
-        violationType.ReLoad();
-      };
+      var item = CreateItem("Типы нарушений ПДД");
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Типы нарушений ПДД""", _violationTypeService); };
       return item;
     }
 
     private ToolStripMenuItem CreateProxyType()
     {
-      ToolStripMenuItem item = CreateItem("Типы доверенностей");
-      item.Click += delegate { loadDictionary("proxyType", "Справочник \"Типы доверенностей\""); };
+      var item = CreateItem("Типы доверенностей");
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Типы доверенностей""", _proxyTypeService); };
       return item;
     }
 
     private ToolStripMenuItem CreateFuelCardType()
     {
-      ToolStripMenuItem item = CreateItem("Типы топливных карт");
-      item.Click += delegate
-      {
-        loadDictionary("FuelCardType", "Справочник \"Типы топливных карт\"");
-
-        FuelCardTypes fuelCardTypes = FuelCardTypes.getInstance();
-        fuelCardTypes.ReLoad();
-      };
+      var item = CreateItem("Типы топливных карт");
+      item.Click += delegate { _oneStringDictionaryListForm.ShowDialog(@"Справочник ""Типы топливных карт""", _fuelCardTypeService); };
       return item;
     }
 
     private ToolStripMenuItem CreateMailText()
     {
-      ToolStripMenuItem item = CreateItem("Тексты уведомлений");
+      var item = CreateItem("Тексты уведомлений");
       item.Click += delegate
       {
         formMailText fMailText = new formMailText();
@@ -1177,10 +1188,10 @@ namespace BBAuto.App.ContextMenu
         if (dgv.SelectedCells.Count == 0)
           return;
 
-        int rowIndex = dgv.CurrentCell.RowIndex;
-        int columnIndex = dgv.CurrentCell.ColumnIndex;
+        var rowIndex = dgv.CurrentCell.RowIndex;
+        var columnIndex = dgv.CurrentCell.ColumnIndex;
 
-        DataGridViewColumn column = dgv.Columns[dgv.CurrentCell.ColumnIndex];
+        var column = dgv.Columns[dgv.CurrentCell.ColumnIndex];
         System.ComponentModel.ListSortDirection sortDirection;
 
         if (dgv.SortedColumn == null || dgv.SortedColumn != column)
@@ -1207,11 +1218,13 @@ namespace BBAuto.App.ContextMenu
         if (dgv.CurrentCell == null)
           return;
 
-        string columnName = dgv.Columns[dgv.CurrentCell.ColumnIndex].HeaderText;
+        var columnName = dgv.Columns[dgv.CurrentCell.ColumnIndex].HeaderText;
 
         Point point = new Point(dgv.CurrentCell.ColumnIndex, dgv.CurrentCell.RowIndex);
 
-        MyFilter myFilter = (dgv.Name == "_dgvCar") ? MyFilter.GetInstanceCars() : MyFilter.GetInstanceDrivers();
+        var myFilter = dgv.Name == "_dgvCar"
+          ? MyFilter.GetInstanceCars()
+          : MyFilter.GetInstanceDrivers();
         myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
       };
       return item;
@@ -1219,7 +1232,7 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateAddDriver()
     {
-      ToolStripMenuItem item = CreateItem("Добавить водителя");
+      var item = CreateItem("Добавить водителя");
       item.Click += delegate
       {
         AddNewDriver addNewDriver = new AddNewDriver();
@@ -1231,10 +1244,10 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateDeleteDriver()
     {
-      ToolStripMenuItem item = CreateItem("Удалить водителя");
+      var item = CreateItem("Удалить водителя");
       item.Click += delegate
       {
-        if (MessageBox.Show("Вы действительно хотите удалить водителя из списка?", Captions.Delete, MessageBoxButtons.YesNo,
+        if (MessageBox.Show(Messages.DeleteDriver, Captions.Delete, MessageBoxButtons.YesNo,
               MessageBoxIcon.Question) == DialogResult.Yes)
         {
           DriverList driverList = DriverList.getInstance();
@@ -1242,7 +1255,7 @@ namespace BBAuto.App.ContextMenu
           DriverCarList driverCarList = DriverCarList.getInstance();
 
           if (driverCarList.IsDriverHaveCar(driver))
-            MessageBox.Show("За водителем закреплён автомобиль, удаление невозможно", Captions.Delete, MessageBoxButtons.OK,
+            MessageBox.Show(Messages.CannotDeleteDriver, Captions.Delete, MessageBoxButtons.OK,
               MessageBoxIcon.Warning);
           else
           {
@@ -1257,27 +1270,21 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateMyPointList()
     {
-      ToolStripMenuItem item = CreateItem("Список пунктов назначения");
-      item.Click += delegate
-      {
-        _myPointListForm.ShowDialog();
-      };
+      var item = CreateItem("Список пунктов назначения");
+      item.Click += delegate { _myPointListForm.ShowDialog(); };
       return item;
     }
 
     private ToolStripMenuItem CreateRouteList()
     {
-      ToolStripMenuItem item = CreateItem("Список маршрутов");
-      item.Click += delegate
-      {
-        _routeListForm.ShowDialog();
-      };
+      var item = CreateItem("Список маршрутов");
+      item.Click += delegate { _routeListForm.ShowDialog(); };
       return item;
     }
 
     private ToolStripMenuItem CreateMileageFill()
     {
-      ToolStripMenuItem item = CreateItem("Загрузить пробеги");
+      var item = CreateItem("Загрузить пробеги");
       item.Click += delegate
       {
         FormMileageFill formMileageFill = new FormMileageFill();

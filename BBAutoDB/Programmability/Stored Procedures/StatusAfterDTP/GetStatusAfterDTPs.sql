@@ -1,7 +1,5 @@
 create procedure [dbo].[GetStatusAfterDTPs]
-  @actual int = 0
 as
-begin
   select
     Id,
     [Name]
@@ -9,4 +7,3 @@ begin
     StatusAfterDTP
   order by
     [Name]
-end

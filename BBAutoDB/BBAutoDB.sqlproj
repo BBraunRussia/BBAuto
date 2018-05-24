@@ -415,6 +415,17 @@
     <Build Include="Programmability\Stored Procedures\Region\GetRegionById.sql" />
     <Build Include="Programmability\Stored Procedures\EngineType\GetEngineTypeById.sql" />
     <Build Include="Programmability\Stored Procedures\Color\GetColorById.sql" />
+    <Build Include="Programmability\Stored Procedures\Owner\GetOwnerById.sql" />
+    <Build Include="Programmability\Stored Procedures\Comp\GetCompById.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceStantion\GetServiceStantionById.sql" />
+    <Build Include="Programmability\Stored Procedures\Culprit\GetCulpritById.sql" />
+    <Build Include="Programmability\Stored Procedures\RepairType\GetRepairTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\StatusAfterDTP\GetStatusAfterDtpById.sql" />
+    <Build Include="Programmability\Stored Procedures\CurrentStatusAfterDtp\GetCurrentStatusAfterDtpById.sql" />
+    <Build Include="Programmability\Stored Procedures\ViolationType\GetViolationTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\ProxyType\GetProxyTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCardType\GetFuelCardTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCardType\DeleteFuelCardType.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

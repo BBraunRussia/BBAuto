@@ -195,4 +195,10 @@
   <data name="GradeCannotBeCreated" xml:space="preserve">
     <value>Комплектация не может быть создана без указания модели</value>
   </data>
+  <data name="DeleteDriver" xml:space="preserve">
+    <value>Вы действительно хотите удалить водителя из списка?</value>
+  </data>
+  <data name="CannotDeleteDriver" xml:space="preserve">
+    <value>За водителем закреплён автомобиль, удаление невозможно</value>
+  </data>
 </root>

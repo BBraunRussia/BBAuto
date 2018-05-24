@@ -6,4 +6,6 @@ begin
     [Name]
   from
     CurrentStatusAfterDTP
+  order by
+    [Name]
 end
