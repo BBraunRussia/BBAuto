@@ -1,87 +1,78 @@
 using System;
 using System.Collections.Generic;
-using BBAuto.Logic.Common;
-using BBAuto.Logic.ForDriver;
+using System.Linq;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Dictionary.EngineType;
 using BBAuto.Logic.Services.Documents.Office;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 
 namespace BBAuto.Logic.Loaders
 {
-  public class FuelLoader
+  public class FuelLoader : IFuelLoader
   {
-    private const int BENZIN_ID = 1;
-    private const int DIESEL_ID = 2;
-    private const string DIESEL_NAME = "ДТ";
-    private const string DIESEL_FULLNAME = "ДИЗЕЛЬ";
+    private static Dictionary<FuelReport, Action<ExcelDoc>> _loaders;
+    private FuelCardList _fuelCardList;
+    private List<string> _erorrs;
 
-    private string path;
-    private FuelReport fuelReport;
-    private static readonly Dictionary<FuelReport, Action<ExcelDoc>> loaders;
+    private readonly IEngineTypeService _engineTypeService;
 
-    private static FuelCardList fuelCardList;
-    private static EngineTypeList engineTypeList;
-    private static EngineType benzin;
-    private static EngineType disel;
-
-    private static List<string> erorrs;
-
-    public FuelLoader(string path, FuelReport fuelReport)
+    public FuelLoader(IEngineTypeService engineTypeService)
     {
-      this.path = path;
-      this.fuelReport = fuelReport;
-      erorrs.Clear();
+      _engineTypeService = engineTypeService;
+    }
+    
+    public IList<string> Load(string path, FuelReport fuelReport)
+    {
+      _erorrs = new List<string>();
+
+      _fuelCardList = FuelCardList.getInstance();
+
+      _loaders = new Dictionary<FuelReport, Action<ExcelDoc>>
+      {
+        {FuelReport.Петрол, LoadPetrol},
+        {FuelReport.Neste, LoadNeste},
+        {FuelReport.Чеки, LoadChecks}
+      };
+
+      using (var excelDoc = new ExcelDoc(path))
+      {
+        _loaders[fuelReport].Invoke(excelDoc);
+      }
+
+      return _erorrs;
     }
 
-    static FuelLoader()
+    private void LoadPetrol(ExcelDoc excel)
     {
-      erorrs = new List<string>();
+      var i = 4; //начальный индекс
 
-      fuelCardList = FuelCardList.getInstance();
-      engineTypeList = EngineTypeList.getInstance();
-      benzin = engineTypeList.getItem(BENZIN_ID);
-      disel = engineTypeList.getItem(DIESEL_ID);
-
-      loaders = new Dictionary<FuelReport, Action<ExcelDoc>>();
-
-      loaders.Add(FuelReport.Петрол, LoadPetrol);
-      loaders.Add(FuelReport.Neste, LoadNeste);
-      loaders.Add(FuelReport.Чеки, LoadChecks);
-    }
-
-    private static void LoadPetrol(ExcelDoc excel)
-    {
-      int i = 4; //начальный индекс
-
-      string currentCell = "B" + i;
+      var currentCell = "B" + i;
       while (excel.GetValue(currentCell) != null)
       {
         currentCell = "D" + i;
-        string number = excel.GetValue(currentCell).ToString();
-        FuelCard fuelCard = fuelCardList.getItem(number);
+        var number = excel.GetValue(currentCell).ToString();
+        var fuelCard = _fuelCardList.getItem(number);
         if (fuelCard == null)
         {
           i++;
           currentCell = "B" + i;
-          erorrs.Add("Не найдена карта №" + number); //throw new NullReferenceException("Не найдена карта №" + number);
+          _erorrs.Add("Не найдена карта №" + number); //throw new NullReferenceException("Не найдена карта №" + number);
           continue;
         }
 
         currentCell = "B" + i;
-        string dateString = excel.GetValue1(currentCell).ToString();
-        DateTime datetime;
-        DateTime.TryParse(dateString, out datetime); //присутствует время, не забываем убирать
+        var dateString = excel.GetValue1(currentCell).ToString();
+        DateTime.TryParse(dateString, out var datetime); //присутствует время, не забываем убирать
 
         currentCell = "G" + i;
-        string engineTypeName = excel.GetValue(currentCell).ToString();
-        EngineType engineType = GetEngineType(engineTypeName);
+        var engineTypeName = excel.GetValue(currentCell).ToString();
+        var engineType = GetEngineType(engineTypeName);
 
         currentCell = "H" + i;
-        double value;
-        double.TryParse(excel.GetValue(currentCell).ToString(), out value);
+        double.TryParse(excel.GetValue(currentCell).ToString(), out var value);
 
-        Fuel fuel = new Fuel(fuelCard, datetime.Date, engineType);
+        var fuel = new Fuel(fuelCard, datetime.Date, engineType.Id);
         fuel.AddValue(value);
         fuel.Save();
 
@@ -90,11 +81,11 @@ namespace BBAuto.Logic.Loaders
       }
     }
 
-    private static void LoadNeste(ExcelDoc excel)
+    private void LoadNeste(ExcelDoc excel)
     {
-      int i = 4; //начальный индекс
+      var i = 4; //начальный индекс
 
-      string currentCell = "A" + i;
+      var currentCell = "A" + i;
       while (excel.GetValue(currentCell) != null)
       {
         if (excel.GetValue(currentCell).ToString() == "Grand Total")
@@ -109,29 +100,27 @@ namespace BBAuto.Logic.Loaders
         }
 
         currentCell = "A" + i;
-        string number = excel.GetValue(currentCell).ToString().Split(' ')[1]; //split example Карта: 7105066553656018
-        FuelCard fuelCard = fuelCardList.getItem(number);
+        var number = excel.GetValue(currentCell).ToString().Split(' ')[1]; //split example Карта: 7105066553656018
+        var fuelCard = _fuelCardList.getItem(number);
         if (fuelCard == null)
         {
           i++;
-          erorrs.Add("Не найдена карта №" + number); //throw new NullReferenceException("Не найдена карта №" + number);
+          _erorrs.Add("Не найдена карта №" + number); //throw new NullReferenceException("Не найдена карта №" + number);
           continue;
         }
 
         currentCell = "C" + i;
-        DateTime datetime;
         DateTime.TryParse(excel.GetValue(currentCell).ToString(),
-          out datetime); //присутствует время, не забываем убирать
+          out var datetime); //присутствует время, не забываем убирать
 
         currentCell = "D" + i;
-        string engineTypeName = excel.GetValue(currentCell).ToString();
-        EngineType engineType = GetEngineType(engineTypeName);
+        var engineTypeName = excel.GetValue(currentCell).ToString();
+        var engineType = GetEngineType(engineTypeName);
 
         currentCell = "E" + i;
-        double value;
-        double.TryParse(excel.GetValue(currentCell).ToString(), out value);
+        double.TryParse(excel.GetValue(currentCell).ToString(), out var value);
 
-        Fuel fuel = new Fuel(fuelCard, datetime.Date, engineType);
+        var fuel = new Fuel(fuelCard, datetime.Date, engineType.Id);
         fuel.AddValue(value);
         fuel.Save();
 
@@ -145,20 +134,12 @@ namespace BBAuto.Logic.Loaders
       throw new NotImplementedException();
     }
 
-    private static EngineType GetEngineType(string engineTypeName)
+    private EngineTypeModel GetEngineType(string engineTypeName)
     {
-      engineTypeName = engineTypeName.ToUpper();
-      return ((engineTypeName == DIESEL_NAME) || (engineTypeName == DIESEL_FULLNAME)) ? disel : benzin;
-    }
+      var result = _engineTypeService.GetItems()
+        .FirstOrDefault(e => e.Name == engineTypeName || (e as EngineTypeModel)?.ShortName == engineTypeName);
 
-    public List<string> Load()
-    {
-      using (ExcelDoc excelDoc = new ExcelDoc(path))
-      {
-        loaders[fuelReport].Invoke(excelDoc);
-      }
-
-      return erorrs;
+      return result as EngineTypeModel;
     }
   }
 }

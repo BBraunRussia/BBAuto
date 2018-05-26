@@ -33,6 +33,10 @@ namespace BBAuto.App.config
         .ImplementedBy<MainForm>()
         .LifestyleTransient());
 
+      container.Register(Component.For<ILoadFuelForm>()
+        .ImplementedBy<LoadFuelForm>()
+        .LifestyleTransient());
+
       container.Register(Component.For<IDealerListForm>()
         .ImplementedBy<DealerListForm>()
         .LifestyleTransient());

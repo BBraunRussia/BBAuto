@@ -56,12 +56,12 @@ namespace BBAuto.Logic.Lists
     public Fuel getItem(FuelCard fuelCard, DateTime date, EngineType engineType)
     {
       var fuel = list.FirstOrDefault(item => item.FuelCard.Id == fuelCard.Id && item.Date == date &&
-                                             item.EngineType.Id == engineType.Id);
+                                             item.EngineTypeId == engineType.Id);
 
       if (fuel != null)
         return fuel;
 
-      fuel = new Fuel(fuelCard, date, engineType);
+      fuel = new Fuel(fuelCard, date, engineType.Id);
       Add(fuel);
       return fuel;
     }

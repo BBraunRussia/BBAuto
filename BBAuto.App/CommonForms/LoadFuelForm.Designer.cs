@@ -1,6 +1,6 @@
 namespace BBAuto.App.CommonForms
 {
-    partial class FormLoadFuel
+    partial class LoadFuelForm
     {
         /// <summary>
         /// Required designer variable.

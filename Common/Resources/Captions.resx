@@ -146,4 +146,7 @@
   <data name="Add" xml:space="preserve">
     <value>Добавление</value>
   </data>
+  <data name="Load" xml:space="preserve">
+    <value>Загрузка</value>
+  </data>
 </root>

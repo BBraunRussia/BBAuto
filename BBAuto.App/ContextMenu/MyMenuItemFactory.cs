@@ -62,6 +62,7 @@ namespace BBAuto.App.ContextMenu
     private readonly IModelListForm _modelListForm;
     private readonly ISsDtpListForm _ssDtpListForm;
     private readonly IOneStringDictionaryListForm _oneStringDictionaryListForm;
+    private readonly ILoadFuelForm _loadFuelForm;
 
     private readonly IDocumentsService _documentsService;
     private readonly ISaleCarService _saleCarService;
@@ -111,7 +112,8 @@ namespace BBAuto.App.ContextMenu
       ICurrentStatusAfterDtpService currentStatusAfterDtpService,
       IViolationTypeService violationTypeService,
       IProxyTypeService proxyTypeService,
-      IFuelCardTypeService fuelCardTypeService)
+      IFuelCardTypeService fuelCardTypeService,
+      ILoadFuelForm loadFuelForm)
     {
       _formMileage = formMileage;
       _carForm = carForm;
@@ -141,6 +143,7 @@ namespace BBAuto.App.ContextMenu
       _violationTypeService = violationTypeService;
       _proxyTypeService = proxyTypeService;
       _fuelCardTypeService = fuelCardTypeService;
+      _loadFuelForm = loadFuelForm;
     }
 
     public void SetMainDgv(IMainDgv dgvMain)
@@ -1287,7 +1290,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Загрузить пробеги");
       item.Click += delegate
       {
-        FormMileageFill formMileageFill = new FormMileageFill();
+        var formMileageFill = new FormMileageFill();
         formMileageFill.ShowDialog();
       };
       return item;
@@ -1295,16 +1298,15 @@ namespace BBAuto.App.ContextMenu
 
     private ToolStripMenuItem CreateFuelLoad()
     {
-      ToolStripMenuItem item = CreateItem("Загрузить данные по заправкам");
+      var item = CreateItem("Загрузить данные по заправкам");
       item.Click += delegate
       {
-        FormLoadFuel formLoadFuel = new FormLoadFuel();
-        formLoadFuel.ShowDialog();
+        _loadFuelForm.ShowDialog();
       };
       return item;
     }
 
-    private ToolStripMenuItem CreateItem(string name)
+    private static ToolStripMenuItem CreateItem(string name)
     {
       return new ToolStripMenuItem(name);
     }

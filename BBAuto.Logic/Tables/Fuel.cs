@@ -8,35 +8,33 @@ namespace BBAuto.Logic.Tables
 {
   public class Fuel : MainDictionary
   {
+    public FuelCard FuelCard { get; private set; }
+    public DateTime Date { get; private set; }
+    public double Value { get; private set; }
+    public int EngineTypeId { get; private set; }
+
     public Fuel(DataRow row)
     {
       Id = Convert.ToInt32(row[0].ToString());
 
-      int idFuelCard;
-      int.TryParse(row[1].ToString(), out idFuelCard);
+      int.TryParse(row[1].ToString(), out var idFuelCard);
       FuelCard = FuelCardList.getInstance().getItem(idFuelCard);
 
       Date = Convert.ToDateTime(row[2].ToString());
       Value = Convert.ToDouble(row[3].ToString());
 
-      int idEngineType;
-      int.TryParse(row[4].ToString(), out idEngineType);
-      EngineType = EngineTypeList.getInstance().getItem(idFuelCard);
+      int.TryParse(row[4].ToString(), out int engineTypeId);
+      EngineTypeId = engineTypeId;
     }
 
-    internal Fuel(FuelCard fuelCard, DateTime date, EngineType engineType)
+    internal Fuel(FuelCard fuelCard, DateTime date, int engineTypeId)
     {
       FuelCard = fuelCard;
       Date = date;
-      EngineType = engineType;
+      EngineTypeId = engineTypeId;
       Value = 0;
     }
-
-    public FuelCard FuelCard { get; private set; }
-    public DateTime Date { get; private set; }
-    public double Value { get; private set; }
-    public EngineType EngineType { get; private set; }
-
+    
     public void AddValue(double value)
     {
       Value += Math.Round(value, 2);
@@ -44,7 +42,7 @@ namespace BBAuto.Logic.Tables
 
     public override void Save()
     {
-      Id = Convert.ToInt32(Provider.Insert("Fuel", FuelCard.Id, Date, Value, EngineType.Id));
+      Id = Convert.ToInt32(Provider.Insert("Fuel", FuelCard.Id, Date, Value, EngineTypeId));
     }
 
     internal override object[] ToRow()

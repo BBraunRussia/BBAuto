@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Loaders\IFuelLoader.cs" />
     <Compile Include="Services\Dictionary\DictionaryMappingProfile.cs" />
     <Compile Include="Services\Dictionary\FuelCardType\FuelCardTypeModel.cs" />
     <Compile Include="Services\Dictionary\FuelCardType\FuelCardTypeService.cs" />
@@ -203,7 +204,6 @@
     <Compile Include="Abstract\IActual.cs" />
     <Compile Include="Lists\CarList.cs" />
     <Compile Include="Lists\ColumnSizeList.cs" />
-    <Compile Include="Lists\EngineTypeList.cs" />
     <Compile Include="Lists\FuelCardDriverList.cs" />
     <Compile Include="Lists\FuelCardList.cs" />
     <Compile Include="Lists\FuelList.cs" />
@@ -223,7 +223,6 @@
     <Compile Include="Common\SuppyAddress.cs" />
     <Compile Include="Dictionary\Roles.cs" />
     <Compile Include="Dictionary\Depts.cs" />
-    <Compile Include="Dictionary\EngineTypes.cs" />
     <Compile Include="Static\Enums.cs" />
     <Compile Include="ForCar\Account.cs" />
     <Compile Include="Abstract\IDictionaryMVC.cs" />

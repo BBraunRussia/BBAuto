@@ -24,7 +24,7 @@ namespace BBAuto.Logic.Services.Dictionary.EngineType
     public DictionaryModel GetItemById(int id)
     {
       var item = _dbContext.EngineType.GetEngineTypeById(id);
-      return Mapper.Map<DictionaryModel>(item);
+      return Mapper.Map<EngineTypeModel>(item);
     }
 
     public void Delete(int id)

@@ -151,6 +151,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Загрузка.
+        /// </summary>
+        public static string Load {
+            get {
+                return ResourceManager.GetString("Load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ошибка доступа.
         /// </summary>
         public static string MainForm_DoubleClickAccountViolation_Ошибка_доступа {

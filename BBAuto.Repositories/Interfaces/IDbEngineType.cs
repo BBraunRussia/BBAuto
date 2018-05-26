@@ -8,8 +8,8 @@ namespace BBAuto.Repositories.Interfaces
   public interface IDbEngineType
   {
     void DeleteEngineType(int id);
-    IList<DbDictionary> GetEngineTypes();
-    DbDictionary GetEngineTypeById(int id);
+    IList<DbEngineType> GetEngineTypes();
+    DbEngineType GetEngineTypeById(int id);
     DbDictionary UpsertEngineType(DbDictionary model);
   }
 }

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Configuration;
+using BBAuto.Logic.Loaders;
 using BBAuto.Logic.Services.Account;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Car.Doc;
@@ -38,6 +38,10 @@ namespace BBAuto.Logic
   {
     public void Install(IWindsorContainer container, IConfigurationStore store)
     {
+      container.Register(Component.For<IFuelLoader>()
+        .ImplementedBy<FuelLoader>()
+        .LifestyleTransient());
+
       container.Register(Component.For(typeof(IRepository<>))
         .ImplementedBy(typeof(Repository<>))
         .DependsOn(new

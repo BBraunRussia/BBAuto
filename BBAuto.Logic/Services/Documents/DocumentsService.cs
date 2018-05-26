@@ -11,6 +11,7 @@ using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Dictionary.EngineType;
 using BBAuto.Logic.Services.Dictionary.Mark;
 using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Static;
@@ -27,17 +28,20 @@ namespace BBAuto.Logic.Services.Documents
     private readonly ICarService _carService;
     private readonly IGradeService _gradeService;
     private readonly IMarkService _markService;
+    private readonly IEngineTypeService _engineTypeService;
 
     public DocumentsService(
       IDiagCardService diagCardService,
       ICarService carService,
       IGradeService gradeService,
-      IMarkService markService)
+      IMarkService markService,
+      IEngineTypeService engineTypeService)
     {
       _diagCardService = diagCardService;
       _carService = carService;
       _gradeService = gradeService;
       _markService = markService;
+      _engineTypeService = engineTypeService;
 
       _driverList = DriverList.getInstance();
     }
@@ -311,7 +315,7 @@ namespace BBAuto.Logic.Services.Documents
       var mark = _markService.GetItemById(car.MarkId ?? 0);
       var model = ModelList.getInstance().getItem(car.ModelId);
       var grade = _gradeService.GetById(car.GradeId ?? 0);
-      var engineType = EngineTypeList.getInstance().getItem(grade.EngineTypeId);
+      var engineType = (EngineTypeModel)_engineTypeService.GetItemById(grade.EngineTypeId);
 
       date = new DateTime(date.Year, date.Month, 1);
 
