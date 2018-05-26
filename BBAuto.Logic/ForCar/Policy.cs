@@ -251,12 +251,11 @@ namespace BBAuto.Logic.ForCar
     internal override object[] ToRow()
     {
       var owners = Owners.getInstance();
-      var comps = Comps.GetInstance();
 
       return new object[]
       {
         Id, Car.Id, Car.BBNumber, Car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
-        comps.getItem(Convert.ToInt32(IdComp)), Number, _pay, DateBegin, DateEnd,
+        IdComp, Number, _pay, DateBegin, DateEnd,
         _limitCost, _pay2
       };
     }
