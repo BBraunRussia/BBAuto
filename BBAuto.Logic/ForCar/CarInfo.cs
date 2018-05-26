@@ -21,11 +21,6 @@ namespace BBAuto.Logic.ForCar
       get { return ModelList.getInstance().getItem(Convert.ToInt32(_car.ModelID)).Name; }
     }
 
-    public string Color
-    {
-      get { return Colors.GetInstance().getItem(Convert.ToInt32(_car.ColorID)); }
-    }
-
     public string Owner
     {
       get { return Owners.getInstance().getItem(Convert.ToInt32(_car.ownerID)); }
@@ -82,7 +77,7 @@ namespace BBAuto.Logic.ForCar
       dt.Rows.Add("Марка", _car.MarkId);
       dt.Rows.Add("Модель", Model);
       dt.Rows.Add("Год выпуска", _car.Year);
-      dt.Rows.Add("Цвет", Color);
+      dt.Rows.Add("Цвет", _car.ColorID);
       dt.Rows.Add("Собственник", Owner);
       dt.Rows.Add("Дата покупки", _car.dateGet.ToShortDateString());
       dt.Rows.Add("Модель № двигателя", _car.eNumber);

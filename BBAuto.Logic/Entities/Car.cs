@@ -266,7 +266,7 @@ namespace BBAuto.Logic.Entities
       dt2.Columns.Add("Значение");
 
       dt2.Rows.Add("Год выпуска", Year);
-      dt2.Rows.Add("Цвет", info.Color);
+      dt2.Rows.Add("Цвет", _idColor);
       dt2.Rows.Add("Собственник", info.Owner);
       dt2.Rows.Add("Дата покупки", dateGet.ToShortDateString());
       //dt2.Rows.Add("Мощность двигателя", info.Grade.EPower);

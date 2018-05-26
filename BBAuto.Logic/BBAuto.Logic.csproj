@@ -239,7 +239,6 @@
     <Compile Include="Services\Documents\DocumentsService.cs" />
     <Compile Include="Common\MyDateTime.cs" />
     <Compile Include="Common\Template.cs" />
-    <Compile Include="Dictionary\Colors.cs" />
     <Compile Include="Dictionary\Comps.cs" />
     <Compile Include="Dictionary\Culprits.cs" />
     <Compile Include="Lists\ModelList.cs" />

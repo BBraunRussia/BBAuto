@@ -11,6 +11,7 @@ using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Dictionary.Color;
 using BBAuto.Logic.Services.Dictionary.EngineType;
 using BBAuto.Logic.Services.Dictionary.Mark;
 using BBAuto.Logic.Services.Grade;
@@ -29,19 +30,22 @@ namespace BBAuto.Logic.Services.Documents
     private readonly IGradeService _gradeService;
     private readonly IMarkService _markService;
     private readonly IEngineTypeService _engineTypeService;
+    private readonly IColorService _colorService;
 
     public DocumentsService(
       IDiagCardService diagCardService,
       ICarService carService,
       IGradeService gradeService,
       IMarkService markService,
-      IEngineTypeService engineTypeService)
+      IEngineTypeService engineTypeService,
+      IColorService colorService)
     {
       _diagCardService = diagCardService;
       _carService = carService;
       _gradeService = gradeService;
       _markService = markService;
       _engineTypeService = engineTypeService;
+      _colorService = colorService;
 
       _driverList = DriverList.getInstance();
     }
@@ -578,7 +582,7 @@ namespace BBAuto.Logic.Services.Documents
       var invoice = InvoiceList.getInstance().GetItem(invoiceId);
       if (invoice == null)
         return null;
-      var color = Colors.GetInstance().getItem(car.ColorId.Value);
+      var color = _colorService.GetItemById(car.ColorId ?? 0);
 
       var wordDoc = openDocumentWord("Доверенность на предоставление интересов на СТО");
 
@@ -617,7 +621,7 @@ namespace BBAuto.Logic.Services.Documents
       wordDoc.setValue("Модель и марка двигателя автомобиля", car.ENumber);
       wordDoc.setValue("Номер кузова автомобиля", car.BodyNumber);
       wordDoc.setValue("Год выпуска автомобиля", car.Year.ToString());
-      wordDoc.setValue("Цвет автомобиля", color);
+      wordDoc.setValue("Цвет автомобиля", color.Name);
 
       var ptsList = PTSList.getInstance();
       var pts = ptsList.getItem(car.Id);
