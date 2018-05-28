@@ -1,5 +1,6 @@
-create procedure [dbo].[GetTempMoves]
-as
+create procedure [dbo].[GetTempMoveById]
+  @id int
+AS
   select
     Id,
     CarId,
@@ -8,3 +9,5 @@ as
     DateEnd
   from
     TempMove
+  where
+    Id = @id

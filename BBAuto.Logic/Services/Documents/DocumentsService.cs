@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Forms;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
@@ -15,6 +14,7 @@ using BBAuto.Logic.Services.Dictionary.Color;
 using BBAuto.Logic.Services.Dictionary.EngineType;
 using BBAuto.Logic.Services.Dictionary.Mark;
 using BBAuto.Logic.Services.Driver;
+using BBAuto.Logic.Services.Driver.DriverCar;
 using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
@@ -32,6 +32,7 @@ namespace BBAuto.Logic.Services.Documents
     private readonly IMarkService _markService;
     private readonly IEngineTypeService _engineTypeService;
     private readonly IColorService _colorService;
+    private readonly IDriverCarService _driverCarService;
 
     public DocumentsService(
       IDiagCardService diagCardService,
@@ -39,7 +40,8 @@ namespace BBAuto.Logic.Services.Documents
       IGradeService gradeService,
       IMarkService markService,
       IEngineTypeService engineTypeService,
-      IColorService colorService)
+      IColorService colorService,
+      IDriverCarService driverCarService)
     {
       _diagCardService = diagCardService;
       _carService = carService;
@@ -47,6 +49,7 @@ namespace BBAuto.Logic.Services.Documents
       _markService = markService;
       _engineTypeService = engineTypeService;
       _colorService = colorService;
+      _driverCarService = driverCarService;
 
       _driverList = DriverList.getInstance();
     }
@@ -326,8 +329,7 @@ namespace BBAuto.Logic.Services.Documents
 
       if (driver == null)
       {
-        var driverCarList = DriverCarList.getInstance();
-        driver = driverCarList.GetDriver(carId, date);
+        driver = _driverCarService.GetDriver(carId, date);
 
         if (driver == null)
         {

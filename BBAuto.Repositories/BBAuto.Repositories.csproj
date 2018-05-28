@@ -70,6 +70,7 @@
     <Compile Include="Entities\DbDriver.cs" />
     <Compile Include="Entities\DbInvoice.cs" />
     <Compile Include="Entities\DbMileage.cs" />
+    <Compile Include="Entities\DbTempMove.cs" />
     <Compile Include="Entities\DbViolation.cs" />
     <Compile Include="IDbContext.cs" />
     <Compile Include="Interfaces\IDbCarDoc.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Interfaces\IDbDriverCar.cs" />
     <Compile Include="Interfaces\IDbFuelCardType.cs" />
     <Compile Include="Interfaces\IDbProxyType.cs" />
+    <Compile Include="Interfaces\IDbTempMove.cs" />
     <Compile Include="Interfaces\IDbViolationType.cs" />
     <Compile Include="Interfaces\IDbCurrentStatusAfterDtp.cs" />
     <Compile Include="Interfaces\IDbStatusAfterDtp.cs" />

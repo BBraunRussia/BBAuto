@@ -1,13 +1,16 @@
 create procedure [dbo].[GetDriverCarsByCarId]
-  @carId int
+  @carId int,
+  @date datetime
 as
   select
     CarId,
     DriverId,
-    date1,
-    date2,
-    number
+    Date1,
+    Date2,
+    Number
   from
     Function_DriverCar_Select()
   where
-    CarId = @carId
+    CarId = @carId and
+    @date between Date1 and Date2
+  order by Date2 desc, Number desc

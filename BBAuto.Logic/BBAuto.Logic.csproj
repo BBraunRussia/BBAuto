@@ -183,9 +183,10 @@
     <Compile Include="Services\Documents\Office\OfficeDoc.cs" />
     <Compile Include="Services\Documents\Office\WordDoc.cs" />
     <Compile Include="Services\Documents\WordDocument.cs" />
-    <Compile Include="Services\DriverCar\DriverCarModel.cs" />
-    <Compile Include="Services\DriverCar\DriverCarService.cs" />
-    <Compile Include="Services\DriverCar\IDriverCarService.cs" />
+    <Compile Include="Services\Driver\DriverCar\DriverCarModel.cs" />
+    <Compile Include="Services\Driver\DriverCar\DriverCarService.cs" />
+    <Compile Include="Services\Driver\DriverCar\IDriverCarService.cs" />
+    <Compile Include="Services\Driver\DriverMappingProfile.cs" />
     <Compile Include="Services\Driver\DriverModel.cs" />
     <Compile Include="Services\Driver\DriverService.cs" />
     <Compile Include="Services\Driver\IDriverService.cs" />
@@ -199,6 +200,9 @@
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />
     <Compile Include="Services\Mileage\MileageService.cs" />
+    <Compile Include="Services\TempMove\ITempMoveService.cs" />
+    <Compile Include="Services\TempMove\TempMoveModel.cs" />
+    <Compile Include="Services\TempMove\TempMoveService.cs" />
     <Compile Include="Services\Violation\IViolationService.cs" />
     <Compile Include="Services\Violation\ViolationMappingProfile.cs" />
     <Compile Include="Services\Violation\ViolationModel.cs" />

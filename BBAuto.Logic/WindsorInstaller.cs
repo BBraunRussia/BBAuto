@@ -23,7 +23,7 @@ using BBAuto.Logic.Services.Dictionary.ServiceStantion;
 using BBAuto.Logic.Services.Dictionary.StatusAfterDtp;
 using BBAuto.Logic.Services.Dictionary.ViolationType;
 using BBAuto.Logic.Services.Documents;
-using BBAuto.Logic.Services.DriverCar;
+using BBAuto.Logic.Services.Driver.DriverCar;
 using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Services.Violation;

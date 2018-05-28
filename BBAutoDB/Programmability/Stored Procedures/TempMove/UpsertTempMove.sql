@@ -5,7 +5,6 @@ create procedure [dbo].[UpsertTempMove]
   @dateBegin datetime,
   @dateEnd datetime
 as
-begin
   if (@id = 0)
   begin
     insert into TempMove values(@CarId, @DriverId, @dateBegin, @dateEnd)
@@ -21,5 +20,4 @@ begin
     where Id = @id
   end
 
-  select @id
-end
+  exec dbo.GetTempMoveById @id

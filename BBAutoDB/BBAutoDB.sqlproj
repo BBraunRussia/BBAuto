@@ -430,6 +430,7 @@
     <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByDriverId.sql" />
     <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\GetDriverById.sql" />
+    <Build Include="Programmability\Stored Procedures\TempMove\GetTempMoveById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

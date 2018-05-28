@@ -1,6 +1,6 @@
 using System;
 
-namespace BBAuto.Logic.Services.DriverCar
+namespace BBAuto.Logic.Services.Driver.DriverCar
 {
   public class DriverCarModel
   {

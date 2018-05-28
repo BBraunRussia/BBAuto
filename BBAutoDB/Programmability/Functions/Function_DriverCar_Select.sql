@@ -6,9 +6,9 @@ as
   select
     CarId,
     DriverIdTo DriverId,
-    DateMove date1,
-    case when date2 is not null then date2 else current_timestamp end date2,
-    number
+    DateMove Date1,
+    case when Date2 is not null then Date2 else current_timestamp end Date2,
+    Number
   from
     (select
         CarId,
@@ -23,8 +23,8 @@ as
             and i.Id < i2.Id
             and i.DateMove <= i2.DateMove
             and i.DateMove <= i2.DateMove)
-        date2,
-        number
+        Date2,
+        Number
       from
         Invoice i) tb
   where
