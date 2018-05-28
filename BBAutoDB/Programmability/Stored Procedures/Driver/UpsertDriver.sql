@@ -1,25 +1,24 @@
 create procedure [dbo].[UpsertDriver]
-  @idDriver int,
+  @id int,
   @fio nvarchar(100),
-  @idRegion int,
+  @RegionId int,
   @dateBirthText nvarchar(50),
   @mobile nvarchar(10),
   @email nvarchar(100),
-  @fired int,
+  @fired bit,
   @ExpSince int,
-  @idPosition int,
-  @idDept int,
+  @PositionId int,
+  @DeptId int,
   @login nvarchar(8),
-  @idOwner int,
+  @OwnerId int,
   @suppyAddress nvarchar(500),
-  @sex int,
-  @decret int,
+  @sex bit,
+  @decret bit,
   @dateStopNotificationText datetime,
   @number nvarchar(50),
-  @isDriver int,
-  @from1C int
+  @isDriver bit,
+  @from1C bit
 as
-begin
   declare @dateBirth datetime
   if (@dateBirthText = '')
     set @dateBirth = null
@@ -32,62 +31,62 @@ begin
   else
     set @dateStopNotification = cast(@dateStopNotificationText as datetime)
 
-  if ((@idDriver = 0)
+  if ((@id = 0)
     and (@number <> ''))
   begin
     select
-      @idDriver = id
+      @id = Id
     from
       Driver
     where
       number = @number
 
-    if (@idDriver is null)
-      set @idDriver = 0
+    if (@id is null)
+      set @id = 0
   end
 
-  if (@idDriver = 0)
+  if (@id = 0)
   begin
-    insert into Driver values(@fio, @idRegion, @dateBirth, @mobile, @email, @fired, @ExpSince, @idPosition, @idDept, @login, @idOwner, @suppyAddress, @sex, @decret, @dateStopNotification, @number, @isDriver, @from1C)
-    set @idDriver = scope_identity()
+    insert into Driver values(@fio, @RegionId, @dateBirth, @mobile, @email, @fired, @ExpSince, @PositionId, @DeptId, @login, @OwnerId, @suppyAddress, @sex, @decret, @dateStopNotification, @number, @isDriver, @from1C)
+    set @id = scope_identity()
   end
   else
-  if (@idPosition = 47
+  if (@PositionId = 47
     and @login = 'petumiru')
     update Driver
     set Fio = @fio,
-        RegionId = @idRegion,
+        RegionId = @RegionId,
         DateBirth = @dateBirth,
         Mobile = '',
         Email = '',
         Fired = @fired,
         ExpSince = @ExpSince,
-        PositionId = @idPosition,
-        DeptId = @idDept,
-        login = @login,
-        OwnerId = @idOwner,
+        PositionId = @PositionId,
+        DeptId = @DeptId,
+        Login = @login,
+        OwnerId = @OwnerId,
         SuppyAddress = @suppyAddress,
         Sex = @sex,
         Decret = @decret,
         DateStopNotification = @dateStopNotification,
-        number = @number,
+        Number = @number,
         IsDriver = 0,
         From1C = @from1C
-    where id = @idDriver
+    where Id = @id
 
   else
     update Driver
     set Fio = @fio,
-        RegionId = @idRegion,
+        RegionId = @RegionId,
         DateBirth = @dateBirth,
         Mobile = @mobile,
         Email = @email,
         Fired = @fired,
         ExpSince = @ExpSince,
-        PositionId = @idPosition,
-        DeptId = @idDept,
+        PositionId = @PositionId,
+        DeptId = @DeptId,
         login = @login,
-        OwnerId = @idOwner,
+        OwnerId = @OwnerId,
         SuppyAddress = @suppyAddress,
         Sex = @sex,
         Decret = @decret,
@@ -95,7 +94,6 @@ begin
         number = @number,
         IsDriver = @isDriver,
         From1C = @from1C
-    where id = @idDriver
+    where Id = @id
 
-  select @idDriver
-end
+  exec dbo.GetDriverById @id

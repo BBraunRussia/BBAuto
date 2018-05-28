@@ -1,4 +1,5 @@
-create procedure [dbo].[GetDrivers]
+create procedure [dbo].[GetDriverById]
+  @id int
 as
   select
     dr.Id,
@@ -11,16 +12,18 @@ as
     ExpSince,
     dr.PositionId,
     dr.DeptId,
-    Login,
+    login,
     OwnerId,
     SuppyAddress,
     Sex,
     Decret,
     DateStopNotification,
-    Number,
+    number,
     IsDriver,
     From1C
   from
     Driver dr
+  where
+    dr.Id = @id
   order by
     Fio

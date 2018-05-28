@@ -183,6 +183,12 @@
     <Compile Include="Services\Documents\Office\OfficeDoc.cs" />
     <Compile Include="Services\Documents\Office\WordDoc.cs" />
     <Compile Include="Services\Documents\WordDocument.cs" />
+    <Compile Include="Services\DriverCar\DriverCarModel.cs" />
+    <Compile Include="Services\DriverCar\DriverCarService.cs" />
+    <Compile Include="Services\DriverCar\IDriverCarService.cs" />
+    <Compile Include="Services\Driver\DriverModel.cs" />
+    <Compile Include="Services\Driver\DriverService.cs" />
+    <Compile Include="Services\Driver\IDriverService.cs" />
     <Compile Include="Services\Grade\GradeMappingProfile.cs" />
     <Compile Include="Services\Grade\GradeModel.cs" />
     <Compile Include="Services\Grade\GradeService.cs" />

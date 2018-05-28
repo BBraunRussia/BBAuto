@@ -1,8 +1,8 @@
 using System;
 
-namespace BBAuto.Repositories.Entities
+namespace BBAuto.Logic.Services.Driver
 {
-  public class DbDriver
+  public class DriverModel
   {
     public int Id { get; set; }
     public string Fio { get; set; }

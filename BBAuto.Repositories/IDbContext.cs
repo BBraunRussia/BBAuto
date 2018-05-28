@@ -15,6 +15,7 @@ namespace BBAuto.Repositories
     IDbEngineType EngineType { get; }
     IDbDiagCard DiagCard { get; }
     IDbDriver Driver { get; }
+    IDbDriverCar DriverCar { get; }
     IDbDealer Dealer { get; }
     IDbEmployeeName EmployeeName { get; }
     IDbFuelCardType FuelCardType { get; }

@@ -3,7 +3,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using BBAuto.App.GUI;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.DiagCard;
+using BBAuto.Logic.Services.Dictionary.Owner;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 
@@ -15,13 +17,19 @@ namespace BBAuto.App.Utils.DGV
 
     private readonly IDiagCardService _diagCardService;
     private readonly IViolationService _violationService;
+    private readonly ICarService _carService;
+    private readonly IOwnerService _ownerService;
 
     public DgvFormatter(
       IDiagCardService diagCardService,
-      IViolationService violationService)
+      IViolationService violationService,
+      ICarService carService,
+      IOwnerService ownerService)
     {
       _diagCardService = diagCardService;
       _violationService = violationService;
+      _carService = carService;
+      _ownerService = ownerService;
     }
 
     public void SetDgv(DataGridView dgv)
@@ -31,21 +39,24 @@ namespace BBAuto.App.Utils.DGV
     
     public void FormatByOwner()
     {
-      var carList = CarList.getInstance();
-
       foreach (DataGridViewRow row in _dgv.Rows)
       {
         int.TryParse(row.Cells[1].Value.ToString(), out int id);
-        var car = carList.getItem(id);
+        var car = _carService.GetCarById(id);
 
         if (car == null)
           return;
 
-        if (car.info.Owner == "ООО \"Б.Браун Медикал\"")
+        var owner = _ownerService.GetItemById(car.OwnerId ?? 0);
+
+        if (owner == null)
+          return;
+
+        if (owner.Name == "ООО \"Б.Браун Медикал\"")
         {
           row.DefaultCellStyle.BackColor = BBColors.bbGreen3;
         }
-        else if (car.info.Owner == "ООО \"ГЕМАТЕК\"")
+        else if (owner.Name == "ООО \"ГЕМАТЕК\"")
         {
           row.DefaultCellStyle.BackColor = BBColors.bbGray5;
         }

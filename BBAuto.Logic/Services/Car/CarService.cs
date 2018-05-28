@@ -10,6 +10,7 @@ using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Dictionary.Color;
 using BBAuto.Logic.Services.Dictionary.Mark;
+using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
@@ -23,19 +24,22 @@ namespace BBAuto.Logic.Services.Car
     private readonly IDiagCardService _diagCardService;
     private readonly IMarkService _markService;
     private readonly IColorService _colorService;
+    private readonly IMileageService _mileageService;
 
     public CarService(
       IDbContext dbContext,
       ISaleCarService carSaleService,
       IDiagCardService diagCardService,
       IMarkService markService,
-      IColorService colorService)
+      IColorService colorService,
+      IMileageService mileageService)
     {
       _dbContext = dbContext;
       _carSaleService = carSaleService;
       _diagCardService = diagCardService;
       _markService = markService;
       _colorService = colorService;
+      _mileageService = mileageService;
     }
 
     public CarModel GetCarByGrz(string grz)
@@ -61,6 +65,12 @@ namespace BBAuto.Logic.Services.Car
       var result = _dbContext.Car.UpsertCar(dbModel);
 
       return Mapper.Map<CarModel>(result);
+    }
+
+    public int GetNextBbNumber()
+    {
+      var lastCar = _dbContext.Car.GetCars().OrderByDescending(c => c.BbNumber).FirstOrDefault();
+      return lastCar?.BbNumber + 1 ?? 1;
     }
 
     public IList<CarModel> GetCars()
@@ -177,21 +187,14 @@ namespace BBAuto.Logic.Services.Car
     {
       const int mileageGuarantee = 100000;
 
-      var mileageList = MileageList.getInstance();
-      var mileage = mileageList.getItem(carId);
+      var mileage = _mileageService.GetLastMileage(carId);
 
       var dbCar = _dbContext.Car.GetCarById(carId);
       var car = Mapper.Map<CarModel>(dbCar);
       
       var dateEnd = car.DateGet?.AddYears(3);
-
-      var miles = 0;
-      if (mileage != null)
-      {
-        int.TryParse(mileage.Count, out miles);
-      }
-
-      if (miles < mileageGuarantee && DateTime.Today < dateEnd)
+      
+      if ((mileage?.Count ?? 0) < mileageGuarantee && DateTime.Today < dateEnd)
         return dateEnd;
 
       return null;
@@ -202,8 +205,7 @@ namespace BBAuto.Logic.Services.Car
       var mark = _markService.GetItemById(car.MarkId ?? 0);
       var model = ModelList.getInstance().getItem(car.ModelId);
 
-      var mileageList = MileageList.getInstance();
-      ForCar.Mileage mileage = mileageList.getItem(car.Id);
+      //ForCar.Mileage mileage = mileageList.getItem(car.Id);
       InvoiceList invoiceList = InvoiceList.getInstance();
       Invoice invoice = invoiceList.GetItem(car.Id);
 
@@ -218,13 +220,8 @@ namespace BBAuto.Logic.Services.Car
         ? regions.getItem(car.RegionIdUsing.Value)
         : regions.getItem(Convert.ToInt32(invoice.RegionToId));
 
-      int mileageInt = 0;
-      DateTime mileageDate = DateTime.Today;
-      if (mileage != null)
-      {
-        int.TryParse(mileage.Count, out mileageInt);
-        mileageDate = mileage.MonthToString();
-      }
+      var mileage = _mileageService.GetLastMileage(car.Id);
+      
 
       var driver = DriverCarList.getInstance().GetDriver(car.Id);
       var owner = Owners.getInstance().getItem(car.OwnerId.Value);
@@ -233,9 +230,9 @@ namespace BBAuto.Logic.Services.Car
 
       return new object[]
       {
-        car.Id, car.Id, car.BbNumber, car.Grz, mark.Name ?? "отсутствует", model.Name, car.Vin, regionName,
-        driver.GetName(NameType.Full), pts.Number, sts.Number, car.Year, mileageInt,
-        mileageDate, owner, guaranteeEndDate, GetStatus(car)
+        car.Id, car.Id, car.BbNumberString, car.Grz, mark.Name ?? "отсутствует", model.Name, car.Vin, regionName,
+        driver.GetName(NameType.Full), pts.Number, sts.Number, car.Year, mileage?.Count,
+        mileage?.Date, owner, guaranteeEndDate, GetStatus(car)
       };
     }
 

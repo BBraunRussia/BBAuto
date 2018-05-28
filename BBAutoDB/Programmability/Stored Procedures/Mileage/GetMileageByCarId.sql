@@ -1,5 +1,5 @@
 create procedure [dbo].[GetMileageByCarId]
-  @idCar int
+  @CarId int
 as
   select
     m.Id,
@@ -9,4 +9,4 @@ as
   from
     Mileage m
   where
-    m.carId = @idCar
+    m.CarId = @CarId

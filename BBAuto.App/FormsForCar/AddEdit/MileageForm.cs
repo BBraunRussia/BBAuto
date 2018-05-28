@@ -39,7 +39,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     private void FillFields()
     {
       dtpDate.Value = _mileage.Date;
-      tbCount.Text = _mileage.Count?.ToString();
+      tbCount.Text = _mileage.Count.ToString();
 
       var prev = _mileageService.GetMileageByCarId(_mileage.CarId).OrderByDescending(m => m.Date).FirstOrDefault(m => m.Id != _mileage.Id);
 

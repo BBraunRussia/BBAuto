@@ -16,6 +16,7 @@ namespace BBAuto.Logic.Services.Car
     CarModel GetCarById(int id);
     CarModel Save(CarModel car);
 
+    int GetNextBbNumber();
     string CarToString(int carId);
   }
 }

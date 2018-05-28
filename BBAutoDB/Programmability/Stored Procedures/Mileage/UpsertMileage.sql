@@ -1,19 +1,22 @@
 create procedure [dbo].[UpsertMileage]
-  @idMileage int,
-  @idCar int,
+  @id int,
+  @CarId int,
   @date datetime,
   @count int
 as
-  if (@idMileage = 0)
+  if (@id = 0)
   begin
-    insert into Mileage values(@idCar, @date, @count)
+    insert into Mileage values(@CarId, @date, @count)
 
-    set @idMileage = scope_identity()
+    set @id = scope_identity()
   end
   else
-    update Mileage
-    set DATE = @date,
-        count = @count
-    where id = @idMileage
+    update
+      Mileage
+    set
+      [Date] = @date,
+      count = @count
+    where
+      id = @id
 
-  exec dbo.GetMileageById @idMileage
+  exec dbo.GetMileageById @id

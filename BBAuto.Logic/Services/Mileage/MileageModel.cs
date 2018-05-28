@@ -14,7 +14,7 @@ namespace BBAuto.Logic.Services.Mileage
     }
 
     public int Id { get; private set; }
-    public int? Count { get; private set; }
+    public int Count { get; private set; }
     public DateTime Date { get; set; }
     public int CarId { get; private set; }
 
@@ -31,9 +31,7 @@ namespace BBAuto.Logic.Services.Mileage
 
     public override string ToString()
     {
-      return Count.HasValue
-        ? string.Concat(MyString.GetFormatedDigitInteger(Count.ToString()), " км от ", Date.ToShortDateString())
-        : "(нет данных)";
+      return string.Concat(MyString.GetFormatedDigitInteger(Count.ToString()), " км от ", Date.ToShortDateString());
     }
 
     public object[] ToRow()

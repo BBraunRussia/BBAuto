@@ -126,6 +126,7 @@
     <Folder Include="Programmability\Stored Procedures\Users" />
     <Folder Include="Programmability\Stored Procedures\Car\Sale" />
     <Folder Include="Programmability\Stored Procedures\Car\Doc" />
+    <Folder Include="Programmability\Stored Procedures\DriverCar" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
@@ -224,7 +225,6 @@
     <Build Include="Programmability\Stored Procedures\Dealer\GetDealers.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\UpsertDriver.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\GetDrivers.sql" />
-    <Build Include="Programmability\Stored Procedures\Driver\GetDriverCars.sql" />
     <Build Include="Programmability\Stored Procedures\DriverLicense\DeleteDriverLicense.sql" />
     <Build Include="Programmability\Stored Procedures\DriverLicense\UpsertDriverLicense.sql" />
     <Build Include="Programmability\Stored Procedures\DriverLicense\GetDriverLicenses.sql" />
@@ -426,6 +426,10 @@
     <Build Include="Programmability\Stored Procedures\ProxyType\GetProxyTypeById.sql" />
     <Build Include="Programmability\Stored Procedures\FuelCardType\GetFuelCardTypeById.sql" />
     <Build Include="Programmability\Stored Procedures\FuelCardType\DeleteFuelCardType.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCars.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByDriverId.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByCarId.sql" />
+    <Build Include="Programmability\Stored Procedures\Driver\GetDriverById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

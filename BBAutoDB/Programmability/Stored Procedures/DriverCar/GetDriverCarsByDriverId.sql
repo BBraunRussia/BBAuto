@@ -1,6 +1,6 @@
-create procedure [dbo].[GetDriverCars]
+create procedure [dbo].[GetDriverCarsByDriverId]
+  @driverId int
 as
-begin
   select
     CarId,
     DriverId,
@@ -9,4 +9,5 @@ begin
     number
   from
     Function_DriverCar_Select()
-end
+  where
+    DriverId = @driverId

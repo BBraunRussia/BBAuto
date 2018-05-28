@@ -23,6 +23,7 @@ using BBAuto.Logic.Services.Dictionary.ServiceStantion;
 using BBAuto.Logic.Services.Dictionary.StatusAfterDtp;
 using BBAuto.Logic.Services.Dictionary.ViolationType;
 using BBAuto.Logic.Services.Documents;
+using BBAuto.Logic.Services.DriverCar;
 using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Services.Violation;
@@ -156,6 +157,10 @@ namespace BBAuto.Logic
       container.Register(Component.For<IDictionaryService<ViolationTypeModel>>()
         .Forward<IViolationTypeService>()
         .ImplementedBy<ViolationTypeService>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IDriverCarService>()
+        .ImplementedBy<DriverCarService>()
         .LifestyleTransient());
     }
   }

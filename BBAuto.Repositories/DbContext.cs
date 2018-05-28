@@ -50,6 +50,7 @@ namespace BBAuto.Repositories
     public IDbEngineType EngineType => CreateRepository<IDbEngineType>();
     public IDbDiagCard DiagCard => CreateRepository<IDbDiagCard>();
     public IDbDriver Driver => CreateRepository<IDbDriver>();
+    public IDbDriverCar DriverCar => CreateRepository<IDbDriverCar>();
     public IDbDealer Dealer => CreateRepository<IDbDealer>();
     public IDbEmployeeName EmployeeName => CreateRepository<IDbEmployeeName>();
     public IDbFuelCardType FuelCardType => CreateRepository<IDbFuelCardType>();

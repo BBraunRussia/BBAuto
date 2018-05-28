@@ -171,7 +171,7 @@ namespace BBAuto.Logic.ForCar
 
       return new object[]
       {
-        Id, CarId, car.BbNumber, car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
+        Id, CarId, car.BbNumberString, car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
         violationType.getItem(_idViolationType), _sum
       };
     }
@@ -188,7 +188,7 @@ namespace BBAuto.Logic.ForCar
       {
         Id,
         CarId,
-        car.BbNumber,
+        car.BbNumberString,
         car.Grz,
         Number,
         Date,

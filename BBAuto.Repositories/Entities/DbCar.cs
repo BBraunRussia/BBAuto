@@ -5,7 +5,7 @@ namespace BBAuto.Repositories.Entities
   public class DbCar
   {
     public int Id { get; set; }
-    public string BbNumber { get; set; }
+    public int BbNumber { get; set; }
     public string Grz { get; set; }
     public string Vin { get; set; }
     public int? Year { get; set; }

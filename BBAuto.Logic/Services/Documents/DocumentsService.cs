@@ -14,6 +14,7 @@ using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Dictionary.Color;
 using BBAuto.Logic.Services.Dictionary.EngineType;
 using BBAuto.Logic.Services.Dictionary.Mark;
+using BBAuto.Logic.Services.Driver;
 using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
@@ -313,7 +314,7 @@ namespace BBAuto.Logic.Services.Documents
      
      */
 
-    public ExcelDocument CreateWaybill(int carId, DateTime date, Driver driver = null)
+    public ExcelDocument CreateWaybill(int carId, DateTime date, DriverModel driver = null)
     {
       var car = _carService.GetCarById(carId);
       var mark = _markService.GetItemById(car.MarkId ?? 0);
@@ -345,7 +346,7 @@ namespace BBAuto.Logic.Services.Documents
       
       var document = new ExcelDocument("Путевой лист");
 
-      document.SetValue(4, 28, car.BbNumber);
+      document.SetValue(4, 28, car.BbNumberString);
 
       var myDate = new MyDateTime(date.ToShortDateString());
 

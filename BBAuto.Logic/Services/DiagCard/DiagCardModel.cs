@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Services.DiagCard
 
     public object[] ToRow(CarModel car)
     {
-      return new object[] { Id, CarId, car.BbNumber, car.Grz, Number, DateEnd };
+      return new object[] { Id, CarId, car.BbNumberString, car.Grz, Number, DateEnd };
     }
 
     public string ToMail(ICarService carService)

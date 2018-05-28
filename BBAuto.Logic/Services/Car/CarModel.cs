@@ -5,7 +5,7 @@ namespace BBAuto.Logic.Services.Car
   public class CarModel
   {
     public int Id { get; private set; }
-    public string BbNumber { get; set; }
+    public int BbNumber { private get; set; }
     public string Grz { get; set; }
     public string Vin { get; set; }
     public int? Year { get; set; }
@@ -29,5 +29,7 @@ namespace BBAuto.Logic.Services.Car
     public string Dop { get; set; }
     public string Events { get; set; }
     public int? DealerId { get; set; }
+
+    public string BbNumberString => "ÀÌ-" + BbNumber;
   }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,6 +7,7 @@ using BBAuto.Logic.Common;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Driver;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
@@ -79,12 +80,12 @@ namespace BBAuto.Logic.Services.Violation
       return CreateTable(violations, car, null);
     }
     
-    public Driver GetDriver(ViolationModel violation)
+    public DriverModel GetDriver(ViolationModel violation)
     {
       var driverCarList = DriverCarList.getInstance();
       var driver = driverCarList.GetDriver(violation.CarId, violation.Date);
 
-      return driver ?? new Driver();
+      return driver ?? new DriverModel();
     }
 
     private static DataTable CreateTable(IEnumerable<ViolationModel> violations, CarModel car, ICarService carService)

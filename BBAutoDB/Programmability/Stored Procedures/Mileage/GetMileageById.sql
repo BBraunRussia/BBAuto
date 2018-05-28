@@ -1,12 +1,12 @@
 create procedure [dbo].[GetMileageById]
-  @idMileage int
+  @id int
 as
  select
-    m.id,
-    m.carId,
+    m.Id,
+    m.CarId,
     m.Date,
     m.Count
   from
     Mileage m
   where
-    m.Id = @idMileage
+    m.Id = @id

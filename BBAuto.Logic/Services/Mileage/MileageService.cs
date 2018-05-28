@@ -44,7 +44,7 @@ namespace BBAuto.Logic.Services.Mileage
     {
       return carId == 0
         ? null
-        : Mapper.Map<MileageModel>(_dbContext.Mileage.GetMileageByCarId(carId).OrderByDescending(m => m.Date).First());
+        : Mapper.Map<MileageModel>(_dbContext.Mileage.GetMileageByCarId(carId).OrderByDescending(m => m.Date).FirstOrDefault());
     }
 
     public MileageModel GetMileage(int id)

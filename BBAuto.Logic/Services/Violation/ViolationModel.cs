@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Driver;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.Services.Violation
@@ -45,17 +46,17 @@ namespace BBAuto.Logic.Services.Violation
 
       return new object[]
       {
-        Id, CarId, car.BbNumber, car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
+        Id, CarId, car.BbNumberString, car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
         violationType.getItem(ViolationTypeId), Sum
       };
     }
 
-    public Driver GetDriver()
+    public DriverModel GetDriver()
     {
       var driverCarList = DriverCarList.getInstance();
       var driver = driverCarList.GetDriver(CarId, Date);
 
-      return driver ?? new Driver();
+      return driver ?? new DriverModel();
     }
   }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BBAuto.Repositories.Entities;
 using Insight.Database;
 
@@ -6,6 +7,8 @@ namespace BBAuto.Repositories.Interfaces
   [Sql(Schema = "dbo")]
   public interface IDbDriver
   {
-    DbDriver GetDriversByCarId(int carId);
+    IList<DbDriver> GetDrivers();
+    DbDriver UpsertDriver(DbDriver driver);
+    DbDriver GetDriverById(int id);
   }
 }

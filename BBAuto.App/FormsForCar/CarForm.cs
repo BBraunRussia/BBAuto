@@ -92,7 +92,11 @@ namespace BBAuto.App.FormsForCar
     {
       InitializeComponent();
 
-      _car = _carService.GetCarById(carId) ?? new CarModel();
+      _car = _carService.GetCarById(carId) ??
+             new CarModel
+             {
+               BbNumber = _carService.GetNextBbNumber()
+             };
 
       _driverCarList = DriverCarList.getInstance();
       _driverList = DriverList.getInstance();
@@ -265,7 +269,7 @@ namespace BBAuto.App.FormsForCar
       if (_car.ColorId.HasValue)
         cbColor.SelectedValue = _car.ColorId;
 
-      tbBbNumber.Text = _car.BbNumber;
+      tbBbNumber.Text = _car.BbNumberString;
       tbVin.Text = _car.Vin;
       tbYear.Text = _car.Year.ToString();
       tbENumber.Text = _car.ENumber;
@@ -378,15 +382,7 @@ namespace BBAuto.App.FormsForCar
           MessageBoxIcon.Warning);
         return false;
       }
-
-      if (string.IsNullOrEmpty(tbBbNumber.Text))
-      {
-        MessageBox.Show(Messages.NeedBBNumber, Captions.FieldIsRequired, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        return false;
-      }
-
-      _car.BbNumber = tbBbNumber.Text;
-
+      
       if (int.TryParse(cbMark.SelectedValue.ToString(), out int idMark))
         _car.MarkId = idMark;
 
