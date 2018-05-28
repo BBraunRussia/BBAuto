@@ -72,7 +72,7 @@
     <Folder Include="Programmability\Stored Procedures\DiagCard" />
     <Folder Include="Programmability\Stored Procedures\Dealer" />
     <Folder Include="Programmability\Stored Procedures\Driver" />
-    <Folder Include="Programmability\Stored Procedures\DriverLicense" />
+    <Folder Include="Programmability\Stored Procedures\License" />
     <Folder Include="Programmability\Stored Procedures\DTP" />
     <Folder Include="Programmability\Stored Procedures\DTPFile" />
     <Folder Include="Programmability\Stored Procedures\Employee" />
@@ -142,7 +142,7 @@
     <Build Include="Tables\DiagCard.sql" />
     <Build Include="Tables\Dealer.sql" />
     <Build Include="Tables\Driver.sql" />
-    <Build Include="Tables\DriverLicense.sql" />
+    <Build Include="Tables\License.sql" />
     <Build Include="Tables\DTP.sql" />
     <Build Include="Tables\DtpFile.sql" />
     <Build Include="Tables\Employees.sql" />
@@ -225,9 +225,9 @@
     <Build Include="Programmability\Stored Procedures\Dealer\GetDealers.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\UpsertDriver.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\GetDrivers.sql" />
-    <Build Include="Programmability\Stored Procedures\DriverLicense\DeleteDriverLicense.sql" />
-    <Build Include="Programmability\Stored Procedures\DriverLicense\UpsertDriverLicense.sql" />
-    <Build Include="Programmability\Stored Procedures\DriverLicense\GetDriverLicenses.sql" />
+    <Build Include="Programmability\Stored Procedures\License\DeleteLicense.sql" />
+    <Build Include="Programmability\Stored Procedures\License\UpsertLicense.sql" />
+    <Build Include="Programmability\Stored Procedures\License\GetLicenses.sql" />
     <Build Include="Programmability\Stored Procedures\DTP\DeleteDTP.sql" />
     <Build Include="Programmability\Stored Procedures\DTP\UpsertDTP.sql" />
     <Build Include="Programmability\Stored Procedures\DTP\GetDTPs.sql" />
@@ -431,6 +431,10 @@
     <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\GetDriverById.sql" />
     <Build Include="Programmability\Stored Procedures\TempMove\GetTempMoveById.sql" />
+    <Build Include="Programmability\Stored Procedures\TempMove\GetTempMoveByCarId.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByCarIdAndDate.sql" />
+    <Build Include="Programmability\Stored Procedures\License\GetLicenseById.sql" />
+    <Build Include="Programmability\Stored Procedures\License\GetLicensesByDriverId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

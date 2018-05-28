@@ -6,6 +6,8 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Dept;
+using BBAuto.Logic.Services.Driver;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 
@@ -13,23 +15,31 @@ namespace BBAuto.App.FormsForDriver.AddEdit
 {
   public partial class DriverForm : Form
   {
-    private Driver _driver;
+    private DriverModel _driver;
     private Ldap ldap = new Ldap();
 
     private WorkWithForm _workWithForm;
 
-    public DriverForm(Driver driver)
+    private readonly IDeptService _deptService;
+    private readonly IPositionService _positionService;
+
+    public DriverForm(
+      DriverModel driver,
+      IDeptService deptService,
+      IPositionService positionService)
     {
       InitializeComponent();
 
       _driver = driver;
+      _deptService = deptService;
+      _positionService = positionService;
     }
 
     private void Driver_AddEdit_Load(object sender, EventArgs e)
     {
       loadData();
 
-      tbNumber.Visible = lbNumber.Visible = (_driver.OwnerID < 3);
+      tbNumber.Visible = lbNumber.Visible = (_driver.OwnerId < 3);
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += SetEnable;
@@ -57,7 +67,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
 
       if (_workWithForm.IsEditMode())
       {
-        if (_driver.From1C)
+        if (_driver.From1C ?? false)
         {
           tbCompany.ReadOnly = true;
 
@@ -75,7 +85,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
           tbLogin.ReadOnly = true;
         }
 
-        tbNumber.ReadOnly = _driver.From1C;
+        tbNumber.ReadOnly = _driver.From1C ?? false;
       }
     }
 
@@ -90,20 +100,20 @@ namespace BBAuto.App.FormsForDriver.AddEdit
     {
       tbFio.Text = _driver.GetName(NameType.Full);
       mtbMobile.Text = _driver.Mobile;
-      tbEmail.Text = _driver.email;
-      mtbDateBirth.Text = _driver.DateBirth;
-      if (_driver.Region != null)
-        cbRegion.SelectedValue = _driver.Region.Id;
+      tbEmail.Text = _driver.Email;
+      mtbDateBirth.Text = _driver.DateBirth?.ToShortDateString();
+      if (_driver.RegionId != 0)
+        cbRegion.SelectedValue = _driver.RegionId;
       tbCompany.Text = _driver.CompanyName;
-      chbFired.Checked = _driver.Fired;
+      chbFired.Checked = _driver.Fired ?? false;
       tbPosition.Text = _driver.Position;
       tbExpSince.Text = _driver.ExpSince;
       tbDept.Text = _driver.Dept;
       tbLogin.Text = _driver.Login;
       tbSuppyAddress.Text = _driver.suppyAddress;
 
-      rbMan.Checked = (_driver.SexIndex == 0);
-      rbWoman.Checked = (_driver.SexIndex == 1);
+      rbMan.Checked = _driver.Sex == Sex.Мужской;
+      rbWoman.Checked = _driver.Sex == Sex.Женский;
 
       chbDecret.Checked = _driver.Decret;
       chbNotificationStop.Checked = _driver.NotificationStop;

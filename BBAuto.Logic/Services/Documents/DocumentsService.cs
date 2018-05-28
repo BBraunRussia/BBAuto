@@ -11,11 +11,13 @@ using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Dictionary.Color;
+using BBAuto.Logic.Services.Dictionary.EmployeesName;
 using BBAuto.Logic.Services.Dictionary.EngineType;
 using BBAuto.Logic.Services.Dictionary.Mark;
 using BBAuto.Logic.Services.Driver;
 using BBAuto.Logic.Services.Driver.DriverCar;
 using BBAuto.Logic.Services.Grade;
+using BBAuto.Logic.Services.License;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 using Common.Resources;
@@ -33,6 +35,8 @@ namespace BBAuto.Logic.Services.Documents
     private readonly IEngineTypeService _engineTypeService;
     private readonly IColorService _colorService;
     private readonly IDriverCarService _driverCarService;
+    private readonly ILicenseService _licenseService;
+    private readonly IDriverService _driverService;
 
     public DocumentsService(
       IDiagCardService diagCardService,
@@ -41,7 +45,9 @@ namespace BBAuto.Logic.Services.Documents
       IMarkService markService,
       IEngineTypeService engineTypeService,
       IColorService colorService,
-      IDriverCarService driverCarService)
+      IDriverCarService driverCarService,
+      ILicenseService licenseService,
+      IDriverService driverService)
     {
       _diagCardService = diagCardService;
       _carService = carService;
@@ -50,6 +56,8 @@ namespace BBAuto.Logic.Services.Documents
       _engineTypeService = engineTypeService;
       _colorService = colorService;
       _driverCarService = driverCarService;
+      _licenseService = licenseService;
+      _driverService = driverService;
 
       _driverList = DriverList.getInstance();
     }
@@ -208,7 +216,7 @@ namespace BBAuto.Logic.Services.Documents
       var driver = driverCarList.GetDriver(car.Id, dtp.Date);
 
       var passportList = PassportList.getInstance();
-      var passport = passportList.getLastPassport(driver);
+      var passport = passportList.getLastPassport(driver.Id);
 
       if (passport.Number != string.Empty)
       {
@@ -333,7 +341,7 @@ namespace BBAuto.Logic.Services.Documents
 
         if (driver == null)
         {
-          driver = driverCarList.GetDriver(carId);
+          driver = _driverCarService.GetDriver(carId);
           var invoiceList = InvoiceList.getInstance();
           var invoice = invoiceList.GetItem(carId);
 
@@ -382,8 +390,7 @@ namespace BBAuto.Logic.Services.Documents
       document.SetValue(44, 16, driver.GetName(NameType.Short));
       document.SetValue(26, 40, driver.GetName(NameType.Short));
 
-      var licencesList = LicenseList.getInstance();
-      var driverLicense = licencesList.getItem(driver);
+      var driverLicense = _licenseService.GetLicenseByDriverId(driver.Id);
 
       document.SetValue(14, 10, driverLicense.Number);
 
@@ -391,21 +398,21 @@ namespace BBAuto.Logic.Services.Documents
 
       string suppyAddressName;
 
-      if (driver.suppyAddress != string.Empty)
+      if (driver.SuppyAddress != string.Empty)
       {
-        suppyAddressName = driver.suppyAddress;
+        suppyAddressName = driver.SuppyAddress;
       }
       else
       {
         var suppyAddressList = SuppyAddressList.getInstance();
-        var suppyAddress = suppyAddressList.getItemByRegion(driver.Region.Id);
+        var suppyAddress = suppyAddressList.getItemByRegion(driver.RegionId);
 
         if (suppyAddress != null)
           suppyAddressName = suppyAddress.ToString();
         else
         {
           var passportList = PassportList.getInstance();
-          var passport = passportList.getLastPassport(driver);
+          var passport = passportList.getLastPassport(driver.Id);
           suppyAddressName = passport.Address;
         }
       }
@@ -430,21 +437,21 @@ namespace BBAuto.Logic.Services.Documents
       string mechanicName;
 
       var employeesList = EmployeesList.getInstance();
-      var accountant = employeesList.getItem(driver.Region, "Бухгалтер Б.Браун");
+      var accountant = employeesList.getItem(driver.RegionId, "Бухгалтер Б.Браун");
 
-      if (driver.IsOne)
+      if (_driverService.GetDriversByRegionId(driver.RegionId).Count == 1)
       {
         mechanicName = driver.GetName(NameType.Short);
       }
       else
       {
-        var mechanic = employeesList.getItem(driver.Region, "Механик", true);
+        var mechanic = employeesList.getItem(driver.RegionId, "Механик", true);
         mechanicName = mechanic == null
           ? driver.GetName(NameType.Short)
           : mechanic.Name;
       }
 
-      var dispatcher = employeesList.getItem(driver.Region, "Диспечер-нарядчик");
+      var dispatcher = employeesList.getItem(driver.RegionId, "Диспечер-нарядчик");
       var dispatcherName = dispatcher.Name;
 
       document.SetValue(22, 40, mechanicName);
@@ -608,7 +615,7 @@ namespace BBAuto.Logic.Services.Documents
 
       Passport passport = null;
       if (driver != null)
-        passport = passportList.getLastPassport(driver);
+        passport = passportList.getLastPassport(driver.Id);
 
       var passportToString = "нет данных";
 

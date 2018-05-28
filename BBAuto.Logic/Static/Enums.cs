@@ -164,5 +164,11 @@ namespace BBAuto.Logic.Static
     Петрол,
     Чеки,
     Neste
-  };
+  }
+
+  public enum Sex
+  {
+    Мужской = 0,
+    Женский = 1
+  }
 }

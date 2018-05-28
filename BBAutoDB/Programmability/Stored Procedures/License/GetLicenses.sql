@@ -1,6 +1,5 @@
-create procedure [dbo].[GetDriverLicenses]
+create procedure [dbo].[GetLicenses]
 as
-begin
   select
     Id,
     DriverId,
@@ -10,5 +9,4 @@ begin
     [File],
     NotificationSent
   from
-    DriverLicense
-end
+    License

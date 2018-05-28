@@ -20,6 +20,7 @@ namespace BBAuto.Repositories
     IDbEmployeeName EmployeeName { get; }
     IDbFuelCardType FuelCardType { get; }
     IDbGrade Grade { get; }
+    IDbLicense License { get; }
     IDbMark Mark { get; }
     IDbMileage Mileage { get; }
     IDbInvoice Invoice { get; }
@@ -29,6 +30,7 @@ namespace BBAuto.Repositories
     IDbRepairType RepairType { get; }
     IDbServiceStantion ServiceStantion { get; }
     IDbStatusAfterDtp StatusAfterDtp { get; }
+    IDbTempMove TempMove { get; }
     IDbViolation Violation { get; }
     IDbViolationType ViolationType { get; }
   }

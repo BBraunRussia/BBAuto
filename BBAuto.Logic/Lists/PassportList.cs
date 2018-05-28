@@ -80,9 +80,9 @@ namespace BBAuto.Logic.Lists
       return dt;
     }
 
-    public Passport getLastPassport(Driver driver)
+    public Passport getLastPassport(int driverId)
     {
-      var passports = list.Where(item => item.Driver.Id == driver.Id).OrderByDescending(item => item.GiveDate);
+      var passports = list.Where(item => item.Driver.Id == driverId).OrderByDescending(item => item.GiveDate);
 
       return passports.FirstOrDefault();
     }

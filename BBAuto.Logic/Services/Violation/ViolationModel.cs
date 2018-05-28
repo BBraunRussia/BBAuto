@@ -50,13 +50,5 @@ namespace BBAuto.Logic.Services.Violation
         violationType.getItem(ViolationTypeId), Sum
       };
     }
-
-    public DriverModel GetDriver()
-    {
-      var driverCarList = DriverCarList.getInstance();
-      var driver = driverCarList.GetDriver(CarId, Date);
-
-      return driver ?? new DriverModel();
-    }
   }
 }

@@ -1,4 +1,4 @@
-create procedure [dbo].[UpsertDriverLicense]
+create procedure [dbo].[UpsertLicense]
   @id int,
   @DriverId int,
   @number nvarchar(50),
@@ -10,12 +10,12 @@ as
 begin
   if (@id = 0)
   begin
-    insert into DriverLicense values(@number, @dateBegin, @dateEnd, @DriverId, @file, 0)
+    insert into License values(@number, @dateBegin, @dateEnd, @DriverId, @file, 0)
 
     set @id = scope_identity()
   end
   else
-    update DriverLicense
+    update License
     set Number = @number,
         DateBegin = @dateBegin,
         DateEnd = @dateEnd,

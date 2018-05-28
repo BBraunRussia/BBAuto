@@ -55,6 +55,7 @@ namespace BBAuto.Repositories
     public IDbEmployeeName EmployeeName => CreateRepository<IDbEmployeeName>();
     public IDbFuelCardType FuelCardType => CreateRepository<IDbFuelCardType>();
     public IDbGrade Grade => CreateRepository<IDbGrade>();
+    public IDbLicense License => CreateRepository<IDbLicense>();
     public IDbMark Mark => CreateRepository<IDbMark>();
     public IDbMileage Mileage => CreateRepository<IDbMileage>();
     public IDbInvoice Invoice => CreateRepository<IDbInvoice>();
@@ -64,6 +65,7 @@ namespace BBAuto.Repositories
     public IDbRepairType RepairType => CreateRepository<IDbRepairType>();
     public IDbServiceStantion ServiceStantion => CreateRepository<IDbServiceStantion>();
     public IDbStatusAfterDtp StatusAfterDtp => CreateRepository<IDbStatusAfterDtp>();
+    public IDbTempMove TempMove => CreateRepository<IDbTempMove>();
     public IDbViolation Violation => CreateRepository<IDbViolation>();
     public IDbViolationType ViolationType => CreateRepository<IDbViolationType>();
   }

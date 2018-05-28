@@ -77,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Loaders\IFuelLoader.cs" />
+    <Compile Include="Services\Dept\DeptService.cs" />
+    <Compile Include="Services\Dept\IDeptService.cs" />
     <Compile Include="Services\Dictionary\DictionaryMappingProfile.cs" />
     <Compile Include="Services\Dictionary\FuelCardType\FuelCardTypeModel.cs" />
     <Compile Include="Services\Dictionary\FuelCardType\FuelCardTypeService.cs" />
@@ -196,10 +198,16 @@
     <Compile Include="Services\Grade\IGradeService.cs" />
     <Compile Include="Services\Dictionary\Mark\MarkModel.cs" />
     <Compile Include="Services\Dictionary\Mark\MarkService.cs" />
+    <Compile Include="Services\License\ILicenseService.cs" />
+    <Compile Include="Services\License\LicenseMappingProfile.cs" />
+    <Compile Include="Services\License\LicenseModel.cs" />
+    <Compile Include="Services\License\LicenseService.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />
     <Compile Include="Services\Mileage\MileageService.cs" />
+    <Compile Include="Services\Position\IPositionService.cs" />
+    <Compile Include="Services\Position\PositionService.cs" />
     <Compile Include="Services\TempMove\ITempMoveService.cs" />
     <Compile Include="Services\TempMove\TempMoveModel.cs" />
     <Compile Include="Services\TempMove\TempMoveService.cs" />

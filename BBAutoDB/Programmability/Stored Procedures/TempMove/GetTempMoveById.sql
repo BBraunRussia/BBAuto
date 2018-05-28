@@ -1,6 +1,6 @@
 create procedure [dbo].[GetTempMoveById]
   @id int
-AS
+as
   select
     Id,
     CarId,

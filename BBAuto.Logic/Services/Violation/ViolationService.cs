@@ -4,10 +4,8 @@ using System.Data;
 using System.Linq;
 using AutoMapper;
 using BBAuto.Logic.Common;
-using BBAuto.Logic.Entities;
-using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
-using BBAuto.Logic.Services.Driver;
+using BBAuto.Logic.Services.Driver.DriverCar;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
@@ -17,10 +15,14 @@ namespace BBAuto.Logic.Services.Violation
   public class ViolationService : IViolationService
   {
     private readonly IDbContext _dbContext;
+    private readonly IDriverCarService _driverCarService;
 
-    public ViolationService(IDbContext dbContext)
+    public ViolationService(
+      IDbContext dbContext,
+      IDriverCarService driverCarService)
     {
       _dbContext = dbContext;
+      _driverCarService = driverCarService;
     }
 
     public ViolationModel Save(ViolationModel violation)
@@ -34,7 +36,8 @@ namespace BBAuto.Logic.Services.Violation
 
     public void Agree(ViolationModel violation, CarModel car)
     {
-      var driverName = GetDriver(violation).GetName(NameType.Full);
+      var driver = _driverCarService.GetDriver(violation.CarId, violation.Date);
+      var driverName = driver?.GetName(NameType.Full);
 
       var email = new EMail();
       
@@ -78,14 +81,6 @@ namespace BBAuto.Logic.Services.Violation
       var violations = list.OrderByDescending(v => v.Date);
 
       return CreateTable(violations, car, null);
-    }
-    
-    public DriverModel GetDriver(ViolationModel violation)
-    {
-      var driverCarList = DriverCarList.getInstance();
-      var driver = driverCarList.GetDriver(violation.CarId, violation.Date);
-
-      return driver ?? new DriverModel();
     }
 
     private static DataTable CreateTable(IEnumerable<ViolationModel> violations, CarModel car, ICarService carService)

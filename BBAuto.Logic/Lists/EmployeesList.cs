@@ -47,61 +47,58 @@ namespace BBAuto.Logic.Lists
       list.Add(employees);
     }
 
-    public void Delete(Region region, int idEmployeesName)
+    public void Delete(int regionId, int idEmployeesName)
     {
-      Employees employees = getItem(region, idEmployeesName);
+      Employees employees = getItem(regionId, idEmployeesName);
 
       list.Remove(employees);
 
       employees.Delete();
     }
 
-    public Employees getItem(Region region, string EmployeesName, bool allowNull = false)
+    public Employees getItem(int regionId, string EmployeesName, bool allowNull = false)
     {
-      int idEmployeesName = 0;
+      var idEmployeesName = 0;
       EmployeesNames employeesNames = EmployeesNames.getInstance();
       idEmployeesName = employeesNames.getItem(EmployeesName);
 
-      return getItem(region, idEmployeesName, allowNull);
+      return getItem(regionId, idEmployeesName, allowNull);
     }
 
-    private Employees getItem(Region region, int idEmployeesName, bool allowNull = false)
+    private Employees getItem(int regionId, int idEmployeesName, bool allowNull = false)
     {
-      List<Employees> EmployeesList = getList(region, idEmployeesName);
+      var employeesList = getList(regionId, idEmployeesName);
       Employees employees;
 
-      if (EmployeesList.Count() > 0)
-        employees = EmployeesList.First() as Employees;
+      if (employeesList.Any())
+        employees = employeesList.First();
       else if (allowNull)
         return null;
       else
       {
-        RegionList regionList = RegionList.getInstance();
-        region = regionList.getItem(1);
+        var regionList = RegionList.getInstance();
+        regionId = 1;
 
-        EmployeesList = getList(region, idEmployeesName);
+        employeesList = getList(regionId, idEmployeesName);
 
-        if (EmployeesList.Count() > 0)
-          employees = EmployeesList.First() as Employees;
-        else
-          employees = new Employees();
+        employees = employeesList.FirstOrDefault();
       }
 
       return employees;
     }
 
-    private List<Employees> getList(Region region, int idEmployeesName)
+    private List<Employees> getList(int regionId, int idEmployeesName)
     {
-      var EmployeesList = from employees in list
-        where employees.Region == region && employees.IdEmployeesName == idEmployeesName.ToString()
+      var employeesList = from employees in list
+        where employees.Region.Id == regionId && employees.IdEmployeesName == idEmployeesName.ToString()
         select employees;
 
-      return EmployeesList.ToList();
+      return employeesList.ToList();
     }
 
     public DataTable ToDataTable()
     {
-      DataTable dt = new DataTable();
+      var dt = new DataTable();
       dt.Columns.Add("idRegion");
       dt.Columns.Add("idEmployeesName");
       dt.Columns.Add("Регион");

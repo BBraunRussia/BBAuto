@@ -5,6 +5,7 @@ using BBAuto.App.FormsForDriver.AddEdit;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Driver.DriverCar;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using Common.Resources;
@@ -16,6 +17,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     private ICarForm _carForm;
     private readonly IViolationService _violationService;
     private readonly ICarService _carService;
+    private readonly IDriverCarService _driverCarService;
 
     private ViolationModel _violation;
 
@@ -23,12 +25,14 @@ namespace BBAuto.App.FormsForCar.AddEdit
     
     public ViolationForm(
       IViolationService violationService,
-      ICarService carService)
+      ICarService carService,
+      IDriverCarService driverCarService)
     {
       InitializeComponent();
 
       _violationService = violationService;
       _carService = carService;
+      _driverCarService = driverCarService;
     }
 
     public DialogResult ShowDialog(int violationId, int carId, ICarForm carForm)
@@ -74,8 +78,11 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
       chbNoDeduction.Checked = _violation.NoDeduction;
 
-      llDriver.Text = _violation.GetDriver().GetName(NameType.Full);
-      llCar.Text = _carService.GetCarById(_violation.CarId).ToString();
+      var driver = _driverCarService.GetDriver(_violation.CarId, _violation.Date);
+      var car = _carService.GetCarById(_violation.CarId);
+
+      llDriver.Text = driver?.GetName(NameType.Full);
+      llCar.Text = car?.ToString();
     }
 
     private void btnSave_Click(object sender, EventArgs e)
@@ -173,7 +180,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     private void Send()
     {
       var car = _carService.GetCarById(_violation.CarId);
-      var driver = _violationService.GetDriver(_violation);
+      var driver = _driverCarService.GetDriver(_violation.CarId, _violation.Date);
 
       var mail = new EMail();
       mail.SendMailViolation(_violation, car, driver);
@@ -181,7 +188,8 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      var driverAe = new DriverForm(_violation.GetDriver());
+      var driver = _driverCarService.GetDriver(_violation.CarId, _violation.Date);
+      var driverAe = new DriverForm(driver);
       driverAe.ShowDialog();
     }
 
