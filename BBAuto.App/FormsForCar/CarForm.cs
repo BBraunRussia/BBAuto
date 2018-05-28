@@ -379,6 +379,14 @@ namespace BBAuto.App.FormsForCar
         return false;
       }
 
+      if (string.IsNullOrEmpty(tbBbNumber.Text))
+      {
+        MessageBox.Show(Messages.NeedBBNumber, Captions.FieldIsRequired, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return false;
+      }
+
+      _car.BbNumber = tbBbNumber.Text;
+
       if (int.TryParse(cbMark.SelectedValue.ToString(), out int idMark))
         _car.MarkId = idMark;
 
@@ -408,7 +416,7 @@ namespace BBAuto.App.FormsForCar
       if (int.TryParse(cbRegionUsing.SelectedValue.ToString(), out int regionIdUsing))
         _car.RegionIdUsing = regionIdUsing;
 
-      if (int.TryParse(cbDriver.SelectedValue.ToString(), out int driverId))
+      if (int.TryParse(cbDriver.SelectedValue?.ToString(), out int driverId))
         _car.DriverId = driverId;
 
       _car.DateOrder = dtpDateOrder.Value;

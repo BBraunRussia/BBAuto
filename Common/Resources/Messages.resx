@@ -201,4 +201,7 @@
   <data name="CannotDeleteDriver" xml:space="preserve">
     <value>За водителем закреплён автомобиль, удаление невозможно</value>
   </data>
+  <data name="NeedBBNumber" xml:space="preserve">
+    <value>Введите бортовой номер</value>
+  </data>
 </root>

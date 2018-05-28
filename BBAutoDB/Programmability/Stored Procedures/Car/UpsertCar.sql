@@ -1,14 +1,13 @@
 create procedure [dbo].[UpsertCar]
-  @idCar int,
+  @id int,
   @bbNumber int,
   @grz nvarchar(50),
   @vin nvarchar(17),
   @year int,
   @eNumber nvarchar(50),
   @bodyNumber nvarchar(50),
-  @idGrade int,
-  @idColor int,
-  @isLising int,
+  @GradeId int,
+  @ColorId int,
   @LisingDate datetime,
   @InvertoryNumber nvarchar(50),
   @OwnerId int,
@@ -22,36 +21,31 @@ create procedure [dbo].[UpsertCar]
   @dop nvarchar(100),
   @events nvarchar(500),
   @DealerId int
-
 as
-begin
-  if (@idColor = 0)
-    set @idColor = 1
+  if (@ColorId = 0)
+    set @ColorId = 1
 
-  if (@isLising = 0)
-    set @LisingDate = null
-
-  if (@idCar = 0)
+  if (@id = 0)
   begin
-    insert into Car(bbnumber, grz, vin, year, enumber, bodynumber, ptsId, stsId, gradeId, colorId, LisingDate, InvertoryNumber, OwnerId,
+    insert into Car(BBNumber, Grz, Vin, Year, Enumber, Bodynumber, PtsId, StsId, GradeId, ColorId, LisingDate, InvertoryNumber, OwnerId,
                     RegionIdBuy, RegionIdUsing, DriverId, DateOrder, IsGet, DateGet, Cost, Dop, Events, DealerId)
-    values(@bbNumber, @grz, @vin, @year, @eNumber, @bodyNumber, null, null, @idGrade, @idColor, @LisingDate, @InvertoryNumber, @OwnerId,
+    values(@bbNumber, @grz, @vin, @year, @eNumber, @bodyNumber, null, null, @GradeId, @ColorId, @LisingDate, @InvertoryNumber, @OwnerId,
                     @RegionIdBuy, @RegionIdUsing, @DriverId, @dateOrder, @isGet, @dateGet, @cost, @dop, @events, @DealerId)
 
-    set @idCar = scope_identity()
+    set @id = scope_identity()
   end
   else
   begin
     update
       Car
     set
-      grz = @grz,
-      vin = @vin,
-      [year] = @year,
-      enumber = @eNumber,
-      bodynumber = @bodyNumber,
-      gradeId = @idGrade,
-      colorId = @idColor,
+      Grz = @grz,
+      Vin = @vin,
+      [Year] = @year,
+      Enumber = @eNumber,
+      Bodynumber = @bodyNumber,
+      GradeId = @GradeId,
+      ColorId = @ColorId,
       LisingDate = @LisingDate,
       InvertoryNumber = @InvertoryNumber,
       OwnerId = @OwnerId,
@@ -66,8 +60,7 @@ begin
       Events = @events,
       DealerId = @DealerId
     where
-      id = @idCar
+      Id = @id
   end
 
-  select @idCar
-end
+  exec dbo.GetCarById @id

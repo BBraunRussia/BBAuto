@@ -250,6 +250,15 @@ namespace Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Введите бортовой номер.
+        /// </summary>
+        public static string NeedBBNumber {
+            get {
+                return ResourceManager.GetString("NeedBBNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удалить информацию о пробеге?.
         /// </summary>
         public static string NeedDeleteMileage {
