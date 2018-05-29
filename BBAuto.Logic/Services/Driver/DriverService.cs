@@ -26,7 +26,7 @@ namespace BBAuto.Logic.Services.Driver
       var dbDrivers = _dbContext.Driver.GetDrivers();
 
       return Mapper.Map<IList<DriverModel>>(dbDrivers)
-        .Where(d => d.RegionId == regionId && !d.Fired).ToList();
+        .Where(d => d.RegionId == regionId && !d.Fired.Value).ToList();
     }
   }
 }

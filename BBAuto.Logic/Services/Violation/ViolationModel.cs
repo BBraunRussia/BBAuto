@@ -33,8 +33,6 @@ namespace BBAuto.Logic.Services.Violation
 
     public object[] GetRow(CarModel car)
     {
-      var driver = GetDriver();
-
       var violationType = ViolationTypes.getInstance();
 
       var invoiceList = InvoiceList.getInstance();
@@ -46,7 +44,7 @@ namespace BBAuto.Logic.Services.Violation
 
       return new object[]
       {
-        Id, CarId, car.BbNumberString, car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
+        Id, CarId, car.BbNumberString, car.Grz, regionName, Date, "driver.GetName(NameType.Full)", Number, DatePay,
         violationType.getItem(ViolationTypeId), Sum
       };
     }

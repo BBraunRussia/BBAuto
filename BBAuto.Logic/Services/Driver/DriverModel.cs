@@ -18,7 +18,7 @@ namespace BBAuto.Logic.Services.Driver
     public string Login { get; set; }
     public int? OwnerId { get; set; }
     public string SuppyAddress { get; set; }
-    public Sex? Sex { get; set; }
+    public int Sex { get; set; }
     public bool? Decret { get; set; }
     public DateTime? DateStopNotification { get; set; }
     public string Number { get; set; }
@@ -28,7 +28,7 @@ namespace BBAuto.Logic.Services.Driver
     public string GetName(NameType nameType)
     {
       if (string.IsNullOrEmpty(Fio))
-        return "(нет водителя)";
+        return "(пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)";
 
       if (nameType == NameType.Short)
         return GetNameShort();
@@ -55,15 +55,15 @@ namespace BBAuto.Logic.Services.Driver
       var secondName = list[0];
       var lastSymbol = secondName[secondName.Length - 1];
 
-      if (Sex == Sex.Мужской)
+      if (Sex == 0)
       {
-        if (lastSymbol == 'в' || lastSymbol == 'н')
-          secondName += "а";
+        if (lastSymbol == 'пїЅ' || lastSymbol == 'пїЅ')
+          secondName += "пїЅ";
       }
       else
       {
-        if (lastSymbol == 'а')
-          secondName = secondName.Substring(0, secondName.Length - 1) + "ой";
+        if (lastSymbol == 'пїЅ')
+          secondName = secondName.Substring(0, secondName.Length - 1) + "пїЅпїЅ";
       }
       return string.Concat(secondName, " ", list[1][0].ToString(), ".", list[2][0].ToString(), ".");
     }

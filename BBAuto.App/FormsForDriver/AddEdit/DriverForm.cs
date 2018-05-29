@@ -6,8 +6,11 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Dept;
 using BBAuto.Logic.Services.Driver;
+using BBAuto.Logic.Services.Driver.DriverCar;
+using BBAuto.Logic.Services.Position;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 
@@ -22,17 +25,20 @@ namespace BBAuto.App.FormsForDriver.AddEdit
 
     private readonly IDeptService _deptService;
     private readonly IPositionService _positionService;
+    private readonly IDriverCarService _driverCarService;
 
     public DriverForm(
       DriverModel driver,
       IDeptService deptService,
-      IPositionService positionService)
+      IPositionService positionService,
+      IDriverCarService driverCarService)
     {
       InitializeComponent();
 
       _driver = driver;
       _deptService = deptService;
       _positionService = positionService;
+      _driverCarService = driverCarService;
     }
 
     private void Driver_AddEdit_Load(object sender, EventArgs e)
@@ -136,8 +142,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
 
     private void FillCar()
     {
-      DriverCarList driverCarList = DriverCarList.getInstance();
-      Car car = driverCarList.GetCar(_driver);
+      var car = _driverCarService.GetCar(_driver.Id);
 
       if (car != null)
         carInfo.Text = car.ToString();
@@ -146,7 +151,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
     private void FillInstraction()
     {
       InstractionList instractionList = InstractionList.getInstance();
-      Instraction instraction = instractionList.getItem(_driver);
+      Instraction instraction = instractionList.getItemByDriverId(_driver.Id);
 
       if (instraction != null)
         instractionInfo.Text = instraction.ToString();
@@ -155,7 +160,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
     private void FillMedicalCert()
     {
       MedicalCertList medicalCertList = MedicalCertList.getInstance();
-      MedicalCert medicalCert = medicalCertList.getItem(_driver);
+      MedicalCert medicalCert = medicalCertList.getItemByDriverId(_driver.Id);
 
       if (medicalCert != null)
         medicalCertInfo.Text = medicalCert.ToString();
@@ -164,7 +169,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
     private void FillDriverLicense()
     {
       LicenseList licencesList = LicenseList.getInstance();
-      DriverLicense driverLicense = licencesList.getItem(_driver);
+      DriverLicense driverLicense = licencesList.getItemByDriverId(_driver.Id);
 
       if (driverLicense != null)
         licenceInfo.Text = driverLicense.ToString();

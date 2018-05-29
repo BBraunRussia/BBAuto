@@ -165,10 +165,4 @@ namespace BBAuto.Logic.Static
     Чеки,
     Neste
   }
-
-  public enum Sex
-  {
-    Мужской = 0,
-    Женский = 1
-  }
 }

@@ -54,5 +54,14 @@ namespace BBAuto.Logic.Services.Driver.DriverCar
 
       return _driverService.GetDriverById(car.DriverId ?? 0);
     }
+
+    public CarModel GetCar(int driverId)
+    {
+      var driverCars = _dbContext.DriverCar.GetDriverCarsByDriverId(driverId, DateTime.Today);
+
+      return driverCars.Any()
+        ? _carService.GetCarById(driverCars.First().CarId)
+        : null;
+    }
   }
 }

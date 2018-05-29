@@ -74,9 +74,9 @@ namespace BBAuto.Logic.Lists
       return _list.FirstOrDefault(l => l.Id == id);
     }
 
-    public DriverLicense getItem(Driver driver)
+    public DriverLicense getItemByDriverId(int driverId)
     {
-      var driverLicenses = _list.Where(item => item.Driver.Id == driver.Id).ToList();
+      var driverLicenses = _list.Where(item => item.Driver.Id == driverId).ToList();
 
       driverLicenses.Sort(Compare);
 

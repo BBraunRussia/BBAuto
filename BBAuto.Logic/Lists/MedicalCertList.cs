@@ -79,9 +79,9 @@ namespace BBAuto.Logic.Lists
       return list.FirstOrDefault(mc => mc.Id == id);
     }
 
-    public MedicalCert getItem(Driver driver)
+    public MedicalCert getItemByDriverId(int driverId)
     {
-      return list.Where(m => m.Driver.Id == driver.Id).OrderByDescending(m => m.DateEnd).FirstOrDefault();
+      return list.Where(m => m.Driver.Id == driverId).OrderByDescending(m => m.DateEnd).FirstOrDefault();
     }
 
     public void Delete(int idMedicalCert)

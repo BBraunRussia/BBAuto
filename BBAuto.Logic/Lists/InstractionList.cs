@@ -74,9 +74,9 @@ namespace BBAuto.Logic.Lists
       return list.FirstOrDefault(i => i.Id == id);
     }
 
-    public Instraction getItem(Driver driver)
+    public Instraction getItemByDriverId(int driverId)
     {
-      return list.FirstOrDefault(i => i.Driver.Id == driver.Id);
+      return list.FirstOrDefault(i => i.Driver.Id == driverId);
     }
 
     public void Delete(int idInstraction)
