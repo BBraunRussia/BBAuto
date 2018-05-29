@@ -9,7 +9,7 @@ namespace BBAuto.DataLayer
     private const int Timeout = 600;
 
     private const string Server = @"localhost";
-    private const string Database = "BBAuto";
+    private const string Database = "BBAuto2";
     //private const string Server = @"bbmru07";
     //private const string Database = "BBAuto_04042018";
     private const bool WinAuth = true;

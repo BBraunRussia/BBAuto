@@ -17,7 +17,7 @@ create table [dbo].[Car] (
   [RegionIdUsing] [INT] null,
   [DriverId] [INT] null,
   [DateOrder] [DATETIME] null,
-  [IsGet] bit not null,
+  [IsGet] bit null,
   [DateGet] [DATETIME] null,
   [Cost] decimal(20, 2) null,
   [Dop] nvarchar(100) null,

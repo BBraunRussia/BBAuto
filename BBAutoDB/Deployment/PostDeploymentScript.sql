@@ -31,4 +31,23 @@ begin
   
   print N'Fill database...'
   --exec dbo.FillDatabase
+
+  update
+    Car
+  set
+    Car.OwnerId = CarBuy.OwnerId,
+    Car.RegionIdBuy = CarBuy.RegionIdBuy,
+    Car.RegionIdUsing = CarBuy.RegionIdUsing,
+    Car.DriverId = CarBuy.DriverId,
+    Car.DateOrder = CarBuy.DateOrder,
+    Car.IsGet = CarBuy.IsGet,
+    Car.DateGet = CarBuy.DateGet,
+    Car.Cost = CarBuy.Cost,
+    Car.Dop = CarBuy.Dop,
+    Car.Events = CarBuy.Events,
+    Car.DealerId = CarBuy.DealerId
+  from
+    Car
+    inner join CarBuy
+      on Car.Id = CarBuy.CarId
 end

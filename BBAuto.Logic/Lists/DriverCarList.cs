@@ -61,7 +61,7 @@ namespace BBAuto.Logic.Lists
       if (car == null)
         return null;
 
-      if (driverCars.ToList().Count != 0 || car.IsGet)
+      if (driverCars.Any())
         return getDriver(driverCars.ToList());
 
       var driverList = DriverList.getInstance();

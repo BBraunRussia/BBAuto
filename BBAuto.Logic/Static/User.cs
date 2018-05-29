@@ -14,7 +14,7 @@ namespace BBAuto.Logic.Static
       var s2 = login.Split('-');
       login = s2[1];
       login = "Next";
-      //login = "shelmaru";
+      login = "shelmaru";
       //login = "boganaru";
       //login = "stolekru";            
       //login = "mikhmrru";

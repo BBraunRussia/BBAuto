@@ -1,5 +1,5 @@
 create procedure [dbo].[GetCarById]
-  @idCar int
+  @id int
 as
   select
     c.Id,
@@ -33,4 +33,4 @@ as
     join Model m
       on m.Id = g.ModelId
   where
-    c.Id = @idCar
+    c.Id = @id

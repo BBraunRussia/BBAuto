@@ -242,7 +242,7 @@ namespace BBAuto.Logic.Services.Car
       var dtp = dtpList.GetLast(car.Id);
 
       var statusAfterDTPs = StatusAfterDTPs.getInstance();
-      var statusAfterDTP = statusAfterDTPs.getItem(Convert.ToInt32(dtp.IDStatusAfterDTP));
+      var statusAfterDTP = statusAfterDTPs.getItem(Convert.ToInt32(dtp?.IDStatusAfterDTP ?? "0"));
       
       var carSale = _carSaleService.GetSaleCars().FirstOrDefault(с => с.Id == car.Id);
 

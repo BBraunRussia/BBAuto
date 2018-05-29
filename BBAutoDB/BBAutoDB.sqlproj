@@ -280,7 +280,7 @@
     <Build Include="Programmability\Stored Procedures\MedicalCert\GetMedicalCerts.sql" />
     <Build Include="Programmability\Stored Procedures\Mileage\DeleteMileage.sql" />
     <Build Include="Programmability\Stored Procedures\Mileage\UpsertMileage.sql" />
-    <Build Include="Programmability\Stored Procedures\Mileage\GetMileageByCarId.sql" />
+    <Build Include="Programmability\Stored Procedures\Mileage\GetMileages.sql" />
     <Build Include="Programmability\Stored Procedures\MileageMonth\UpsertMileageMonth.sql" />
     <Build Include="Programmability\Stored Procedures\MileageMonth\GetMileageMonths.sql" />
     <Build Include="Programmability\Stored Procedures\Model\DeleteModel.sql" />

@@ -10,7 +10,7 @@ begin
     c.Enumber,
     c.Bodynumber,
     m.MarkId,
-    m.Id,
+    m.Id as ModelId,
     c.GradeId,
     c.ColorId,
     c.LisingDate,
@@ -29,7 +29,7 @@ begin
   from
     Car c
     join Grade g
-      on g.Id = c.gradeId
+      on g.Id = c.GradeId
     join model m
       on m.Id = g.ModelId
   order by
