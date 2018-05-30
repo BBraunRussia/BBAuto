@@ -11,4 +11,4 @@ as
   from
     MedicalCert
   where
-    NotificationSent = 0
+    NotificationSent = 0 and DateEnd >= getdate()

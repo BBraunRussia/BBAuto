@@ -69,5 +69,10 @@ namespace BBAuto.Logic.Services.Driver
       }
       return string.Concat(secondName, " ", list[1][0].ToString(), ".", list[2][0].ToString(), ".");
     }
+
+    public bool IsStopNotification()
+    {
+      return DateStopNotification == null || DateStopNotification < DateTime.Today;
+    }
   }
 }

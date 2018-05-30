@@ -32,9 +32,12 @@ namespace BBAuto.Logic.Senders.MedicalCert
 
       var list = GetListOverdue(drivers);
 
-      foreach (var item in list)
+      var mailTextList = MailTextList.getInstance();
+      var mailText = mailTextList.getItemByType(MailTextType.MedicalCert);
+
+      foreach (var medicalCert in list)
       {
-        item.SendNotification();
+        medicalCert.NotificationSent = true;
       }
     }
 
@@ -42,26 +45,19 @@ namespace BBAuto.Logic.Senders.MedicalCert
     {
       var list = _medicalCertService.GetMedicalCertForNotification();
 
-      return list.Where(m => drivers.FirstOrDefault(d => d.Id == m.DriverId &&
-                                                         (d.DateStopNotification == null ||
-                                                          d.DateStopNotification < DateTime.Today)) != null).ToList();
+      return list.Where(m => drivers.FirstOrDefault(d => d.Id == m.DriverId && !d.IsStopNotification()) != null).ToList();
     }
 
-    private string CreateMessageNotification()
+    private string CreateMessageNotification(DriverModel driver, DateTime dateEnd, MailText mailText)
     {
-      if (Id == 0)
+      if (dateEnd < DateTime.Today)
       {
-        return "Добрый день, " + Driver.GetName(NameType.Full)
+        return "Добрый день, " + driver.GetName(NameType.Full)
                + "!\r\n\r\nНапоминаем, что Вы своевременно не оформили водительскую медицинскую справку.\r\nПросим оформить данную справку.\r\nОригинал необходимо прислать в отдел кадров, а скан копию в транспортный отдел.\r\n\r\nС уважением,\r\nТранспортный отдел.";
       }
 
-      MailTextList mailTextList = MailTextList.getInstance();
-      MailText mailText = mailTextList.getItemByType(MailTextType.MedicalCert);
-
-      return mailText == null
-        ? "Шаблон текста письма не найден"
-        : mailText.Text.Replace("UserName", Driver.GetName(NameType.Full))
-          .Replace("DateEnd", DateEnd.ToShortDateString());
+      return mailText?.Text.Replace("UserName", driver.GetName(NameType.Full))
+               .Replace("DateEnd", dateEnd.ToShortDateString()) ?? "Шаблон текста письма не найден";
     }
   }
 }
