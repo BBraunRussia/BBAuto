@@ -1,4 +1,4 @@
-create procedure [dbo].[GetDriverCarsByDriverId]
+create procedure [dbo].[GetDriverCarsByDriverIdAndDate]
   @driverId int,
   @date datetime
 as

@@ -1,6 +1,5 @@
 create procedure [dbo].[GetCars]
 as
-begin
   select
     c.Id,
     c.BBNumber,
@@ -34,4 +33,3 @@ begin
       on m.Id = g.ModelId
   order by
     BBNumber
-end

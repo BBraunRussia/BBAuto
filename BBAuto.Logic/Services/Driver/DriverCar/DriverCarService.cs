@@ -1,6 +1,8 @@
 using System;
+using System.Data;
 using System.Linq;
 using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Policy;
 using BBAuto.Logic.Services.TempMove;
 using BBAuto.Repositories;
 
@@ -12,17 +14,20 @@ namespace BBAuto.Logic.Services.Driver.DriverCar
     private readonly IDriverService _driverService;
     private readonly ITempMoveService _tempMoveService;
     private readonly ICarService _carService;
+    private readonly IPolicyService _policyService;
 
     public DriverCarService(
       IDbContext dbContext,
       IDriverService driverService,
       ITempMoveService tempMoveService,
-      ICarService carService)
+      ICarService carService,
+      IPolicyService policyService)
     {
       _dbContext = dbContext;
       _driverService = driverService;
       _tempMoveService = tempMoveService;
       _carService = carService;
+      _policyService = policyService;
     }
 
     public DriverModel GetDriver(int carId, DateTime? date)
@@ -55,13 +60,32 @@ namespace BBAuto.Logic.Services.Driver.DriverCar
       return _driverService.GetDriverById(car.DriverId ?? 0);
     }
 
+    public DriverModel GetDriverByAccountId(int accountId)
+    {
+      var policyList = _policyService.GetPolicyListByAccountId(accountId);
+
+      var carId = 1;
+
+      if (policyList.Any())
+        carId = policyList.First().CarId;
+
+      return GetDriver(carId);
+    }
+
     public CarModel GetCar(int driverId)
     {
-      var driverCars = _dbContext.DriverCar.GetDriverCarsByDriverId(driverId, DateTime.Today);
+      var driverCars = _dbContext.DriverCar.GetDriverCarsByDriverIdAndDate(driverId, DateTime.Today);
 
       return driverCars.Any()
         ? _carService.GetCarById(driverCars.First().CarId)
         : null;
+    }
+
+    public DataTable GetDataTableCarsByDriverId(int driverId)
+    {
+      var driverCars = _dbContext.DriverCar.GetDriverCarsByDriverIdAndDate(driverId, DateTime.Today);
+
+      return _carService.GetDataTableCarsByIds(driverCars.Select(d => d.CarId).ToList());
     }
   }
 }

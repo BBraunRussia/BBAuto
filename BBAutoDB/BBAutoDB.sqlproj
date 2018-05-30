@@ -127,6 +127,7 @@
     <Folder Include="Programmability\Stored Procedures\Car\Sale" />
     <Folder Include="Programmability\Stored Procedures\Car\Doc" />
     <Folder Include="Programmability\Stored Procedures\DriverCar" />
+    <Folder Include="Programmability\CustomTypes" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
@@ -427,7 +428,7 @@
     <Build Include="Programmability\Stored Procedures\FuelCardType\GetFuelCardTypeById.sql" />
     <Build Include="Programmability\Stored Procedures\FuelCardType\DeleteFuelCardType.sql" />
     <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCars.sql" />
-    <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByDriverId.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByDriverIdAndDate.sql" />
     <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\GetDriverById.sql" />
     <Build Include="Programmability\Stored Procedures\TempMove\GetTempMoveById.sql" />
@@ -435,6 +436,17 @@
     <Build Include="Programmability\Stored Procedures\DriverCar\GetDriverCarsByCarIdAndDate.sql" />
     <Build Include="Programmability\Stored Procedures\License\GetLicenseById.sql" />
     <Build Include="Programmability\Stored Procedures\License\GetLicensesByDriverId.sql" />
+    <Build Include="Programmability\Stored Procedures\Driver\GetDriverByLogin.sql" />
+    <Build Include="Programmability\Stored Procedures\Driver\GetDriversByRoleId.sql" />
+    <Build Include="Programmability\CustomTypes\ListOfIds.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\GetCarsByIds.sql" />
+    <Build Include="Programmability\Stored Procedures\Model\GetModelById.sql" />
+    <Build Include="Programmability\Stored Procedures\Account\GetAccountById.sql" />
+    <Build Include="Programmability\Stored Procedures\Policy\GetPolicyById.sql" />
+    <Build Include="Programmability\Stored Procedures\Policy\GetPolicyListByAccountId.sql" />
+    <Build Include="Programmability\Stored Procedures\Account\GetAccountListForAgree.sql" />
+    <Build Include="Programmability\Stored Procedures\Violation\GetViolationsByDate.sql" />
+    <Build Include="Programmability\Stored Procedures\MedicalCert\GetMedicalCertForNotification.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

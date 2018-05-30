@@ -19,7 +19,6 @@ namespace BBAuto.App
       Application.SetCompatibleTextRenderingDefault(false);
 
       AutoMapperConfiguration.Initialize();
-
       WindsorConfiguration.Register();
 
       DataBase.InitDataBase();

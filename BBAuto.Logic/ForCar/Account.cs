@@ -5,6 +5,7 @@ using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.MailService;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.ForCar
@@ -148,18 +149,7 @@ namespace BBAuto.Logic.ForCar
 
       return (_agreed == 0) && (dt.Rows.Count > 0);
     }
-
-    public void Agree()
-    {
-      if (_agreed == 0)
-      {
-        EMail mail = new EMail();
-        mail.SendMailAccount(this);
-        _agreed = 1;
-        ExecQuery();
-      }
-    }
-
+    
     public void BindWithPolicy(int idPolicy, int payment)
     {
       if (IsNotSaved())

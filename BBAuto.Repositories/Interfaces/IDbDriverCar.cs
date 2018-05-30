@@ -9,6 +9,6 @@ namespace BBAuto.Repositories.Interfaces
     IList<DbDriverCar> GetDriverCars();
     IList<DbDriverCar> GetDriverCarsByCarIdAndDate(int carId, DateTime date);
     IList<DbDriverCar> GetDriverCarsByCarId(int carId);
-    IList<DbDriverCar> GetDriverCarsByDriverId(int driverId, DateTime date);
+    IList<DbDriverCar> GetDriverCarsByDriverIdAndDate(int driverId, DateTime date);
   }
 }

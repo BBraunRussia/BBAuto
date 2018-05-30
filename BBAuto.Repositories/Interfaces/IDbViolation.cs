@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using BBAuto.Repositories.Entities;
 using Insight.Database;
 
@@ -12,5 +13,6 @@ namespace BBAuto.Repositories.Interfaces
     IList<DbViolation> GetViolations();
     IList<DbViolation> GetViolationsByCarId(int carId);
     DbViolation UpsertViolation(DbViolation violation);
+    IList<DbViolation> GetViolationsByDate(DateTime date);
   }
 }

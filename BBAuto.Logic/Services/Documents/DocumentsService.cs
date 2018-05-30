@@ -11,13 +11,15 @@ using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Dictionary.Color;
-using BBAuto.Logic.Services.Dictionary.EmployeesName;
 using BBAuto.Logic.Services.Dictionary.EngineType;
 using BBAuto.Logic.Services.Dictionary.Mark;
+using BBAuto.Logic.Services.Dictionary.Owner;
 using BBAuto.Logic.Services.Driver;
 using BBAuto.Logic.Services.Driver.DriverCar;
 using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Services.License;
+using BBAuto.Logic.Services.Model;
+using BBAuto.Logic.Services.Policy;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 using Common.Resources;
@@ -37,6 +39,9 @@ namespace BBAuto.Logic.Services.Documents
     private readonly IDriverCarService _driverCarService;
     private readonly ILicenseService _licenseService;
     private readonly IDriverService _driverService;
+    private readonly IPolicyService _policyService;
+    private readonly IModelService _modelService;
+    private readonly IOwnerService _ownerService;
 
     public DocumentsService(
       IDiagCardService diagCardService,
@@ -47,7 +52,9 @@ namespace BBAuto.Logic.Services.Documents
       IColorService colorService,
       IDriverCarService driverCarService,
       ILicenseService licenseService,
-      IDriverService driverService)
+      IDriverService driverService,
+      IPolicyService policyService,
+      IModelService modelService)
     {
       _diagCardService = diagCardService;
       _carService = carService;
@@ -58,6 +65,8 @@ namespace BBAuto.Logic.Services.Documents
       _driverCarService = driverCarService;
       _licenseService = licenseService;
       _driverService = driverService;
+      _policyService = policyService;
+      _modelService = modelService;
 
       _driverList = DriverList.getInstance();
     }
@@ -698,27 +707,30 @@ namespace BBAuto.Logic.Services.Documents
 
       document.SetValue(2, 1, "Страхуем в " + myDate.MonthToStringPrepositive() + " " + myDate.Year + " г.");
 
-      var policyList = PolicyList.getInstance();
-      var list = policyList.GetPolicyList(date);
-      var listCar = policyList.GetCarListByPolicyList(list);
+      var policyList = _policyService.GetPolicyList(date);
+      var listCar = _carService.GetCars(policyList.Select(policy => policy.CarId).ToList());
       
       var rowIndex = indexBegin;
 
       var marks = _markService.GetItems();
+      var models = _modelService.GetModels();
+      var owners = _ownerService.GetItems();
 
       foreach (var car in listCar)
       {
         document.SetValue(rowIndex, 2, car.Grz);
         var mark = marks.FirstOrDefault(m => m.Id == car.MarkId);
         document.SetValue(rowIndex, 3, mark?.Name ?? "отсутствует");
-        document.SetValue(rowIndex, 4, car.info.Model);
-        document.SetValue(rowIndex, 5, car.vin);
-        document.SetValue(rowIndex, 6, car.Year);
-        document.SetValue(rowIndex, 7, GetPolicyBeginDate(list, car, PolicyType.ОСАГО));
-        document.SetValue(rowIndex, 8, GetPolicyBeginDate(list, car, PolicyType.КАСКО));
-        document.SetValue(rowIndex, 9, car.info.Owner);
-        document.SetValue(rowIndex, 10, car.info.Owner);
-        document.SetValue(rowIndex, 11, car.info.Owner);
+        var model = models.FirstOrDefault(m => m.Id == car.ModelId);
+        document.SetValue(rowIndex, 4, model?.Name ?? "отсутствует");
+        document.SetValue(rowIndex, 5, car.Vin);
+        document.SetValue(rowIndex, 6, car.Year?.ToString());
+        document.SetValue(rowIndex, 7, GetPolicyBeginDate(policyList, car, PolicyType.ОСАГО));
+        document.SetValue(rowIndex, 8, GetPolicyBeginDate(policyList, car, PolicyType.КАСКО));
+        var owner = owners.FirstOrDefault(o => o.Id == car.OwnerId);
+        document.SetValue(rowIndex, 9, owner.Name);
+        document.SetValue(rowIndex, 10, owner.Name);
+        document.SetValue(rowIndex, 11, owner.Name);
 
         var diagCard = _diagCardService.GetByCarId(car.Id);
 
@@ -734,9 +746,9 @@ namespace BBAuto.Logic.Services.Documents
       return document;
     }
 
-    private static string GetPolicyBeginDate(IEnumerable<Policy> list, Entities.Car car, PolicyType policyType)
+    private static string GetPolicyBeginDate(IEnumerable<PolicyModel> list, CarModel car, PolicyType policyType)
     {
-      var newList = list.Where(policy => policy.Car.Id == car.Id && policy.Type == policyType).ToList();
+      var newList = list.Where(policy => policy.CarId == car.Id && policy.PolicyType == policyType).ToList();
 
       var osagoBeginDate = "не надо";
 

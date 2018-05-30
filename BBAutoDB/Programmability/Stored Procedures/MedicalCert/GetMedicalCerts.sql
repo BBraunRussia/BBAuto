@@ -1,6 +1,5 @@
 create procedure [dbo].[GetMedicalCerts]
 as
-begin
   select
     Id,
     Number,
@@ -11,4 +10,3 @@ begin
     NotificationSent
   from
     MedicalCert
-end

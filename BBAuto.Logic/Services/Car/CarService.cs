@@ -10,7 +10,10 @@ using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.DiagCard;
 using BBAuto.Logic.Services.Dictionary.Color;
 using BBAuto.Logic.Services.Dictionary.Mark;
+using BBAuto.Logic.Services.Dictionary.Region;
 using BBAuto.Logic.Services.Mileage;
+using BBAuto.Logic.Services.Model;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
@@ -25,6 +28,9 @@ namespace BBAuto.Logic.Services.Car
     private readonly IMarkService _markService;
     private readonly IColorService _colorService;
     private readonly IMileageService _mileageService;
+    private readonly IRegionService _regionService;
+    private readonly IModelService _modelService;
+    private readonly IViolationService _violationService;
 
     public CarService(
       IDbContext dbContext,
@@ -32,7 +38,10 @@ namespace BBAuto.Logic.Services.Car
       IDiagCardService diagCardService,
       IMarkService markService,
       IColorService colorService,
-      IMileageService mileageService)
+      IMileageService mileageService,
+      IRegionService regionService,
+      IModelService modelService,
+      IViolationService violationService)
     {
       _dbContext = dbContext;
       _carSaleService = carSaleService;
@@ -40,6 +49,9 @@ namespace BBAuto.Logic.Services.Car
       _markService = markService;
       _colorService = colorService;
       _mileageService = mileageService;
+      _regionService = regionService;
+      _modelService = modelService;
+      _violationService = violationService;
     }
 
     public CarModel GetCarByGrz(string grz)
@@ -77,7 +89,7 @@ namespace BBAuto.Logic.Services.Car
     {
       return Mapper.Map<IList<CarModel>>(_dbContext.Car.GetCars());
     }
-
+    
     public DataTable ToDataTable(Status status)
     {
       switch (status)
@@ -96,8 +108,8 @@ namespace BBAuto.Logic.Services.Car
           return PolicyList.getInstance().ToDataTable();
         case Status.DTP:
           return DTPList.getInstance().ToDataTable();
-     //   case Status.Violation:
-      //    return ViolationList.getInstance().ToDataTable();
+        case Status.Violation:
+          return _violationService.GetDataTable(this);
         case Status.DiagCard:
           return _diagCardService.GetDataTable(this);
         case Status.TempMove:
@@ -156,7 +168,7 @@ namespace BBAuto.Logic.Services.Car
       return CreateTable(cars);
     }
 
-    internal DataTable CreateTable(List<CarModel> cars)
+    private DataTable CreateTable(List<CarModel> cars)
     {
       var dt = new DataTable();
       dt.Columns.Add("id");
@@ -177,9 +189,8 @@ namespace BBAuto.Logic.Services.Car
       dt.Columns.Add("Дата окончания гарантии", typeof(DateTime));
       dt.Columns.Add("Статус");
 
-      foreach (var car in cars)
-        dt.Rows.Add(GetRowByCar(car));
-
+      cars.ForEach(car => dt.Rows.Add(GetRowByCar(car)));
+      
       return dt;
     }
 
@@ -308,6 +319,20 @@ namespace BBAuto.Logic.Services.Car
       return car.Id == 0
         ? "нет данных"
         : string.Concat(mark.Name ?? "отсутствует", " ", model.Name, " ", car.Grz);
+    }
+
+    public IList<CarModel> GetCars(IList<int> ids)
+    {
+      var dbCars = _dbContext.Car.GetCarsByIds(ids);
+
+      return Mapper.Map<IList<CarModel>>(dbCars);
+    }
+
+    public DataTable GetDataTableCarsByIds(IList<int> ids)
+    {
+      var dbCars = GetCars(ids);
+
+      return CreateTable(Mapper.Map<IList<CarModel>>(dbCars).ToList());
     }
   }
 }

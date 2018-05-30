@@ -40,6 +40,7 @@ namespace BBAuto.Repositories
       return Connection.As<TRepository>();
     }
 
+    public IDbAccount Account => CreateRepository<IDbAccount>();
     public IDbCar Car => CreateRepository<IDbCar>();
     public IDbCarDoc CarDoc => CreateRepository<IDbCarDoc>();
     public IDbSaleCar SaleCar => CreateRepository<IDbSaleCar>();
@@ -57,9 +58,12 @@ namespace BBAuto.Repositories
     public IDbGrade Grade => CreateRepository<IDbGrade>();
     public IDbLicense License => CreateRepository<IDbLicense>();
     public IDbMark Mark => CreateRepository<IDbMark>();
+    public IDbMedicalCert MedicalCert => CreateRepository<IDbMedicalCert>();
     public IDbMileage Mileage => CreateRepository<IDbMileage>();
+    public IDbModel Model => CreateRepository<IDbModel>();
     public IDbInvoice Invoice => CreateRepository<IDbInvoice>();
     public IDbOwner Owner => CreateRepository<IDbOwner>();
+    public IDbPolicy Policy => CreateRepository<IDbPolicy>();
     public IDbProxyType ProxyType => CreateRepository<IDbProxyType>();
     public IDbRegion Region => CreateRepository<IDbRegion>();
     public IDbRepairType RepairType => CreateRepository<IDbRepairType>();

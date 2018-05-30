@@ -77,6 +77,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Loaders\IFuelLoader.cs" />
+    <Compile Include="Senders\Account\IAccountSender.cs" />
+    <Compile Include="Senders\DiagCard\IDiagCardSender.cs" />
+    <Compile Include="Senders\INotificationSender.cs" />
+    <Compile Include="Senders\MedicalCert\IMedicalCertSender.cs" />
+    <Compile Include="Senders\MedicalCert\MedicalCertSender.cs" />
+    <Compile Include="Senders\PolicyList\IPolicyListSender.cs" />
+    <Compile Include="Senders\Violation\IViolationSender.cs" />
+    <Compile Include="Services\Account\AccountMappingProfile.cs" />
     <Compile Include="Services\Dept\DeptService.cs" />
     <Compile Include="Services\Dept\IDeptService.cs" />
     <Compile Include="Services\Dictionary\DictionaryMappingProfile.cs" />
@@ -131,7 +139,6 @@
     <Compile Include="Common\ColumnSize.cs" />
     <Compile Include="Common\MyPrinter.cs" />
     <Compile Include="Common\MyString.cs" />
-    <Compile Include="Common\MailPolicy.cs" />
     <Compile Include="Common\Tabel.cs" />
     <Compile Include="Import\TabelFrom1C.cs" />
     <Compile Include="Common\WayBillDaily.cs" />
@@ -146,7 +153,7 @@
     <Compile Include="Dictionary\Statuses.cs" />
     <Compile Include="Lists\MileageMonthList.cs" />
     <Compile Include="Logger\LogManager.cs" />
-    <Compile Include="Senders\AccountSender.cs" />
+    <Compile Include="Senders\Account\AccountSender.cs" />
     <Compile Include="Import\MileageMonthFromExcelFile.cs" />
     <Compile Include="Services\Account\AccountModel.cs" />
     <Compile Include="Services\Account\AccountService.cs" />
@@ -202,10 +209,23 @@
     <Compile Include="Services\License\LicenseMappingProfile.cs" />
     <Compile Include="Services\License\LicenseModel.cs" />
     <Compile Include="Services\License\LicenseService.cs" />
+    <Compile Include="Services\MailService\IMailService.cs" />
+    <Compile Include="Services\MedicalCert\IMedicalCertService.cs" />
+    <Compile Include="Services\MedicalCert\MedicalCertMappingProfile.cs" />
+    <Compile Include="Services\MedicalCert\MedicalCertModel.cs" />
+    <Compile Include="Services\MedicalCert\MedicalCertService.cs" />
     <Compile Include="Services\Mileage\IMileageService.cs" />
     <Compile Include="Services\Mileage\MileageMappingProfile.cs" />
     <Compile Include="Services\Mileage\MileageModel.cs" />
     <Compile Include="Services\Mileage\MileageService.cs" />
+    <Compile Include="Services\Model\IModelService.cs" />
+    <Compile Include="Services\Model\ModelMappingProfile.cs" />
+    <Compile Include="Services\Model\ModelModel.cs" />
+    <Compile Include="Services\Model\ModelService.cs" />
+    <Compile Include="Services\Policy\IPolicyService.cs" />
+    <Compile Include="Services\Policy\PolicyMappingProfile.cs" />
+    <Compile Include="Services\Policy\PolicyModel.cs" />
+    <Compile Include="Services\Policy\PolicyService.cs" />
     <Compile Include="Services\Position\IPositionService.cs" />
     <Compile Include="Services\Position\PositionService.cs" />
     <Compile Include="Services\TempMove\ITempMoveService.cs" />
@@ -233,7 +253,7 @@
     <Compile Include="Lists\WayBillRouteList.cs" />
     <Compile Include="Loaders\FuelLoader.cs" />
     <Compile Include="Abstract\MainList.cs" />
-    <Compile Include="Common\EMail.cs" />
+    <Compile Include="Services\MailService\MailService.cs" />
     <Compile Include="Common\Employees.cs" />
     <Compile Include="Common\Ldap.cs" />
     <Compile Include="Common\MailText.cs" />
@@ -320,12 +340,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ForCar\PTS.cs" />
     <Compile Include="ForCar\STS.cs" />
-    <Compile Include="Senders\DiagCardSender.cs" />
+    <Compile Include="Senders\DiagCard\DiagCardSender.cs" />
     <Compile Include="Senders\NotificationSender.cs" />
-    <Compile Include="Senders\PolicyListSender.cs" />
+    <Compile Include="Senders\PolicyList\PolicyListSender.cs" />
     <Compile Include="ForCar\Violation.cs" />
     <Compile Include="Static\User.cs" />
-    <Compile Include="Senders\ViolationSender.cs" />
+    <Compile Include="Senders\Violation\ViolationSender.cs" />
     <Compile Include="Service References\BBAutoWebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

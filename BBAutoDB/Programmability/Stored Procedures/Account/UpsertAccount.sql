@@ -28,4 +28,4 @@ as
     where
       Id = @id
 
-  select @id
+  exec dbo.GetAccountById @id

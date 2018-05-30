@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.Data;
 using BBAuto.Logic.Services.Car;
-using BBAuto.Logic.Services.Driver;
 
 namespace BBAuto.Logic.Services.Violation
 {
@@ -12,5 +12,7 @@ namespace BBAuto.Logic.Services.Violation
     void Delete(int id);
     DataTable GetDataTable(ICarService carService);
     DataTable GetDataTableByCar(CarModel car);
+
+    IList<ViolationModel> GetViolationForAccount();
   }
 }

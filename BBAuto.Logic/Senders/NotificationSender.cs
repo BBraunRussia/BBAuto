@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BBAuto.Logic.Abstract;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
 
 namespace BBAuto.Logic.Senders
 {
-  public class NotificationSender
+  public class NotificationSender : INotificationSender
   {
     private readonly INotificationList _list;
 
@@ -43,7 +42,7 @@ namespace BBAuto.Logic.Senders
 
     public void SendNotificationOverdue()
     {
-      if ((DateTime.Today.Day % 7) != 0)
+      if (DateTime.Today.Day % 7 != 0)
         return;
 
       var list = GetListOverdue(DateTime.Today);

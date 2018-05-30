@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 
 namespace BBAuto.Logic.Services.Car
 {
@@ -30,6 +31,6 @@ namespace BBAuto.Logic.Services.Car
     public string Events { get; set; }
     public int? DealerId { get; set; }
 
-    public string BbNumberString => "ÀÌ-" + BbNumber;
+    public string BbNumberString => "ï¿½ï¿½-" + BbNumber;
   }
 }

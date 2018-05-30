@@ -3,7 +3,6 @@ create procedure [dbo].[UpdatePolicyByAccountId]
   @AccountId int,
   @NumberId int
 as
-begin
   if (@NumberId = 1)
     update Policy
     set AccountId = @AccountId
@@ -12,4 +11,3 @@ begin
     update Policy
     set AccountId2 = @AccountId
     where Id = @id
-end

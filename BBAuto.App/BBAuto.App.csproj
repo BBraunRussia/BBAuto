@@ -128,6 +128,7 @@
     <Compile Include="AddEdit\SaleCarForm.Designer.cs">
       <DependentUpon>SaleCarForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommonForms\IInputDateForm.cs" />
     <Compile Include="CommonForms\ILoadFuelForm.cs" />
     <Compile Include="CommonForms\LoadFuelForm.cs">
       <SubType>Form</SubType>
@@ -184,6 +185,7 @@
     <Compile Include="FormsForCar\AddEdit\IViolationForm.cs" />
     <Compile Include="FormsForCar\ICarForm.cs" />
     <Compile Include="FormsForCar\ICarInfoForm.cs" />
+    <Compile Include="FormsForDriver\AddEdit\IDriverForm.cs" />
     <Compile Include="FormsForDriver\AddNewDriver.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,11 +198,11 @@
     <Compile Include="CommonForms\formPolicyList.Designer.cs">
       <DependentUpon>formPolicyList.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommonForms\InputDate.cs">
+    <Compile Include="CommonForms\InputDateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CommonForms\InputDate.Designer.cs">
-      <DependentUpon>InputDate.cs</DependentUpon>
+    <Compile Include="CommonForms\InputDateForm.Designer.cs">
+      <DependentUpon>InputDateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\DriverMails.cs" />
     <Compile Include="Common\MyStatusStrip.cs" />
@@ -435,11 +437,11 @@
     <Compile Include="FormsForDriver\formPassportList.Designer.cs">
       <DependentUpon>formPassportList.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForDriver\formDriverCar.cs">
+    <Compile Include="FormsForDriver\DriverCarForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForDriver\formDriverCar.Designer.cs">
-      <DependentUpon>formDriverCar.cs</DependentUpon>
+    <Compile Include="FormsForDriver\DriverCarForm.Designer.cs">
+      <DependentUpon>DriverCarForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForDriver\formInstractionList.cs">
       <SubType>Form</SubType>
@@ -465,6 +467,7 @@
     <Compile Include="FormsForDriver\formViolationList.Designer.cs">
       <DependentUpon>formViolationList.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormsForDriver\IDriverCarForm.cs" />
     <Compile Include="GUI\BBColors.cs" />
     <Compile Include="GUI\ControlsFactory.cs" />
     <Compile Include="Utils\DGV\DgvFormatter.cs" />
@@ -544,8 +547,8 @@
     <EmbeddedResource Include="CommonForms\formPolicyList.resx">
       <DependentUpon>formPolicyList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommonForms\InputDate.resx">
-      <DependentUpon>InputDate.cs</DependentUpon>
+    <EmbeddedResource Include="CommonForms\InputDateForm.resx">
+      <DependentUpon>InputDateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dictionary\formEmployeesList.resx">
       <DependentUpon>formEmployeesList.cs</DependentUpon>
@@ -662,8 +665,8 @@
     <EmbeddedResource Include="FormsForDriver\formPassportList.resx">
       <DependentUpon>formPassportList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForDriver\formDriverCar.resx">
-      <DependentUpon>formDriverCar.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForDriver\DriverCarForm.resx">
+      <DependentUpon>DriverCarForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForDriver\formInstractionList.resx">
       <DependentUpon>formInstractionList.cs</DependentUpon>

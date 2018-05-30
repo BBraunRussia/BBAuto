@@ -1,7 +1,7 @@
 create procedure [dbo].[UpsertModel]
   @id int,
   @Name nvarchar(50),
-  @idMark int
+  @MarkId int
 as
 begin
   if (@id = 0)
@@ -13,12 +13,12 @@ begin
       Model
     where
       [Name] = @Name
-      and MarkId = @idMark
+      and MarkId = @MarkId
 
     if (@count = 0)
     begin
-      insert into Model values(@Name, @idMark)
-      select 'Добавлен'
+      insert into Model values(@Name, @MarkId)
+      exec dbo.GetModelById @id
     end
     else
       select 'Модель автомобиля с таким названием уже существует'
@@ -27,8 +27,8 @@ begin
   begin
     update Model
     set [Name] = @Name,
-        MarkId = @idMark
+        MarkId = @MarkId
     where Id = @id
-    select 'Обновлен'
+    exec dbo.GetModelById @id
   end
 end

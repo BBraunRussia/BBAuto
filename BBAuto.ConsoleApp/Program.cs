@@ -1,9 +1,11 @@
+using BBAuto.ConsoleApp.config;
 using BBAuto.Logic.Abstract;
 using BBAuto.Logic.DataBase;
 using BBAuto.Logic.Import;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Logger;
 using BBAuto.Logic.Senders;
+using BBAuto.Logic.Services.MedicalCert;
 
 namespace BBAuto.ConsoleApp
 {
@@ -11,6 +13,11 @@ namespace BBAuto.ConsoleApp
   {
     static void Main(string[] args)
     {
+      AutoMapperConfiguration.Initialize();
+      WindsorConfiguration.Register();
+
+      var container = WindsorConfiguration.Container;
+
       DataBase.InitDataBase();
       Provider.InitSQLProvider();
 
@@ -35,7 +42,8 @@ namespace BBAuto.ConsoleApp
       //importer.StartImport();
       //LogManager.Logger.Debug("TabelFrom1C loading done");
 
-      var medicalCertList = MedicalCertList.getInstance();
+      var medicalCertService = container.Resolve<IMedicalCertService>();
+      var medicalCertList = medicalCertService.GetMedicalCertForNotification();
       var medicalCertSender = new NotificationSender(medicalCertList);
       //medicalCertSender.SendNotification();
       //medicalCertSender.ClearStopIfNeed();

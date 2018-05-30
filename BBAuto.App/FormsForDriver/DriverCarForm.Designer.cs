@@ -1,6 +1,6 @@
 namespace BBAuto.App.FormsForDriver
 {
-    partial class formDriverCar
+    partial class DriverCarForm
     {
         /// <summary>
         /// Required designer variable.

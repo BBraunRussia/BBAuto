@@ -343,11 +343,11 @@ namespace BBAuto.Logic.Entities
     internal override object[] ToRow()
     {
       MedicalCertList medicalCertList = MedicalCertList.getInstance();
-      MedicalCert medicalCert = medicalCertList.getItem(this);
+      MedicalCert medicalCert = medicalCertList.getItem(Id);
       string medicalCertStatus = ((medicalCert == null) || (!medicalCert.IsActual())) ? "нет" : "есть";
 
       LicenseList licenseList = LicenseList.getInstance();
-      DriverLicense license = licenseList.getItem(this);
+      DriverLicense license = licenseList.getItem(Id);
       string licenseStatus = ((license == null) || (!license.IsActual())) ? "нет" : "есть";
 
       DriverCarList driverCarList = DriverCarList.getInstance();

@@ -66,6 +66,9 @@
     <Compile Include="Entities\DbEngineType.cs" />
     <Compile Include="Entities\DbGrade.cs" />
     <Compile Include="Entities\DbLicense.cs" />
+    <Compile Include="Entities\DbMedicalCert.cs" />
+    <Compile Include="Entities\DbModel.cs" />
+    <Compile Include="Entities\DbPolicy.cs" />
     <Compile Include="Entities\DbSaleCar.cs" />
     <Compile Include="Entities\DbDealer.cs" />
     <Compile Include="Entities\DbDriver.cs" />
@@ -80,6 +83,9 @@
     <Compile Include="Interfaces\IDbDriverCar.cs" />
     <Compile Include="Interfaces\IDbFuelCardType.cs" />
     <Compile Include="Interfaces\IDbLicense.cs" />
+    <Compile Include="Interfaces\IDbMedicalCert.cs" />
+    <Compile Include="Interfaces\IDbModel.cs" />
+    <Compile Include="Interfaces\IDbPolicy.cs" />
     <Compile Include="Interfaces\IDbProxyType.cs" />
     <Compile Include="Interfaces\IDbTempMove.cs" />
     <Compile Include="Interfaces\IDbViolationType.cs" />

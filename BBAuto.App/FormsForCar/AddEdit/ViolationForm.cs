@@ -2,10 +2,10 @@ using System;
 using System.Windows.Forms;
 using BBAuto.App.Events;
 using BBAuto.App.FormsForDriver.AddEdit;
-using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Driver.DriverCar;
+using BBAuto.Logic.Services.MailService;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using Common.Resources;
@@ -15,9 +15,11 @@ namespace BBAuto.App.FormsForCar.AddEdit
   public partial class ViolationForm : Form, IViolationForm
   {
     private ICarForm _carForm;
+    private IDriverForm _driverForm;
     private readonly IViolationService _violationService;
     private readonly ICarService _carService;
     private readonly IDriverCarService _driverCarService;
+    private readonly IMailService _mailService;
 
     private ViolationModel _violation;
 
@@ -26,19 +28,22 @@ namespace BBAuto.App.FormsForCar.AddEdit
     public ViolationForm(
       IViolationService violationService,
       ICarService carService,
-      IDriverCarService driverCarService)
+      IDriverCarService driverCarService,
+      IMailService mailService)
     {
       InitializeComponent();
 
       _violationService = violationService;
       _carService = carService;
       _driverCarService = driverCarService;
+      _mailService = mailService;
     }
 
-    public DialogResult ShowDialog(int violationId, int carId, ICarForm carForm)
+    public DialogResult ShowDialog(int violationId, int carId, ICarForm carForm, IDriverForm driverForm)
     {
       _violation = _violationService.GetById(violationId) ?? new ViolationModel(carId);
       _carForm = carForm;
+      _driverForm = driverForm;
 
       return ShowDialog();
     }
@@ -181,16 +186,14 @@ namespace BBAuto.App.FormsForCar.AddEdit
     {
       var car = _carService.GetCarById(_violation.CarId);
       var driver = _driverCarService.GetDriver(_violation.CarId, _violation.Date);
-
-      var mail = new EMail();
-      mail.SendMailViolation(_violation, car, driver);
+      
+      _mailService.SendMailViolation(_violation, car, driver);
     }
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
       var driver = _driverCarService.GetDriver(_violation.CarId, _violation.Date);
-      var driverAe = new DriverForm(driver);
-      driverAe.ShowDialog();
+      _driverForm.ShowDialog(driver);
     }
 
     private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

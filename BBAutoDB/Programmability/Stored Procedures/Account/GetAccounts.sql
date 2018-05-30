@@ -1,6 +1,5 @@
 create procedure [dbo].[GetAccounts]
 as
-begin
 	select
     Id,
     Number,
@@ -12,4 +11,3 @@ begin
     [File]
   from
     Account
-end

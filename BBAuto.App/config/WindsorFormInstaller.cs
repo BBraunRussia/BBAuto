@@ -4,6 +4,7 @@ using BBAuto.App.ContextMenu;
 using BBAuto.App.Dictionary;
 using BBAuto.App.FormsForCar;
 using BBAuto.App.FormsForCar.AddEdit;
+using BBAuto.App.FormsForDriver.AddEdit;
 using BBAuto.App.Utils.DGV;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -26,6 +27,9 @@ namespace BBAuto.App.config
         .LifestyleTransient());
       container.Register(Component.For<IMainDgv>()
         .ImplementedBy<MainDgv>()
+        .LifestyleTransient());
+      container.Register(Component.For<IInputDateForm>()
+        .ImplementedBy<InputDateForm>()
         .LifestyleTransient());
 
 
@@ -91,6 +95,9 @@ namespace BBAuto.App.config
         .LifestyleTransient());
       container.Register(Component.For<ISsDtpForm>()
         .ImplementedBy<SsDtpForm>()
+        .LifestyleTransient());
+      container.Register(Component.For<IDriverForm>()
+        .ImplementedBy<DriverForm>()
         .LifestyleTransient());
     }
   }

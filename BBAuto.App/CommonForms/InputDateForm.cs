@@ -3,34 +3,41 @@ using System.Windows.Forms;
 using BBAuto.App.GUI;
 using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Common;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Services.Documents;
+using BBAuto.Logic.Services.Driver;
 using BBAuto.Logic.Static;
 using Common.Resources;
 
 namespace BBAuto.App.CommonForms
 {
-  public partial class InputDate : Form
+  public partial class InputDateForm : Form, IInputDateForm
   {
+    private Logic.Static.Actions _action;
+    private WayBillType _type;
+
     private readonly IMainDgv _dgvMain;
-    private readonly Logic.Static.Actions _action;
-    private readonly WayBillType _type;
-
     private readonly IDocumentsService _documentsService;
+    private readonly IDriverService _driverService;
 
-    public InputDate(
+    public InputDateForm(
       IMainDgv dgvMain,
-      Logic.Static.Actions action,
-      WayBillType type,
-      IDocumentsService documentsService)
+      IDocumentsService documentsService,
+      IDriverService driverService)
     {
       InitializeComponent();
 
       _dgvMain = dgvMain;
+      _documentsService = documentsService;
+      _driverService = driverService;
+    }
+
+    public DialogResult ShowDialog(Logic.Static.Actions action, WayBillType type)
+    {
       _action = action;
       _type = type;
-      _documentsService = documentsService;
+
+      return ShowDialog();
     }
 
     private void btnOK_Click(object sender, EventArgs e)
@@ -73,13 +80,13 @@ namespace BBAuto.App.CommonForms
 
     private ExcelDocument CreateWayBill(int carId, DateTime date, int idInvoice = 0)
     {
-      Driver driver = null;
+      DriverModel driver = null;
       if (idInvoice != 0)
       {
         var invoiceList = InvoiceList.getInstance();
         var invoice = invoiceList.GetItem(idInvoice);
-        var driverList = DriverList.getInstance();
-        driver = driverList.getItem(Convert.ToInt32(invoice.DriverToId));
+        
+        driver = _driverService.GetDriverById(Convert.ToInt32(invoice.DriverToId));
       }
 
       var document = _documentsService.CreateWaybill(carId, date, driver);

@@ -1,6 +1,5 @@
 create procedure [dbo].[GetPolicys]
 as
-begin
   select
     Id,
     CarId,
@@ -22,4 +21,3 @@ begin
     DateCreate
   from
     Policy
-end

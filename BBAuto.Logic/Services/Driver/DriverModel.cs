@@ -11,7 +11,7 @@ namespace BBAuto.Logic.Services.Driver
     public DateTime? DateBirth { get; set; }
     public string Mobile { get; set; }
     public string Email { get; set; }
-    public bool? Fired { get; set; }
+    public bool Fired { get; set; }
     public int? ExpSince { get; set; }
     public int PositionId { get; set; }
     public int? DeptId { get; set; }
@@ -19,11 +19,13 @@ namespace BBAuto.Logic.Services.Driver
     public int? OwnerId { get; set; }
     public string SuppyAddress { get; set; }
     public int Sex { get; set; }
-    public bool? Decret { get; set; }
+    public bool Decret { get; set; }
     public DateTime? DateStopNotification { get; set; }
     public string Number { get; set; }
-    public bool? IsDriver { get; set; }
-    public bool? From1C { get; set; }
+    public bool IsDriver { get; set; }
+    public bool From1C { get; set; }
+
+    public string SexString => Sex == 0 ? "мужской" : "женский";
 
     public string GetName(NameType nameType)
     {

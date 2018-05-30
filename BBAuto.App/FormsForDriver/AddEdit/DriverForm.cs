@@ -2,48 +2,58 @@ using System;
 using System.Windows.Forms;
 using BBAuto.App.Events;
 using BBAuto.Logic.Common;
-using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
-using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Dept;
 using BBAuto.Logic.Services.Driver;
 using BBAuto.Logic.Services.Driver.DriverCar;
 using BBAuto.Logic.Services.Position;
+using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 
 namespace BBAuto.App.FormsForDriver.AddEdit
 {
-  public partial class DriverForm : Form
+  public partial class DriverForm : Form, IDriverForm
   {
     private DriverModel _driver;
-    private Ldap ldap = new Ldap();
+    private readonly Ldap _ldap = new Ldap();
 
     private WorkWithForm _workWithForm;
 
     private readonly IDeptService _deptService;
     private readonly IPositionService _positionService;
     private readonly IDriverCarService _driverCarService;
+    private readonly IViolationService _violationService;
+    private readonly IDriverService _driverService;
 
     public DriverForm(
-      DriverModel driver,
       IDeptService deptService,
       IPositionService positionService,
-      IDriverCarService driverCarService)
+      IDriverCarService driverCarService,
+      IViolationService violationService,
+      IDriverService driverService)
     {
       InitializeComponent();
 
-      _driver = driver;
       _deptService = deptService;
       _positionService = positionService;
       _driverCarService = driverCarService;
+      _violationService = violationService;
+      _driverService = driverService;
+    }
+
+    public DialogResult ShowDialog(DriverModel driver)
+    {
+      _driver = driver;
+
+      return ShowDialog();
     }
 
     private void Driver_AddEdit_Load(object sender, EventArgs e)
     {
-      loadData();
+      LoadData();
 
       tbNumber.Visible = lbNumber.Visible = (_driver.OwnerId < 3);
 
@@ -52,13 +62,11 @@ namespace BBAuto.App.FormsForDriver.AddEdit
       _workWithForm.SetEditMode(_driver.Id == 0);
     }
 
-    private void loadData()
+    private void LoadData()
     {
       loadDictionary(cbRegion, "Region");
-
-      DriverList driverList = DriverList.getInstance();
-
-      fillCommonFields();
+      
+      FillCommonFields();
       fillExtraFields();
     }
 
@@ -102,7 +110,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
       combo.DisplayMember = "Название";
     }
 
-    private void fillCommonFields()
+    private void FillCommonFields()
     {
       tbFio.Text = _driver.GetName(NameType.Full);
       mtbMobile.Text = _driver.Mobile;
@@ -118,13 +126,13 @@ namespace BBAuto.App.FormsForDriver.AddEdit
       tbLogin.Text = _driver.Login;
       tbSuppyAddress.Text = _driver.suppyAddress;
 
-      rbMan.Checked = _driver.Sex == Sex.Мужской;
-      rbWoman.Checked = _driver.Sex == Sex.Женский;
+      rbMan.Checked = _driver.SexString == "мужской";
+      rbWoman.Checked = _driver.SexString == "женский";
 
-      chbDecret.Checked = _driver.Decret;
-      chbNotificationStop.Checked = _driver.NotificationStop;
-      if (_driver.NotificationStop)
-        dtpStopNotificationDate.Value = _driver.DateStopNotification;
+      chbDecret.Checked = _driver.Decret ?? false;
+      chbNotificationStop.Checked = _driver.DateStopNotification.HasValue;
+      if (_driver.DateStopNotification.HasValue)
+        dtpStopNotificationDate.Value = _driver.DateStopNotification.Value;
       tbNumber.Text = _driver.Number;
     }
 
@@ -308,7 +316,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
 
     private void Save()
     {
-      if (string.IsNullOrEmpty(_driver.Number) && (!_driver.From1C) && (_driver.OwnerID < 3) &&
+      if (string.IsNullOrEmpty(_driver.Number) && (!_driver.From1C) && (_driver.OwnerId < 3) &&
           (!string.IsNullOrEmpty(tbNumber.Text)))
       {
         DriverList driverList = DriverList.getInstance();
@@ -321,7 +329,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
       }
 
       CopyFields();
-      _driver.Save();
+      _driverService.Save(_driver);
     }
 
     private void CopyFields()
@@ -330,27 +338,26 @@ namespace BBAuto.App.FormsForDriver.AddEdit
       {
         _driver.Fio = tbFio.Text;
 
-        int idRegion;
-        int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
-        RegionList regionList = RegionList.getInstance();
-        Region region = regionList.getItem(idRegion);
+        int.TryParse(cbRegion.SelectedValue.ToString(), out int regionId);
+        _driver.RegionId = regionId;
 
-        _driver.Region = region;
         _driver.CompanyName = tbCompany.Text;
         _driver.Position = tbPosition.Text;
         _driver.Dept = tbDept.Text;
-        _driver.SexIndex = (rbMan.Checked) ? 0 : 1;
+        _driver.Sex = rbMan.Checked ? 0 : 1;
         _driver.Fired = chbFired.Checked;
         _driver.Decret = chbDecret.Checked;
-        _driver.DateBirth = mtbDateBirth.Text;
+        DateTime.TryParse(mtbDateBirth.Text, out var dateBirth);
+        _driver.DateBirth = dateBirth;
         _driver.Login = tbLogin.Text;
         _driver.Number = tbNumber.Text;
       }
 
-      _driver.email = tbEmail.Text;
-      _driver.ExpSince = tbExpSince.Text;
+      _driver.Email = tbEmail.Text;
+      int.TryParse(tbExpSince.Text, out var expSince);
+      _driver.ExpSince = expSince;
       _driver.Mobile = mtbMobile.Text;
-      _driver.suppyAddress = tbSuppyAddress.Text;
+      _driver.SuppyAddress = tbSuppyAddress.Text;
       _driver.DateStopNotification = (chbNotificationStop.Checked)
         ? dtpStopNotificationDate.Value
         : new DateTime(1, 1, 1);
@@ -360,7 +367,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
 
     private void carLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      formDriverCar formDriverCar = new formDriverCar(_driver);
+      DriverCarForm formDriverCar = new DriverCarForm(_driver);
       formDriverCar.ShowDialog();
     }
 
@@ -386,7 +393,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
     {
       if (tbEmail.Text == string.Empty)
       {
-        tbEmail.Text = ldap.GetEmail(tbLogin.Text);
+        tbEmail.Text = _ldap.GetEmail(tbLogin.Text);
         Save();
       }
     }

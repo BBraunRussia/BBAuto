@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using AutoMapper;
-using BBAuto.Logic.Common;
 using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Driver.DriverCar;
+using BBAuto.Logic.Services.MailService;
 using BBAuto.Logic.Static;
 using BBAuto.Repositories;
 using BBAuto.Repositories.Entities;
@@ -16,13 +16,16 @@ namespace BBAuto.Logic.Services.Violation
   {
     private readonly IDbContext _dbContext;
     private readonly IDriverCarService _driverCarService;
+    private readonly IMailService _mailService;
 
     public ViolationService(
       IDbContext dbContext,
-      IDriverCarService driverCarService)
+      IDriverCarService driverCarService,
+      IMailService mailService)
     {
       _dbContext = dbContext;
       _driverCarService = driverCarService;
+      _mailService = mailService;
     }
 
     public ViolationModel Save(ViolationModel violation)
@@ -39,9 +42,7 @@ namespace BBAuto.Logic.Services.Violation
       var driver = _driverCarService.GetDriver(violation.CarId, violation.Date);
       var driverName = driver?.GetName(NameType.Full);
 
-      var email = new EMail();
-      
-      email.SendMailAccountViolation(driverName, violation.File, car);
+      _mailService.SendMailAccountViolation(driverName, violation.File, car);
 
       violation.Agreed = true;
 
@@ -81,6 +82,15 @@ namespace BBAuto.Logic.Services.Violation
       var violations = list.OrderByDescending(v => v.Date);
 
       return CreateTable(violations, car, null);
+    }
+
+    public IList<ViolationModel> GetViolationForAccount()
+    {
+      var dbViolations = _dbContext.Violation.GetViolationsByDate(DateTime.Today.AddDays(-5));
+
+      var violations = Mapper.Map<IList<ViolationModel>>(dbViolations);
+
+      return violations.Where(v => !v.Agreed && v.DatePay == null).ToList();
     }
 
     private static DataTable CreateTable(IEnumerable<ViolationModel> violations, CarModel car, ICarService carService)

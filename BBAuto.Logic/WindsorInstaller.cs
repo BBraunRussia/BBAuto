@@ -26,6 +26,7 @@ using BBAuto.Logic.Services.Documents;
 using BBAuto.Logic.Services.Driver.DriverCar;
 using BBAuto.Logic.Services.Grade;
 using BBAuto.Logic.Services.Mileage;
+using BBAuto.Logic.Services.Model;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Repositories;
 using Castle.MicroKernel.Registration;
@@ -161,6 +162,10 @@ namespace BBAuto.Logic
 
       container.Register(Component.For<IDriverCarService>()
         .ImplementedBy<DriverCarService>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IModelService>()
+        .ImplementedBy<ModelService>()
         .LifestyleTransient());
     }
   }

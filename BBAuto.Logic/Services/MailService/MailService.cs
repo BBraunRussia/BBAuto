@@ -5,17 +5,20 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using BBAuto.Logic.Dictionary;
-using BBAuto.Logic.Entities;
-using BBAuto.Logic.ForCar;
 using BBAuto.Logic.Lists;
 using BBAuto.Logic.Logger;
+using BBAuto.Logic.Services.Account;
 using BBAuto.Logic.Services.Car;
+using BBAuto.Logic.Services.Dictionary.Owner;
+using BBAuto.Logic.Services.Driver;
+using BBAuto.Logic.Services.Driver.DriverCar;
+using BBAuto.Logic.Services.Policy;
 using BBAuto.Logic.Services.Violation;
 using BBAuto.Logic.Static;
 
-namespace BBAuto.Logic.Common
+namespace BBAuto.Logic.Services.MailService
 {
-  public class EMail
+  public class MailService : IMailService
   {
     private const string ServerHost = "212.0.16.135";
     private const int ServerPort = 25;
@@ -29,12 +32,25 @@ namespace BBAuto.Logic.Common
     private string _subject;
     private string _body;
 
-    public EMail()
+    private readonly IDriverService _driverService;
+    private readonly IDriverCarService _driverCarService;
+    private readonly IOwnerService _ownerService;
+    private readonly IPolicyService _policyService;
+
+    public MailService(
+      IDriverService driverService,
+      IDriverCarService driverCarService,
+      IOwnerService ownerService,
+      IPolicyService policyService)
     {
+      _driverService = driverService;
+      _driverCarService = driverCarService;
+      _ownerService = ownerService;
+      _policyService = policyService;
+
       var driver = User.GetDriver();
-      var driverList = DriverList.getInstance();
-      var employeeTransport = driverList.GetDriverListByRole(RolesList.Editor).First();
-      _authorEmail = driver == null ? employeeTransport == null ? RobotEmail : employeeTransport.email : driver.email;
+      var employeeTransport = _driverService.GetDriversByRole(RolesList.Editor).First();
+      _authorEmail = driver == null ? employeeTransport == null ? RobotEmail : employeeTransport.Email : driver.email;
     }
 
     public void SendMailAccountViolation(string driverName, string file, CarModel car)
@@ -45,8 +61,7 @@ namespace BBAuto.Logic.Common
               + driverName + " совершил нарушение ПДД.\n"
               + "Оплачиваем, удерживаем.";
 
-      var owner = Owners.getInstance().getItem(car.OwnerId.Value);
-      var drivers = GetAccountants(owner);
+      var drivers = GetAccountants(car.OwnerId ?? 0);
 
       var list = new List<Attachment> {new Attachment(file)};
       var transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
@@ -58,27 +73,26 @@ namespace BBAuto.Logic.Common
         list);
     }
 
-    public void SendMailViolation(ViolationModel violation, CarModel car, Driver driver)
+    public void SendMailViolation(ViolationModel violation, CarModel car, DriverModel driver)
     {
       _subject = $"Штраф по а/м {car.Grz}";
 
       CreateMailAndSendViolation(violation, car, driver);
     }
 
-    private void CreateMailAndSendViolation(ViolationModel violation, CarModel car, Driver driver)
+    private void CreateMailAndSendViolation(ViolationModel violation, CarModel car, DriverModel driver)
     {
-      List<Driver> drivers;
+      IList<DriverModel> drivers;
 
       if (violation.NoDeduction)
       {
         CreateBodyViolationNoDeduction(violation, driver);
-        var owner = Owners.getInstance().getItem(car.OwnerId.Value);
-        drivers = GetAccountants(owner);
+        drivers = GetAccountants(car.OwnerId ?? 0);
       }
       else
       {
         CreateBodyViolation(violation, driver);
-        drivers = new List<Driver> {driver};
+        drivers = new List<DriverModel> {driver};
       }
 
       var list = new List<Attachment>();
@@ -87,9 +101,9 @@ namespace BBAuto.Logic.Common
       Send(drivers, new[] {_authorEmail}, list);
     }
 
-    private void CreateBodyViolation(ViolationModel violation, Driver driver)
+    private void CreateBodyViolation(ViolationModel violation, DriverModel driver)
     {
-      var appeal = driver.Sex == "мужской"
+      var appeal = driver.SexString == "мужской"
         ? "Уважаемый"
         : "Уважаемая";
 
@@ -102,7 +116,7 @@ namespace BBAuto.Logic.Common
               "Скан копия постановления во вложении.";
     }
 
-    private void CreateBodyViolationNoDeduction(ViolationModel violation, Driver driver)
+    private void CreateBodyViolationNoDeduction(ViolationModel violation, DriverModel driver)
     {
       var sb = new StringBuilder();
       sb.AppendLine("Добрый день!");
@@ -119,10 +133,10 @@ namespace BBAuto.Logic.Common
       _body = sb.ToString();
     }
 
-    public void SendMailPolicy(Car car, PolicyType type)
+    public void SendMailPolicy(int carId, PolicyType type)
     {
       var policyList = PolicyList.getInstance();
-      var policy = policyList.getItem(car.Id, type);
+      var policy = policyList.getItem(carId, type);
 
       if (string.IsNullOrEmpty(policy.File))
         throw new Exception("Не найден файл полиса");
@@ -131,10 +145,9 @@ namespace BBAuto.Logic.Common
 
       CreateBodyPolicy(type);
 
-      var driverCarList = DriverCarList.getInstance();
-      var driver = driverCarList.GetDriver(car.Id);
+      var driver = _driverCarService.GetDriver(carId);
 
-      Send(new List<Driver> {driver}, new [] {_authorEmail},
+      Send(new List<DriverModel> {driver}, new [] {_authorEmail},
         new List<Attachment> {new Attachment(policy.File)});
     }
 
@@ -157,20 +170,20 @@ namespace BBAuto.Logic.Common
       _body = sb.ToString();
     }
 
-    internal void SendMailAccount(Account account)
+    public void SendMailAccount(AccountModel account)
     {
       _subject = "Согласование счета " + account.Number;
 
       CreateMailAndSendAccount(account);
     }
 
-    private void CreateMailAndSendAccount(Account account)
+    private void CreateMailAndSendAccount(AccountModel account)
     {
       CreateBodyAccount(account);
 
       var driverList = DriverList.getInstance();
 
-      var accountants = GetAccountants(account.Owner);
+      var accountants = GetAccountants(account.OwnerId);
 
       if (accountants.Count == 0)
         throw new NullReferenceException("Не найдены e-mail адреса бухгалтеров");
@@ -180,36 +193,36 @@ namespace BBAuto.Logic.Common
       Send(accountants, new [] {boss.email}, new List<Attachment> {new Attachment(account.File)});
     }
 
-    private static List<Driver> GetAccountants(string owner)
+    private IList<DriverModel> GetAccountants(int ownerId)
     {
-      var driverList = DriverList.getInstance();
+      var owner = _ownerService.GetItemById(ownerId);
 
-      switch (owner)
+      switch (owner.Name)
       {
         case "ООО \"Б.Браун Медикал\"":
-          return driverList.GetDriverListByRole(RolesList.AccountantBBraun);
+          return _driverService.GetDriversByRole(RolesList.AccountantBBraun);
         case "ООО \"ГЕМАТЕК\"":
-          return driverList.GetDriverListByRole(RolesList.AccountantGematek);
+          return _driverService.GetDriversByRole(RolesList.AccountantGematek);
         default:
           throw new NotImplementedException("Не заданы бухгалтеры для данной фирмы.");
       }
     }
 
-    private void CreateBodyAccount(Account account)
+    private void CreateBodyAccount(AccountModel account)
     {
       var sb = new StringBuilder();
       sb.AppendLine("Добрый день!");
       sb.AppendLine("");
 
-      var driver = account.GetDriver();
+      var driver = _driverCarService.GetDriverByAccountId(account.Id);
       var employeeSex = string.Empty;
 
       if (driver != null)
       {
-        employeeSex = (driver.Sex == "мужской") ? "сотрудника" : "сотрудницы";
+        employeeSex = (driver.SexString == "мужской") ? "сотрудника" : "сотрудницы";
       }
 
-      var policyType = (PolicyType) int.Parse(account.IDPolicyType);
+      var policyType = (PolicyType)account.PolicyTypeId;
 
       if (policyType == PolicyType.расш_КАСКО && !account.BusinessTrip)
       {
@@ -237,7 +250,7 @@ namespace BBAuto.Logic.Common
         sb.Append("Cумма оплаты ");
       }
 
-      sb.Append(account.Sum);
+      sb.Append(_policyService.GetSumByAccountId(account));
       sb.AppendLine(" р..");
 
       if (policyType == PolicyType.ДСАГО)
@@ -259,7 +272,7 @@ namespace BBAuto.Logic.Common
       _body = sb.ToString();
     }
 
-    private void Send(IEnumerable<Driver> drivers, string[] copyEmails = null, List<Attachment> files = null)
+    private void Send(IEnumerable<DriverModel> drivers, string[] copyEmails = null, List<Attachment> files = null)
     {
       if (string.IsNullOrEmpty(_authorEmail))
         throw new Exception("ваш email не найден");
@@ -268,12 +281,12 @@ namespace BBAuto.Logic.Common
       {
         msg.From = new MailAddress(_authorEmail);
 
-        foreach (Driver driver in drivers)
+        foreach (var driver in drivers)
         {
-          if (string.IsNullOrEmpty(driver.email))
+          if (string.IsNullOrEmpty(driver.Email))
             _subject += " не найден email сотрудника " + driver.GetName(NameType.Genetive);
           else
-            msg.To.Add(new MailAddress(driver.email));
+            msg.To.Add(new MailAddress(driver.Email));
         }
 
         if (msg.To.Count == 0)
@@ -315,8 +328,8 @@ namespace BBAuto.Logic.Common
       }
     }
 
-    internal void SendNotification(Driver driver, string message, bool addTransportToCopy = true,
-      List<string> fileNames = null)
+    public void SendNotification(DriverModel driver, string message, bool addTransportToCopy = true,
+      IList<string> fileNames = null)
     {
       _subject = "Уведомление";
       _body = message;
@@ -324,21 +337,21 @@ namespace BBAuto.Logic.Common
       string[] copyEmails = null;
       if (addTransportToCopy)
       {
-        Driver transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
+        Entities.Driver transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
         copyEmails = new [] {transportEmployee.email};
       }
 
       var listAttachment = new List<Attachment>();
-      fileNames?.ForEach(item => listAttachment.Add(new Attachment(item)));
+      fileNames?.ToList().ForEach(item => listAttachment.Add(new Attachment(item)));
 
 
-      Send(new List<Driver> {driver}, copyEmails, listAttachment);
+      Send(new List<DriverModel> {driver}, copyEmails, listAttachment);
       LogManager.Logger.Debug(message);
     }
 
     internal void SendMailToAdmin(string message)
     {
-      var admin = DriverList.getInstance().getItem("kasytaru");
+      var admin = _driverService.GetDriverByLogin("kasytaru");
 
       if (admin == null)
         return;
@@ -347,7 +360,7 @@ namespace BBAuto.Logic.Common
       _authorEmail = RobotEmail;
       _body = message;
 
-      Send(new List<Driver> {admin});
+      Send(new List<DriverModel> {admin});
     }
   }
 }

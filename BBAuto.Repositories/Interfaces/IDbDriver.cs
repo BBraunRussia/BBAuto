@@ -10,5 +10,7 @@ namespace BBAuto.Repositories.Interfaces
     IList<DbDriver> GetDrivers();
     DbDriver UpsertDriver(DbDriver driver);
     DbDriver GetDriverById(int id);
+    DbDriver GetDriverByLogin(string login);
+    IList<DbDriver> GetDriversByRoleId(int roleId);
   }
 }

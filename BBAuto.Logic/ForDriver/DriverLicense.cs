@@ -4,6 +4,7 @@ using BBAuto.Logic.Abstract;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Entities;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.MailService;
 using BBAuto.Logic.Static;
 
 namespace BBAuto.Logic.ForDriver
@@ -104,7 +105,7 @@ namespace BBAuto.Logic.ForDriver
     {
       string message = CreateMessageNotification();
 
-      EMail email = new EMail();
+      MailService email = new MailService();
       email.SendNotification(Driver, message);
 
       IsNotificationSent = true;

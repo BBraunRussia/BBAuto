@@ -11,6 +11,7 @@ using BBAuto.App.Dictionary;
 using BBAuto.App.FormsForCar;
 using BBAuto.App.FormsForCar.AddEdit;
 using BBAuto.App.FormsForDriver;
+using BBAuto.App.FormsForDriver.AddEdit;
 using BBAuto.App.GUI;
 using BBAuto.App.Utils.DGV;
 using BBAuto.Logic.Common;
@@ -19,6 +20,7 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Car;
 using BBAuto.Logic.Services.Car.Sale;
 using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Services.DiagCard;
@@ -38,6 +40,7 @@ using BBAuto.Logic.Services.Dictionary.ServiceStantion;
 using BBAuto.Logic.Services.Dictionary.StatusAfterDtp;
 using BBAuto.Logic.Services.Dictionary.ViolationType;
 using BBAuto.Logic.Services.Documents;
+using BBAuto.Logic.Services.MailService;
 using BBAuto.Logic.Services.Mileage;
 using BBAuto.Logic.Static;
 using Common.Resources;
@@ -54,6 +57,7 @@ namespace BBAuto.App.ContextMenu
     private readonly ICarForm _carForm;
     private readonly IViolationForm _formViolation;
     private readonly IDiagCardForm _diagCardForm;
+    private readonly IDriverForm _driverForm;
 
     private readonly IMyPointListForm _myPointListForm;
     private readonly IRouteListForm _routeListForm;
@@ -63,6 +67,7 @@ namespace BBAuto.App.ContextMenu
     private readonly ISsDtpListForm _ssDtpListForm;
     private readonly IOneStringDictionaryListForm _oneStringDictionaryListForm;
     private readonly ILoadFuelForm _loadFuelForm;
+    private readonly IInputDateForm _inputDateForm;
 
     private readonly IDocumentsService _documentsService;
     private readonly ISaleCarService _saleCarService;
@@ -81,6 +86,7 @@ namespace BBAuto.App.ContextMenu
     private readonly IViolationTypeService _violationTypeService;
     private readonly IProxyTypeService _proxyTypeService;
     private readonly IFuelCardTypeService _fuelCardTypeService;
+    private readonly IMailService _mailService;
 
     private IMainDgv _mainDgv;
 
@@ -113,7 +119,10 @@ namespace BBAuto.App.ContextMenu
       IViolationTypeService violationTypeService,
       IProxyTypeService proxyTypeService,
       IFuelCardTypeService fuelCardTypeService,
-      ILoadFuelForm loadFuelForm)
+      ILoadFuelForm loadFuelForm,
+      IDriverForm driverForm,
+      IInputDateForm inputDateForm,
+      IMailService mailService)
     {
       _formMileage = formMileage;
       _carForm = carForm;
@@ -144,6 +153,9 @@ namespace BBAuto.App.ContextMenu
       _proxyTypeService = proxyTypeService;
       _fuelCardTypeService = fuelCardTypeService;
       _loadFuelForm = loadFuelForm;
+      _driverForm = driverForm;
+      _inputDateForm = inputDateForm;
+      _mailService = mailService;
     }
 
     public void SetMainDgv(IMainDgv dgvMain)
@@ -375,7 +387,7 @@ namespace BBAuto.App.ContextMenu
         if (carId == 0)
           return;
 
-        _formViolation.ShowDialog(0, carId, _carForm);
+        _formViolation.ShowDialog(0, carId, _carForm, _driverForm);
       };
       return item;
     }
@@ -499,7 +511,7 @@ namespace BBAuto.App.ContextMenu
           MessageBox.Show(Messages.NotFoundEmails, Captions.CannotCreateMail, MessageBoxButtons.OK,
             MessageBoxIcon.Warning);
         else
-          EMail.OpenEmailProgram(driverList);
+          MailService.OpenEmailProgram(driverList);
       };
       return item;
     }
@@ -553,8 +565,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Печать путевого листа");
       item.Click += delegate
       {
-        var inputDate = new InputDate(_mainDgv, Logic.Static.Actions.Print, WayBillType.Month, _documentsService);
-        inputDate.ShowDialog();
+        _inputDateForm.ShowDialog(Logic.Static.Actions.Print, WayBillType.Month);
       };
       return item;
     }
@@ -564,8 +575,7 @@ namespace BBAuto.App.ContextMenu
       var item = CreateItem("Просмотр путевого листа");
       item.Click += delegate
       {
-        var inputDate = new InputDate(_mainDgv, Logic.Static.Actions.Show, WayBillType.Month, _documentsService);
-        inputDate.ShowDialog();
+        _inputDateForm.ShowDialog(Logic.Static.Actions.Show, WayBillType.Month);
       };
       return item;
     }
@@ -764,7 +774,7 @@ namespace BBAuto.App.ContextMenu
         Driver driver = driverCarList.GetDriver(carId, date);
 
         LicenseList licencesList = LicenseList.getInstance();
-        DriverLicense driverLicense = licencesList.getItem(driver);
+        DriverLicense driverLicense = licencesList.getItemByDriverId(driver.Id);
 
         if (!string.IsNullOrEmpty(driverLicense?.File))
           WorkWithFiles.OpenFile(driverLicense.File);
@@ -1316,10 +1326,13 @@ namespace BBAuto.App.ContextMenu
       var carId = _mainDgv.GetCarId();
       if (carId == 0)
         return;
+      
+      _mailService.SendMailPolicy(carId, type);
 
-      var car = CarList.getInstance().getItem(carId);
+      var driverCarList = DriverCarList.getInstance();
+      var driver = driverCarList.GetDriver(carId);
 
-      var result = MailPolicy.Send(car, type);
+      var result = $"Полис {type} отправлен на адрес {driver.email}";
 
       MessageBox.Show(result, Captions.Send, MessageBoxButtons.OK, MessageBoxIcon.Information);
     }

@@ -12,18 +12,16 @@ as
     ExpSince,
     dr.PositionId,
     dr.DeptId,
-    login,
+    Login,
     OwnerId,
     SuppyAddress,
     Sex,
     Decret,
     DateStopNotification,
-    number,
+    Number,
     IsDriver,
     From1C
   from
     Driver dr
   where
     dr.Id = @id
-  order by
-    Fio

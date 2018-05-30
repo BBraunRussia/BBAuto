@@ -9,6 +9,7 @@ namespace BBAuto.Repositories.Interfaces
   {
     IList<DbCar> GetCars();
     DbCar GetCarById(int id);
+    IList<DbCar> GetCarsByIds(IList<int> ids);
 
     void DeleteCar(DbCar car);
     DbCar UpsertCar(DbCar car);

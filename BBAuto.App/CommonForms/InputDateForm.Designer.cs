@@ -1,6 +1,6 @@
 namespace BBAuto.App.CommonForms
 {
-    partial class InputDate
+    partial class InputDateForm
     {
         /// <summary>
         /// Required designer variable.

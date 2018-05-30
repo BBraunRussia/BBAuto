@@ -9,6 +9,7 @@ namespace BBAuto.Logic.Services.Car
     CarModel GetCarByGrz(string grz);
     
     IList<CarModel> GetCars();
+    IList<CarModel> GetCars(IList<int> ids);
 
     DataTable ToDataTable(Status status);
     DataTable GetDataTableInfoByCarId(int id);
@@ -18,5 +19,6 @@ namespace BBAuto.Logic.Services.Car
 
     int GetNextBbNumber();
     string CarToString(int carId);
+    DataTable GetDataTableCarsByIds(IList<int> ids);
   }
 }

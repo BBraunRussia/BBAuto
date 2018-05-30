@@ -4,6 +4,8 @@ namespace BBAuto.Repositories
 {
   public interface IDbContext
   {
+    IDbAccount Account { get; }
+
     IDbCar Car { get; }
     IDbCarDoc CarDoc { get; }
     IDbSaleCar SaleCar { get; }
@@ -22,9 +24,12 @@ namespace BBAuto.Repositories
     IDbGrade Grade { get; }
     IDbLicense License { get; }
     IDbMark Mark { get; }
+    IDbMedicalCert MedicalCert { get; }
     IDbMileage Mileage { get; }
+    IDbModel Model { get; }
     IDbInvoice Invoice { get; }
     IDbOwner Owner { get; }
+    IDbPolicy Policy { get; }
     IDbProxyType ProxyType { get; }
     IDbRegion Region { get; }
     IDbRepairType RepairType { get; }

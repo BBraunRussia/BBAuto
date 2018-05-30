@@ -1,14 +1,13 @@
 create procedure [dbo].[GetModelByGradeId]
-  @idGrade int
+  @GradeId int
 as
-begin
   select
     m.Id,
-    m.[Name]
+    m.[Name],
+    MarkId
   from
     Grade g
     join Model m
       on m.Id = g.ModelId
   where
-    g.Id = @idGrade
-end
+    g.Id = @GradeId
