@@ -40,7 +40,7 @@ namespace BBAuto
         {
             InitializeComponent();
             
-            carList = CarList.getInstance();
+            carList = CarList.GetInstance();
             mainStatus = MainStatus.getInstance();
             mainStatus.StatusChanged += statusChanged;
             mainStatus.StatusChanged += SetWindowHeaderText;

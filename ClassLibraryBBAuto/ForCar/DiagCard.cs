@@ -47,7 +47,7 @@ namespace BBAuto.Domain.ForCar
 
             int idCar;
             int.TryParse(row.ItemArray[1].ToString(), out idCar);
-            Car = CarList.getInstance().getItem(idCar);
+            Car = CarList.GetInstance().getItem(idCar);
             
             Number = row.ItemArray[2].ToString();
 

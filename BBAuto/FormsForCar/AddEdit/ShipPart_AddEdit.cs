@@ -37,7 +37,7 @@ namespace BBAuto
 
         private void loadDictionary()
         {
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
             cbCar.DataSource = carList.ToDataTable(Status.All);
             cbCar.ValueMember = "idCar";
             cbCar.DisplayMember = "Регистрационный знак";
@@ -64,7 +64,7 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                shipPart.Car = CarList.getInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
+                shipPart.Car = CarList.GetInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
                 shipPart.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
                 shipPart.Number = tbNumber.Text;
                 shipPart.DateRequest = mtbDateRequest.Text;

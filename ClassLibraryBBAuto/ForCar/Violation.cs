@@ -95,7 +95,7 @@ namespace BBAuto.Domain.ForCar
 
       int idCar;
       int.TryParse(row[1].ToString(), out idCar);
-      Car = CarList.getInstance().getItem(idCar);
+      Car = CarList.GetInstance().getItem(idCar);
 
       DateTime date;
       DateTime.TryParse(row[2].ToString(), out date);

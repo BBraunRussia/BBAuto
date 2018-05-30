@@ -103,7 +103,7 @@ namespace BBAuto.Domain.Lists
             
             if (driverCars.Count() > 0)
             {
-                CarList carList = CarList.getInstance();
+                CarList carList = CarList.GetInstance();
 
                 foreach (var driverCar in driverCars)
                 {
@@ -124,7 +124,7 @@ namespace BBAuto.Domain.Lists
                              orderby driverCar.dateEnd descending, driverCar.Number descending
                              select driverCar;
 
-            return (driverCars.Count() > 0) ? CarList.getInstance().getItem(driverCars.First().Car.ID) : null;
+            return (driverCars.Count() > 0) ? CarList.GetInstance().getItem(driverCars.First().Car.ID) : null;
         }
         
         public bool IsDriverHaveCar(Driver driver)
@@ -136,7 +136,7 @@ namespace BBAuto.Domain.Lists
         {
             var driverCars = list.Where(item => item.Driver.ID == driver.ID).OrderByDescending(item => item.dateEnd);
 
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
             List<Car> cars = new List<Car>();
 
             foreach (DriverCar driverCar in driverCars)

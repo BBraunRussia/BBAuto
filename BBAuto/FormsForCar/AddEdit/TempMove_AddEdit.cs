@@ -53,7 +53,7 @@ namespace BBAuto
             cbDriver.DisplayMember = "ФИО";
             cbDriver.ValueMember = "id";
 
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
             cbCar.DataSource = carList.ToDataTable(Status.Actual);
             cbCar.DisplayMember = "Регистрационный знак";
             cbCar.ValueMember = "id";
@@ -64,7 +64,7 @@ namespace BBAuto
             if (_workWithForm.IsEditMode())
             {
                 _tempMove.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
-                _tempMove.Car = CarList.getInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
+                _tempMove.Car = CarList.GetInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
                 _tempMove.DateBegin = Convert.ToDateTime(dtpDateBegin.Value);
                 _tempMove.DateEnd = Convert.ToDateTime(dtpDateEnd.Value);
 

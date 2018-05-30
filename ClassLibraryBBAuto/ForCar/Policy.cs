@@ -145,7 +145,7 @@ namespace BBAuto.Domain.ForCar
 
             int idCar;
             int.TryParse(row.ItemArray[1].ToString(), out idCar);
-            Car = CarList.getInstance().getItem(idCar);
+            Car = CarList.GetInstance().getItem(idCar);
 
             int.TryParse(row.ItemArray[2].ToString(), out _idPolicyType);
             IdOwner = row.ItemArray[3].ToString();

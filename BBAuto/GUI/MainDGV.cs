@@ -36,12 +36,12 @@ namespace BBAuto
 
         public Car GetCar()
         {
-            return (_dgv.CurrentCell == null) ? null : CarList.getInstance().getItem(GetID(1, _dgv.CurrentCell.RowIndex));
+            return (_dgv.CurrentCell == null) ? null : CarList.GetInstance().getItem(GetID(1, _dgv.CurrentCell.RowIndex));
         }
 
         public Car GetCar(DataGridViewCell cell)
         {
-            return (cell == null) ? null : CarList.getInstance().getItem(GetID(1, cell.RowIndex));
+            return (cell == null) ? null : CarList.GetInstance().getItem(GetID(1, cell.RowIndex));
         }
 
         public int GetCarID()

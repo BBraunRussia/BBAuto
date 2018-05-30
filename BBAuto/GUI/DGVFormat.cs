@@ -23,7 +23,7 @@ namespace BBAuto
 
     internal void FormatByOwner()
     {
-      CarList carList = CarList.getInstance();
+      CarList carList = CarList.GetInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {

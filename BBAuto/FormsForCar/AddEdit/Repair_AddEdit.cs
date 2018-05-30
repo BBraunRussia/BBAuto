@@ -51,7 +51,7 @@ namespace BBAuto
 
         private void loadDictionary()
         {
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
             cbCar.DataSource = carList.ToDataTable(Status.Actual);
             cbCar.ValueMember = "id";
             cbCar.DisplayMember = "Бортовой номер";

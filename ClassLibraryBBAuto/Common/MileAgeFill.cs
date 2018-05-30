@@ -96,7 +96,7 @@ namespace BBAuto.Domain.Common
             if (grz == string.Empty)
                 return null;
 
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
             return carList.getItem(FormatGRZ(grz));
         }
 

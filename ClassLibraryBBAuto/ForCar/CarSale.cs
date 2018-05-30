@@ -30,7 +30,7 @@ namespace BBAuto.Domain.ForCar
 
         public Car Car
         {
-            get { return CarList.getInstance().getItem(ID); }
+            get { return CarList.GetInstance().getItem(ID); }
             private set { ID = value.ID; }
         }
 

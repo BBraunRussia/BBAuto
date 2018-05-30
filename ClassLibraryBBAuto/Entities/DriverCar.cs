@@ -19,7 +19,7 @@ namespace BBAuto.Domain.Entities
         {
             int idCar;
             int.TryParse(row.ItemArray[0].ToString(), out idCar);
-            Car = CarList.getInstance().getItem(idCar);
+            Car = CarList.GetInstance().getItem(idCar);
 
             if (idCar == 191)
                 idCar = 191;

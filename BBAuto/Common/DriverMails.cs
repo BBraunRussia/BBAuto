@@ -44,7 +44,7 @@ namespace BBAuto
             List<Driver> drivers = new List<Driver>();
             DriverCarList driverCarList = DriverCarList.getInstance();
 
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
 
             foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
             {

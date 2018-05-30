@@ -38,7 +38,7 @@ namespace BBAuto.Domain.ForCar
         {
             int id;
             int.TryParse(row.ItemArray[0].ToString(), out id);
-            Car = CarList.getInstance().getItem(id);
+            Car = CarList.GetInstance().getItem(id);
 
             Number = row.ItemArray[1].ToString();
             Date = Convert.ToDateTime(row.ItemArray[2]);

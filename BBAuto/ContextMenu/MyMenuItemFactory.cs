@@ -27,7 +27,7 @@ namespace BBAuto
         {
             _dgvMain = dgvMain;
             _mainStatus = MainStatus.getInstance();
-            _carList = CarList.getInstance();
+            _carList = CarList.GetInstance();
         }
 
         public ToolStripItem CreateItem(ContextMenuItem item)
@@ -1264,7 +1264,7 @@ namespace BBAuto
             if (carID == 0)
                 return null;
 
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
             Car car = carList.getItem(carID);
 
             Invoice invoice = null;

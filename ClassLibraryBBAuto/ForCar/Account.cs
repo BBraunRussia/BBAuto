@@ -125,7 +125,7 @@ namespace BBAuto.Domain.ForCar
         {
             int idCar = GetIDCar();
 
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
             Car car = carList.getItem(idCar);
 
             DriverCarList driverCarList = DriverCarList.getInstance();

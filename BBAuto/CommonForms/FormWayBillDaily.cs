@@ -36,7 +36,7 @@ namespace BBAuto
                 driverCurrent = dl.getItemByFullFIO(fio);
 
                 int idCar = dgv.GetCarID(cell.RowIndex);
-                CarList carList = CarList.getInstance();
+                CarList carList = CarList.GetInstance();
                 Car car = carList.getItem(idCar);
                 list.Add(car);
 

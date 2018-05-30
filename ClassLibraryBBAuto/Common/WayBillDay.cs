@@ -26,7 +26,7 @@ namespace BBAuto.Domain.Common
 
             int idCar;
             int.TryParse(row[1].ToString(), out idCar);
-            CarList carList = CarList.getInstance();
+            CarList carList = CarList.GetInstance();
             _car = carList.getItem(idCar);
 
             int idDriver;
