@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
+﻿using System.Data;
 using BBAuto.Domain.Common;
 
 namespace BBAuto.Domain.Dictionary
 {
-    public class Regions : MyDictionary
+  public class Regions : MyDictionary
+  {
+    private static Regions uniqueInstance;
+
+    public static Regions getInstance()
     {
-        private static Regions uniqueInstance;
+      if (uniqueInstance == null)
+        uniqueInstance = new Regions();
 
-        public static Regions getInstance()
-        {
-            if (uniqueInstance == null)
-                uniqueInstance = new Regions();
-
-            return uniqueInstance;
-        }
-
-        protected override void loadFromSql()
-        {
-            DataTable dt = provider.Select("Region");
-
-            fillList(dt);
-        }
+      return uniqueInstance;
     }
+
+    protected override void loadFromSql()
+    {
+      DataTable dt = provider.Select("Region");
+
+      fillList(dt);
+    }
+  }
 }

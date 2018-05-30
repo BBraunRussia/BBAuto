@@ -301,7 +301,7 @@ namespace BBAuto.Domain.Entities
                 dateStopNotificationSql, _number, _isDriver, _from1C), out id);
             ID = id;
 
-            driverList.Add(this);
+            driverList.ReLoad();
         }
 
         public Instraction createInstraction()

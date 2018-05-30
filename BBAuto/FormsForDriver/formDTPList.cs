@@ -1,39 +1,45 @@
-﻿using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
 
 namespace BBAuto
 {
-    public partial class formDTPList : Form
+  public partial class formDTPList : Form
+  {
+    private readonly Driver _driver;
+
+    public formDTPList(Driver driver)
     {
-        Driver driver;
-
-        public formDTPList(Driver driver)
-        {
-            InitializeComponent();
-            this.driver = driver;
-        }
-
-        private void formDTPList_Load(object sender, EventArgs e)
-        {
-            DTPList dtpList = DTPList.getInstance();
-            dgvDTP.DataSource = dtpList.ToDataTable(driver);
-
-            if (dgvDTP.DataSource != null)
-                formatDGV();
-        }
-
-        private void formatDGV()
-        {
-            dgvDTP.Columns[0].Visible = false;
-            dgvDTP.Columns[1].Visible = false;
-        }
+      InitializeComponent();
+      _driver = driver;
     }
+
+    private void formDTPList_Load(object sender, EventArgs e)
+    {
+      DTPList dtpList = DTPList.getInstance();
+      dgvDTP.DataSource = dtpList.ToDataTable(_driver);
+
+      if (dgvDTP.DataSource != null)
+        formatDGV();
+    }
+
+    private void formatDGV()
+    {
+      dgvDTP.Columns[0].Visible = false;
+      dgvDTP.Columns[1].Visible = false;
+    }
+
+    private void dgvDTP_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    {
+      if (e.ColumnIndex == 2)
+      {
+        var carId = Convert.ToInt32(dgvDTP.Rows[dgvDTP.SelectedCells[0].RowIndex].Cells[1].Value);
+        var car = CarList.GetInstance().getItem(carId);
+
+        var carForm = new Car_AddEdit(car);
+        carForm.ShowDialog();
+      }
+    }
+  }
 }

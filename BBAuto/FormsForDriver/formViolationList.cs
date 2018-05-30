@@ -8,19 +8,17 @@ namespace BBAuto
   public partial class formViolationList : Form
   {
     Driver driver;
-    ViolationList violationList;
 
     public formViolationList(Driver driver)
     {
       InitializeComponent();
 
       this.driver = driver;
-
-      violationList = ViolationList.getInstance();
     }
 
     private void ViolationList_Load(object sender, EventArgs e)
     {
+      var violationList = ViolationList.getInstance();
       dgvViolation.DataSource = violationList.ToDataTable(driver);
 
       if (dgvViolation.DataSource != null)
@@ -43,15 +41,6 @@ namespace BBAuto
 
         var carForm = new Car_AddEdit(car);
         carForm.ShowDialog();
-        return;
-      }
-      if (e.ColumnIndex == 7)
-      {
-        var violationId = Convert.ToInt32(dgvViolation.Rows[dgvViolation.SelectedCells[0].RowIndex].Cells[0].Value);
-        var violation = ViolationList.getInstance().getItem(violationId);
-
-        var violationForm = new Violation_AddEdit(violation);
-        violationForm.ShowDialog();
       }
     }
   }
