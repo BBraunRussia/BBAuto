@@ -1,0 +1,19 @@
+CREATE TABLE [dbo].[CarSale](
+	[car_id] [int] NOT NULL,
+	[carSale_date] [datetime] NULL,
+	[carSale_comm] [varchar](100) NULL,
+ CONSTRAINT [PK_CarSale] PRIMARY KEY CLUSTERED 
+(
+	[car_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[CarSale]  WITH CHECK ADD  CONSTRAINT [FK_CarSale_Car] FOREIGN KEY([car_id])
+REFERENCES [dbo].[Car] ([car_id])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[CarSale] CHECK CONSTRAINT [FK_CarSale_Car]
+GO

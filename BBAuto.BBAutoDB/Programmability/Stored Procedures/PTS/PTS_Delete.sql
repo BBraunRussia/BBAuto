@@ -1,0 +1,7 @@
+CREATE PROCEDURE [dbo].[PTS_Delete]
+@idCar int
+AS
+BEGIN
+	DELETE FROM PTS WHERE car_id=@idCar
+END
+GO

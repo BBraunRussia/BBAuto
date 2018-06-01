@@ -1,0 +1,10 @@
+CREATE TABLE [dbo].[Diller](
+	[diller_id] [int] IDENTITY(1,1) NOT NULL,
+	[diller_name] [varchar](100) NOT NULL,
+	[diller_contacts] [varchar](500) NULL,
+ CONSTRAINT [PK_Diller] PRIMARY KEY CLUSTERED 
+(
+	[diller_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO

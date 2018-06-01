@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>BBAutoDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{bcaed834-4958-4a5c-b45b-86d48dcbd5d6}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>BBAuto.BBAutoDB</RootNamespace>
+    <AssemblyName>BBAuto.BBAutoDB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Programmability" />
+    <Folder Include="Programmability\Stored Procedures" />
+    <Folder Include="Programmability\Functions" />
+    <Folder Include="Programmability\Stored Procedures\Account" />
+    <Folder Include="Programmability\Stored Procedures\Car" />
+    <Folder Include="Programmability\Stored Procedures\CarBuy" />
+    <Folder Include="Programmability\Stored Procedures\CarDoc" />
+    <Folder Include="Programmability\Stored Procedures\CarSale" />
+    <Folder Include="Programmability\Stored Procedures\Color" />
+    <Folder Include="Programmability\Stored Procedures\ColumnSize" />
+    <Folder Include="Programmability\Stored Procedures\Comp" />
+    <Folder Include="Programmability\Stored Procedures\Culprit" />
+    <Folder Include="Programmability\Stored Procedures\CurrentStatusAfterDtp" />
+    <Folder Include="Programmability\Stored Procedures\Dept" />
+    <Folder Include="Programmability\Stored Procedures\DiagCard" />
+    <Folder Include="Programmability\Stored Procedures\Dealer" />
+    <Folder Include="Programmability\Stored Procedures\Driver" />
+    <Folder Include="Programmability\Stored Procedures\DriverLicense" />
+    <Folder Include="Programmability\Stored Procedures\DTP" />
+    <Folder Include="Programmability\Stored Procedures\DTPFile" />
+    <Folder Include="Programmability\Stored Procedures\Employees" />
+    <Folder Include="Programmability\Stored Procedures\EmployeesName" />
+    <Folder Include="Programmability\Stored Procedures\EngineType" />
+    <Folder Include="Programmability\Stored Procedures\Fuel" />
+    <Folder Include="Programmability\Stored Procedures\FuelCard" />
+    <Folder Include="Programmability\Stored Procedures\FuelCardDriver" />
+    <Folder Include="Programmability\Stored Procedures\FuelCardType" />
+    <Folder Include="Programmability\Stored Procedures\Grade" />
+    <Folder Include="Programmability\Stored Procedures\History" />
+    <Folder Include="Programmability\Stored Procedures\Instraction" />
+    <Folder Include="Programmability\Stored Procedures\Invoice" />
+    <Folder Include="Programmability\Stored Procedures\MailText" />
+    <Folder Include="Programmability\Stored Procedures\MainPoint" />
+    <Folder Include="Programmability\Stored Procedures\Mark" />
+    <Folder Include="Programmability\Stored Procedures\MedicalCert" />
+    <Folder Include="Programmability\Stored Procedures\Mileage" />
+    <Folder Include="Programmability\Stored Procedures\MileageMonth" />
+    <Folder Include="Programmability\Stored Procedures\Model" />
+    <Folder Include="Programmability\Stored Procedures\MyPoint" />
+    <Folder Include="Programmability\Stored Procedures\Owner" />
+    <Folder Include="Programmability\Stored Procedures\Passport" />
+    <Folder Include="Programmability\Stored Procedures\Policy" />
+    <Folder Include="Programmability\Stored Procedures\PolicyType" />
+    <Folder Include="Programmability\Stored Procedures\Position" />
+    <Folder Include="Programmability\Stored Procedures\ProxyType" />
+    <Folder Include="Programmability\Stored Procedures\PTS" />
+    <Folder Include="Programmability\Stored Procedures\Region" />
+    <Folder Include="Programmability\Stored Procedures\Repair" />
+    <Folder Include="Programmability\Stored Procedures\RepairType" />
+    <Folder Include="Programmability\Stored Procedures\Role" />
+    <Folder Include="Programmability\Stored Procedures\Route" />
+    <Folder Include="Programmability\Stored Procedures\ServiceStantion" />
+    <Folder Include="Programmability\Stored Procedures\ShipPart" />
+    <Folder Include="Programmability\Stored Procedures\ssDTP" />
+    <Folder Include="Programmability\Stored Procedures\Status" />
+    <Folder Include="Programmability\Stored Procedures\StatusAfterDTP" />
+    <Folder Include="Programmability\Stored Procedures\STS" />
+    <Folder Include="Programmability\Stored Procedures\SuppyAddress" />
+    <Folder Include="Programmability\Stored Procedures\Tabel" />
+    <Folder Include="Programmability\Stored Procedures\Template" />
+    <Folder Include="Programmability\Stored Procedures\TempMove" />
+    <Folder Include="Programmability\Stored Procedures\UserAccess" />
+    <Folder Include="Programmability\Stored Procedures\Violation" />
+    <Folder Include="Programmability\Stored Procedures\ViolationType" />
+    <Folder Include="Programmability\Stored Procedures\WayBillDay" />
+    <Folder Include="Programmability\Stored Procedures\WayBillRoute" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Account.sql" />
+    <Build Include="Tables\Car.sql" />
+    <Build Include="Tables\CarBuy.sql" />
+    <Build Include="Tables\CarDoc.sql" />
+    <Build Include="Tables\CarSale.sql" />
+    <Build Include="Tables\Color.sql" />
+    <Build Include="Tables\ColumnSize.sql" />
+    <Build Include="Tables\Comp.sql" />
+    <Build Include="Tables\Culprit.sql" />
+    <Build Include="Tables\CurrentStatusAfterDTP.sql" />
+    <Build Include="Tables\Dept.sql" />
+    <Build Include="Tables\DiagCard.sql" />
+    <Build Include="Tables\Diller.sql" />
+    <Build Include="Tables\Driver.sql" />
+    <Build Include="Tables\DriverLicense.sql" />
+    <Build Include="Tables\DTP.sql" />
+    <Build Include="Tables\DtpFile.sql" />
+    <Build Include="Tables\Employees.sql" />
+    <Build Include="Tables\EmployeesName.sql" />
+    <Build Include="Tables\engineType.sql" />
+    <Build Include="Tables\Fuel.sql" />
+    <Build Include="Tables\FuelCard.sql" />
+    <Build Include="Tables\FuelCardDriver.sql" />
+    <Build Include="Tables\FuelCardType.sql" />
+    <Build Include="Tables\Grade.sql" />
+    <Build Include="Tables\History.sql" />
+    <Build Include="Tables\Instraction.sql" />
+    <Build Include="Tables\Invoice.sql" />
+    <Build Include="Tables\MailText.sql" />
+    <Build Include="Tables\MainPoint.sql" />
+    <Build Include="Tables\Mark.sql" />
+    <Build Include="Tables\MedicalCert.sql" />
+    <Build Include="Tables\Mileage.sql" />
+    <Build Include="Tables\MileageMonth.sql" />
+    <Build Include="Tables\Model.sql" />
+    <Build Include="Tables\MyPoint.sql" />
+    <Build Include="Tables\Owner.sql" />
+    <Build Include="Tables\Passport.sql" />
+    <Build Include="Tables\Policy.sql" />
+    <Build Include="Tables\PolicyType.sql" />
+    <Build Include="Tables\Position.sql" />
+    <Build Include="Tables\Proxy.sql" />
+    <Build Include="Tables\ProxyType.sql" />
+    <Build Include="Tables\PTS.sql" />
+    <Build Include="Tables\Region.sql" />
+    <Build Include="Tables\Repair.sql" />
+    <Build Include="Tables\RepairType.sql" />
+    <Build Include="Tables\Role.sql" />
+    <Build Include="Tables\Route.sql" />
+    <Build Include="Tables\ServiceStantion.sql" />
+    <Build Include="Tables\ShipPart.sql" />
+    <Build Include="Tables\ssDTP.sql" />
+    <Build Include="Tables\Status.sql" />
+    <Build Include="Tables\StatusAfterDTP.sql" />
+    <Build Include="Tables\STS.sql" />
+    <Build Include="Tables\SuppyAddress.sql" />
+    <Build Include="Tables\Tabel.sql" />
+    <Build Include="Tables\Tabel_Test.sql" />
+    <Build Include="Tables\Template.sql" />
+    <Build Include="Tables\TempMove.sql" />
+    <Build Include="Tables\UserAccess.sql" />
+    <Build Include="Tables\Violation.sql" />
+    <Build Include="Tables\ViolationType.sql" />
+    <Build Include="Tables\WayBillDay.sql" />
+    <Build Include="Tables\WayBillRoute.sql" />
+    <Build Include="Programmability\Functions\Function_DriverCar_Select.sql" />
+    <Build Include="Programmability\Functions\DateTime_To_Date.sql" />
+    <Build Include="Programmability\Stored Procedures\Account\Account_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Account\Account_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Car_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Car_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Car\Car_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\CarBuy\CarBuy_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\CarBuy\CarBuy_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\CarSale\CarSale_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\CarSale\CarSale_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\CarSale\CarSale_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Color\Color_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Color\Color_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Color\Color_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\ColumnSize\ColumnSize_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\ColumnSize\ColumnSize_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Comp\Comp_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Comp\Comp_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Comp\Comp_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Culprit\Culprit_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Culprit\Culprit_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Culprit\Culprit_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Culprit\Culprit_SelectWithUser.sql" />
+    <Build Include="Programmability\Stored Procedures\CurrentStatusAfterDtp\CurrentStatusAfterDTP_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\CurrentStatusAfterDtp\CurrentStatusAfterDTP_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\CurrentStatusAfterDtp\CurrentStatusAfterDTP_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Dept\Dept_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Dept\Dept_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Dept\Dept_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\DiagCard\DiagCard_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\DiagCard\DiagCard_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\DiagCard\DiagCard_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Dealer\Diller_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Dealer\Diller_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Dealer\Diller_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Driver\Driver_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Driver\Driver_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Driver\DriverCar_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverLicense\DriverLicense_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverLicense\DriverLicense_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverLicense\DriverLicense_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\DTP\DTP_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\DTP\DTP_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\DTP\DTP_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\DTPFile\DTPFile_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\DTPFile\DTPFile_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\DTPFile\DTPFile_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Employees\Employees_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Employees\Employees_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Employees\Employees_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\EmployeesName\EmployeesName_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\EmployeesName\employeesName_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\EmployeesName\EmployeesName_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\EngineType\EngineType_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\EngineType\EngineType_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\EngineType\EngineType_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Fuel\Fuel_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Fuel\Fuel_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Fuel\FuelByCarAndDate_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCard\FuelCard_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCard\FuelCard_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCard\FuelCard_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCardDriver\FuelCardDriver_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCardDriver\FuelCardDriver_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCardDriver\FuelCardDriver_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCardType\FuelCardType_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\FuelCardType\FuelCardType_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Grade\Grade_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Grade\Grade_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Grade\Grade_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\History\History_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Instraction\Instraction_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Instraction\Instraction_GetLast.sql" />
+    <Build Include="Programmability\Stored Procedures\Instraction\Instraction_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Instraction\Instraction_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\MailText\MailText_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\MailText\MailText_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\MailText\MailText_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\MainPoint\MainPoint_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\MainPoint\MainPoint_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\MainPoint\MainPoint_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Mark\Mark_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Mark\Mark_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Mark\Mark_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Mark\Mark_Select_ByGradeID.sql" />
+    <Build Include="Programmability\Stored Procedures\MedicalCert\MedicalCert_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\MedicalCert\MedicalCert_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\MedicalCert\MedicalCert_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Mileage\Mileage_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Mileage\Mileage_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Mileage\Mileage_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\MileageMonth\MileageMonth_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\MileageMonth\MileageMonth_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Model\Model_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Model\Model_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Model\Model_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Model\Model_Select_ByGradeID.sql" />
+    <Build Include="Programmability\Stored Procedures\MyPoint\MyPoint_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\MyPoint\MyPoint_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\MyPoint\MyPoint_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Owner\Owner_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Owner\Owner_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Owner\Owner_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Passport\Passport_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Passport\Passport_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Passport\Passport_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Policy\Policy_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Policy\Policy_Delete_AccountID.sql" />
+    <Build Include="Programmability\Stored Procedures\Policy\Policy_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Policy\Policy_Insert_AccountID.sql" />
+    <Build Include="Programmability\Stored Procedures\Policy\Policy_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\PolicyType\PolicyType_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Position\Position_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Position\Position_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Position\Position_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\ProxyType\ProxyType_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\ProxyType\ProxyType_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\ProxyType\ProxyType_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\PTS\PTS_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\PTS\PTS_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\PTS\PTS_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Region\Region_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Region\Region_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Region\Region_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Repair\Repair_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Repair\Repair_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Repair\Repair_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\RepairType\RepairType_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\RepairType\RepairType_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\RepairType\RepairType_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\Role_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Route\Route_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Route\Route_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Route\Route_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceStantion\ServiceStantion_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceStantion\ServiceStantion_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceStantion\ServiceStantion_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\ShipPart\ShipPart_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\ShipPart\ShipPart_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\ShipPart\ShipPart_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\ssDTP\ssDTP_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\ssDTP\ssDTP_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\ssDTP\ssDTP_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\Status_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\Status_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\Status_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\StatusAfterDTP\StatusAfterDTP_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\StatusAfterDTP\StatusAfterDTP_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\StatusAfterDTP\StatusAfterDTP_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\STS\STS_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\STS\STS_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\STS\STS_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\SuppyAddress\SuppyAddress_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\SuppyAddress\SuppyAddress_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\SuppyAddress\SuppyAddress_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Tabel\Tabel_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Tabel\Tabel_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Template\Template_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Template\Template_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Template\Template_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Template\Template_Select_ByName.sql" />
+    <Build Include="Programmability\Stored Procedures\TempMove\TempMove_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\TempMove\TempMove_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\UserAccess\UserAccess_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\UserAccess\UserAccess_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\UserAccess\UserAccess_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Violation\Violation_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\Violation\Violation_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\Violation\Violation_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\ViolationType\ViolationType_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\ViolationType\ViolationType_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\ViolationType\ViolationType_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\WayBillDay\WayBillDay_Delete.sql" />
+    <Build Include="Programmability\Stored Procedures\WayBillDay\WayBillDay_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\WayBillDay\WayBillDay_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\WayBillRoute\WayBillRoute_Insert.sql" />
+    <Build Include="Programmability\Stored Procedures\WayBillRoute\WayBillRoute_Select.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBAutoDB.publish.xml" />
+  </ItemGroup>
+</Project>

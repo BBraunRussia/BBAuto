@@ -1,0 +1,15 @@
+CREATE TABLE [dbo].[MainPoint](
+	[point_id] [int] NOT NULL,
+ CONSTRAINT [PK_MainPoint_1] PRIMARY KEY CLUSTERED 
+(
+	[point_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[MainPoint]  WITH CHECK ADD  CONSTRAINT [FK_MainPoint_Point] FOREIGN KEY([point_id])
+REFERENCES [dbo].[MyPoint] ([mypoint_id])
+GO
+
+ALTER TABLE [dbo].[MainPoint] CHECK CONSTRAINT [FK_MainPoint_Point]
+GO

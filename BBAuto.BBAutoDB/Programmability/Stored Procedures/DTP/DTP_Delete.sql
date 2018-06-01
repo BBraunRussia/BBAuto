@@ -1,0 +1,7 @@
+CREATE PROCEDURE [dbo].[DTP_Delete]
+@idDTP int
+AS
+BEGIN
+	DELETE FROM DTP WHERE dtp_id=@idDTP
+END
+GO

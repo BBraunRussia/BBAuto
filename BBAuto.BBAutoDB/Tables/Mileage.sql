@@ -1,0 +1,20 @@
+CREATE TABLE [dbo].[Mileage](
+	[Mileage_id] [int] IDENTITY(1,1) NOT NULL,
+	[car_id] [int] NOT NULL,
+	[Mileage_date] [datetime] NOT NULL,
+	[Mileage_count] [int] NOT NULL,
+ CONSTRAINT [PK_mileage] PRIMARY KEY CLUSTERED 
+(
+	[Mileage_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Mileage]  WITH CHECK ADD  CONSTRAINT [FK_Mileage_Car] FOREIGN KEY([car_id])
+REFERENCES [dbo].[Car] ([car_id])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[Mileage] CHECK CONSTRAINT [FK_Mileage_Car]
+GO
