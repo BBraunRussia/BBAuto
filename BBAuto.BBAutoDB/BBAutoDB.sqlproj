@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{bcaed834-4958-4a5c-b45b-86d48dcbd5d6}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -124,6 +124,7 @@
     <Folder Include="Programmability\Stored Procedures\ViolationType" />
     <Folder Include="Programmability\Stored Procedures\WayBillDay" />
     <Folder Include="Programmability\Stored Procedures\WayBillRoute" />
+    <Folder Include="Deployment" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
@@ -378,5 +379,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Deployment\PostDeploymentScript.sql" />
   </ItemGroup>
 </Project>
