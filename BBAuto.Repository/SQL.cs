@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DataLayer
+namespace BBAuto.Repository
 {
   public class SQL : IDataBase
   {

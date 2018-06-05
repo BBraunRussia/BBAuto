@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Text;
 using System.Data;
-using DataLayer;
+using BBAuto.Repository;
 
 namespace BBAuto.Domain.DataBase
 {
-  public class ProviderSQL : IProvider
+  public class ProviderSql : IProvider
   {
     private static IDataBase _db;
 
-    public ProviderSQL()
+    public ProviderSql()
     {
       _db = DataBase.GetDataBase();
     }
@@ -35,14 +33,14 @@ namespace BBAuto.Domain.DataBase
     {
       StringBuilder paramList = new StringBuilder();
 
-      for (int i = 1; i <= Params.Count(); i++)
+      for (int i = 1; i <= Params.Length; i++)
       {
         if (paramList.ToString() != string.Empty)
           paramList.Append(", ");
         paramList.Append("@p" + i);
       }
 
-      return _db.GetRecordsOne("exec " + tableName + "_Insert " + paramList.ToString(), Params);
+      return _db.GetRecordsOne("exec " + tableName + "_Insert " + paramList, Params);
     }
 
     public void Delete(string tableName, int id)

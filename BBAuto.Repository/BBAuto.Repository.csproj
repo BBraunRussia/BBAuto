@@ -7,8 +7,8 @@
     <ProjectGuid>{7FCEF0EC-8651-4D9E-9A1D-7DC7C92C2436}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataLayer</RootNamespace>
-    <AssemblyName>DataLayer</AssemblyName>
+    <RootNamespace>BBAuto.Repository</RootNamespace>
+    <AssemblyName>BBAuto.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

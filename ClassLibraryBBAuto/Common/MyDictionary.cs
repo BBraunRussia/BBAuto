@@ -1,9 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Data;
-using DataLayer;
 using BBAuto.Domain.DataBase;
 
 namespace BBAuto.Domain.Common

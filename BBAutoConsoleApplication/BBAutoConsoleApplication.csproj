@@ -82,10 +82,6 @@
       <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
       <Name>BBAuto.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
-      <Project>{7fcef0ec-8651-4d9e-9a1d-7dc7c92c2436}</Project>
-      <Name>DataLayer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

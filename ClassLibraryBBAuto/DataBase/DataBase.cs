@@ -1,5 +1,5 @@
 using System;
-using DataLayer;
+using BBAuto.Repository;
 
 namespace BBAuto.Domain.DataBase
 {
@@ -37,7 +37,7 @@ namespace BBAuto.Domain.DataBase
 
     public static void InitSQLProvider()
     {
-      _provider = new ProviderSQL();
+      _provider = new ProviderSql();
     }
 
     public static void InitMockProvider()
