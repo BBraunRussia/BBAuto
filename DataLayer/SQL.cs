@@ -32,7 +32,7 @@ namespace DataLayer
       Init();
     }
 
-    private string Init()
+    private void Init()
     {
       SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder();
       csb.DataSource = _server;
@@ -47,11 +47,11 @@ namespace DataLayer
       {
         _con = new SqlConnection(csb.ConnectionString);
         _con.Open();
-        return String.Empty;
+        return;
       }
       catch (Exception ex)
       {
-        return ex.Message;
+        return;
       }
     }
 
@@ -76,16 +76,16 @@ namespace DataLayer
     {
       if (isOpenedConnection())
         return tryToGetRecords(SQL, Params);
-      else
-        return null;
+
+      return null;
     }
 
     public string GetRecordsOne(String SQL, params Object[] Params)
     {
       if (isOpenedConnection())
         return tryGetRecordsOne(SQL, Params);
-      else
-        return string.Empty;
+
+      return string.Empty;
     }
 
     private bool isOpenedConnection()
@@ -124,8 +124,7 @@ namespace DataLayer
 
     private SqlCommand CreateSqlCommand(String SQL, params Object[] Params)
     {
-      SqlCommand sqlCommand = new SqlCommand(SQL, _con);
-      sqlCommand.CommandTimeout = TIMEOUT;
+      SqlCommand sqlCommand = new SqlCommand(SQL, _con) {CommandTimeout = TIMEOUT};
 
       for (int i = 0; i < Params.Length; i++)
         sqlCommand.Parameters.Add(GetParam(i, Params));
@@ -135,7 +134,7 @@ namespace DataLayer
 
     private SqlParameter GetParam(int paramIndex, params Object[] Params)
     {
-      return new SqlParameter(String.Format("p{0}", (paramIndex + 1).ToString()), Params[paramIndex]);
+      return new SqlParameter($"p{paramIndex + 1}", Params[paramIndex]);
     }
   }
 }
