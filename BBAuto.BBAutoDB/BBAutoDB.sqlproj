@@ -125,6 +125,7 @@
     <Folder Include="Programmability\Stored Procedures\WayBillDay" />
     <Folder Include="Programmability\Stored Procedures\WayBillRoute" />
     <Folder Include="Deployment" />
+    <Folder Include="Programmability\Stored Procedures\Customer" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
@@ -376,6 +377,10 @@
     <Build Include="Programmability\Stored Procedures\WayBillDay\WayBillDay_Select.sql" />
     <Build Include="Programmability\Stored Procedures\WayBillRoute\WayBillRoute_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\WayBillRoute\WayBillRoute_Select.sql" />
+    <Build Include="Tables\Customer.sql" />
+    <Build Include="Programmability\Stored Procedures\Customer\DeleteCustomer.sql" />
+    <Build Include="Programmability\Stored Procedures\Customer\UpsertCustomer.sql" />
+    <Build Include="Programmability\Stored Procedures\Customer\GetCustomerList.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />
