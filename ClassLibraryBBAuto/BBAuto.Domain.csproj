@@ -83,10 +83,13 @@
     <Compile Include="Dictionary\CurrentStatusAfterDTPs.cs" />
     <Compile Include="Dictionary\FuelCardTypes.cs" />
     <Compile Include="Dictionary\Statuses.cs" />
+    <Compile Include="Services\Customer\Customer.cs" />
+    <Compile Include="Services\Customer\CustomerService.cs" />
     <Compile Include="Lists\MileageMonthList.cs" />
     <Compile Include="Logger\LogManager.cs" />
     <Compile Include="Senders\AccountSender.cs" />
     <Compile Include="Import\MileageMonthFromExcelFile.cs" />
+    <Compile Include="Services\Customer\ICustomerService.cs" />
     <Compile Include="Static\MyExtension.cs" />
     <Compile Include="ForCar\CarInfo.cs" />
     <Compile Include="ForDriver\FuelCard.cs" />
