@@ -7,8 +7,7 @@ namespace BBAuto.Domain.Common
 {
   public static class WorkWithFiles
   {
-    private const string BaseFolder = @"\\bbmru08.bbmag.bbraun.com\depts\IT INT\Development\учёт транспорта\test\files"; 
-    // @"\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\";
+    private static string CurrentDirectory => Directory.GetCurrentDirectory() + @"\files\";
 
     internal static string fileCopy(string file, string folderName, string newFileName)
     {
@@ -30,7 +29,8 @@ namespace BBAuto.Domain.Common
 
     private static string runCopy(string file, string folderName, string newFileName)
     {
-      string distPath = getDistPath(file, folderName, newFileName);
+      var localPath = getDistPath(file, folderName, newFileName);
+      var distPath = CurrentDirectory + localPath;
 
       if (!Directory.Exists(Path.GetDirectoryName(distPath)))
         Directory.CreateDirectory(Path.GetDirectoryName(distPath));
@@ -38,7 +38,7 @@ namespace BBAuto.Domain.Common
       if (!File.Exists(distPath))
         File.Copy(file, distPath, true);
 
-      return distPath;
+      return localPath;
     }
 
     private static string getFolderName(string idType, int id, string subFolderName)
@@ -46,7 +46,7 @@ namespace BBAuto.Domain.Common
       if (id == 0)
         return string.Empty;
 
-      string idString = @"\" + id.ToString();
+      string idString = @"\" + id;
 
       if (subFolderName != string.Empty)
         subFolderName = @"\" + subFolderName;
@@ -56,9 +56,9 @@ namespace BBAuto.Domain.Common
 
     private static string getDistPath(string file, string folderName, string newFileName)
     {
-      string fileExt = WorkWithFiles.getFileExt(file);
+      string fileExt = getFileExt(file);
 
-      return BaseFolder + folderName + @"\" + newFileName + fileExt;
+      return folderName + @"\" + newFileName + fileExt;
     }
 
     private static string getFileExt(string fileName)
@@ -74,7 +74,7 @@ namespace BBAuto.Domain.Common
 
     public static void openFile(string file)
     {
-      var filePath = BaseFolder + @"\" + file;
+      var filePath = CurrentDirectory + file;
 
       try
       {
