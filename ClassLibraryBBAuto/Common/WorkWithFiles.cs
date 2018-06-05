@@ -1,11 +1,14 @@
-﻿using System.Diagnostics;
+using System;
+using System.Diagnostics;
 using System.IO;
+using System.Windows.Forms;
 
 namespace BBAuto.Domain.Common
 {
   public static class WorkWithFiles
   {
-    private const string BaseFolder = @"\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\";
+    private const string BaseFolder = @"\\bbmru08.bbmag.bbraun.com\depts\IT INT\Development\учёт транспорта\test\files"; 
+    // @"\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\";
 
     internal static string fileCopy(string file, string folderName, string newFileName)
     {
@@ -71,8 +74,17 @@ namespace BBAuto.Domain.Common
 
     public static void openFile(string file)
     {
-      if (!string.IsNullOrEmpty(file))
-        Process.Start(file);
+      var filePath = BaseFolder + @"\" + file;
+
+      try
+      {
+        if (!string.IsNullOrEmpty(file))
+          Process.Start(filePath);
+      }
+      catch (Exception e)
+      {
+        MessageBox.Show($"{e.Message}. Файл {filePath}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
     }
   }
 }
