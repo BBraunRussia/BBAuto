@@ -205,9 +205,9 @@
     <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\CarDoc\CarDoc_Select.sql" />
-    <Build Include="Programmability\Stored Procedures\CarSale\CarSale_Delete.sql" />
-    <Build Include="Programmability\Stored Procedures\CarSale\CarSale_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\CarSale\CarSale_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\CarSale\DeleteCarSale.sql" />
+    <Build Include="Programmability\Stored Procedures\CarSale\UpsertCarSale.sql" />
+    <Build Include="Programmability\Stored Procedures\CarSale\GetCarSaleList.sql" />
     <Build Include="Programmability\Stored Procedures\Color\Color_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\Color\Color_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\Color\Color_Select.sql" />
@@ -382,6 +382,7 @@
     <Build Include="Programmability\Stored Procedures\Customer\UpsertCustomer.sql" />
     <Build Include="Programmability\Stored Procedures\Customer\GetCustomerList.sql" />
     <Build Include="Programmability\Stored Procedures\Customer\GetCustomerById.sql" />
+    <Build Include="Programmability\Stored Procedures\CarSale\GetCarSaleByCarId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />

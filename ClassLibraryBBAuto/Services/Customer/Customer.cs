@@ -13,5 +13,7 @@ namespace BBAuto.Domain.Services.Customer
     public DateTime PassportGiveDate { get; set; }
     public string Address { get; set; }
     public string Inn { get; set; }
+
+    public string FullName => $"{LastName} {FirstName} {SecondName}";
   }
 }

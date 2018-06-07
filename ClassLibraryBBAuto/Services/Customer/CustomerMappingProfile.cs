@@ -3,9 +3,9 @@ using BBAuto.Repository.Models;
 
 namespace BBAuto.Domain.Services.Customer
 {
-  public class CustomerProfile : Profile
+  public class CustomerMappingProfile : Profile
   {
-    public CustomerProfile()
+    public CustomerMappingProfile()
     {
       CreateMap<DbCustomer, Customer>().ReverseMap();
     }

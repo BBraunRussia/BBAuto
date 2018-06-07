@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,7 +50,7 @@ namespace BBAuto.Domain.Lists
 
         public DataTable ToDataTable()
         {
-            var diagCards = list.Where(item => item.Date >= (DateTime.Today.AddYears(-1)) && !item.Car.info.IsSale).OrderByDescending(item => item.Date);
+            var diagCards = list.Where(item => item.Date >= (DateTime.Today.AddYears(-1)) && !item.Car.IsSale).OrderByDescending(item => item.Date);
 
             return createTable(diagCards.ToList());
         }
@@ -106,7 +106,7 @@ namespace BBAuto.Domain.Lists
         {
             IEnumerable<DiagCard> list = GetDiagCardList(DateTime.Today.AddMonths(1));
 
-            return list.Where(item => !item.IsNotificationSent && !item.Car.info.IsSale).ToList();
+            return list.Where(item => !item.IsNotificationSent && !item.Car.IsSale).ToList();
         }
 
         internal IEnumerable<Car> GetCarListFromDiagCardList(List<DiagCard> list)

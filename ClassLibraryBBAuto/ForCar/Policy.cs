@@ -7,6 +7,7 @@ using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Common;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Entities;
+using BBAuto.Domain.Services.CarSale;
 
 namespace BBAuto.Domain.ForCar
 {
@@ -57,22 +58,17 @@ namespace BBAuto.Domain.ForCar
       set { _number = value; }
     }
 
-    public bool IsCarSale
-    {
-      get { return Car.info.IsSale; }
-    }
+    public bool IsCarSale => Car.IsSale;
 
     public bool IsCarSaleWithDate
     {
       get
       {
-        if (Car.info.IsSale)
-        {
-          CarSaleList carSaleList = CarSaleList.getInstance();
-          return !string.IsNullOrEmpty(carSaleList.getItem(Car.ID).Date);
-        }
-        else
+        if (!Car.IsSale)
           return false;
+
+        ICarSaleService carSaleService = new CarSaleService();
+        return carSaleService.GetCarSaleByCarId(Car.ID)?.Date != null;
       }
     }
 

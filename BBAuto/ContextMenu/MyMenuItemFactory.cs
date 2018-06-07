@@ -13,6 +13,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BBAuto.Dictionary;
+using BBAuto.Domain.Services.CarSale;
+using CarSale = BBAuto.Domain.ForCar.CarSale;
 
 namespace BBAuto
 {
@@ -366,8 +368,8 @@ namespace BBAuto
               MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             == DialogResult.Yes)
         {
-          CarSaleList carSaleList = CarSaleList.getInstance();
-          carSaleList.Delete(car.ID);
+          ICarSaleService carSaleService = new CarSaleService();
+          carSaleService.DeleteCarFromSale(car.ID);
 
           _mainStatus.Set(_mainStatus.Get());
         }

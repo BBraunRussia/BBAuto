@@ -41,5 +41,6 @@ namespace BBAuto.Repository
     }
 
     public IDbCustomer Customer => CreateRepository<IDbCustomer>();
+    public IDbCarSale CarSale => CreateRepository<IDbCarSale>();
   }
 }

@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Entities;
+using BBAuto.Domain.Services.CarSale;
 
 namespace BBAuto.Domain.Lists
 {
@@ -55,7 +56,10 @@ namespace BBAuto.Domain.Lists
       }
       else
       {
-        cars = list.Where(car => car.IsGet && !car.info.IsSale).ToList();
+        ICarSaleService carSaleService = new CarSaleService();
+        var carSaleList = carSaleService.GetCarSaleList();
+
+        cars = list.Where(car => car.IsGet && carSaleList.All(carSale => carSale.CarId != car.ID)).ToList();
       }
 
       return createTable(cars);
@@ -132,7 +136,10 @@ namespace BBAuto.Domain.Lists
         case Status.Repair:
           return RepairList.getInstance().ToDataTable();
         case Status.Sale:
-          return CarSaleList.getInstance().ToDataTable();
+        {
+          ICarSaleService carSaleService = new CarSaleService();
+          return carSaleService.ToDataTable();
+        }
         case Status.Invoice:
           return InvoiceList.getInstance().ToDataTable();
         case Status.Policy:

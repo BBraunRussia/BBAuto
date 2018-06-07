@@ -86,8 +86,12 @@
     <Compile Include="Dictionary\CurrentStatusAfterDTPs.cs" />
     <Compile Include="Dictionary\FuelCardTypes.cs" />
     <Compile Include="Dictionary\Statuses.cs" />
+    <Compile Include="Services\CarSale\CarSale.cs" />
+    <Compile Include="Services\CarSale\CarSaleMappingProfile.cs" />
+    <Compile Include="Services\CarSale\CarSaleService.cs" />
+    <Compile Include="Services\CarSale\ICarSaleService.cs" />
     <Compile Include="Services\Customer\Customer.cs" />
-    <Compile Include="Services\Customer\CustomerProfile.cs" />
+    <Compile Include="Services\Customer\CustomerMappingProfile.cs" />
     <Compile Include="Services\Customer\CustomerService.cs" />
     <Compile Include="Lists\MileageMonthList.cs" />
     <Compile Include="Logger\LogManager.cs" />

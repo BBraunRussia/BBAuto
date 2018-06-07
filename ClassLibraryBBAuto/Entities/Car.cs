@@ -1,4 +1,4 @@
-﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
@@ -10,6 +10,8 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BBAuto.Domain.Services.CarSale;
+using CarSale = BBAuto.Domain.ForCar.CarSale;
 
 namespace BBAuto.Domain.Entities
 {
@@ -43,6 +45,8 @@ namespace BBAuto.Domain.Entities
     public string events;
     public int idDiller;
     public double cost;
+
+    public bool IsSale { get; set; }
 
     public string GradeID
     {
@@ -387,22 +391,24 @@ namespace BBAuto.Domain.Entities
 
     public string GetStatus()
     {
+      if (IsSale)
+      {
+        ICarSaleService carSaleService = new CarSaleService();
+        var carSale = carSaleService.GetCarSaleByCarId(ID);
+        if (carSale.Date.HasValue)
+          return "продан";
+      }
+      if (IsSale)
+        return "на продажу";
+
+      if (!IsGet)
+        return "покупка";
+
       DTPList dtpList = DTPList.getInstance();
       DTP dtp = dtpList.GetLast(this);
 
       StatusAfterDTPs statusAfterDTPs = StatusAfterDTPs.getInstance();
-      string statusAfterDTP = statusAfterDTPs.getItem(Convert.ToInt32(dtp.IDStatusAfterDTP));
-
-      CarSaleList carSaleList = CarSaleList.getInstance();
-      CarSale carSale = carSaleList.getItem(ID);
-
-      if (info.IsSale && carSale.Date != string.Empty)
-        return "продан";
-      if (info.IsSale)
-        return "на продажу";
-
-      if (!this.IsGet)
-        return "покупка";
+      var statusAfterDTP = statusAfterDTPs.getItem(Convert.ToInt32(dtp.IDStatusAfterDTP));
 
       if (statusAfterDTP == "А/м НЕ на ходу")
         return "в ремонте";

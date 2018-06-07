@@ -12,3 +12,5 @@ as
     Inn
   from
     Customer
+  order by
+    LastName, FirstName, SecondName

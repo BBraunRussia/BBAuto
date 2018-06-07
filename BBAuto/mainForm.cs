@@ -2,12 +2,15 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using BBAuto.AddEdit;
 using BBAuto.Domain.Common;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Services.CarSale;
+using CarSale = BBAuto.Domain.ForCar.CarSale;
 
 namespace BBAuto
 {
@@ -197,10 +200,7 @@ namespace BBAuto
         WorkWithFiles.openFile(sts.File);
       else
       {
-        CarSaleList carSaleList = CarSaleList.getInstance();
-        CarSale carSale = carSaleList.getItem(car.ID);
-
-        Car_Sale carSaleForm = new Car_Sale(carSale);
+        Car_Sale carSaleForm = new Car_Sale(car.ID);
         if (carSaleForm.ShowDialog() == DialogResult.OK)
         {
           loadCars();

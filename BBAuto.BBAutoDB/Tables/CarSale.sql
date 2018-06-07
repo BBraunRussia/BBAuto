@@ -2,7 +2,8 @@ CREATE TABLE [dbo].[CarSale](
 	[car_id] [int] NOT NULL,
 	[carSale_date] [datetime] NULL,
 	[carSale_comm] [varchar](100) NULL,
- CONSTRAINT [PK_CarSale] PRIMARY KEY CLUSTERED 
+ [CustomerId] INT NULL, 
+    CONSTRAINT [PK_CarSale] PRIMARY KEY CLUSTERED 
 (
 	[car_id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
