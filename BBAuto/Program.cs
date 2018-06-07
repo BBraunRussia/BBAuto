@@ -17,7 +17,7 @@ namespace BBAuto
       Application.SetCompatibleTextRenderingDefault(false);
 
       DataBase.InitDataBase();
-      Provider.InitSQLProvider();
+      Provider.InitSqlProvider();
 
       if (User.Login())
         Application.Run(new mainForm());

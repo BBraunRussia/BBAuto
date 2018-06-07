@@ -12,7 +12,7 @@ namespace BBAutoConsoleApplication
     static void Main(string[] args)
     {
       DataBase.InitDataBase();
-      Provider.InitSQLProvider();
+      Provider.InitSqlProvider();
 
       LogManager.Logger.Debug("Program started");
       /* старые командировки */

@@ -2,11 +2,11 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using BBAuto.Repository;
+using BBAuto.Repository.Interfaces;
 using Common;
 using Insight.Database;
 
-namespace BBAuto.Repositories
+namespace BBAuto.Repository
 {
   public class DbContext : DisposableObject, IDbContext
   {
@@ -39,5 +39,7 @@ namespace BBAuto.Repositories
     {
       return Connection.As<TRepository>();
     }
+
+    public IDbCustomer Customer => CreateRepository<IDbCustomer>();
   }
 }

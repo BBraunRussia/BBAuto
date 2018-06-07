@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\MileageMonth.cs" />
+    <Compile Include="DataBase\Provider.cs" />
     <Compile Include="Entities\Car.cs" />
     <Compile Include="Abstract\IExcelImporter.cs" />
     <Compile Include="Import\BusinessTripFromExcelFile.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="Common\WayBillDay.cs" />
     <Compile Include="DataBase\DataBase.cs" />
     <Compile Include="DataBase\IProvider.cs" />
-    <Compile Include="DataBase\MockProvider.cs" />
     <Compile Include="DataBase\ProviderSQL.cs" />
     <Compile Include="DataBase\ProviderWebService.cs" />
     <Compile Include="Dictionary\CurrentStatusAfterDTPs.cs" />
@@ -197,7 +197,6 @@
     <Compile Include="ForDriver\MedicalCert.cs" />
     <Compile Include="ForCar\Mileage.cs" />
     <Compile Include="ForCar\Model.cs" />
-    <Compile Include="DataBase\MockDataBase.cs" />
     <Compile Include="Static\OneStringDictionary.cs" />
     <Compile Include="ForDriver\Passport.cs" />
     <Compile Include="ForCar\Policy.cs" />

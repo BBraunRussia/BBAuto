@@ -1,58 +1,71 @@
 using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using Common;
 
 namespace BBAuto.Repository
 {
   public class SqlDatabase : IDataBase
   {
-    private const int TIMEOUT = 600;
+    private const int Timeout = 600;
+    private const string ProviderName = "System.Data.SqlClient";
+    private const string Server = @"localhost";
+    private const string Database = "BBAuto";
+    private const bool WinAuth = true;
 
-    private String _server = @"localhost";
-    private String _database = "BBAuto";
-    private Boolean _winAuth = true;
-    private String _userID;
-    private String _password;
-
+    private readonly string _userId;
+    private readonly string _password;
+    
     private SqlConnection _con;
 
     public SqlDatabase()
     {
-      if (_server == @"bbmru09")
+      if (Server == @"bbmru09")
       {
-        _userID = "sa";
+        _userId = "sa";
         _password = "gfdtk";
       }
       else
       {
-        _userID = "RegionalR_user";
+        _userId = "RegionalR_user";
         _password = "regionalr78";
       }
 
       Init();
     }
-
+    
     private void Init()
     {
-      SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder();
-      csb.DataSource = _server;
-      csb.InitialCatalog = _database;
-      csb.IntegratedSecurity = _winAuth;
-      if (!_winAuth)
-      {
-        csb.UserID = _userID;
-        csb.Password = _password;
-      }
+      var connectionStringSettings = GetConnectionStringSettings();
+
       try
       {
-        _con = new SqlConnection(csb.ConnectionString);
+        _con = new SqlConnection(connectionStringSettings.ConnectionString);
         _con.Open();
-        return;
+        
       }
-      catch (Exception ex)
+      catch (Exception)
       {
-        return;
+        // ignored
       }
+    }
+
+    public ConnectionStringSettings GetConnectionStringSettings()
+    {
+      SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder
+      {
+        DataSource = Server,
+        InitialCatalog = Database,
+        IntegratedSecurity = WinAuth
+      };
+      if (!WinAuth)
+      {
+        csb.UserID = _userId;
+        csb.Password = _password;
+      }
+
+      return new ConnectionStringSettings(Consts.Config.ConnectionName, csb.ConnectionString, ProviderName);
     }
 
     private String Disconnect()
@@ -87,7 +100,7 @@ namespace BBAuto.Repository
 
       return string.Empty;
     }
-
+    
     private bool isOpenedConnection()
     {
       if ((_con == null) || (_con.State != ConnectionState.Open))
@@ -124,7 +137,7 @@ namespace BBAuto.Repository
 
     private SqlCommand CreateSqlCommand(String SQL, params Object[] Params)
     {
-      SqlCommand sqlCommand = new SqlCommand(SQL, _con) {CommandTimeout = TIMEOUT};
+      SqlCommand sqlCommand = new SqlCommand(SQL, _con) {CommandTimeout = Timeout};
 
       for (int i = 0; i < Params.Length; i++)
         sqlCommand.Parameters.Add(GetParam(i, Params));
