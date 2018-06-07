@@ -14,44 +14,34 @@ namespace BBAuto.Repository
     private const string Database = "BBAuto";
     private const bool WinAuth = true;
 
-    private readonly string _userId;
-    private readonly string _password;
+    private static readonly string UserId;
+    private static readonly string Password;
     
-    private SqlConnection _con;
+    private static SqlConnection _con;
 
-    public SqlDatabase()
+    static SqlDatabase()
     {
       if (Server == @"bbmru09")
       {
-        _userId = "sa";
-        _password = "gfdtk";
+        UserId = "sa";
+        Password = "gfdtk";
       }
       else
       {
-        _userId = "RegionalR_user";
-        _password = "regionalr78";
+        UserId = "RegionalR_user";
+        Password = "regionalr78";
       }
 
       Init();
     }
     
-    private void Init()
+    private static void Init()
     {
       var connectionStringSettings = GetConnectionStringSettings();
-
-      try
-      {
-        _con = new SqlConnection(connectionStringSettings.ConnectionString);
-        _con.Open();
-        
-      }
-      catch (Exception)
-      {
-        // ignored
-      }
+      _con = new SqlConnection(connectionStringSettings.ConnectionString);
     }
 
-    public ConnectionStringSettings GetConnectionStringSettings()
+    public static ConnectionStringSettings GetConnectionStringSettings()
     {
       SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder
       {
@@ -61,23 +51,18 @@ namespace BBAuto.Repository
       };
       if (!WinAuth)
       {
-        csb.UserID = _userId;
-        csb.Password = _password;
+        csb.UserID = UserId;
+        csb.Password = Password;
       }
 
       return new ConnectionStringSettings(Consts.Config.ConnectionName, csb.ConnectionString, ProviderName);
     }
 
-    private String Disconnect()
+    private void Disconnect()
     {
       try
       {
         _con.Close();
-        return String.Empty;
-      }
-      catch (Exception ex)
-      {
-        return ex.Message;
       }
       finally
       {
@@ -87,7 +72,7 @@ namespace BBAuto.Repository
 
     public DataTable GetRecords(String SQL, params Object[] Params)
     {
-      if (isOpenedConnection())
+      if (IsOpenedConnection())
         return tryToGetRecords(SQL, Params);
 
       return null;
@@ -95,18 +80,18 @@ namespace BBAuto.Repository
 
     public string GetRecordsOne(String SQL, params Object[] Params)
     {
-      if (isOpenedConnection())
+      if (IsOpenedConnection())
         return tryGetRecordsOne(SQL, Params);
 
       return string.Empty;
     }
     
-    private bool isOpenedConnection()
+    private static bool IsOpenedConnection()
     {
-      if ((_con == null) || (_con.State != ConnectionState.Open))
+      if (_con.State != ConnectionState.Open)
         _con.Open();
 
-      return (_con != null) && (_con.State == ConnectionState.Open);
+      return _con != null && _con.State == ConnectionState.Open;
     }
 
     private string tryGetRecordsOne(String SQL, params Object[] Params)

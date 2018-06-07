@@ -1,4 +1,4 @@
-create procedure [dbo].[Customer_Delete]
+create procedure [dbo].[DeleteCustomer]
   @id int
 as
   delete from Customer where Id = @id

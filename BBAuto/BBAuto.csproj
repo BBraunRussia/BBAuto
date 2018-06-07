@@ -37,6 +37,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -52,6 +55,12 @@
     </Compile>
     <Compile Include="AddEdit\Account_AddEdit.Designer.cs">
       <DependentUpon>Account_AddEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddEdit\CustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEdit\CustomerForm.Designer.cs">
+      <DependentUpon>CustomerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddEdit\Employees_AddEdit.cs">
       <SubType>Form</SubType>
@@ -142,6 +151,13 @@
     </Compile>
     <Compile Include="CommonForms\FormWayBillDaily.Designer.cs">
       <DependentUpon>FormWayBillDaily.cs</DependentUpon>
+    </Compile>
+    <Compile Include="config\AutoMapperConfiguration.cs" />
+    <Compile Include="Dictionary\CustomerListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dictionary\CustomerListForm.Designer.cs">
+      <DependentUpon>CustomerListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForDriver\AddNewDriver.cs">
       <SubType>Form</SubType>
@@ -446,6 +462,9 @@
     <EmbeddedResource Include="AddEdit\Account_AddEdit.resx">
       <DependentUpon>Account_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddEdit\CustomerForm.resx">
+      <DependentUpon>CustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\Employees_AddEdit.resx">
       <DependentUpon>Employees_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
@@ -490,6 +509,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\FormWayBillDaily.resx">
       <DependentUpon>FormWayBillDaily.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dictionary\CustomerListForm.resx">
+      <DependentUpon>CustomerListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForDriver\AddNewDriver.resx">
       <DependentUpon>AddNewDriver.cs</DependentUpon>
@@ -644,6 +666,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -662,6 +685,10 @@
     <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Domain.csproj">
       <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
       <Name>BBAuto.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{CCEFEC04-1E5E-4971-AB56-9EEC7E6B7C40}</Project>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

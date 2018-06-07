@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using BBAuto.config;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.DataBase;
 
@@ -18,6 +19,8 @@ namespace BBAuto
 
       DataBase.InitDataBase();
       Provider.InitSqlProvider();
+
+      AutoMapperConfiguration.Initialize();
 
       if (User.Login())
         Application.Run(new mainForm());

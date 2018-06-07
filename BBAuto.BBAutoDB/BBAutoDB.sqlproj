@@ -381,6 +381,7 @@
     <Build Include="Programmability\Stored Procedures\Customer\DeleteCustomer.sql" />
     <Build Include="Programmability\Stored Procedures\Customer\UpsertCustomer.sql" />
     <Build Include="Programmability\Stored Procedures\Customer\GetCustomerList.sql" />
+    <Build Include="Programmability\Stored Procedures\Customer\GetCustomerById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />

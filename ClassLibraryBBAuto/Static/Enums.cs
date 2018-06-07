@@ -1,4 +1,4 @@
-﻿namespace BBAuto.Domain.Static
+namespace BBAuto.Domain.Static
 {
     public enum Status
     {
@@ -57,7 +57,9 @@
 
         MyPointList, RouteList,
 
-        MileageFill, FuelLoad
+        MileageFill, FuelLoad,
+
+        CustomerList
     };
 
     public enum Fields { All = 1, Some = 2 };

@@ -1,4 +1,5 @@
-create procedure [dbo].[GetCustomerList]
+create procedure [dbo].[GetCustomerById]
+  @id int
 as
   select
     Id,
@@ -12,3 +13,5 @@ as
     Inn
   from
     Customer
+  where
+    Id = @id

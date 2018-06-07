@@ -1,5 +1,4 @@
 using System;
-using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using BBAuto.Repository.Interfaces;
@@ -13,8 +12,9 @@ namespace BBAuto.Repository
     public Guid Id { get; set; }
     public IDbConnection Connection { get; }
 
-    public DbContext(ConnectionStringSettings connectionStringSettings)
+    public DbContext()
     {
+      var connectionStringSettings = SqlDatabase.GetConnectionStringSettings();
       var providerFactory = DbProviderFactories.GetFactory(connectionStringSettings.ProviderName);
       Connection = providerFactory.CreateConnection();
       Connection.ConnectionString = connectionStringSettings.ConnectionString;

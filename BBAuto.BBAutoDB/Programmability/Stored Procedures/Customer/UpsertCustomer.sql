@@ -1,4 +1,4 @@
-create procedure [dbo].[Customer_Insert]
+create procedure [dbo].[UpsertCustomer]
   @id int,
   @firstName nvarchar(50),
   @lastName nvarchar(50),

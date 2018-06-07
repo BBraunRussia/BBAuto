@@ -1,5 +1,4 @@
 using System;
-using System.Configuration;
 using System.Data;
 
 namespace BBAuto.Repository
@@ -8,7 +7,5 @@ namespace BBAuto.Repository
   {
     DataTable GetRecords(String SQL, params Object[] Params);
     string GetRecordsOne(String SQL, params Object[] Params);
-
-    ConnectionStringSettings GetConnectionStringSettings();
   }
 }

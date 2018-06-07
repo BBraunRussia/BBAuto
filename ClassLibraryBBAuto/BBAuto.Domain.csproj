@@ -34,6 +34,9 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.dll</HintPath>
@@ -84,6 +87,7 @@
     <Compile Include="Dictionary\FuelCardTypes.cs" />
     <Compile Include="Dictionary\Statuses.cs" />
     <Compile Include="Services\Customer\Customer.cs" />
+    <Compile Include="Services\Customer\CustomerProfile.cs" />
     <Compile Include="Services\Customer\CustomerService.cs" />
     <Compile Include="Lists\MileageMonthList.cs" />
     <Compile Include="Logger\LogManager.cs" />
@@ -290,6 +294,10 @@
     <ProjectReference Include="..\BBAuto.Repository\BBAuto.Repository.csproj">
       <Project>{7fcef0ec-8651-4d9e-9a1d-7dc7c92c2436}</Project>
       <Name>BBAuto.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{CCEFEC04-1E5E-4971-AB56-9EEC7E6B7C40}</Project>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
