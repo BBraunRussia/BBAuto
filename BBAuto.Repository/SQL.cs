@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace BBAuto.Repository
 {
-  public class SQL : IDataBase
+  public class SqlDatabase : IDataBase
   {
     private const int TIMEOUT = 600;
 
@@ -16,7 +16,7 @@ namespace BBAuto.Repository
 
     private SqlConnection _con;
 
-    public SQL()
+    public SqlDatabase()
     {
       if (_server == @"bbmru09")
       {

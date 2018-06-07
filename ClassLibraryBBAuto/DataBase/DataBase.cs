@@ -9,7 +9,7 @@ namespace BBAuto.Domain.DataBase
 
     public static void InitDataBase()
     {
-      _database = new SQL();
+      _database = new SqlDatabase();
     }
 
     public static void InitMockDataBase()
