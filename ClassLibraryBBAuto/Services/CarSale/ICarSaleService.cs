@@ -9,7 +9,9 @@ namespace BBAuto.Domain.Services.CarSale
 
     void DeleteCarFromSale(int carId);
     CarSale SaveCarSale(CarSale carSale);
+
     DataTable ToDataTable();
+    
     IList<CarSale> GetCarSaleList();
   }
 }

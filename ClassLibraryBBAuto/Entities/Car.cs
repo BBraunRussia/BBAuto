@@ -5,13 +5,8 @@ using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Tables;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
 using BBAuto.Domain.Services.CarSale;
-using CarSale = BBAuto.Domain.ForCar.CarSale;
 
 namespace BBAuto.Domain.Entities
 {
@@ -407,12 +402,15 @@ namespace BBAuto.Domain.Entities
       DTPList dtpList = DTPList.getInstance();
       DTP dtp = dtpList.GetLast(this);
 
-      StatusAfterDTPs statusAfterDTPs = StatusAfterDTPs.getInstance();
-      var statusAfterDTP = statusAfterDTPs.getItem(Convert.ToInt32(dtp.IDStatusAfterDTP));
+      if (_number == 170)
+        _number = 170;
 
-      if (statusAfterDTP == "А/м НЕ на ходу")
+      var statusAfterDtPs = StatusAfterDTPs.getInstance();
+      var statusAfterDtp = statusAfterDtPs.getItem(Convert.ToInt32(dtp.IDStatusAfterDTP));
+
+      if (statusAfterDtp == "НЕ на ходу")
         return "в ремонте";
-
+        
       return "на ходу";
     }
   }

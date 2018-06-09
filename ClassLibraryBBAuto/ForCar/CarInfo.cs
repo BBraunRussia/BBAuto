@@ -3,7 +3,6 @@ using System.Data;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Entities;
-using BBAuto.Domain.Services.CarSale;
 
 namespace BBAuto.Domain.ForCar
 {

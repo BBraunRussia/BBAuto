@@ -156,7 +156,6 @@
     <Compile Include="Dictionary\ServiceStantions.cs" />
     <Compile Include="Dictionary\StatusAfterDTPs.cs" />
     <Compile Include="Entities\DriverCar.cs" />
-    <Compile Include="Lists\CarSaleList.cs" />
     <Compile Include="Lists\DiagCardList.cs" />
     <Compile Include="Lists\DillerList.cs" />
     <Compile Include="Lists\DriverCarList.cs" />
@@ -169,7 +168,6 @@
     </Compile>
     <Compile Include="ForCar\CarDoc.cs" />
     <Compile Include="Common\WorkWithFiles.cs" />
-    <Compile Include="ForCar\CarSale.cs" />
     <Compile Include="ForCar\DiagCard.cs" />
     <Compile Include="ForCar\Diller.cs" />
     <Compile Include="Entities\Driver.cs" />

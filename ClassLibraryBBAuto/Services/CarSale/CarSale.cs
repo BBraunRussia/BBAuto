@@ -1,8 +1,4 @@
 using System;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Services.Customer;
 
 namespace BBAuto.Domain.Services.CarSale
 {

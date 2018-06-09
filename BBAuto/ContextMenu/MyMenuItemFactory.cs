@@ -1,36 +1,30 @@
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+using BBAuto.Dictionary;
 using BBAuto.Domain.Common;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using BBAuto.Dictionary;
 using BBAuto.Domain.Services.CarSale;
-using CarSale = BBAuto.Domain.ForCar.CarSale;
+using BBAuto.Domain.Static;
 
-namespace BBAuto
+namespace BBAuto.ContextMenu
 {
   public class MyMenuItemFactory
   {
-    private const string DOCUMENTS_PATH = @"\\bbmru08.bbmag.bbraun.com\Depts\Fleet INT\Автохозяйство\документы на авто";
+    private const string DocumentsPath = @"\\bbmru08.bbmag.bbraun.com\Depts\Fleet INT\Автохозяйство\документы на авто";
 
-    private MainDGV _dgvMain;
-    private CarList _carList;
-    private MainStatus _mainStatus;
+    private readonly MainDGV _dgvMain;
+    private readonly MainStatus _mainStatus;
 
     public MyMenuItemFactory(MainDGV dgvMain)
     {
       _dgvMain = dgvMain;
       _mainStatus = MainStatus.getInstance();
-      _carList = CarList.GetInstance();
     }
 
     public ToolStripItem CreateItem(ContextMenuItem item)
@@ -335,20 +329,20 @@ namespace BBAuto
 
     private ToolStripMenuItem CreateToSale()
     {
-      ToolStripMenuItem item = CreateItem("На продажу");
+      var item = CreateItem("На продажу");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
-        if (car == null)
+        var carId = _dgvMain.GetCarID();
+        if (carId == 0)
           return;
 
         if (MessageBox.Show("Вы действительно хотите переместить автомобиль на продажу?", "Снятие с продажи",
               MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             == DialogResult.Yes)
         {
-          CarSale carSale = new CarSale(car);
-          carSale.Save();
-
+          ICarSaleService carSaleService = new CarSaleService();
+          carSaleService.SaveCarSale(new CarSale {CarId = carId});
+          
           _mainStatus.Set(_mainStatus.Get());
         }
       };
@@ -676,7 +670,7 @@ namespace BBAuto
     private ToolStripMenuItem CreateDocuments()
     {
       ToolStripMenuItem item = CreateItem("Документы");
-      item.Click += delegate { Process.Start(DOCUMENTS_PATH); };
+      item.Click += delegate { Process.Start(DocumentsPath); };
       return item;
     }
 

@@ -4,7 +4,10 @@ create procedure [dbo].[UpsertCarSale]
   @date datetime,
   @customerId int
 as
-  if (@carId = 0)
+  declare @id int
+  select @id = cs.car_id from CarSale cs where cs.car_id = @carId
+
+  if (@id is null)
   begin
     insert into CarSale(car_id, carSale_comm, carSale_date, CustomerId)
       values(@carId, @comment, @date, @customerId)
