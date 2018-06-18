@@ -105,7 +105,7 @@ namespace BBAuto.Domain.Entities
 
     public object driverID
     {
-      get { return _idDriver.ToString(); }
+      get => _idDriver.ToString();
       set
       {
         if (value != null)
@@ -115,24 +115,21 @@ namespace BBAuto.Domain.Entities
 
     public bool IsGet
     {
-      get { return Convert.ToBoolean(_isGet); }
-      set { _isGet = Convert.ToInt32(value); }
+      get => Convert.ToBoolean(_isGet);
+      set => _isGet = Convert.ToInt32(value);
     }
 
-    public string BBNumber
-    {
-      get { return _number < 100 ? "АМ-0" + _number.ToString() : "АМ-" + _number.ToString(); }
-    }
+    public string BBNumber => _number < 100 ? "АМ-0" + _number : "АМ-" + _number;
 
     public int BBNumberInt
     {
-      get { return _number; }
-      set { _number = value; }
+      get => _number;
+      set => _number = value;
     }
 
     public string Lising
     {
-      get { return _isLising == 1 ? _lisingDate.Date.ToShortDateString() : string.Empty; }
+      get => _isLising == 1 ? _lisingDate.Date.ToShortDateString() : string.Empty;
       set
       {
         if (DateTime.TryParse(value, out _lisingDate))

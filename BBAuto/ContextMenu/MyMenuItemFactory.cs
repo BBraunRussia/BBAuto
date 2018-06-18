@@ -559,25 +559,26 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateShowActFuelCard()
     {
-      ToolStripMenuItem item = CreateItem("Акт передачи топливной карты");
+      var item = CreateItem("Акт передачи топливной карты");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _dgvMain.GetCar();
         if (car == null)
           MessageBox.Show("Для формирования акта выберите ячейку в таблице", "Предупреждение", MessageBoxButtons.OK,
             MessageBoxIcon.Warning);
         else
         {
-          InvoiceList invoiceList = InvoiceList.getInstance();
-          Invoice invoice = invoiceList.getItem(_dgvMain.GetID());
+          var invoiceList = InvoiceList.getInstance();
+          var invoice = invoiceList.getItem(_dgvMain.GetID());
+          /*
           if (invoice == null)
           {
             MessageBox.Show("Для формирования акта необходимо перейти на страницу \"Перемещения\"", "Предупреждение",
               MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
           }
-
-          CreateDocument doc = new CreateDocument(car, invoice);
+          */
+          var doc = new CreateDocument(car, invoice);
           doc.ShowActFuelCard();
         }
       };
