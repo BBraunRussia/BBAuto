@@ -625,7 +625,7 @@ namespace BBAuto.Domain.Common
       }
 
       Driver driverTo = driverList.getItem(driverId);
-      List<FuelCardDriver> list = fuelCardDriverList.ToList(driverTo);
+      var list = fuelCardDriverList.ToList(driverTo).Where(driverCard => !driverCard.FuelCard.IsLost).ToList();
 
       Regions regions = Regions.getInstance();
       string regionName = regions.getItem(regionId);
@@ -642,20 +642,26 @@ namespace BBAuto.Domain.Common
         i++;
       }
 
-      if (list.Count == 1)
-        wordDoc.setValue("Количество карт", "1 (одна) карта.");
-      else if (list.Count == 2)
-        wordDoc.setValue("Количество карт", "2 (две) карты.");
-      else if (list.Count != 0)
-        wordDoc.setValue("Количество карт", list.Count + "карт(ы).");
+      switch (list.Count)
+      {
+        case 1:
+          wordDoc.setValue("Количество карт", "1 (одна) карта.");
+          break;
+        case 2:
+          wordDoc.setValue("Количество карт", "2 (две) карты.");
+          break;
+        default:
+          if (list.Count != 0)
+            wordDoc.setValue("Количество карт", list.Count + "карт(ы).");
+          break;
+      }
 
       wordDoc.Show();
     }
 
     public void CreatePolicyTable()
     {
-      const int INDEX_BEGIN = 6;
-      DateTime date = DateTime.Today.AddMonths(1);
+      var date = DateTime.Today.AddMonths(1);
 
       _excelDoc = openDocumentExcel("Таблица страхования");
 
@@ -669,7 +675,7 @@ namespace BBAuto.Domain.Common
 
       DiagCardList diagCardList = DiagCardList.getInstance();
 
-      int rowIndex = INDEX_BEGIN;
+      int rowIndex = 6;
 
       foreach (Car car in listCar)
       {
