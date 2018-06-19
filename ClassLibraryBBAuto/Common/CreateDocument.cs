@@ -610,8 +610,8 @@ namespace BBAuto.Domain.Common
 
       FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
 
-      var driverId = 0;
-      var regionId = 0;
+      int driverId;
+      int regionId;
       if (_invoice == null)
       {
         var driver = DriverCarList.getInstance().GetDriver(_car);
@@ -624,15 +624,23 @@ namespace BBAuto.Domain.Common
         regionId = Convert.ToInt32(_invoice.RegionToID);
       }
 
-      Driver driverTo = driverList.getItem(driverId);
-      var list = fuelCardDriverList.ToList(driverTo).Where(driverCard => !driverCard.FuelCard.IsLost).ToList();
+      var driverTo = driverList.getItem(driverId);
+      var driverCards = fuelCardDriverList.ToList(driverTo).Where(driverCard => !driverCard.FuelCard.IsLost).ToList();
 
-      Regions regions = Regions.getInstance();
-      string regionName = regions.getItem(regionId);
+      if (!driverCards.Any())
+      {
+        MessageBox.Show("Формирование акта невозможно, за водителем не закреплены топливные карты", "Информация",
+          MessageBoxButtons.OK, MessageBoxIcon.Information);
+        wordDoc.Dispose();
+        return;
+      }
 
-      int i = 1;
+      var regions = Regions.getInstance();
+      var regionName = regions.getItem(regionId);
 
-      foreach (FuelCardDriver fuelCardDriver in list)
+      var i = 1;
+
+      foreach (var fuelCardDriver in driverCards)
       {
         wordDoc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName,
           fuelCardDriver.FuelCard.Number);
@@ -642,7 +650,7 @@ namespace BBAuto.Domain.Common
         i++;
       }
 
-      switch (list.Count)
+      switch (driverCards.Count)
       {
         case 1:
           wordDoc.setValue("Количество карт", "1 (одна) карта.");
@@ -651,8 +659,8 @@ namespace BBAuto.Domain.Common
           wordDoc.setValue("Количество карт", "2 (две) карты.");
           break;
         default:
-          if (list.Count != 0)
-            wordDoc.setValue("Количество карт", list.Count + "карт(ы).");
+          if (driverCards.Count != 0)
+            wordDoc.setValue("Количество карт", driverCards.Count + "карт(ы).");
           break;
       }
 

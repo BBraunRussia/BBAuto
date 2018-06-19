@@ -482,10 +482,9 @@ namespace BBAuto.ContextMenu
           return;
         }
 
-        CreateDocument doc = createDocument(_dgvMain.CurrentCell);
+        var doc = createDocument(_dgvMain.CurrentCell);
 
-        if (doc != null)
-          doc.ShowInvoice();
+        doc?.ShowInvoice();
       };
       return item;
     }
@@ -568,8 +567,6 @@ namespace BBAuto.ContextMenu
             MessageBoxIcon.Warning);
         else
         {
-          var invoiceList = InvoiceList.getInstance();
-          var invoice = invoiceList.getItem(_dgvMain.GetID());
           /*
           if (invoice == null)
           {
@@ -578,8 +575,8 @@ namespace BBAuto.ContextMenu
             return;
           }
           */
-          var doc = new CreateDocument(car, invoice);
-          doc.ShowActFuelCard();
+          var doc = createDocument(_dgvMain.CurrentCell);
+          doc?.ShowActFuelCard();
         }
       };
       return item;
