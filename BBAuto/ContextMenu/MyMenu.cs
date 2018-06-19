@@ -340,6 +340,8 @@ namespace BBAuto.ContextMenu
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBillDaily));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowActFuelCard));
 
       return menuStrip;
     }
