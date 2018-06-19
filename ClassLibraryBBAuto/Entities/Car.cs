@@ -180,8 +180,7 @@ namespace BBAuto.Domain.Entities
 
     private void fillField(DataRow row)
     {
-      int id;
-      int.TryParse(row.ItemArray[0].ToString(), out id);
+      int.TryParse(row.ItemArray[0].ToString(), out int id);
       ID = id;
 
       int.TryParse(row.ItemArray[1].ToString(), out _number);
@@ -191,8 +190,7 @@ namespace BBAuto.Domain.Entities
       eNumber = row.ItemArray[5].ToString();
       bodyNumber = row.ItemArray[6].ToString();
 
-      int idMark;
-      int.TryParse(row.ItemArray[7].ToString(), out idMark);
+      int.TryParse(row.ItemArray[7].ToString(), out int idMark);
       Mark = MarkList.getInstance().getItem(idMark);
 
       int.TryParse(row.ItemArray[8].ToString(), out _idModel);
@@ -200,6 +198,8 @@ namespace BBAuto.Domain.Entities
       ColorID = row.ItemArray[10];
 
       fillCarBuy(row);
+
+      IsSale = Convert.ToBoolean(row.ItemArray[24]);
     }
 
     private void fillCarBuy(DataRow row)

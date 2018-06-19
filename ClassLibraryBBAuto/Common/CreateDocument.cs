@@ -685,43 +685,36 @@ namespace BBAuto.Domain.Common
 
       int rowIndex = 6;
 
-      foreach (Car car in listCar)
+      foreach (var car in listCar)
       {
+        var policyOsago = list.FirstOrDefault(policy => policy.Car.ID == car.ID && policy.Type == PolicyType.ОСАГО);
+        var policyKasko = list.FirstOrDefault(policy => policy.Car.ID == car.ID && policy.Type == PolicyType.КАСКО);
+
         _excelDoc.setValue(rowIndex, 2, car.Grz);
         _excelDoc.setValue(rowIndex, 3, car.Mark.Name);
         _excelDoc.setValue(rowIndex, 4, car.info.Model);
         _excelDoc.setValue(rowIndex, 5, car.vin);
         _excelDoc.setValue(rowIndex, 6, car.Year);
-        _excelDoc.setValue(rowIndex, 7, GetPolicyBeginDate(list, car, PolicyType.ОСАГО));
-        _excelDoc.setValue(rowIndex, 8, GetPolicyBeginDate(list, car, PolicyType.КАСКО));
-        _excelDoc.setValue(rowIndex, 9, car.info.Owner);
-        _excelDoc.setValue(rowIndex, 10, car.info.Owner);
+        _excelDoc.setValue(rowIndex, 7, Comps.getInstance().getItem(Convert.ToInt32(policyOsago?.IdComp)));
+        _excelDoc.setValue(rowIndex, 8, policyOsago?.DateBegin.ToShortDateString() ?? "не надо");
+        _excelDoc.setValue(rowIndex, 9, Comps.getInstance().getItem(Convert.ToInt32(policyKasko?.IdComp)));
+        _excelDoc.setValue(rowIndex, 10, policyKasko?.DateBegin.ToShortDateString() ?? "не надо");
         _excelDoc.setValue(rowIndex, 11, car.info.Owner);
+        _excelDoc.setValue(rowIndex, 12, car.info.Owner);
+        _excelDoc.setValue(rowIndex, 13, car.info.Owner);
 
         DiagCard diagCard = diagCardList.getItem(car);
 
         if (diagCard != null)
         {
-          _excelDoc.setValue(rowIndex, 12, diagCard.Date.ToShortDateString());
-          _excelDoc.setValue(rowIndex, 13, diagCard.Number);
+          _excelDoc.setValue(rowIndex, 14, diagCard.Date.ToShortDateString());
+          _excelDoc.setValue(rowIndex, 15, diagCard.Number);
         }
 
         rowIndex++;
       }
 
       _excelDoc.Show();
-    }
-
-    private static string GetPolicyBeginDate(List<Policy> list, Car car, PolicyType policyType)
-    {
-      List<Policy> newList = list.Where(policy => policy.Car.ID == car.ID && policy.Type == policyType).ToList();
-
-      string osagoBeginDate = "не надо";
-
-      if (newList.Count > 0)
-        osagoBeginDate = newList.First().DateBegin.ToShortDateString();
-
-      return osagoBeginDate;
     }
 
     private ExcelDoc openDocumentExcel(string name)
