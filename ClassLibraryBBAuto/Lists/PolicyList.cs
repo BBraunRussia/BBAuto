@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using BBAuto.Domain.Services.Comp;
 
 namespace BBAuto.Domain.Lists
 {
@@ -129,13 +130,16 @@ namespace BBAuto.Domain.Lists
       dt.Columns.Add("Страхователь");
       dt.Columns.Add("Страховщик");
       dt.Columns.Add("Номер полиса");
-      dt.Columns.Add("Pay", Type.GetType("System.Double"));
-      dt.Columns.Add("Начало действия", Type.GetType("System.DateTime"));
-      dt.Columns.Add("Окончание действия", Type.GetType("System.DateTime"));
-      dt.Columns.Add("LimitCost", Type.GetType("System.Double"));
-      dt.Columns.Add("Pay2", Type.GetType("System.Double"));
+      dt.Columns.Add("Pay", typeof(double));
+      dt.Columns.Add("Начало действия", typeof(DateTime));
+      dt.Columns.Add("Окончание действия", typeof(DateTime));
+      dt.Columns.Add("LimitCost", typeof(double));
+      dt.Columns.Add("Pay2", typeof(double));
 
-      policies.ToList().ForEach(item => dt.Rows.Add(item.getRow()));
+      ICompService compService = new CompService();
+      var compList = compService.GetCompList();
+
+      policies.ToList().ForEach(item => dt.Rows.Add(item.CreateRow(compList)));
 
       return dt;
     }

@@ -40,7 +40,8 @@ namespace BBAuto.Repository
       return Connection.As<TRepository>();
     }
 
-    public IDbCustomer Customer => CreateRepository<IDbCustomer>();
     public IDbCarSale CarSale => CreateRepository<IDbCarSale>();
+    public IDbComp Comp => CreateRepository<IDbComp>();
+    public IDbCustomer Customer => CreateRepository<IDbCustomer>();
   }
 }

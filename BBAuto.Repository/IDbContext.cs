@@ -4,7 +4,8 @@ namespace BBAuto.Repository
 {
   public interface IDbContext
   {
-    IDbCustomer Customer { get; }
     IDbCarSale CarSale { get; }
+    IDbComp Comp { get; }
+    IDbCustomer Customer { get; }
   }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Post-Deployment Script Template              
 --------------------------------------------------------------------------------------
  This file contains SQL statements that will be appended to the build script.    
@@ -28,3 +28,5 @@ update ShipPart set ShipPart_file = replace(ShipPart_file, '\\bbmru08.bbmag.bbra
 update STS set STS_file = replace(STS_file, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
 update Violation set Violation_file = replace(Violation_file, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
 update Violation set Violation_filePay = replace(Violation_filePay, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
+
+update Comp set KaskoPaymentCount = 2 where KaskoPaymentCount is null

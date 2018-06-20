@@ -90,6 +90,10 @@
     <Compile Include="Services\CarSale\CarSaleMappingProfile.cs" />
     <Compile Include="Services\CarSale\CarSaleService.cs" />
     <Compile Include="Services\CarSale\ICarSaleService.cs" />
+    <Compile Include="Services\Comp\Comp.cs" />
+    <Compile Include="Services\Comp\CompMappingProfile.cs" />
+    <Compile Include="Services\Comp\CompService.cs" />
+    <Compile Include="Services\Comp\ICompService.cs" />
     <Compile Include="Services\Customer\Customer.cs" />
     <Compile Include="Services\Customer\CustomerMappingProfile.cs" />
     <Compile Include="Services\Customer\CustomerService.cs" />
@@ -147,7 +151,6 @@
     <Compile Include="Common\OfficeDoc.cs" />
     <Compile Include="Common\Template.cs" />
     <Compile Include="Dictionary\Colors.cs" />
-    <Compile Include="Dictionary\Comps.cs" />
     <Compile Include="Dictionary\Culprits.cs" />
     <Compile Include="Dictionary\Marks.cs" />
     <Compile Include="Lists\ModelList.cs" />

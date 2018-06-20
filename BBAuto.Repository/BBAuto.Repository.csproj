@@ -62,9 +62,11 @@
     <Compile Include="IDataBase.cs" />
     <Compile Include="IDbContext.cs" />
     <Compile Include="Interfaces\IDbCarSale.cs" />
+    <Compile Include="Interfaces\IDbComp.cs" />
     <Compile Include="Interfaces\IDbCustomer.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Models\DbCarSale.cs" />
+    <Compile Include="Models\DbComp.cs" />
     <Compile Include="Models\DbCustomer.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="SqlDatabase.cs" />

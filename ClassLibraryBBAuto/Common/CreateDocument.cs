@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BBAuto.Domain.Services.Comp;
 
 namespace BBAuto.Domain.Common
 {
@@ -673,17 +674,20 @@ namespace BBAuto.Domain.Common
 
       _excelDoc = openDocumentExcel("Таблица страхования");
 
-      MyDateTime myDate = new MyDateTime(date.ToShortDateString());
+      var myDate = new MyDateTime(date.ToShortDateString());
 
       _excelDoc.setValue(2, 1, "Страхуем в " + myDate.MonthToStringPrepositive() + " " + myDate.Year + " г.");
 
-      PolicyList policyList = PolicyList.getInstance();
-      List<Policy> list = policyList.GetPolicyList(date);
-      List<Car> listCar = policyList.GetCarListByPolicyList(list);
+      var policyList = PolicyList.getInstance();
+      var list = policyList.GetPolicyList(date);
+      var listCar = policyList.GetCarListByPolicyList(list);
 
-      DiagCardList diagCardList = DiagCardList.getInstance();
+      var diagCardList = DiagCardList.getInstance();
 
-      int rowIndex = 6;
+      var rowIndex = 6;
+
+      ICompService compService = new CompService();
+      var compList = compService.GetCompList();
 
       foreach (var car in listCar)
       {
@@ -695,15 +699,15 @@ namespace BBAuto.Domain.Common
         _excelDoc.setValue(rowIndex, 4, car.info.Model);
         _excelDoc.setValue(rowIndex, 5, car.vin);
         _excelDoc.setValue(rowIndex, 6, car.Year);
-        _excelDoc.setValue(rowIndex, 7, Comps.getInstance().getItem(Convert.ToInt32(policyOsago?.IdComp)));
+        _excelDoc.setValue(rowIndex, 7, compList.FirstOrDefault(comp => comp.Id == Convert.ToInt32(policyOsago?.IdComp))?.Name ?? "(нет данных)");
         _excelDoc.setValue(rowIndex, 8, policyOsago?.DateBegin.ToShortDateString() ?? "не надо");
-        _excelDoc.setValue(rowIndex, 9, Comps.getInstance().getItem(Convert.ToInt32(policyKasko?.IdComp)));
+        _excelDoc.setValue(rowIndex, 9, compList.FirstOrDefault(comp => comp.Id == Convert.ToInt32(policyKasko?.IdComp))?.Name ?? "(нет данных)");
         _excelDoc.setValue(rowIndex, 10, policyKasko?.DateBegin.ToShortDateString() ?? "не надо");
         _excelDoc.setValue(rowIndex, 11, car.info.Owner);
         _excelDoc.setValue(rowIndex, 12, car.info.Owner);
         _excelDoc.setValue(rowIndex, 13, car.info.Owner);
 
-        DiagCard diagCard = diagCardList.getItem(car);
+        var diagCard = diagCardList.getItem(car);
 
         if (diagCard != null)
         {

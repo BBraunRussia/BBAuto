@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Lists;
@@ -8,6 +10,7 @@ using BBAuto.Domain.Common;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Services.CarSale;
+using BBAuto.Domain.Services.Comp;
 
 namespace BBAuto.Domain.ForCar
 {
@@ -48,8 +51,8 @@ namespace BBAuto.Domain.ForCar
 
     public string IdComp
     {
-      get { return _idComp.ToString(); }
-      set { int.TryParse(value, out _idComp); }
+      get => _idComp.ToString();
+      set => int.TryParse(value, out _idComp);
     }
 
     public string Number
@@ -261,17 +264,22 @@ namespace BBAuto.Domain.ForCar
         return false;
     }
 
-    internal override object[] getRow()
+    public object[] CreateRow(IList<Comp> compList)
     {
       Owners owners = Owners.getInstance();
-      Comps comps = Comps.getInstance();
-
+      
       return new object[]
       {
         ID, Car.ID, Car.BBNumber, Car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
-        comps.getItem(Convert.ToInt32(IdComp)), Number, _pay, DateBegin, DateEnd,
+        compList.FirstOrDefault(comp => comp.Id == Convert.ToInt32(IdComp)),
+        Number, _pay, DateBegin, DateEnd,
         _limitCost, _pay2
       };
+    }
+
+    internal override object[] getRow()
+    {
+      throw new NotImplementedException();
     }
 
     private bool IsEmptyDate(DateTime date)

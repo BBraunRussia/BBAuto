@@ -213,9 +213,9 @@
     <Build Include="Programmability\Stored Procedures\Color\Color_Select.sql" />
     <Build Include="Programmability\Stored Procedures\ColumnSize\ColumnSize_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\ColumnSize\ColumnSize_Select.sql" />
-    <Build Include="Programmability\Stored Procedures\Comp\Comp_Delete.sql" />
-    <Build Include="Programmability\Stored Procedures\Comp\Comp_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\Comp\Comp_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Comp\DeleteComp.sql" />
+    <Build Include="Programmability\Stored Procedures\Comp\UpsertComp.sql" />
+    <Build Include="Programmability\Stored Procedures\Comp\GetCompList.sql" />
     <Build Include="Programmability\Stored Procedures\Culprit\Culprit_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\Culprit\Culprit_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\Culprit\Culprit_Select.sql" />
@@ -383,6 +383,7 @@
     <Build Include="Programmability\Stored Procedures\Customer\GetCustomerList.sql" />
     <Build Include="Programmability\Stored Procedures\Customer\GetCustomerById.sql" />
     <Build Include="Programmability\Stored Procedures\CarSale\GetCarSaleByCarId.sql" />
+    <Build Include="Programmability\Stored Procedures\Comp\GetCompById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />
