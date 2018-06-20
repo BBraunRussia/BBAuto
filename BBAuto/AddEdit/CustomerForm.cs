@@ -11,9 +11,7 @@ namespace BBAuto.AddEdit
 
     private WorkWithForm _workWithForm;
 
-    public CustomerForm(
-      ICustomerService customerService,
-      int id)
+    public CustomerForm(ICustomerService customerService, int id)
     {
       InitializeComponent();
 

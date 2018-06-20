@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +13,7 @@ using BBAuto.Domain.Tables;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Common;
+using BBAuto.FormsForCar.AddEdit;
 
 namespace BBAuto
 {
@@ -554,7 +555,7 @@ namespace BBAuto
 
         private void btnAddInsurance_Click(object sender, EventArgs e)
         {
-            Policy_AddEdit pAE = new Policy_AddEdit(_car.CreatePolicy());
+            PolicyForm pAE = new PolicyForm(_car.CreatePolicy());
             if (pAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 loadPolicy();
         }
@@ -583,7 +584,7 @@ namespace BBAuto
             }
             else
             {
-                Policy_AddEdit pAE = new Policy_AddEdit(policy);
+                PolicyForm pAE = new PolicyForm(policy);
                 pAE.ShowDialog();
 
                 loadPolicy();

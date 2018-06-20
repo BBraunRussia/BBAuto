@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +12,7 @@ using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Common;
+using BBAuto.FormsForCar.AddEdit;
 
 namespace BBAuto
 {
@@ -257,7 +258,7 @@ namespace BBAuto
                 WorkWithFiles.openFile(policy.File);
             else
             {
-                Policy_AddEdit policyAE = new Policy_AddEdit(policy);
+                PolicyForm policyAE = new PolicyForm(policy);
                 if (policyAE.ShowDialog() == DialogResult.OK)
                     FillTable();
             }

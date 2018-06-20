@@ -56,6 +56,12 @@
     <Compile Include="AddEdit\Account_AddEdit.Designer.cs">
       <DependentUpon>Account_AddEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEdit\CompForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEdit\CompForm.Designer.cs">
+      <DependentUpon>CompForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddEdit\CustomerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +159,12 @@
       <DependentUpon>FormWayBillDaily.cs</DependentUpon>
     </Compile>
     <Compile Include="config\AutoMapperConfiguration.cs" />
+    <Compile Include="Dictionary\CompListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dictionary\CompListForm.Designer.cs">
+      <DependentUpon>CompListForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dictionary\CustomerListForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -308,11 +320,11 @@
     <Compile Include="AddEdit\Dictionary_AddEdit.Designer.cs">
       <DependentUpon>Dictionary_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\Policy_AddEdit.cs">
+    <Compile Include="FormsForCar\AddEdit\PolicyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\Policy_AddEdit.Designer.cs">
-      <DependentUpon>Policy_AddEdit.cs</DependentUpon>
+    <Compile Include="FormsForCar\AddEdit\PolicyForm.Designer.cs">
+      <DependentUpon>PolicyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForCar\AddEdit\Violation_AddEdit.cs">
       <SubType>Form</SubType>
@@ -462,6 +474,9 @@
     <EmbeddedResource Include="AddEdit\Account_AddEdit.resx">
       <DependentUpon>Account_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddEdit\CompForm.resx">
+      <DependentUpon>CompForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -509,6 +524,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\FormWayBillDaily.resx">
       <DependentUpon>FormWayBillDaily.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dictionary\CompListForm.resx">
+      <DependentUpon>CompListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dictionary\CustomerListForm.resx">
       <DependentUpon>CustomerListForm.cs</DependentUpon>
@@ -586,8 +604,8 @@
     <EmbeddedResource Include="AddEdit\Dictionary_AddEdit.resx">
       <DependentUpon>Dictionary_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForCar\AddEdit\Policy_AddEdit.resx">
-      <DependentUpon>Policy_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForCar\AddEdit\PolicyForm.resx">
+      <DependentUpon>PolicyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForCar\AddEdit\Violation_AddEdit.resx">
       <DependentUpon>Violation_AddEdit.cs</DependentUpon>

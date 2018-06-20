@@ -19,7 +19,6 @@ namespace BBAuto.Domain.ForCar
     private string _number;
     private double _pay;
     private int _idOwner;
-    private int _idComp;
     private int _idAccount;
     private int _idAccount2;
     private double _limitCost;
@@ -49,11 +48,7 @@ namespace BBAuto.Domain.ForCar
       set { int.TryParse(value, out _idOwner); }
     }
 
-    public string IdComp
-    {
-      get => _idComp.ToString();
-      set => int.TryParse(value, out _idComp);
-    }
+    public int CompId { get; set; }
 
     public string Number
     {
@@ -153,13 +148,13 @@ namespace BBAuto.Domain.ForCar
       int.TryParse(row.ItemArray[0].ToString(), out id);
       ID = id;
 
-      int idCar;
-      int.TryParse(row.ItemArray[1].ToString(), out idCar);
+      int.TryParse(row.ItemArray[1].ToString(), out int idCar);
       Car = CarList.GetInstance().getItem(idCar);
 
       int.TryParse(row.ItemArray[2].ToString(), out _idPolicyType);
       IdOwner = row.ItemArray[3].ToString();
-      IdComp = row.ItemArray[4].ToString();
+      int.TryParse(row.ItemArray[4].ToString(), out int compId);
+      CompId = compId;
       _number = row.ItemArray[5].ToString();
       DateTime.TryParse(row.ItemArray[6].ToString(), out _dateBegin);
       DateTime.TryParse(row.ItemArray[7].ToString(), out _dateEnd);
@@ -207,7 +202,7 @@ namespace BBAuto.Domain.ForCar
     {
       int id;
       int.TryParse(
-        _provider.Insert("Policy", ID, _idPolicyType, Car.ID, IdOwner, IdComp, _number, _dateBegin, _dateEnd, Pay,
+        _provider.Insert("Policy", ID, _idPolicyType, Car.ID, IdOwner, CompId, _number, _dateBegin, _dateEnd, Pay,
           LimitCost, Pay2, DatePay2ForSQL, File, _notifacationSent, Comment), out id);
       ID = id;
     }
@@ -271,7 +266,7 @@ namespace BBAuto.Domain.ForCar
       return new object[]
       {
         ID, Car.ID, Car.BBNumber, Car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
-        compList.FirstOrDefault(comp => comp.Id == Convert.ToInt32(IdComp)),
+        compList.FirstOrDefault(comp => comp.Id == CompId)?.Name,
         Number, _pay, DateBegin, DateEnd,
         _limitCost, _pay2
       };

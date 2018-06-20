@@ -11,6 +11,7 @@ using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Services.CarSale;
 using BBAuto.Domain.Static;
+using BBAuto.FormsForCar.AddEdit;
 
 namespace BBAuto.ContextMenu
 {
@@ -269,7 +270,7 @@ namespace BBAuto.ContextMenu
         if (car == null)
           return;
 
-        Policy_AddEdit policyAE = new Policy_AddEdit(car.CreatePolicy());
+        PolicyForm policyAE = new PolicyForm(car.CreatePolicy());
         policyAE.ShowDialog();
       };
       return item;
@@ -963,8 +964,12 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateComp()
     {
-      ToolStripMenuItem item = CreateItem("Страховые компании");
-      item.Click += delegate { loadDictionary("Comp", "Справочник \"Страховые компании\""); };
+      var item = CreateItem("Страховые компании");
+      item.Click += delegate
+      {
+        var compListForm = new CompListForm();
+        compListForm.ShowDialog();
+      };
       return item;
     }
 

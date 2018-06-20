@@ -10,6 +10,7 @@ using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.ForCar;
+using BBAuto.FormsForCar.AddEdit;
 
 namespace BBAuto
 {
@@ -243,7 +244,7 @@ namespace BBAuto
         _myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
       else
       {
-        Policy_AddEdit policyAE = new Policy_AddEdit(policy);
+        PolicyForm policyAE = new PolicyForm(policy);
         if (policyAE.ShowDialog() == DialogResult.OK)
         {
           loadCars();

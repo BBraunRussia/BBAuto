@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.Dictionary
 {
     partial class formOneStringDictionary
     {
