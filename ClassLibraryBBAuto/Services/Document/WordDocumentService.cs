@@ -7,12 +7,17 @@ using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
+using BBAuto.Domain.Services.Customer;
 using BBAuto.Domain.Static;
 
 namespace BBAuto.Domain.Services.Document
 {
   public class WordDocumentService : IWordDocumentService
   {
+    private const string ProxyOnSto = "Доверенность на предоставление интересов на СТО";
+    private const string ActFuelCard = "Акт передачи топливной карты";
+    private const string ContractOfSale = "Договор купли продажи ТС";
+
     /*
     public void ShowProxyOnSTO(Car car, Invoice invoice)
     {
@@ -34,24 +39,26 @@ namespace BBAuto.Domain.Services.Document
       wordDoc.Print();
     }*/
 
-    public WordDoc CreateProxyOnSto(Car car, Invoice invoice)
+    public IDocument CreateProxyOnSto(Car car, Invoice invoice)
     {
-      WordDoc wordDoc = OpenDocumentWord("Доверенность на предоставление интересов на СТО");
+      var doc = OpenDocumentWord(ProxyOnSto);
+      if (doc == null)
+        return null;
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      var driverCarList = DriverCarList.getInstance();
 
-      Driver driver = (invoice == null)
+      var driver = invoice == null
         ? driverCarList.GetDriver(car)
         : DriverList.getInstance().getItem(Convert.ToInt32(invoice.DriverToID));
 
-      MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
-      wordDoc.SetValue("текущая дата", myDate.ToLongString());
+      var myDate = new MyDateTime(DateTime.Today.ToShortDateString());
+      doc.SetValue("текущая дата", myDate.ToLongString());
 
-      String fio = String.Empty;
+      var fio = string.Empty;
       if (driver != null)
         fio = driver.GetName(NameType.Full);
 
-      wordDoc.SetValue("ФИО регионального представителя", fio);
+      doc.SetValue("ФИО регионального представителя", fio);
 
       PassportList passportList = PassportList.getInstance();
 
@@ -65,31 +72,33 @@ namespace BBAuto.Domain.Services.Document
         passportToString = string.Concat(passport.Number, ", выдан ", passport.GiveDate.ToShortDateString(), ", ",
           passport.GiveOrg, ", Адрес: ", passport.Address);
 
-      wordDoc.SetValue("паспорт регионального представителя", passportToString);
+      doc.SetValue("паспорт регионального представителя", passportToString);
 
       string fullNameAuto = string.Concat(car.Mark.Name, " ", car.info.Model);
-      wordDoc.SetValue("Название марки автомобиля", fullNameAuto);
-      wordDoc.SetValue("VIN-автомобиля", car.vin);
-      wordDoc.SetValue("Модель и марка двигателя автомобиля", car.eNumber);
-      wordDoc.SetValue("Номер кузова автомобиля", car.bodyNumber);
-      wordDoc.SetValue("Год выпуска автомобиля", car.Year);
-      wordDoc.SetValue("Цвет автомобиля", car.info.Color);
+      doc.SetValue("Название марки автомобиля", fullNameAuto);
+      doc.SetValue("VIN-автомобиля", car.vin);
+      doc.SetValue("Модель и марка двигателя автомобиля", car.eNumber);
+      doc.SetValue("Номер кузова автомобиля", car.bodyNumber);
+      doc.SetValue("Год выпуска автомобиля", car.Year);
+      doc.SetValue("Цвет автомобиля", car.info.Color);
 
       PTSList ptsList = PTSList.getInstance();
       PTS pts = ptsList.getItem(car);
 
       string ptsName = string.Concat(pts.Number, ", выдан ", pts.Date.ToShortDateString(), " ", pts.GiveOrg);
 
-      wordDoc.SetValue("ПТС автомобиля", ptsName);
-      wordDoc.SetValue("ГРЗ автомобиля", car.Grz);
-      wordDoc.SetValue("текущий год", DateTime.Today.Year.ToString());
+      doc.SetValue("ПТС автомобиля", ptsName);
+      doc.SetValue("ГРЗ автомобиля", car.Grz);
+      doc.SetValue("текущий год", DateTime.Today.Year.ToString());
 
-      return wordDoc;
+      return doc;
     }
 
-    public WordDoc CreateActFuelCard(Car car, Invoice invoice)
+    public IDocument CreateActFuelCard(Car car, Invoice invoice)
     {
-      WordDoc wordDoc = OpenDocumentWord("Акт передачи топливной карты");
+      var doc = OpenDocumentWord(ActFuelCard);
+      if (doc == null)
+        return null;
 
       FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
 
@@ -114,7 +123,7 @@ namespace BBAuto.Domain.Services.Document
       {
         MessageBox.Show("Формирование акта невозможно, за водителем не закреплены топливные карты", "Информация",
           MessageBoxButtons.OK, MessageBoxIcon.Information);
-        wordDoc.Dispose();
+        doc.Dispose();
         return null;
       }
 
@@ -125,9 +134,9 @@ namespace BBAuto.Domain.Services.Document
 
       foreach (var fuelCardDriver in driverCards)
       {
-        wordDoc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName,
+        doc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName,
           fuelCardDriver.FuelCard.Number);
-        wordDoc.AddRowInTable(2, i.ToString(), driverTo.GetName(NameType.Full), regionName,
+        doc.AddRowInTable(2, i.ToString(), driverTo.GetName(NameType.Full), regionName,
           fuelCardDriver.FuelCard.Number, fuelCardDriver.FuelCard.Pin);
 
         i++;
@@ -136,24 +145,82 @@ namespace BBAuto.Domain.Services.Document
       switch (driverCards.Count)
       {
         case 1:
-          wordDoc.SetValue("Количество карт", "1 (одна) карта.");
+          doc.SetValue("Количество карт", "1 (одна) карта.");
           break;
         case 2:
-          wordDoc.SetValue("Количество карт", "2 (две) карты.");
+          doc.SetValue("Количество карт", "2 (две) карты.");
           break;
         default:
           if (driverCards.Count != 0)
-            wordDoc.SetValue("Количество карт", driverCards.Count + "карт(ы).");
+            doc.SetValue("Количество карт", driverCards.Count + "карт(ы).");
           break;
       }
 
-      return wordDoc;
+      return doc;
+    }
+
+    public IDocument CreateContractOfSale(Car car)
+    {
+      var doc = OpenDocumentWord(ContractOfSale);
+      if (doc == null)
+        return null;
+
+      ICustomerService customerService = new CustomerService();
+      var customer = customerService.GetCustomerByCarId(car.ID);
+
+      if (customer == null)
+      {
+        MessageBox.Show("Покупатель не назначен для данного автомобиля", "Ошибка", MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+        return null;
+      }
+      
+      var myDate = new MyDateTime(DateTime.Today.ToShortDateString());
+      doc.SetValue("текущая дата", myDate.ToLongString());
+      
+      doc.SetValue("ФИО покупателя", customer.FullName);
+
+      var passportToString = $"{customer.PassportNumber} выдан {customer.PassportGiveDate.ToShortDateString()} {customer.PassportGiveOrg} Адрес: {customer.Address}";
+
+      doc.SetValue("паспорт покупателя", passportToString);
+
+      var fullNameAuto = $"{car.Mark.Name} {car.info.Model}";
+      doc.SetValue("Название марки автомобиля", fullNameAuto);
+      doc.SetValue("VIN-автомобиля", car.vin);
+      doc.SetValue("Год выпуска автомобиля", car.Year);
+      doc.SetValue("Модель и марка двигателя автомобиля", car.eNumber);
+      doc.SetValue("Объем двигателя автомобиля", car.info.Grade.EVol);
+      doc.SetValue("Цвет автомобиля", car.info.Color);
+      doc.SetValue("Номер кузова автомобиля", car.bodyNumber);
+      
+      var ptsList = PTSList.getInstance();
+      var pts = ptsList.getItem(car);
+      var ptsName = $"{pts.Number} выдан {pts.Date.ToShortDateString()} {pts.GiveOrg}";
+      doc.SetValue("ПТС автомобиля", ptsName);
+
+      var stsList = STSList.getInstance();
+      var sts = stsList.getItem(car);
+      var stsName = $"{sts.Number} выдан {sts.Date.ToShortDateString()} {sts.GiveOrg}";
+      doc.SetValue("СТС автомобиля", stsName);
+
+      doc.SetValue("ГРЗ автомобиля", car.Grz);
+      
+      return doc;
     }
 
     private static WordDoc OpenDocumentWord(string name)
     {
-      var template = TemplateList.getInstance().getItem(name);
-      return new WordDoc(template.File);
+      try
+      {
+        var template = TemplateList.getInstance().getItem(name);
+        return new WordDoc(template.File);
+      }
+      catch (NullReferenceException)
+      {
+        MessageBox.Show($"Шаблон документа с именем {name} не найден", "Ошибка", MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+        return null;
+      }
     }
   }
 }

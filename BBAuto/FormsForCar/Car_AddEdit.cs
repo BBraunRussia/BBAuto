@@ -956,7 +956,7 @@ namespace BBAuto
       if (MessageBox.Show("Удалить информацию о пробеге?", "Удаление", MessageBoxButtons.YesNo,
             MessageBoxIcon.Question) == DialogResult.Yes)
       {
-        int idMileage = Convert.ToInt32(_dgvMileage.Rows[_dgvMileage.SelectedCells[0].RowIndex].Cells[0].Value);
+        var idMileage = Convert.ToInt32(_dgvMileage.Rows[_dgvMileage.SelectedCells[0].RowIndex].Cells[0].Value);
 
         mileageList.Delete(idMileage);
 

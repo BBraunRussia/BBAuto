@@ -9,5 +9,6 @@ namespace BBAuto.Domain.Services.Customer
     CustomerModel SaveCustomer(CustomerModel customer);
     void DeleteCustomer(int id);
     CustomerModel GetCustomerById(int id);
+    CustomerModel GetCustomerByCarId(int carId);
   }
 }

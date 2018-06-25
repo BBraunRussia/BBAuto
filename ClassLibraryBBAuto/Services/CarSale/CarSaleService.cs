@@ -57,17 +57,17 @@ namespace BBAuto.Domain.Services.CarSale
       
       dt.Columns.Add("id");
       dt.Columns.Add("idCar");
-      dt.Columns.Add("�������� �����");
-      dt.Columns.Add("��������������� ����");
-      dt.Columns.Add("�����");
-      dt.Columns.Add("������");
-      dt.Columns.Add("����������");
-      dt.Columns.Add("������");
-      dt.Columns.Add("���� �������", typeof(DateTime));
-      dt.Columns.Add("�����������");
-      dt.Columns.Add("� ���");
-      dt.Columns.Add("� ���");
-      dt.Columns.Add("������");
+      dt.Columns.Add("Бортовой номер");
+      dt.Columns.Add("Регистрационный знак");
+      dt.Columns.Add("Марка");
+      dt.Columns.Add("Модель");
+      dt.Columns.Add("Покупатель");
+      dt.Columns.Add("Регион");
+      dt.Columns.Add("Дата продажи", typeof(DateTime));
+      dt.Columns.Add("Комментарий");
+      dt.Columns.Add("№ ПТС");
+      dt.Columns.Add("№ СТС");
+      dt.Columns.Add("Статус");
 
       ICustomerService customerService = new CustomerService();
       var customerList = customerService.GetCustomerList();
@@ -78,7 +78,7 @@ namespace BBAuto.Domain.Services.CarSale
       return dt;
     }
     
-    private object[] GetRow(CarSale carSale, IList<Customer.CustomerModel> customerList)
+    private object[] GetRow(CarSale carSale, IList<CustomerModel> customerList)
     {
       var car = CarList.GetInstance().getItem(carSale.CarId);
 
@@ -102,7 +102,7 @@ namespace BBAuto.Domain.Services.CarSale
 
       return new object[]
       {
-        carSale.CarId, carSale.CarId, car.BBNumber, car.Grz, car.Mark.Name, car.info.Model, customer?.FullName ?? "��� ������", regionName, carSale.Date, carSale.Comment, pts.Number,
+        carSale.CarId, carSale.CarId, car.BBNumber, car.Grz, car.Mark.Name, car.info.Model, customer?.FullName ?? "нет данных", regionName, carSale.Date, carSale.Comment, pts.Number,
         sts.Number, car.GetStatus()
       };
     }

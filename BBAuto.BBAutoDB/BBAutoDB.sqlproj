@@ -384,6 +384,7 @@
     <Build Include="Programmability\Stored Procedures\Customer\GetCustomerById.sql" />
     <Build Include="Programmability\Stored Procedures\CarSale\GetCarSaleByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Comp\GetCompById.sql" />
+    <Build Include="Programmability\Stored Procedures\Customer\GetCustomerByCarId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />

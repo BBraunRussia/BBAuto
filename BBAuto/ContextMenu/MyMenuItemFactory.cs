@@ -175,6 +175,8 @@ namespace BBAuto.ContextMenu
           return CreateFuelLoad();
         case ContextMenuItem.CustomerList:
           return ShowCustomerList();
+        case ContextMenuItem.ShowContractOfSale:
+          return ShowContractOfSale();
         default:
           throw new NotImplementedException();
       }
@@ -1287,6 +1289,21 @@ namespace BBAuto.ContextMenu
       return item;
     }
 
+    private ToolStripMenuItem ShowContractOfSale()
+    {
+      var item = CreateItem("Договор купли-продажи");
+      item.Click += delegate
+      {
+        var car = GetCar(_dgvMain.CurrentCell);
+        
+        IWordDocumentService wordDocumentService = new WordDocumentService();
+        var doc = wordDocumentService.CreateContractOfSale(car);
+
+        doc?.Show();
+      };
+      return item;
+    }
+
     private ToolStripMenuItem CreateItem(string name)
     {
       return new ToolStripMenuItem(name);
@@ -1302,7 +1319,7 @@ namespace BBAuto.ContextMenu
 
       MessageBox.Show(result, "Отправка", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
-
+    
     private Car GetCar(DataGridViewCell cell)
     {
       var carId = _dgvMain.GetCarID(cell.RowIndex);

@@ -10,8 +10,9 @@ namespace BBAuto.Repository.Interfaces
     void DeleteCustomer(int id);
 
     IList<DbCustomer> GetCustomerList();
-
+    
     DbCustomer GetCustomerById(int id);
+    DbCustomer GetCustomerByCarId(int carId);
 
     DbCustomer UpsertCustomer(DbCustomer customer);
   }

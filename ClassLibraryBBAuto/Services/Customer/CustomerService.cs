@@ -45,5 +45,12 @@ namespace BBAuto.Domain.Services.Customer
 
       return Mapper.Map<CustomerModel>(dbModel);
     }
+
+    public CustomerModel GetCustomerByCarId(int carId)
+    {
+      var dbModel = _dbContext.Customer.GetCustomerByCarId(carId);
+
+      return Mapper.Map<CustomerModel>(dbModel);
+    }
   }
 }
