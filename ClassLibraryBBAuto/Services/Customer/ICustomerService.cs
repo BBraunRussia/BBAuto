@@ -4,10 +4,10 @@ namespace BBAuto.Domain.Services.Customer
 {
   public interface ICustomerService
   {
-    IList<Customer> GetCustomerList();
+    IList<CustomerModel> GetCustomerList();
 
-    Customer SaveCustomer(Customer customer);
+    CustomerModel SaveCustomer(CustomerModel customer);
     void DeleteCustomer(int id);
-    Customer GetCustomerById(int id);
+    CustomerModel GetCustomerById(int id);
   }
 }

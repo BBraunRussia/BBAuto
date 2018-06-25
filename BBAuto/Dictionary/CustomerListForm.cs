@@ -29,16 +29,16 @@ namespace BBAuto.Dictionary
     private void LoadData()
     {
       _dgv.DataSource = _customerService.GetCustomerList();
-      _dgv.Columns[nameof(Customer.Id)].Visible = false;
-      _dgv.Columns[nameof(Customer.PassportNumber)].Visible = false;
-      _dgv.Columns[nameof(Customer.PassportGiveDate)].Visible = false;
-      _dgv.Columns[nameof(Customer.PassportGiveOrg)].Visible = false;
-      _dgv.Columns[nameof(Customer.Address)].Visible = false;
+      _dgv.Columns[nameof(CustomerModel.Id)].Visible = false;
+      _dgv.Columns[nameof(CustomerModel.PassportNumber)].Visible = false;
+      _dgv.Columns[nameof(CustomerModel.PassportGiveDate)].Visible = false;
+      _dgv.Columns[nameof(CustomerModel.PassportGiveOrg)].Visible = false;
+      _dgv.Columns[nameof(CustomerModel.Address)].Visible = false;
 
-      _dgv.Columns[nameof(Customer.LastName)].HeaderText = "Фамилия";
-      _dgv.Columns[nameof(Customer.FirstName)].HeaderText = "Имя";
-      _dgv.Columns[nameof(Customer.SecondName)].HeaderText = "Отчество";
-      _dgv.Columns[nameof(Customer.Inn)].HeaderText = "ИНН";
+      _dgv.Columns[nameof(CustomerModel.LastName)].HeaderText = "Фамилия";
+      _dgv.Columns[nameof(CustomerModel.FirstName)].HeaderText = "Имя";
+      _dgv.Columns[nameof(CustomerModel.SecondName)].HeaderText = "Отчество";
+      _dgv.Columns[nameof(CustomerModel.Inn)].HeaderText = "ИНН";
     }
 
     private void btnAdd_Click(object sender, EventArgs e)

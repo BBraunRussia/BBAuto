@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using AutoMapper;
 using BBAuto.Repository;
 using BBAuto.Repository.Models;
@@ -16,20 +15,20 @@ namespace BBAuto.Domain.Services.Customer
       _dbContext = new DbContext();
     }
 
-    public IList<Customer> GetCustomerList()
+    public IList<CustomerModel> GetCustomerList()
     {
       var list = _dbContext.Customer.GetCustomerList();
 
-      return Mapper.Map<IList<Customer>>(list);
+      return Mapper.Map<IList<CustomerModel>>(list);
     }
 
-    public Customer SaveCustomer(Customer customer)
+    public CustomerModel SaveCustomer(CustomerModel customer)
     {
       var dbModel = Mapper.Map<DbCustomer>(customer);
 
       var result = _dbContext.Customer.UpsertCustomer(dbModel);
 
-      return Mapper.Map<Customer>(result);
+      return Mapper.Map<CustomerModel>(result);
     }
 
     public void DeleteCustomer(int id)
@@ -40,11 +39,11 @@ namespace BBAuto.Domain.Services.Customer
       _dbContext.Customer.DeleteCustomer(id);
     }
 
-    public Customer GetCustomerById(int id)
+    public CustomerModel GetCustomerById(int id)
     {
       var dbModel = _dbContext.Customer.GetCustomerById(id);
 
-      return Mapper.Map<Customer>(dbModel);
+      return Mapper.Map<CustomerModel>(dbModel);
     }
   }
 }

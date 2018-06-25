@@ -7,7 +7,7 @@ namespace BBAuto.AddEdit
   public partial class CustomerForm : Form
   {
     private readonly ICustomerService _customerService;
-    private readonly Customer _customer;
+    private readonly CustomerModel _customer;
 
     private WorkWithForm _workWithForm;
 
@@ -17,7 +17,7 @@ namespace BBAuto.AddEdit
 
       _customerService = customerService;
       _customer = id == 0
-        ? new Customer()
+        ? new CustomerModel()
         : _customerService.GetCustomerById(id);
     }
 

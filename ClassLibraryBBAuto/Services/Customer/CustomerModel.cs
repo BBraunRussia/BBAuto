@@ -2,7 +2,7 @@ using System;
 
 namespace BBAuto.Domain.Services.Customer
 {
-  public class Customer
+  public class CustomerModel
   {
     public int Id { get; set; }
     public string FirstName { get; set; }

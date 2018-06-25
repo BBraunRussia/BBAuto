@@ -35,8 +35,8 @@ namespace BBAuto.AddEdit
       tbComm.Text = _carSale.Comment;
 
       cbCustomer.DataSource = _customerService.GetCustomerList();
-      cbCustomer.ValueMember = nameof(Customer.Id);
-      cbCustomer.DisplayMember = nameof(Customer.FullName);
+      cbCustomer.ValueMember = nameof(CustomerModel.Id);
+      cbCustomer.DisplayMember = nameof(CustomerModel.FullName);
 
       cbCustomer.SelectedItem = _carSale.CustomerId;
     }
@@ -54,7 +54,7 @@ namespace BBAuto.AddEdit
 
       _carSale.Comment = tbComm.Text;
 
-      var customer = cbCustomer.SelectedItem as Customer;
+      var customer = cbCustomer.SelectedItem as CustomerModel;
       if (customer != null)
         _carSale.CustomerId = customer.Id;
 

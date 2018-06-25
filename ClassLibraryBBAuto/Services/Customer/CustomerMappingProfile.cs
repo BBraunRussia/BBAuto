@@ -7,7 +7,7 @@ namespace BBAuto.Domain.Services.Customer
   {
     public CustomerMappingProfile()
     {
-      CreateMap<DbCustomer, Customer>().ReverseMap();
+      CreateMap<DbCustomer, CustomerModel>().ReverseMap();
     }
   }
 }

@@ -94,7 +94,7 @@
     <Compile Include="Services\Comp\CompMappingProfile.cs" />
     <Compile Include="Services\Comp\CompService.cs" />
     <Compile Include="Services\Comp\ICompService.cs" />
-    <Compile Include="Services\Customer\Customer.cs" />
+    <Compile Include="Services\Customer\CustomerModel.cs" />
     <Compile Include="Services\Customer\CustomerMappingProfile.cs" />
     <Compile Include="Services\Customer\CustomerService.cs" />
     <Compile Include="Lists\MileageMonthList.cs" />
