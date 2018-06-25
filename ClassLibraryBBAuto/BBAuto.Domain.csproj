@@ -102,6 +102,14 @@
     <Compile Include="Senders\AccountSender.cs" />
     <Compile Include="Import\MileageMonthFromExcelFile.cs" />
     <Compile Include="Services\Customer\ICustomerService.cs" />
+    <Compile Include="Services\Document\ExcelDoc.cs" />
+    <Compile Include="Services\Document\IDocument.cs" />
+    <Compile Include="Services\Document\IDocumentService.cs" />
+    <Compile Include="Services\Document\IExcelDoc.cs" />
+    <Compile Include="Services\Document\IExcelDocumentService.cs" />
+    <Compile Include="Services\Document\IWordDocumentService.cs" />
+    <Compile Include="Services\Document\WordDoc.cs" />
+    <Compile Include="Services\Document\WordDocumentService.cs" />
     <Compile Include="Static\MyExtension.cs" />
     <Compile Include="ForCar\CarInfo.cs" />
     <Compile Include="ForDriver\FuelCard.cs" />
@@ -146,9 +154,9 @@
     <Compile Include="ForCar\SsDTP.cs" />
     <Compile Include="ForDriver\UserAccess.cs" />
     <Compile Include="Lists\CarDocList.cs" />
-    <Compile Include="Common\CreateDocument.cs" />
+    <Compile Include="Services\Document\ExcelDocumentService.cs" />
     <Compile Include="Common\MyDateTime.cs" />
-    <Compile Include="Common\OfficeDoc.cs" />
+    <Compile Include="Services\Document\OfficeDoc.cs" />
     <Compile Include="Common\Template.cs" />
     <Compile Include="Dictionary\Colors.cs" />
     <Compile Include="Dictionary\Culprits.cs" />
