@@ -1,4 +1,5 @@
 using System;
+using BBAuto.Domain.Common;
 
 namespace BBAuto.Domain.Services.Customer
 {
@@ -15,5 +16,7 @@ namespace BBAuto.Domain.Services.Customer
     public string Inn { get; set; }
 
     public string FullName => $"{LastName} {FirstName} {SecondName}";
+
+    public string ShortName => NameHelper.GetNameShort(FullName);
   }
 }

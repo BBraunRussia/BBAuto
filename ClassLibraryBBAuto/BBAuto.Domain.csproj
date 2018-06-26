@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\MileageMonth.cs" />
+    <Compile Include="Common\NameHelper.cs" />
     <Compile Include="DataBase\Provider.cs" />
     <Compile Include="Entities\Car.cs" />
     <Compile Include="Abstract\IExcelImporter.cs" />

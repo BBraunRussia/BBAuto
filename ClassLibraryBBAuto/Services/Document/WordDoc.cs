@@ -1,4 +1,5 @@
 using System;
+using BBAuto.Domain.Common;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace BBAuto.Domain.Services.Document
@@ -17,7 +18,10 @@ namespace BBAuto.Domain.Services.Document
     private void Init()
     {
       _wordApp = new Word.Application();
-      _wordDoc = _wordApp.Documents.Open(Name);
+
+      var fullPath = WorkWithFiles.GetFullPath(Name);
+
+      _wordDoc = _wordApp.Documents.Open(fullPath);
     }
 
     public void Show()

@@ -1,4 +1,5 @@
 using System;
+using BBAuto.Domain.Common;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace BBAuto.Domain.Services.Document
@@ -32,8 +33,10 @@ namespace BBAuto.Domain.Services.Document
         DisplayAlerts = false,
         EnableEvents = false
       };
-      
-      xlWorkBook = xlApp.Workbooks.Open(Name, 0, true, 5, "", "", true,
+
+      var fullPath = WorkWithFiles.GetFullPath(Name);
+
+      xlWorkBook = xlApp.Workbooks.Open(fullPath, 0, true, 5, "", "", true,
         Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
       xlSh = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
     }

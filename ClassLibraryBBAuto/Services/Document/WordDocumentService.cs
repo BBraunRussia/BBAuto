@@ -7,6 +7,7 @@ using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
+using BBAuto.Domain.Services.CarSale;
 using BBAuto.Domain.Services.Customer;
 using BBAuto.Domain.Static;
 
@@ -16,7 +17,8 @@ namespace BBAuto.Domain.Services.Document
   {
     private const string ProxyOnSto = "Доверенность на предоставление интересов на СТО";
     private const string ActFuelCard = "Акт передачи топливной карты";
-    private const string ContractOfSale = "Договор купли продажи ТС";
+    private const string ContractOfSale = "Договор купли-продажи ТС";
+    private const string TransferAct = "Акт приема-передачи ТС";
 
     /*
     public void ShowProxyOnSTO(Car car, Invoice invoice)
@@ -159,9 +161,19 @@ namespace BBAuto.Domain.Services.Document
       return doc;
     }
 
+    public IDocument CreateTransferAct(Car car)
+    {
+      return CreateDocumentForSale(ContractOfSale, car);
+    }
+
     public IDocument CreateContractOfSale(Car car)
     {
-      var doc = OpenDocumentWord(ContractOfSale);
+      return CreateDocumentForSale(TransferAct, car);
+    }
+
+    private static IDocument CreateDocumentForSale(string templateName, Car car)
+    {
+      var doc = OpenDocumentWord(templateName);
       if (doc == null)
         return null;
 
@@ -172,17 +184,31 @@ namespace BBAuto.Domain.Services.Document
       {
         MessageBox.Show("Покупатель не назначен для данного автомобиля", "Ошибка", MessageBoxButtons.OK,
           MessageBoxIcon.Error);
+        doc.Dispose();
         return null;
       }
-      
-      var myDate = new MyDateTime(DateTime.Today.ToShortDateString());
-      doc.SetValue("текущая дата", myDate.ToLongString());
-      
+
+      ICarSaleService carSaleService = new CarSaleService();
+      var carSale = carSaleService.GetCarSaleByCarId(car.ID);
+
+      if (!carSale.Date.HasValue)
+      {
+        MessageBox.Show("Дата продажи не установлена для данного автомобиля", "Ошибка", MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+        doc.Dispose();
+        return null;
+      }
+
+      var myDate = new MyDateTime(carSale.Date.Value.ToShortDateString());
+      doc.SetValue("дата продажи", myDate.ToLongString());
+
       doc.SetValue("ФИО покупателя", customer.FullName);
+      doc.SetValue("Ф ИО покупателя", customer.ShortName);
 
       var passportToString = $"{customer.PassportNumber} выдан {customer.PassportGiveDate.ToShortDateString()} {customer.PassportGiveOrg} Адрес: {customer.Address}";
 
       doc.SetValue("паспорт покупателя", passportToString);
+      doc.SetValue("Инн покупателя", customer.Inn);
 
       var fullNameAuto = $"{car.Mark.Name} {car.info.Model}";
       doc.SetValue("Название марки автомобиля", fullNameAuto);
@@ -192,7 +218,7 @@ namespace BBAuto.Domain.Services.Document
       doc.SetValue("Объем двигателя автомобиля", car.info.Grade.EVol);
       doc.SetValue("Цвет автомобиля", car.info.Color);
       doc.SetValue("Номер кузова автомобиля", car.bodyNumber);
-      
+
       var ptsList = PTSList.getInstance();
       var pts = ptsList.getItem(car);
       var ptsName = $"{pts.Number} выдан {pts.Date.ToShortDateString()} {pts.GiveOrg}";
@@ -204,7 +230,7 @@ namespace BBAuto.Domain.Services.Document
       doc.SetValue("СТС автомобиля", stsName);
 
       doc.SetValue("ГРЗ автомобиля", car.Grz);
-      
+
       return doc;
     }
 

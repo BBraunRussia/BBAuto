@@ -30,7 +30,7 @@ namespace BBAuto.Domain.Common
     private static string runCopy(string file, string folderName, string newFileName)
     {
       var localPath = getDistPath(file, folderName, newFileName);
-      var distPath = CurrentDirectory + localPath;
+      var distPath = GetFullPath(localPath);
 
       if (!Directory.Exists(Path.GetDirectoryName(distPath)))
         Directory.CreateDirectory(Path.GetDirectoryName(distPath));
@@ -74,7 +74,7 @@ namespace BBAuto.Domain.Common
 
     public static void openFile(string file)
     {
-      var filePath = CurrentDirectory + file;
+      var filePath = GetFullPath(file);
 
       try
       {
@@ -85,6 +85,11 @@ namespace BBAuto.Domain.Common
       {
         MessageBox.Show($"{e.Message}. Файл {filePath}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
+    }
+
+    public static string GetFullPath(string localPath)
+    {
+      return CurrentDirectory + localPath;
     }
   }
 }

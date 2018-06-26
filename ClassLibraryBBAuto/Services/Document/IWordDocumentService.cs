@@ -7,6 +7,8 @@ namespace BBAuto.Domain.Services.Document
   {
     IDocument CreateProxyOnSto(Car car, Invoice invoice);
     IDocument CreateActFuelCard(Car car, Invoice invoice);
+
     IDocument CreateContractOfSale(Car car);
+    IDocument CreateTransferAct(Car car);
   }
 }
