@@ -200,10 +200,11 @@ namespace BBAuto
         WorkWithFiles.openFile(sts.File);
       else
       {
-        Car_Sale carSaleForm = new Car_Sale(car.ID);
+        CarSaleForm carSaleForm = new CarSaleForm(car.ID);
         if (carSaleForm.ShowDialog() == DialogResult.OK)
         {
-          loadCars();
+          _dgvCar.Refresh();
+          //loadCars();
         }
       }
     }

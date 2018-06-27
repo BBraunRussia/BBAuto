@@ -59,7 +59,7 @@ namespace BBAuto.Domain.Static
 
         MileageFill, FuelLoad,
 
-        CustomerList, ShowContractOfSale
+        CustomerList, ShowContractOfSale, ShowTransferCarAct
     }
 
     public enum Fields { All = 1, Some = 2 }

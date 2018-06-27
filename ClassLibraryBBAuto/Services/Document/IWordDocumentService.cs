@@ -9,6 +9,6 @@ namespace BBAuto.Domain.Services.Document
     IDocument CreateActFuelCard(Car car, Invoice invoice);
 
     IDocument CreateContractOfSale(Car car);
-    IDocument CreateTransferAct(Car car);
+    IDocument CreateTransferCarAct(Car car);
   }
 }

@@ -177,6 +177,8 @@ namespace BBAuto.ContextMenu
           return ShowCustomerList();
         case ContextMenuItem.ShowContractOfSale:
           return ShowContractOfSale();
+        case ContextMenuItem.ShowTransferCarAct:
+          return ShowTransferCarAct();
         default:
           throw new NotImplementedException();
       }
@@ -1298,6 +1300,21 @@ namespace BBAuto.ContextMenu
         
         IWordDocumentService wordDocumentService = new WordDocumentService();
         var doc = wordDocumentService.CreateContractOfSale(car);
+
+        doc?.Show();
+      };
+      return item;
+    }
+
+    private ToolStripMenuItem ShowTransferCarAct()
+    {
+      var item = CreateItem("Акт приёма-передачи ТС");
+      item.Click += delegate
+      {
+        var car = GetCar(_dgvMain.CurrentCell);
+
+        IWordDocumentService wordDocumentService = new WordDocumentService();
+        var doc = wordDocumentService.CreateTransferCarAct(car);
 
         doc?.Show();
       };

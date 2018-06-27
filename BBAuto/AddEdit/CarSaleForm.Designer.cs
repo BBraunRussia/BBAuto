@@ -1,6 +1,6 @@
 namespace BBAuto.AddEdit
 {
-    partial class Car_Sale
+    partial class CarSaleForm
     {
         /// <summary>
         /// Required designer variable.
@@ -106,6 +106,7 @@ namespace BBAuto.AddEdit
       // 
       // cbCustomer
       // 
+      this.cbCustomer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbCustomer.FormattingEnabled = true;
       this.cbCustomer.Location = new System.Drawing.Point(16, 25);
       this.cbCustomer.Name = "cbCustomer";

@@ -18,7 +18,7 @@ namespace BBAuto.Domain.Services.Document
     private const string ProxyOnSto = "Доверенность на предоставление интересов на СТО";
     private const string ActFuelCard = "Акт передачи топливной карты";
     private const string ContractOfSale = "Договор купли-продажи ТС";
-    private const string TransferAct = "Акт приема-передачи ТС";
+    private const string TransferCarAct = "Акт приема-передачи ТС";
 
     /*
     public void ShowProxyOnSTO(Car car, Invoice invoice)
@@ -161,16 +161,16 @@ namespace BBAuto.Domain.Services.Document
       return doc;
     }
 
-    public IDocument CreateTransferAct(Car car)
+    public IDocument CreateContractOfSale(Car car)
     {
       return CreateDocumentForSale(ContractOfSale, car);
     }
 
-    public IDocument CreateContractOfSale(Car car)
+    public IDocument CreateTransferCarAct(Car car)
     {
-      return CreateDocumentForSale(TransferAct, car);
+      return CreateDocumentForSale(TransferCarAct, car);
     }
-
+    
     private static IDocument CreateDocumentForSale(string templateName, Car car)
     {
       var doc = OpenDocumentWord(templateName);

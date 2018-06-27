@@ -5,13 +5,13 @@ using BBAuto.Domain.Services.Customer;
 
 namespace BBAuto.AddEdit
 {
-  public partial class Car_Sale : Form
+  public partial class CarSaleForm : Form
   {
     private readonly CarSale _carSale;
     private readonly ICarSaleService _carSaleService;
     private readonly ICustomerService _customerService;
 
-    public Car_Sale(int carId)
+    public CarSaleForm(int carId)
     {
       InitializeComponent();
 
