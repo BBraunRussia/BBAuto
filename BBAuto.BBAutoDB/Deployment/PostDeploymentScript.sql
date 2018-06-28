@@ -26,6 +26,7 @@ update PTS set PTS_file = replace(PTS_file, '\\bbmru08.bbmag.bbraun.com\programs
 update Repair set Repair_file = replace(Repair_file, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
 update ShipPart set ShipPart_file = replace(ShipPart_file, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
 update STS set STS_file = replace(STS_file, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
+update Template set Template_path = replace(Template_path, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
 update Violation set Violation_file = replace(Violation_file, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
 update Violation set Violation_filePay = replace(Violation_filePay, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
 
