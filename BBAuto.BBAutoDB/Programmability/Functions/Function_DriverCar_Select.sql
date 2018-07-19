@@ -8,8 +8,8 @@ AS
 	FROM
 		(select car_id, driver_id_To, invoice_dateMove,
 			(select min(invoice_dateMove) from Invoice i2 			
-				where i.car_id=i2.car_id and i.invoice_id < i2.invoice_id and
-					i.invoice_dateMove <= i2.invoice_dateMove and i.invoice_dateMove <= i2.invoice_dateMove
+				where i.car_id=i2.car_id and i.invoice_id <> i2.invoice_id and
+					i.invoice_dateMove <= i2.invoice_dateMove
 			) date2,
 			invoice_number
 		from Invoice i) tb

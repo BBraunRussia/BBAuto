@@ -5,10 +5,6 @@ using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace BBAuto.Domain.ForCar
 {
@@ -32,7 +28,7 @@ namespace BBAuto.Domain.ForCar
 
     public DateTime? DatePay
     {
-      get { return _datePay; }
+      get => _datePay;
       set
       {
         _datePay = value;
@@ -46,26 +42,26 @@ namespace BBAuto.Domain.ForCar
 
     public string Sum
     {
-      get { return _sum == 0 ? string.Empty : _sum.ToString(); }
-      set { int.TryParse(value, out _sum); }
+      get => _sum == 0 ? string.Empty : _sum.ToString();
+      set => int.TryParse(value, out _sum);
     }
 
     public string IDViolationType
     {
-      get { return _idViolationType.ToString(); }
-      set { int.TryParse(value, out _idViolationType); }
+      get => _idViolationType.ToString();
+      set => int.TryParse(value, out _idViolationType);
     }
 
     public bool Sent
     {
-      get { return Convert.ToBoolean(_sent); }
-      set { _sent = Convert.ToInt32(value); }
+      get => Convert.ToBoolean(_sent);
+      set => _sent = Convert.ToInt32(value);
     }
 
     public bool NoDeduction
     {
-      get { return Convert.ToBoolean(_noDeduction); }
-      set { _noDeduction = Convert.ToInt32(value); }
+      get => Convert.ToBoolean(_noDeduction);
+      set => _noDeduction = Convert.ToInt32(value);
     }
 
     public Car Car { get; private set; }
@@ -165,9 +161,9 @@ namespace BBAuto.Domain.ForCar
       ViolationTypes violationType = ViolationTypes.getInstance();
 
       InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(Car);
+      Invoice invoice = invoiceList.getItem(Car, Date);
       Regions regions = Regions.getInstance();
-      string regionName = (invoice == null)
+      string regionName = invoice == null
         ? regions.getItem(Convert.ToInt32(Car.regionUsingID))
         : regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
@@ -180,7 +176,7 @@ namespace BBAuto.Domain.ForCar
 
     internal object[] GetRowAccount()
     {
-      string btnName = (Agreed) ? string.Empty : "Согласовать";
+      var btnName = Agreed ? string.Empty : "Согласовать";
 
       return new object[]
       {

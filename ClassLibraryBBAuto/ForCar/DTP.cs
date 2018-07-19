@@ -1,13 +1,10 @@
-﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace BBAuto.Domain.ForCar
 {
@@ -25,7 +22,7 @@ namespace BBAuto.Domain.ForCar
     public string Comm { get; set; }
     public string NumberLoss { get; set; }
 
-    public Car Car { get; private set; }
+    public Car Car { get; }
 
     public string IDStatusAfterDTP
     {
@@ -143,11 +140,7 @@ namespace BBAuto.Domain.ForCar
       Culprits culpritList = Culprits.getInstance();
       StatusAfterDTPs statusAfterDTP = StatusAfterDTPs.getInstance();
 
-      Driver driver = GetDriver();
-      if (driver == null)
-      {
-        driver = new Driver();
-      }
+      Driver driver = GetDriver() ?? new Driver();
 
       return new object[]
       {

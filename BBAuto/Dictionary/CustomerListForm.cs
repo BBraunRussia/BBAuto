@@ -67,6 +67,7 @@ namespace BBAuto.Dictionary
       try
       {
         _customerService.DeleteCustomer(id);
+        LoadData();
       }
       catch (NullReferenceException)
       {

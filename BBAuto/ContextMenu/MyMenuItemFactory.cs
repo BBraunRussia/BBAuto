@@ -740,8 +740,9 @@ namespace BBAuto.ContextMenu
       ToolStripMenuItem item = CreateItem("Сформировать таблицу страхования");
       item.Click += delegate
       {
-        ExcelDocumentService doc = new ExcelDocumentService();
-        doc.CreatePolicyTable();
+        var service = new ExcelDocumentService();
+        var document = service.CreatePolicyTable();
+        document.Show();
       };
       return item;
     }

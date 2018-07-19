@@ -105,7 +105,7 @@ namespace BBAuto.FormsForCar.AddEdit
       }
       if (policyType == PolicyType.КАСКО)
       {
-        var twoPaymentCount = _compService.GetCompById(_policy.CompId).KaskoPaymentCount == 2;
+        var twoPaymentCount = _compService.GetCompById(((Comp)cbComp.SelectedItem).Id).KaskoPaymentCount == 2;
 
         lbLimitCost.Text = "Страховая стоимость, руб:";
         lbLimitCost.Visible = true;

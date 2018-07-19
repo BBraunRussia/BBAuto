@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Data;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.ForCar;
@@ -9,113 +8,123 @@ using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Lists
 {
-    public class InvoiceList : MainList
+  public class InvoiceList : MainList
+  {
+    private static InvoiceList _uniqueInstance;
+    private readonly List<Invoice> _list;
+
+    private InvoiceList()
     {
-        private static InvoiceList uniqueInstance;
-        private List<Invoice> list;
+      _list = new List<Invoice>();
 
-        private InvoiceList()
-        {
-            list = new List<Invoice>();
-
-            loadFromSql();
-        }
-
-        public static InvoiceList getInstance()
-        {
-            if (uniqueInstance == null)
-                uniqueInstance = new InvoiceList();
-
-            return uniqueInstance;
-        }
-
-        protected override void loadFromSql()
-        {
-            DataTable dt = _provider.Select("Invoice");
-
-            foreach (DataRow row in dt.Rows)
-            {
-                Invoice invoice = new Invoice(row);
-                Add(invoice);
-            }
-        }
-
-        public void Add(Invoice invoice)
-        {
-            if (list.Exists(item => item == invoice))
-                return;
-
-            list.Add(invoice);
-        }
-
-        public Invoice getItem(int id)
-        {
-            return list.FirstOrDefault(i => i.ID == id);
-        }
-
-        public Invoice getItem(Car car)
-        {
-            var invoices = from invoice in list
-                           where invoice.Car.ID == car.ID && invoice.DateMove != string.Empty
-                           orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
-                           select invoice;
-
-            return invoices.FirstOrDefault();
-        }
-
-        public DataTable ToDataTable()
-        {
-            var invoices = from invoice in list
-                           orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
-                           select invoice;
-
-            return createTable(invoices.ToList());
-        }
-
-        public DataTable ToDataTable(Car car)
-        {
-            var invoices = from invoice in list
-                           where invoice.Car.ID == car.ID
-                           orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
-                           select invoice;
-
-            return createTable(invoices.ToList());
-        }
-
-        private DataTable createTable(List<Invoice> invoices)
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("id");
-            dt.Columns.Add("idCar");
-            dt.Columns.Add("Бортовой номер");
-            dt.Columns.Add("Регистрационный знак");
-            dt.Columns.Add("№ накладной", Type.GetType("System.Int32"));
-            dt.Columns.Add("Откуда");
-            dt.Columns.Add("Сдал");
-            dt.Columns.Add("Куда");
-            dt.Columns.Add("Принял");
-            dt.Columns.Add("Дата накладной", Type.GetType("System.DateTime"));
-            dt.Columns.Add("Дата передачи", Type.GetType("System.DateTime"));
-
-            foreach (Invoice invoice in invoices)
-                dt.Rows.Add(invoice.getRow());
-
-            return dt;
-        }
-
-        public void Delete(int idInvoice)
-        {
-            Invoice invoice = getItem(idInvoice);
-
-            list.Remove(invoice);
-            invoice.Delete();
-        }
-
-        internal int GetNextNumber()
-        {
-            var invoices = list.Where(item => item.Date.Year == DateTime.Today.Year).OrderByDescending(item => Convert.ToInt32(item.Number));
-
-            return (invoices.Count() == 0) ? 1 : Convert.ToInt32(invoices.First().Number) + 1;
-        }
+      loadFromSql();
     }
+
+    public static InvoiceList getInstance()
+    {
+      if (_uniqueInstance == null)
+        _uniqueInstance = new InvoiceList();
+
+      return _uniqueInstance;
+    }
+
+    protected override void loadFromSql()
+    {
+      var dt = _provider.Select("Invoice");
+
+      foreach (DataRow row in dt.Rows)
+      {
+        Invoice invoice = new Invoice(row);
+        Add(invoice);
+      }
+    }
+
+    public void Add(Invoice invoice)
+    {
+      if (_list.Exists(item => item == invoice))
+        return;
+
+      _list.Add(invoice);
+    }
+
+    public Invoice getItem(int id)
+    {
+      return _list.FirstOrDefault(i => i.ID == id);
+    }
+
+    public Invoice getItem(Car car)
+    {
+      var invoices = from invoice in _list
+        where invoice.Car.ID == car.ID && invoice.DateMove != string.Empty
+        orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
+        select invoice;
+
+      return invoices.FirstOrDefault();
+    }
+
+    public Invoice getItem(Car car, DateTime date)
+    {
+      return (from invoice in _list
+          where invoice.Car.ID == car.ID && invoice.DateMove != string.Empty && Convert.ToDateTime(invoice.DateMove) <= date
+          orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
+          select invoice)
+        .FirstOrDefault();
+    }
+
+    public DataTable ToDataTable()
+    {
+      var invoices = from invoice in _list
+        orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
+        select invoice;
+
+      return CreateTable(invoices.ToList());
+    }
+
+    public DataTable ToDataTable(Car car)
+    {
+      var invoices = from invoice in _list
+        where invoice.Car.ID == car.ID
+        orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
+        select invoice;
+
+      return CreateTable(invoices.ToList());
+    }
+
+    private static DataTable CreateTable(IEnumerable<Invoice> invoices)
+    {
+      var dt = new DataTable();
+      dt.Columns.Add("id");
+      dt.Columns.Add("idCar");
+      dt.Columns.Add("Бортовой номер");
+      dt.Columns.Add("Регистрационный знак");
+      dt.Columns.Add("№ накладной", typeof(int));
+      dt.Columns.Add("Откуда");
+      dt.Columns.Add("Сдал");
+      dt.Columns.Add("Куда");
+      dt.Columns.Add("Принял");
+      dt.Columns.Add("Дата накладной", typeof(DateTime));
+      dt.Columns.Add("Дата передачи", typeof(DateTime));
+
+      foreach (var invoice in invoices)
+        dt.Rows.Add(invoice.getRow());
+
+      return dt;
+    }
+
+    public void Delete(int idInvoice)
+    {
+      var invoice = getItem(idInvoice);
+
+      _list.Remove(invoice);
+      invoice.Delete();
+    }
+
+    internal int GetNextNumber()
+    {
+      var invoice = _list.Where(item => item.Date.Year == DateTime.Today.Year)
+        .OrderByDescending(item => Convert.ToInt32(item.Number)).FirstOrDefault();
+
+      return invoice == null ? 1 : Convert.ToInt32(invoice.Number) + 1;
+    }
+  }
 }
