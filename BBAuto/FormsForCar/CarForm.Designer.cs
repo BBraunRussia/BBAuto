@@ -110,6 +110,8 @@ namespace BBAuto
       this.btnAddInvoice = new System.Windows.Forms.Button();
       this._dgvInvoice = new System.Windows.Forms.DataGridView();
       this.tabPolicy = new System.Windows.Forms.TabPage();
+      this.btnExtraTermination = new System.Windows.Forms.Button();
+      this.btnTermination = new System.Windows.Forms.Button();
       this.btnDeletePolicy = new System.Windows.Forms.Button();
       this.btnAddInsurance = new System.Windows.Forms.Button();
       this._dgvPolicy = new System.Windows.Forms.DataGridView();
@@ -150,8 +152,6 @@ namespace BBAuto
       this.dgvShipPart = new System.Windows.Forms.DataGridView();
       this.ucFileSTS = new BBAuto.Domain.FileOpenTextBox();
       this.ucFilePTS = new BBAuto.Domain.FileOpenTextBox();
-      this.btnTermination = new System.Windows.Forms.Button();
-      this.btnExtraTermination = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.dgvCarInfo)).BeginInit();
       this.copyMenu.SuspendLayout();
       this.groupBox2.SuspendLayout();
@@ -1020,6 +1020,26 @@ namespace BBAuto
       this.tabPolicy.Text = "Страховки";
       this.tabPolicy.UseVisualStyleBackColor = true;
       // 
+      // btnExtraTermination
+      // 
+      this.btnExtraTermination.Location = new System.Drawing.Point(394, 7);
+      this.btnExtraTermination.Name = "btnExtraTermination";
+      this.btnExtraTermination.Size = new System.Drawing.Size(123, 23);
+      this.btnExtraTermination.TabIndex = 8;
+      this.btnExtraTermination.Text = "Доп. к расторжению";
+      this.btnExtraTermination.UseVisualStyleBackColor = true;
+      this.btnExtraTermination.Click += new System.EventHandler(this.btnExtraTermination_Click);
+      // 
+      // btnTermination
+      // 
+      this.btnTermination.Location = new System.Drawing.Point(265, 7);
+      this.btnTermination.Name = "btnTermination";
+      this.btnTermination.Size = new System.Drawing.Size(123, 23);
+      this.btnTermination.TabIndex = 7;
+      this.btnTermination.Text = "Расторжение";
+      this.btnTermination.UseVisualStyleBackColor = true;
+      this.btnTermination.Click += new System.EventHandler(this.btnTermination_Click);
+      // 
       // btnDeletePolicy
       // 
       this.btnDeletePolicy.Location = new System.Drawing.Point(136, 7);
@@ -1500,25 +1520,7 @@ namespace BBAuto
       this.ucFilePTS.Size = new System.Drawing.Size(239, 23);
       this.ucFilePTS.TabIndex = 56;
       // 
-      // btnTermination
-      // 
-      this.btnTermination.Location = new System.Drawing.Point(265, 7);
-      this.btnTermination.Name = "btnTermination";
-      this.btnTermination.Size = new System.Drawing.Size(123, 23);
-      this.btnTermination.TabIndex = 7;
-      this.btnTermination.Text = "Расторжение";
-      this.btnTermination.UseVisualStyleBackColor = true;
-      // 
-      // btnExtraTermination
-      // 
-      this.btnExtraTermination.Location = new System.Drawing.Point(394, 7);
-      this.btnExtraTermination.Name = "btnExtraTermination";
-      this.btnExtraTermination.Size = new System.Drawing.Size(123, 23);
-      this.btnExtraTermination.TabIndex = 8;
-      this.btnExtraTermination.Text = "Доп. к расторжению";
-      this.btnExtraTermination.UseVisualStyleBackColor = true;
-      // 
-      // Car_AddEdit
+      // CarForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

@@ -554,14 +554,14 @@ namespace BBAuto
     private void btnAddInsurance_Click(object sender, EventArgs e)
     {
       PolicyForm pAE = new PolicyForm(_car.CreatePolicy());
-      if (pAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (pAE.ShowDialog() == DialogResult.OK)
         loadPolicy();
     }
 
     private void btnDeletePolicy_Click(object sender, EventArgs e)
     {
       if (MessageBox.Show("Удалить полис?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          System.Windows.Forms.DialogResult.Yes)
+          DialogResult.Yes)
       {
         int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value);
 
@@ -573,20 +573,20 @@ namespace BBAuto
 
     private void _dgvPolicy_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[e.RowIndex].Cells[0].Value);
+      if (!int.TryParse(_dgvPolicy.Rows[e.RowIndex].Cells[0].Value.ToString(), out int policyId))
+        return;
 
-      Policy policy = policyList.getItem(idPolicy);
+      var policy = policyList.getItem(policyId);
 
-      if ((e.ColumnIndex == 4) && (policy.File != string.Empty))
+      if (e.ColumnIndex == 4 && !string.IsNullOrEmpty(policy.File))
       {
         WorkWithFiles.openFile(policy.File);
       }
       else
       {
-        PolicyForm pAE = new PolicyForm(policy);
-        pAE.ShowDialog();
-
-        loadPolicy();
+        var policyForm = new PolicyForm(policy);
+        if (policyForm.ShowDialog() == DialogResult.OK)
+          loadPolicy();
       }
     }
 
@@ -1067,16 +1067,7 @@ namespace BBAuto
         MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
-
-    private void pic_Click(object sender, EventArgs e)
-    {
-      PictureBox pic = sender as PictureBox;
-      if ((pic.Name == "picPTS") && (!string.IsNullOrEmpty(pts.File)))
-        WorkWithFiles.openFile(pts.File);
-      else if ((pic.Name == "picSTS") && (!string.IsNullOrEmpty(sts.File)))
-        WorkWithFiles.openFile(sts.File);
-    }
-
+    
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
       Driver driver = driverCarList.GetDriver(_car);
@@ -1160,6 +1151,30 @@ namespace BBAuto
 
         dgvCarInfo.DataSource = dt;
       }
+    }
+
+    private void btnTermination_Click(object sender, EventArgs e)
+    {
+      if (!int.TryParse(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int policyId))
+        return;
+
+      var policy = PolicyList.getInstance().getItem(policyId);
+
+      IWordDocumentService wordDocumentService = new WordDocumentService();
+      var documnent = wordDocumentService.CreateTermination(policy);
+      documnent.Print();
+    }
+
+    private void btnExtraTermination_Click(object sender, EventArgs e)
+    {
+      if (!int.TryParse(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int policyId))
+        return;
+
+      var policy = PolicyList.getInstance().getItem(policyId);
+
+      IWordDocumentService wordDocumentService = new WordDocumentService();
+      var documnent = wordDocumentService.CreateExtraTermination(policy);
+      documnent.Print();
     }
   }
 }

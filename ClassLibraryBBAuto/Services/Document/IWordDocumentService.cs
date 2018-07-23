@@ -10,5 +10,7 @@ namespace BBAuto.Domain.Services.Document
 
     IDocument CreateContractOfSale(Car car);
     IDocument CreateTransferCarAct(Car car);
+    IDocument CreateTermination(Policy policy);
+    IDocument CreateExtraTermination(Policy policy);
   }
 }

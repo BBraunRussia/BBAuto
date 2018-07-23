@@ -19,28 +19,11 @@ namespace BBAuto.Domain.Services.Document
     private const string ActFuelCard = "Акт передачи топливной карты";
     private const string ContractOfSale = "Договор купли-продажи ТС";
     private const string TransferCarAct = "Акт приема-передачи ТС";
-
-    /*
-    public void ShowProxyOnSTO(Car car, Invoice invoice)
-    {
-      WordDoc wordDoc = CreateProxyOnSTO();
-
-      wordDoc.Show();
-    }*/
-    /*
-    public void PrintProxyOnSTO(Car car, Invoice invoice)
-    {
-      WordDoc wordDoc = CreateProxyOnSTO();
-
-      wordDoc.SetValue("до 31 декабря 2017 года", "до 31 декабря 2018 года");
-
-      MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
-      wordDoc.SetValue(myDate.ToLongString(), "01 января 2018");
-
-      //wordDoc.Show();
-      wordDoc.Print();
-    }*/
-
+    private const string TerminationOsago = "Заявление о расторжении ОСАГО";
+    private const string TerminationKasko = "Заявление о расторжении КАСКО";
+    private const string ExtraTerminationOsago = "Доп. cоглашение о расторжении ОСАГО";
+    private const string ExtraTerminationKasko = "Доп. cоглашение о расторжении КАСКО";
+    
     public IDocument CreateProxyOnSto(Car car, Invoice invoice)
     {
       var doc = OpenDocumentWord(ProxyOnSto);
@@ -62,13 +45,13 @@ namespace BBAuto.Domain.Services.Document
 
       doc.SetValue("ФИО регионального представителя", fio);
 
-      PassportList passportList = PassportList.getInstance();
+      var passportList = PassportList.getInstance();
 
       Passport passport = null;
       if (driver != null)
         passport = passportList.getLastPassport(driver);
 
-      string passportToString = "нет данных";
+      var passportToString = "нет данных";
 
       if (passport != null)
         passportToString = string.Concat(passport.Number, ", выдан ", passport.GiveDate.ToShortDateString(), ", ",
@@ -76,7 +59,7 @@ namespace BBAuto.Domain.Services.Document
 
       doc.SetValue("паспорт регионального представителя", passportToString);
 
-      string fullNameAuto = string.Concat(car.Mark.Name, " ", car.info.Model);
+      var fullNameAuto = string.Concat(car.Mark.Name, " ", car.info.Model);
       doc.SetValue("Название марки автомобиля", fullNameAuto);
       doc.SetValue("VIN-автомобиля", car.vin);
       doc.SetValue("Модель и марка двигателя автомобиля", car.eNumber);
@@ -84,10 +67,10 @@ namespace BBAuto.Domain.Services.Document
       doc.SetValue("Год выпуска автомобиля", car.Year);
       doc.SetValue("Цвет автомобиля", car.info.Color);
 
-      PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(car);
+      var ptsList = PTSList.getInstance();
+      var pts = ptsList.getItem(car);
 
-      string ptsName = string.Concat(pts.Number, ", выдан ", pts.Date.ToShortDateString(), " ", pts.GiveOrg);
+      var ptsName = string.Concat(pts.Number, ", выдан ", pts.Date.ToShortDateString(), " ", pts.GiveOrg);
 
       doc.SetValue("ПТС автомобиля", ptsName);
       doc.SetValue("ГРЗ автомобиля", car.Grz);
@@ -102,7 +85,7 @@ namespace BBAuto.Domain.Services.Document
       if (doc == null)
         return null;
 
-      FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
+      var fuelCardDriverList = FuelCardDriverList.getInstance();
 
       int driverId;
       int regionId;
@@ -170,7 +153,45 @@ namespace BBAuto.Domain.Services.Document
     {
       return CreateDocumentForSale(TransferCarAct, car);
     }
-    
+
+    public IDocument CreateTermination(Policy policy)
+    {
+      if (policy.Type != PolicyType.ОСАГО && policy.Type != PolicyType.КАСКО)
+        return null;
+
+      var templateName = policy.Type == PolicyType.ОСАГО ? TerminationOsago : TerminationKasko;
+
+      return FillTermination(policy, templateName);
+    }
+
+    public IDocument CreateExtraTermination(Policy policy)
+    {
+      if (policy.Type != PolicyType.ОСАГО && policy.Type != PolicyType.КАСКО)
+        return null;
+
+      var templateName = policy.Type == PolicyType.ОСАГО ? ExtraTerminationOsago : ExtraTerminationKasko;
+
+      return FillTermination(policy, templateName);
+    }
+
+    private static IDocument FillTermination(Policy policy, string templateName)
+    {
+      var doc = OpenDocumentWord(templateName);
+      if (doc == null)
+        return null;
+
+      var model = ModelList.getInstance().getItem(Convert.ToInt32(policy.Car.ModelID));
+
+      doc.SetValue("Текущая дата", DateTime.Today.ToShortDateString());
+      doc.SetValue("Название марки автомобиля", $"{policy.Car.Mark.Name} {model.Name}");
+      doc.SetValue("ГРЗ автомобиля", policy.Car.Grz);
+      doc.SetValue("VIN-автомобиля", policy.Car.vin);
+      doc.SetValue("Номер полиса", policy.Number);
+      doc.SetValue("Дата начала действия полиса", policy.DateCreate.ToShortDateString());
+
+      return doc;
+    }
+
     private static IDocument CreateDocumentForSale(string templateName, Car car)
     {
       var doc = OpenDocumentWord(templateName);

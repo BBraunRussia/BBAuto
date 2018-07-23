@@ -33,10 +33,12 @@ namespace BBAuto.Domain.Common
       var distPath = GetFullPath(localPath);
 
       if (!Directory.Exists(Path.GetDirectoryName(distPath)))
-        Directory.CreateDirectory(Path.GetDirectoryName(distPath));
+        Directory.CreateDirectory(Path.GetDirectoryName(distPath) ?? "");
+
+      var fullFilePath = Path.IsPathRooted(file) ? file : GetFullPath(file);
 
       if (!File.Exists(distPath))
-        File.Copy(file, distPath, true);
+        File.Copy(fullFilePath, distPath, true);
 
       return localPath;
     }
