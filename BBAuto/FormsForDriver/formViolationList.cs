@@ -39,7 +39,7 @@ namespace BBAuto
         var carId = Convert.ToInt32(dgvViolation.Rows[dgvViolation.SelectedCells[0].RowIndex].Cells[1].Value);
         var car = CarList.GetInstance().getItem(carId);
 
-        var carForm = new Car_AddEdit(car);
+        var carForm = new CarForm(car);
         carForm.ShowDialog();
       }
     }

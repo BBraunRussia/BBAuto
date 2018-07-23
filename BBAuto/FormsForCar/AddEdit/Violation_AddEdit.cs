@@ -175,7 +175,7 @@ namespace BBAuto
 
     private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      Car_AddEdit carAE = new Car_AddEdit(_violation.Car);
+      CarForm carAE = new CarForm(_violation.Car);
       carAE.ShowDialog();
     }
   }

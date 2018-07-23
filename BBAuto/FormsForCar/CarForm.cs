@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
@@ -18,7 +13,7 @@ using BBAuto.FormsForCar.AddEdit;
 
 namespace BBAuto
 {
-  public partial class Car_AddEdit : Form
+  public partial class CarForm : Form
   {
     private System.Drawing.Point _curPosition;
     private Car _car;
@@ -40,7 +35,7 @@ namespace BBAuto
 
     private WorkWithForm _workWithForm;
 
-    public Car_AddEdit(Car car)
+    public CarForm(Car car)
     {
       InitializeComponent();
 

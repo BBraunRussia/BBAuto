@@ -284,11 +284,11 @@
     <Compile Include="FormsForCar\formCarInfo.Designer.cs">
       <DependentUpon>formCarInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForCar\Car_AddEdit.cs">
+    <Compile Include="FormsForCar\CarForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForCar\Car_AddEdit.Designer.cs">
-      <DependentUpon>Car_AddEdit.cs</DependentUpon>
+    <Compile Include="FormsForCar\CarForm.Designer.cs">
+      <DependentUpon>CarForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForCar\AddEdit\DTP_AddEdit.cs">
       <SubType>Form</SubType>
@@ -585,8 +585,8 @@
     <EmbeddedResource Include="FormsForCar\formCarInfo.resx">
       <DependentUpon>formCarInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForCar\Car_AddEdit.resx">
-      <DependentUpon>Car_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForCar\CarForm.resx">
+      <DependentUpon>CarForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForCar\AddEdit\DTP_AddEdit.resx">

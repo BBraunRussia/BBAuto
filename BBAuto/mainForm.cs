@@ -542,7 +542,7 @@ namespace BBAuto
 
     private void OpenCarAddEdit(Car car)
     {
-      Car_AddEdit carAE = new Car_AddEdit(car);
+      CarForm carAE = new CarForm(car);
       if (carAE.ShowDialog() == DialogResult.OK)
       {
         loadCars();

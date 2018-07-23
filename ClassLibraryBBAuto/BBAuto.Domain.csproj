@@ -105,7 +105,6 @@
     <Compile Include="Services\Customer\ICustomerService.cs" />
     <Compile Include="Services\Document\ExcelDoc.cs" />
     <Compile Include="Services\Document\IDocument.cs" />
-    <Compile Include="Services\Document\IDocumentService.cs" />
     <Compile Include="Services\Document\IExcelDoc.cs" />
     <Compile Include="Services\Document\IExcelDocumentService.cs" />
     <Compile Include="Services\Document\IWordDocumentService.cs" />

@@ -704,7 +704,7 @@ namespace BBAuto.ContextMenu
       ToolStripMenuItem item = CreateItem("Покупка автомобиля");
       item.Click += delegate
       {
-        Car_AddEdit aeCar = new Car_AddEdit(new Car());
+        CarForm aeCar = new CarForm(new Car());
         if (aeCar.ShowDialog() == DialogResult.OK)
           _mainStatus.Set(_mainStatus.Get());
       };

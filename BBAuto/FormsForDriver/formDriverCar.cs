@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
@@ -34,7 +34,7 @@ namespace BBAuto
         var carId = Convert.ToInt32(dgvDriverCar.Rows[dgvDriverCar.SelectedCells[0].RowIndex].Cells[1].Value);
         var car = CarList.GetInstance().getItem(carId);
 
-        var carForm = new Car_AddEdit(car);
+        var carForm = new CarForm(car);
         carForm.ShowDialog();
       }
     }
