@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
+using System.Windows.Forms;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Entities;
+using BBAuto.Domain.Static;
 
 namespace BBAuto.Domain.Lists
 {
@@ -50,7 +52,7 @@ namespace BBAuto.Domain.Lists
     {
       var driverCars = from driverCar in _list
         where driverCar.Car.ID == car.ID
-        orderby driverCar.dateEnd descending, driverCar.Number descending
+        orderby driverCar.DateEnd descending, driverCar.Number descending
         select driverCar;
 
       if (driverCars.ToList().Count == 0 && !car.IsGet)
@@ -65,8 +67,8 @@ namespace BBAuto.Domain.Lists
     public Driver GetDriver(Car car, DateTime date)
     {
       var driverCars = from driverCar in _list
-        where driverCar.isDriverCar(car, date)
-        orderby driverCar.dateEnd descending, driverCar.Number descending
+        where driverCar.IsDriverCar(car, date)
+        orderby driverCar.DateEnd descending, driverCar.Number descending
         select driverCar;
 
       TempMoveList tempMoveList = TempMoveList.getInstance();
@@ -91,8 +93,8 @@ namespace BBAuto.Domain.Lists
     {
       DateTime date = DateTime.Today;
 
-      var driverCars = _list.Where(item => item.Driver.ID == driver.ID && item.dateEnd == date)
-        .OrderByDescending(item => item.dateEnd);
+      var driverCars = _list.Where(item => item.Driver.ID == driver.ID && item.DateEnd == date)
+        .OrderByDescending(item => item.DateEnd);
 
       if (driverCars.Any())
       {
@@ -101,7 +103,7 @@ namespace BBAuto.Domain.Lists
         foreach (var driverCar in driverCars)
         {
           if (_list.Where(item =>
-                !(item.Driver.ID == driver.ID) && item.dateEnd == date && item.Car.ID == driverCar.Car.ID &&
+                !(item.Driver.ID == driver.ID) && item.DateEnd == date && item.Car.ID == driverCar.Car.ID &&
                 item.Number > driverCar.Number).Count() == 0)
             return carList.getItem(driverCar.Car.ID);
         }
@@ -116,7 +118,7 @@ namespace BBAuto.Domain.Lists
     {
       var driverCars = from driverCar in _list
         where driverCar.Driver.ID == driver.ID
-        orderby driverCar.dateEnd descending, driverCar.Number descending
+        orderby driverCar.DateEnd descending, driverCar.Number descending
         select driverCar;
 
       return driverCars.Any() ? CarList.GetInstance().getItem(driverCars.First().Car.ID) : null;
@@ -129,7 +131,7 @@ namespace BBAuto.Domain.Lists
 
     public DataTable ToDataTableCar(Driver driver)
     {
-      var driverCars = _list.Where(item => item.Driver.ID == driver.ID).OrderByDescending(item => item.dateEnd);
+      var driverCars = _list.Where(item => item.Driver.ID == driver.ID).OrderByDescending(item => item.DateEnd);
 
       CarList carList = CarList.GetInstance();
       List<Car> cars = new List<Car>();
@@ -141,6 +143,27 @@ namespace BBAuto.Domain.Lists
       }
 
       return carList.createTable(cars);
+    }
+
+    public DataTable ToDataTable(Car car)
+    {
+      var driverCars = _list.Where(item => item.Car.ID == car.ID && item.IsMain).OrderByDescending(item => item.DateEnd);
+      
+      var dt = new DataTable();
+      dt.Columns.Add("Регион");
+      dt.Columns.Add("ФИО сотрудника");
+      dt.Columns.Add("Начало пользования");
+      dt.Columns.Add("Окончание пользования");
+
+      var regions = RegionList.getInstance();
+
+      foreach (var driverCar in driverCars)
+      {
+        dt.Rows.Add(regions.getItem(driverCar.RegionId).Name, driverCar.Driver.GetName(NameType.Full),
+          driverCar.DateBegin.ToShortDateString(), driverCar.DateEnd.ToShortDateString());
+      }
+
+      return dt;
     }
   }
 }

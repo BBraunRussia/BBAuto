@@ -5,10 +5,7 @@ using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace BBAuto.Domain.ForCar
 {
@@ -55,15 +52,11 @@ namespace BBAuto.Domain.ForCar
       set { DateTime.TryParse(value, out _dateMove); }
     }
 
-    public string DateMoveForSQL
-    {
-      get
-      {
-        return (_dateMove.Year == 1)
-          ? string.Empty
-          : string.Concat(_dateMove.Year.ToString(), "-", _dateMove.Month.ToString(), "-", _dateMove.Day.ToString());
-      }
-    }
+    public bool IsMain { get; set; }
+
+    public string DateMoveForSql => _dateMove.Year == 1
+      ? string.Empty
+      : string.Concat(_dateMove.Year.ToString(), "-", _dateMove.Month.ToString(), "-", _dateMove.Day.ToString());
 
     public DateTime Date { get; set; }
     public Car Car { get; private set; }
@@ -87,9 +80,8 @@ namespace BBAuto.Domain.ForCar
     {
       ID = Convert.ToInt32(row.ItemArray[0]);
 
-      int idCar;
-      int.TryParse(row.ItemArray[1].ToString(), out idCar);
-      Car = CarList.GetInstance().getItem(idCar);
+      int.TryParse(row.ItemArray[1].ToString(), out int carId);
+      Car = CarList.GetInstance().getItem(carId);
 
       Number = row.ItemArray[2].ToString();
       int.TryParse(row.ItemArray[3].ToString(), out _idDriverFrom);
@@ -104,6 +96,9 @@ namespace BBAuto.Domain.ForCar
       int.TryParse(row.ItemArray[8].ToString(), out _idRegionTo);
       File = row.ItemArray[9].ToString();
       _fileBegin = File;
+
+      bool.TryParse(row.ItemArray[10].ToString(), out bool isMain);
+      IsMain = isMain;
     }
 
     private void fillNewInvoice()
@@ -141,7 +136,7 @@ namespace BBAuto.Domain.ForCar
       File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Invoices", Number);
 
       ID = Convert.ToInt32(_provider.Insert("Invoice", ID, Car.ID, Number, DriverFromID, DriverToID, Date,
-        DateMoveForSQL, RegionFromID, RegionToID, File));
+        DateMoveForSql, RegionFromID, RegionToID, File, IsMain));
     }
 
     internal override object[] getRow()

@@ -431,6 +431,8 @@ namespace BBAuto
         loadRepair();
       else if (tabControl1.SelectedTab == tabShipParts)
         loadShipPart();
+      else if (tabControl1.SelectedTab == tabDrivers)
+        LoadDrivers();
     }
 
     private void loadPolicy()
@@ -534,13 +536,13 @@ namespace BBAuto
     private bool openAddEditDialog(Invoice invoice)
     {
       Invoice_AddEdit invoiceAE = new Invoice_AddEdit(invoice);
-      return (invoiceAE.ShowDialog() == System.Windows.Forms.DialogResult.OK);
+      return (invoiceAE.ShowDialog() == DialogResult.OK);
     }
 
     private void btnDelInvoice_Click(object sender, EventArgs e)
     {
       if (MessageBox.Show("Удалить накладную?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          System.Windows.Forms.DialogResult.Yes)
+          DialogResult.Yes)
       {
         int idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
         invoiceList.Delete(idInvoice);
@@ -596,7 +598,7 @@ namespace BBAuto
 
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
 
-      if (dtpAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (dtpAE.ShowDialog() == DialogResult.OK)
       {
         dtpList.Add(dtp);
 
@@ -612,7 +614,7 @@ namespace BBAuto
 
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
 
-      if (dtpAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (dtpAE.ShowDialog() == DialogResult.OK)
         loadDTP();
     }
 
@@ -622,7 +624,7 @@ namespace BBAuto
 
       Violation_AddEdit vAE = new Violation_AddEdit(violation);
 
-      if (vAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (vAE.ShowDialog() == DialogResult.OK)
       {
         violationList.Add(violation);
         loadViolation();
@@ -642,7 +644,7 @@ namespace BBAuto
       else
       {
         Violation_AddEdit vAE = new Violation_AddEdit(violation);
-        if (vAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        if (vAE.ShowDialog() == DialogResult.OK)
           loadViolation();
       }
     }
@@ -650,7 +652,7 @@ namespace BBAuto
     private void btnViolation_Click(object sender, EventArgs e)
     {
       if (MessageBox.Show("Удалить нарушение?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          System.Windows.Forms.DialogResult.Yes)
+          DialogResult.Yes)
       {
         int idViolation = Convert.ToInt32(_dgvViolation.Rows[_dgvViolation.SelectedCells[0].RowIndex].Cells[0].Value);
 
@@ -681,7 +683,7 @@ namespace BBAuto
       DiagCard diagCard = _car.createDiagCard();
 
       DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
-      if (diagcardAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (diagcardAE.ShowDialog() == DialogResult.OK)
       {
         diagCardList.Add(diagCard);
 
@@ -702,7 +704,7 @@ namespace BBAuto
       {
         DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
 
-        if (diagcardAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        if (diagcardAE.ShowDialog() == DialogResult.OK)
           loadDiagCard();
       }
     }
@@ -710,7 +712,7 @@ namespace BBAuto
     private void btnDeleteDiagCard_Click(object sender, EventArgs e)
     {
       if (MessageBox.Show("Удалить диагностическую карту?", "Удаление", MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            MessageBoxIcon.Question) == DialogResult.Yes)
       {
         int idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[_dgvDiagCard.SelectedCells[0].RowIndex].Cells[0].Value);
 
@@ -732,7 +734,7 @@ namespace BBAuto
 
       Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
 
-      if (mAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (mAE.ShowDialog() == DialogResult.OK)
       {
         mileageList.Add(mileage);
 
@@ -975,7 +977,7 @@ namespace BBAuto
         else
         {
           CarDoc_AddEdit carDocAE = new CarDoc_AddEdit(carDoc);
-          if (carDocAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+          if (carDocAE.ShowDialog() == DialogResult.OK)
             loadCarDoc();
         }
       }
@@ -999,7 +1001,7 @@ namespace BBAuto
       ShipPart shipPart = _car.createShipPart();
       ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
 
-      if (shipPartAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (shipPartAE.ShowDialog() == DialogResult.OK)
       {
         shipPartList.Add(shipPart);
         loadShipPart();
@@ -1014,7 +1016,7 @@ namespace BBAuto
       ShipPart shipPart = shipPartList.getItem(idShipPart);
       ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
 
-      if (shipPartAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (shipPartAE.ShowDialog() == DialogResult.OK)
         loadShipPart();
     }
 
@@ -1024,7 +1026,7 @@ namespace BBAuto
       int.TryParse(dgvShipPart.Rows[dgvShipPart.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idShipPart);
 
       if (MessageBox.Show("Удалить информацию об отправки запчастей?", "Удаление", MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            MessageBoxIcon.Question) == DialogResult.Yes)
       {
         shipPartList.Delete(idShipPart);
         loadShipPart();
@@ -1175,6 +1177,12 @@ namespace BBAuto
       IWordDocumentService wordDocumentService = new WordDocumentService();
       var documnent = wordDocumentService.CreateExtraTermination(policy);
       documnent.Print();
+    }
+
+    private void LoadDrivers()
+    {
+      dgvDrivers.DataSource = DriverCarList.getInstance().ToDataTable(_car);
+      dgvDrivers.Columns[1].Width = 200;
     }
   }
 }

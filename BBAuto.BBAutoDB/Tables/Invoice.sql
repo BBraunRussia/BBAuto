@@ -1,17 +1,18 @@
-CREATE TABLE [dbo].[Invoice](
-	[invoice_id] [int] IDENTITY(1,1) NOT NULL,
-	[car_id] [int] NOT NULL,
-	[invoice_number] [int] NOT NULL,
-	[driver_id_From] [int] NOT NULL,
-	[driver_id_To] [int] NOT NULL,
-	[invoice_date] [datetime] NULL,
-	[invoice_dateMove] [datetime] NULL,
-	[region_id_From] [int] NULL,
-	[region_id_To] [int] NULL,
-	[invoice_file] [varchar](500) NULL,
- CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED 
-(
-	[invoice_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+create table [dbo].[Invoice] (
+  [invoice_id] [int] identity (1, 1) not null,
+  [car_id] [int] not null,
+  [invoice_number] [int] not null,
+  [driver_id_From] [int] not null,
+  [driver_id_To] [int] not null,
+  [invoice_date] [datetime] null,
+  [invoice_dateMove] [datetime] null,
+  [region_id_From] [int] null,
+  [region_id_To] [int] null,
+  [invoice_file] [varchar](500) null,
+  [IsMain] bit null,
+  constraint [PK_Invoice] primary key clustered
+  (
+  [invoice_id] asc
+  ) with (pad_index = off, statistics_norecompute = off, ignore_dup_key = off, allow_row_locks = on, allow_page_locks = on) on [PRIMARY]
+) on [PRIMARY]
+go

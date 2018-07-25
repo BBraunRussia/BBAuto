@@ -119,7 +119,7 @@ namespace BBAuto.Domain.Lists
       invoice.Delete();
     }
 
-    internal int GetNextNumber()
+    public int GetNextNumber()
     {
       var invoice = _list.Where(item => item.Date.Year == DateTime.Today.Year)
         .OrderByDescending(item => Convert.ToInt32(item.Number)).FirstOrDefault();

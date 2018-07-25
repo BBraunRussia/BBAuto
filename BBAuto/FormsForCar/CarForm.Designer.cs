@@ -150,6 +150,8 @@ namespace BBAuto
       this.btnDelShipPart = new System.Windows.Forms.Button();
       this.btnAddShipPart = new System.Windows.Forms.Button();
       this.dgvShipPart = new System.Windows.Forms.DataGridView();
+      this.tabDrivers = new System.Windows.Forms.TabPage();
+      this.dgvDrivers = new System.Windows.Forms.DataGridView();
       this.ucFileSTS = new BBAuto.Domain.FileOpenTextBox();
       this.ucFilePTS = new BBAuto.Domain.FileOpenTextBox();
       ((System.ComponentModel.ISupportInitialize)(this.dgvCarInfo)).BeginInit();
@@ -177,6 +179,8 @@ namespace BBAuto
       ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).BeginInit();
       this.tabShipParts.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dgvShipPart)).BeginInit();
+      this.tabDrivers.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dgvDrivers)).BeginInit();
       this.SuspendLayout();
       // 
       // label1
@@ -854,6 +858,7 @@ namespace BBAuto
       this.tabControl1.Controls.Add(this.tabMain);
       this.tabControl1.Controls.Add(this.tabBuy);
       this.tabControl1.Controls.Add(this.tabInvoice);
+      this.tabControl1.Controls.Add(this.tabDrivers);
       this.tabControl1.Controls.Add(this.tabPolicy);
       this.tabControl1.Controls.Add(this.tabDTP);
       this.tabControl1.Controls.Add(this.tabViolation);
@@ -1506,6 +1511,35 @@ namespace BBAuto
       this.dgvShipPart.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShipPart_CellDoubleClick);
       this.dgvShipPart.Sorted += new System.EventHandler(this.dgvShipPart_Sorted);
       // 
+      // tabDrivers
+      // 
+      this.tabDrivers.Controls.Add(this.dgvDrivers);
+      this.tabDrivers.Location = new System.Drawing.Point(4, 22);
+      this.tabDrivers.Name = "tabDrivers";
+      this.tabDrivers.Padding = new System.Windows.Forms.Padding(3);
+      this.tabDrivers.Size = new System.Drawing.Size(913, 363);
+      this.tabDrivers.TabIndex = 11;
+      this.tabDrivers.Text = "Пользователи";
+      this.tabDrivers.UseVisualStyleBackColor = true;
+      // 
+      // dgvDrivers
+      // 
+      this.dgvDrivers.AllowUserToAddRows = false;
+      this.dgvDrivers.AllowUserToDeleteRows = false;
+      this.dgvDrivers.AllowUserToResizeRows = false;
+      this.dgvDrivers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.dgvDrivers.BackgroundColor = System.Drawing.SystemColors.Window;
+      this.dgvDrivers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dgvDrivers.ContextMenuStrip = this.copyMenu;
+      this.dgvDrivers.Location = new System.Drawing.Point(5, 6);
+      this.dgvDrivers.Name = "dgvDrivers";
+      this.dgvDrivers.ReadOnly = true;
+      this.dgvDrivers.RowHeadersVisible = false;
+      this.dgvDrivers.Size = new System.Drawing.Size(903, 351);
+      this.dgvDrivers.TabIndex = 3;
+      // 
       // ucFileSTS
       // 
       this.ucFileSTS.Location = new System.Drawing.Point(367, 217);
@@ -1560,6 +1594,8 @@ namespace BBAuto
       ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).EndInit();
       this.tabShipParts.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.dgvShipPart)).EndInit();
+      this.tabDrivers.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.dgvDrivers)).EndInit();
       this.ResumeLayout(false);
 
         }
@@ -1689,5 +1725,7 @@ namespace BBAuto
         private System.Windows.Forms.Label label31;
     private System.Windows.Forms.Button btnExtraTermination;
     private System.Windows.Forms.Button btnTermination;
+    private System.Windows.Forms.TabPage tabDrivers;
+    private System.Windows.Forms.DataGridView dgvDrivers;
   }
 }
