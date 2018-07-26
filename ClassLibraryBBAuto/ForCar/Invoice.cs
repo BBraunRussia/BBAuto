@@ -17,8 +17,7 @@ namespace BBAuto.Domain.ForCar
     private int _idDriverTo;
     private int _idRegionFrom;
     private int _idRegionTo;
-    private DateTime _dateMove;
-
+    
     public string Number { get; set; }
     public string File { get; set; }
 
@@ -46,18 +45,9 @@ namespace BBAuto.Domain.ForCar
       set { _idRegionTo = Convert.ToInt32(value); }
     }
 
-    public string DateMove
-    {
-      get { return (_dateMove.Year == 1) ? string.Empty : _dateMove.ToShortDateString(); }
-      set { DateTime.TryParse(value, out _dateMove); }
-    }
-
+    public DateTime? DateMove { get; set; }
     public bool IsMain { get; set; }
-
-    public string DateMoveForSql => _dateMove.Year == 1
-      ? string.Empty
-      : string.Concat(_dateMove.Year.ToString(), "-", _dateMove.Month.ToString(), "-", _dateMove.Day.ToString());
-
+    
     public DateTime Date { get; set; }
     public Car Car { get; private set; }
 
@@ -91,7 +81,9 @@ namespace BBAuto.Domain.ForCar
       DateTime.TryParse(row.ItemArray[5].ToString(), out date);
       Date = date;
 
-      DateMove = row.ItemArray[6].ToString();
+      if (DateTime.TryParse(row.ItemArray[6].ToString(), out DateTime datetMove))
+        DateMove = datetMove;
+
       int.TryParse(row.ItemArray[7].ToString(), out _idRegionFrom);
       int.TryParse(row.ItemArray[8].ToString(), out _idRegionTo);
       File = row.ItemArray[9].ToString();
@@ -136,22 +128,21 @@ namespace BBAuto.Domain.ForCar
       File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Invoices", Number);
 
       ID = Convert.ToInt32(_provider.Insert("Invoice", ID, Car.ID, Number, DriverFromID, DriverToID, Date,
-        DateMoveForSql, RegionFromID, RegionToID, File, IsMain));
+        DateMove?.ToShortDateString() ?? string.Empty, RegionFromID, RegionToID, File, IsMain));
     }
 
     internal override object[] getRow()
     {
-      Regions regions = Regions.getInstance();
+      var regions = Regions.getInstance();
+      var driverList = DriverList.getInstance();
 
-      DriverList driverList = DriverList.getInstance();
-
-      Driver driverFrom = driverList.getItem(_idDriverFrom);
-      Driver driverTo = driverList.getItem(_idDriverTo);
+      var driverFrom = driverList.getItem(_idDriverFrom);
+      var driverTo = driverList.getItem(_idDriverTo);
 
       return new object[]
       {
         ID, Car.ID, Car.BBNumber, Car.Grz, Number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
-        regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), Date, _dateMove
+        regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), IsMain ? "Основной" : "Временный", Date, DateMove
       };
     }
 

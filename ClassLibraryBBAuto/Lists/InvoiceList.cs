@@ -55,7 +55,7 @@ namespace BBAuto.Domain.Lists
     public Invoice getItem(Car car)
     {
       var invoices = from invoice in _list
-        where invoice.Car.ID == car.ID && invoice.DateMove != string.Empty
+        where invoice.Car.ID == car.ID && invoice.DateMove != null
         orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
         select invoice;
 
@@ -65,7 +65,7 @@ namespace BBAuto.Domain.Lists
     public Invoice getItem(Car car, DateTime date)
     {
       return (from invoice in _list
-          where invoice.Car.ID == car.ID && invoice.DateMove != string.Empty && Convert.ToDateTime(invoice.DateMove) <= date
+          where invoice.Car.ID == car.ID && invoice.DateMove != null && Convert.ToDateTime(invoice.DateMove) <= date
           orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
           select invoice)
         .FirstOrDefault();
@@ -73,9 +73,9 @@ namespace BBAuto.Domain.Lists
 
     public DataTable ToDataTable()
     {
-      var invoices = from invoice in _list
-        orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
-        select invoice;
+      var invoices = _list
+        .OrderByDescending(item => item.Date)
+        .ThenByDescending(item => Convert.ToInt32(item.Number));
 
       return CreateTable(invoices.ToList());
     }
@@ -102,6 +102,7 @@ namespace BBAuto.Domain.Lists
       dt.Columns.Add("Сдал");
       dt.Columns.Add("Куда");
       dt.Columns.Add("Принял");
+      dt.Columns.Add("Тип пользователя");
       dt.Columns.Add("Дата накладной", typeof(DateTime));
       dt.Columns.Add("Дата передачи", typeof(DateTime));
 

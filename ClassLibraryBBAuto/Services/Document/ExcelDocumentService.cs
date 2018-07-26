@@ -289,16 +289,10 @@ namespace BBAuto.Domain.Services.Document
         if (driver == null)
         {
           driver = driverCarList.GetDriver(car);
-          InvoiceList invoiceList = InvoiceList.getInstance();
-          Invoice invoice = invoiceList.getItem(car);
+          var invoice = InvoiceList.getInstance().getItem(car);
 
-          if ((invoice != null) && (!string.IsNullOrEmpty(invoice.DateMove)))
-          {
-            DateTime dateMove;
-            DateTime.TryParse(invoice.DateMove, out dateMove);
-            if ((dateMove.Year == date.Year) && (dateMove.Month == date.Month))
-              date = new DateTime(date.Year, date.Month, dateMove.Day);
-          }
+          if (invoice?.DateMove?.Year == date.Year && invoice.DateMove.Value.Month == date.Month)
+            date = new DateTime(date.Year, date.Month, invoice.DateMove.Value.Day);
         }
       }
 

@@ -10,6 +10,8 @@ namespace BBAuto.FormsForCar.AddEdit
 {
   public partial class Invoice_AddEdit : Form
   {
+    private const int ReservDriverId = 1;
+
     private readonly Invoice _invoice;
     private bool _load;
 
@@ -69,9 +71,9 @@ namespace BBAuto.FormsForCar.AddEdit
       cbDriverTo.SelectedValue = _invoice.DriverToID;
 
       chbMain.Checked = _invoice.IsMain;
-
+      
       dtpDate.Value = _invoice.Date;
-      mtbDateMove.Text = _invoice.DateMove;
+      mtbDateMove.Text = _invoice.DateMove?.ToShortDateString();
 
       TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _invoice.File;
@@ -118,7 +120,11 @@ namespace BBAuto.FormsForCar.AddEdit
         _invoice.IsMain = chbMain.Checked;
 
         _invoice.Date = dtpDate.Value;
-        _invoice.DateMove = mtbDateMove.Text;
+
+        if (DateTime.TryParse(mtbDateMove.Text, out DateTime dateMove))
+          _invoice.DateMove = dateMove;
+        else
+          _invoice.DateMove = null;
 
         TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
         _invoice.File = tbFile.Text;
@@ -136,7 +142,12 @@ namespace BBAuto.FormsForCar.AddEdit
         DialogResult = DialogResult.OK;
       }
       else
+      {
         _workWithForm.SetEditMode(true);
+
+        if (int.TryParse(_invoice.DriverToID, out int driverIdTo))
+          DisableChbIsMainForReservDriver(driverIdTo);
+      }
     }
 
     private void cbRegionTo_SelectedIndexChanged(object sender, EventArgs e)
@@ -175,11 +186,20 @@ namespace BBAuto.FormsForCar.AddEdit
       if (cbDriverTo.SelectedValue == null)
         return;
 
-      if (int.TryParse(cbDriverTo.SelectedValue.ToString(), out int idDriver))
+      if (int.TryParse(cbDriverTo.SelectedValue.ToString(), out int driverId))
       {
-        Driver driver = driverList.getItem(idDriver);
+        DisableChbIsMainForReservDriver(driverId);
+
+        var driver = driverList.getItem(driverId);
         cbRegionTo.SelectedValue = driver.Region.ID;
       }
+    }
+
+    private void DisableChbIsMainForReservDriver(int driverId)
+    {
+      chbMain.Enabled = driverId != ReservDriverId;
+      if (driverId == 0)
+        chbMain.Checked = false;
     }
   }
 }

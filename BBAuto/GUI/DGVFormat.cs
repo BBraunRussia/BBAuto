@@ -4,10 +4,7 @@ using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace BBAuto
@@ -100,12 +97,11 @@ namespace BBAuto
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id = 0;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        Invoice invoice = invoiceList.getItem(id);
+        var invoice = invoiceList.getItem(id);
 
-        if (invoice.DateMove != string.Empty)
+        if (invoice.DateMove != null)
           row.Cells["Дата передачи"].Style.BackColor = Color.MediumPurple;
 
 
