@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Status](
 	[Status_id] [int] IDENTITY(1,1) NOT NULL,
-	[Status_name] [varchar](50) NOT NULL,
+	[Status_name] NVARCHAR(50) NOT NULL,
 	[Status_seq] [int] NULL,
  CONSTRAINT [PK_Status_1] PRIMARY KEY CLUSTERED 
 (

@@ -33,9 +33,7 @@ namespace BBAuto.Domain.Common
 
     public int getItem(string value)
     {
-      var items = dictionary.Where(item => item.Value == value);
-
-      return items.Count() > 0 ? items.First().Key : 0;
+      return dictionary.ContainsValue(value) ? dictionary.First(item => item.Value == value).Key : 0;
     }
 
     public DataTable ToDataTable()

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="8bcf2309-a220-4992-ac7a-b7ff91b87cf3" ChangeDateTime="07/26/2018 17:10:05">
+    <Property Name="ElementName" Value="[dbo].[Transponder].[RegionId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Transponder]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Number" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="de1b804c-76c3-4272-b5d9-71e74e118d66" ChangeDateTime="07/26/2018 17:10:21">
+    <Property Name="ElementName" Value="[dbo].[Transponder].[Driver]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Transponder]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RegionId" />
+  </Operation>
+</Operations>

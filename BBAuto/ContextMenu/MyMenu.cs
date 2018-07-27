@@ -137,6 +137,7 @@ namespace BBAuto.ContextMenu
       itemMainDictionary.DropDownItems.Add(itemAccount);
 
       itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.FuelCard));
+      itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Transponder));
 
       ToolStripMenuItem itemDriverAndEmployee = new ToolStripMenuItem("Сотрудники, регионы");
       ToolStripMenuItem itemMarkModel = new ToolStripMenuItem("Марки, модели, комплектации");
@@ -227,6 +228,7 @@ namespace BBAuto.ContextMenu
       itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.ShipPart));
       itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Account));
       itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.FuelCard));
+      itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Transponder));
 
       itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.SuppyAddress));
       itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Employee));
@@ -268,6 +270,7 @@ namespace BBAuto.ContextMenu
       itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.ShipPart));
       itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Account));
       itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.FuelCard));
+      itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Transponder));
 
       itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Driver));
 
@@ -300,6 +303,7 @@ namespace BBAuto.ContextMenu
           case Status.ShipPart:
           case Status.Account:
           case Status.FuelCard:
+          case Status.Transponder:
             return CreateContextMenuSortAndFilter();
           case Status.Driver:
             return CreateContextMenuDriver();

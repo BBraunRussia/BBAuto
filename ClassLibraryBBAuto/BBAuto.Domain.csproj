@@ -110,6 +110,11 @@
     <Compile Include="Services\Document\IWordDocumentService.cs" />
     <Compile Include="Services\Document\WordDoc.cs" />
     <Compile Include="Services\Document\WordDocumentService.cs" />
+    <Compile Include="Services\Transponder\ReportTransponder.cs" />
+    <Compile Include="Services\Transponder\ITransponderService.cs" />
+    <Compile Include="Services\Transponder\Transponder.cs" />
+    <Compile Include="Services\Transponder\TransponderMappingProfile.cs" />
+    <Compile Include="Services\Transponder\TransponderService.cs" />
     <Compile Include="Static\MyExtension.cs" />
     <Compile Include="ForCar\CarInfo.cs" />
     <Compile Include="ForDriver\FuelCard.cs" />

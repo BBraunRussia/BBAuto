@@ -6,6 +6,7 @@ using BBAuto.Domain.Static;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Services.CarSale;
+using BBAuto.Domain.Services.Transponder;
 
 namespace BBAuto.Domain.Lists
 {
@@ -125,7 +126,7 @@ namespace BBAuto.Domain.Lists
       return null;
     }
 
-    public DataTable ToDataTable(Status status)
+    public object ToDataTable(Status status)
     {
       switch (status)
       {
@@ -162,6 +163,11 @@ namespace BBAuto.Domain.Lists
           return FuelCardList.getInstance().ToDataTable();
         case Status.Driver:
           return DriverList.getInstance().ToDataTable();
+        case Status.Transponder:
+        {
+          ITransponderService transponderService = new TransponderService();
+          return transponderService.GetReportTransponderList();
+        }
         default:
           return ToDataTable();
       }

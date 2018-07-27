@@ -6,5 +6,7 @@ namespace Common
     {
       public const string ConnectionName = "BBAuto";
     }
+
+    public const int ReserveDriverId = 1;
   }
 }

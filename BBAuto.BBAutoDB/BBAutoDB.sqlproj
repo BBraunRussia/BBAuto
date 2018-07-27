@@ -126,6 +126,7 @@
     <Folder Include="Programmability\Stored Procedures\WayBillRoute" />
     <Folder Include="Deployment" />
     <Folder Include="Programmability\Stored Procedures\Customer" />
+    <Folder Include="Programmability\Stored Procedures\Transponder" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
@@ -386,11 +387,19 @@
     <Build Include="Programmability\Stored Procedures\Comp\GetCompById.sql" />
     <Build Include="Programmability\Stored Procedures\Customer\GetCustomerByCarId.sql" />
     <Build Include="Programmability\Stored Procedures\Violation\GetViolationList.sql" />
+    <Build Include="Tables\Transponder.sql" />
+    <Build Include="Tables\DriverTransponder.sql" />
+    <Build Include="Programmability\Stored Procedures\Transponder\DeleteTransponder.sql" />
+    <Build Include="Programmability\Stored Procedures\Transponder\GetTransponderById.sql" />
+    <Build Include="Programmability\Stored Procedures\Transponder\GetReportTransponderList.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Deployment\PostDeploymentScript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="BBAutoDB.refactorlog" />
   </ItemGroup>
 </Project>

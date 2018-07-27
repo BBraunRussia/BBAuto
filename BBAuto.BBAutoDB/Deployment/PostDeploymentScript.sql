@@ -31,3 +31,10 @@ update Violation set Violation_file = replace(Violation_file, '\\bbmru08.bbmag.b
 update Violation set Violation_filePay = replace(Violation_filePay, '\\bbmru08.bbmag.bbraun.com\programs\Utility\BBAuto\files\', '')
 
 update Comp set KaskoPaymentCount = 2 where KaskoPaymentCount is null
+
+update Status set Status_name = N'Транспондеры' where Status_id = 16
+
+if not exists(select 1 from Status where Status_id = 16)
+begin
+  insert into Status(Status_name, Status_seq) values(N'Транспондеры', 16)
+end

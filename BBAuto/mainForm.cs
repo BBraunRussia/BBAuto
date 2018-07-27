@@ -91,10 +91,10 @@ namespace BBAuto
       loadCars(carList.ToDataTable(mainStatus.Get()));
     }
 
-    private void loadCars(DataTable dt)
+    private void loadCars(object dataSource)
     {
       _dgvCar.Columns.Clear();
-      _dgvCar.DataSource = dt;
+      _dgvCar.DataSource = dataSource;
 
       formatDGV();
 

@@ -56,7 +56,7 @@ namespace BBAuto.Domain.Lists
 
     public FuelCardDriver getItem(FuelCard fuelCard)
     {
-      return list.Where(item => item.FuelCard == fuelCard).OrderByDescending(item => item.DateBegin).FirstOrDefault();
+      return list.OrderByDescending(item => item.DateBegin).FirstOrDefault(item => item.FuelCard == fuelCard);
     }
 
     /*

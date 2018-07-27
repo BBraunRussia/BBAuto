@@ -202,6 +202,8 @@ namespace BBAuto.ContextMenu
           return CreateDTP();
         case Status.FuelCard:
           return CreateFuelCard();
+        case Status.Transponder:
+          return CreateTransponder();
         case Status.Invoice:
           return CreateInvoice();
         case Status.Policy:
@@ -889,6 +891,13 @@ namespace BBAuto.ContextMenu
     {
       ToolStripMenuItem item = CreateItem("Топливные карты");
       item.Click += delegate { _mainStatus.Set(Status.FuelCard); };
+      return item;
+    }
+
+    private ToolStripMenuItem CreateTransponder()
+    {
+      var item = CreateItem("Транспондеры");
+      item.Click += delegate { _mainStatus.Set(Status.Transponder); };
       return item;
     }
 

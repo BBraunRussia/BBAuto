@@ -5,13 +5,12 @@ using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Tables;
+using Common;
 
 namespace BBAuto.FormsForCar.AddEdit
 {
   public partial class Invoice_AddEdit : Form
   {
-    private const int ReservDriverId = 1;
-
     private readonly Invoice _invoice;
     private bool _load;
 
@@ -197,7 +196,7 @@ namespace BBAuto.FormsForCar.AddEdit
 
     private void DisableChbIsMainForReservDriver(int driverId)
     {
-      chbMain.Enabled = driverId != ReservDriverId;
+      chbMain.Enabled = driverId != Consts.ReserveDriverId;
       if (driverId == 0)
         chbMain.Checked = false;
     }
