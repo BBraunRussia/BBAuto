@@ -7,6 +7,8 @@ namespace BBAuto.Repository
     IDbCarSale CarSale { get; }
     IDbComp Comp { get; }
     IDbCustomer Customer { get; }
+
+    IDbDriverTransponder DriverTransponder { get; }
     IDbTransponder Transponder { get; }
   }
 }

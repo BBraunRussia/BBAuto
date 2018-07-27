@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using BBAuto.AddEdit;
 using BBAuto.CommonForms;
 using BBAuto.Dictionary;
 using BBAuto.Domain.Common;
@@ -12,6 +13,7 @@ using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Services.CarSale;
 using BBAuto.Domain.Services.Document;
+using BBAuto.Domain.Services.Transponder;
 using BBAuto.Domain.Static;
 using BBAuto.FormsForCar.AddEdit;
 
@@ -100,6 +102,8 @@ namespace BBAuto.ContextMenu
           return CreateNewAccount();
         case ContextMenuItem.NewFuelCard:
           return CreateNewFuelCard();
+        case ContextMenuItem.NewTransponder:
+          return CreateNewTransponder();
         case ContextMenuItem.ShowPolicyList:
           return CreateShowPolicyList();
         case ContextMenuItem.PrintAllTable:
@@ -732,6 +736,18 @@ namespace BBAuto.ContextMenu
       {
         FuelCard_AddEdit fuelCardAddEdit = new FuelCard_AddEdit(new FuelCard());
         if (fuelCardAddEdit.ShowDialog() == DialogResult.OK)
+          _mainStatus.Set(_mainStatus.Get());
+      };
+      return item;
+    }
+
+    private ToolStripMenuItem CreateNewTransponder()
+    {
+      var item = CreateItem("Добавить транспондер");
+      item.Click += delegate
+      {
+        var transponderForm = new TransponderForm(new Transponder());
+        if (transponderForm.ShowDialog() == DialogResult.OK)
           _mainStatus.Set(_mainStatus.Get());
       };
       return item;

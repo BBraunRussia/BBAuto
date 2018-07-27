@@ -68,6 +68,12 @@
     <Compile Include="AddEdit\CustomerForm.Designer.cs">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEdit\DriverTransponderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEdit\DriverTransponderForm.Designer.cs">
+      <DependentUpon>DriverTransponderForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddEdit\Employees_AddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,12 @@
     </Compile>
     <Compile Include="AddEdit\SuppyAddress_AddEdit.Designer.cs">
       <DependentUpon>SuppyAddress_AddEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddEdit\TransponderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEdit\TransponderForm.Designer.cs">
+      <DependentUpon>TransponderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddEdit\UserAccess_AddEdit.cs">
       <SubType>Form</SubType>
@@ -480,6 +492,9 @@
     <EmbeddedResource Include="AddEdit\CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddEdit\DriverTransponderForm.resx">
+      <DependentUpon>DriverTransponderForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\Employees_AddEdit.resx">
       <DependentUpon>Employees_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
@@ -500,6 +515,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\SuppyAddress_AddEdit.resx">
       <DependentUpon>SuppyAddress_AddEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddEdit\TransponderForm.resx">
+      <DependentUpon>TransponderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\UserAccess_AddEdit.resx">
       <DependentUpon>UserAccess_AddEdit.cs</DependentUpon>

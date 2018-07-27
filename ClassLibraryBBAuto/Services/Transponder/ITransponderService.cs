@@ -5,5 +5,6 @@ namespace BBAuto.Domain.Services.Transponder
   public interface ITransponderService
   {
     IList<ReportTransponder> GetReportTransponderList();
+    Transponder Save(Transponder transponder);
   }
 }

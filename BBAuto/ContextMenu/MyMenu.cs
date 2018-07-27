@@ -62,6 +62,7 @@ namespace BBAuto.ContextMenu
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.AddDriver));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.NewAccount));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.NewFuelCard));
+      itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.NewTransponder));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Separator));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.NewInvoice));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ShowActFuelCard));

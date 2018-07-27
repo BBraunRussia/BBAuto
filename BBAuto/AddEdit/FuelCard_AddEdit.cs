@@ -33,7 +33,7 @@ namespace BBAuto
       EnterTextBox();
       LeaveTextBox();
 
-      _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+      _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.SetEditMode(_fuelCard.ID == 0);
     }
 

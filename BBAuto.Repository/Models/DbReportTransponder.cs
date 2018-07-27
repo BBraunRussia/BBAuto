@@ -7,5 +7,6 @@ namespace BBAuto.Repository.Models
     public string Number { get; set; }
     public string RegionName { get; set; }
     public string DriverFio { get; set; }
+    public bool Lost { get; set; }
   }
 }

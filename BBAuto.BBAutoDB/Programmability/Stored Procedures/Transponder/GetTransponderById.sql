@@ -5,6 +5,7 @@ as
     t.Id,
     t.Number,
     t.RegionId,
+    t.Lost,
     t.Comment
   from
     Transponder t

@@ -107,6 +107,7 @@ namespace BBAuto.Domain.Static
     NewCar,
     NewAccount,
     NewFuelCard,
+    NewTransponder,
     ShowPolicyList,
     PrintAllTable,
     ShowAllTable,

@@ -127,6 +127,7 @@
     <Folder Include="Deployment" />
     <Folder Include="Programmability\Stored Procedures\Customer" />
     <Folder Include="Programmability\Stored Procedures\Transponder" />
+    <Folder Include="Programmability\Stored Procedures\DriverTransponder" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
@@ -392,6 +393,11 @@
     <Build Include="Programmability\Stored Procedures\Transponder\DeleteTransponder.sql" />
     <Build Include="Programmability\Stored Procedures\Transponder\GetTransponderById.sql" />
     <Build Include="Programmability\Stored Procedures\Transponder\GetReportTransponderList.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverTransponder\GetDriverTranspondersByTransponderId.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverTransponder\UpsertDriverTransponder.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverTransponder\GetDriverTransponderById.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverTransponder\DeleteDriverTransponder.sql" />
+    <Build Include="Programmability\Stored Procedures\Transponder\UpsertTransponder.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />

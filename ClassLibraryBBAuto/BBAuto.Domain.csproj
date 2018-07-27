@@ -110,6 +110,10 @@
     <Compile Include="Services\Document\IWordDocumentService.cs" />
     <Compile Include="Services\Document\WordDoc.cs" />
     <Compile Include="Services\Document\WordDocumentService.cs" />
+    <Compile Include="Services\DriverTransponder\DriverTransponderMappingProfile.cs" />
+    <Compile Include="Services\DriverTransponder\DriverTransponderService.cs" />
+    <Compile Include="Services\DriverTransponder\DriverTransponder.cs" />
+    <Compile Include="Services\DriverTransponder\IDriverTransponderService.cs" />
     <Compile Include="Services\Transponder\ReportTransponder.cs" />
     <Compile Include="Services\Transponder\ITransponderService.cs" />
     <Compile Include="Services\Transponder\Transponder.cs" />
