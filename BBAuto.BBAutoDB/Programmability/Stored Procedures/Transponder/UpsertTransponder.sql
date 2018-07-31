@@ -6,7 +6,10 @@ create procedure [dbo].[UpsertTransponder]
   @comment nvarchar(500)
 as
   if not exists(select 1 from Transponder t where t.Id = @id)
+  begin
     insert into Transponder (Number, RegionId, Lost, Comment) values(@number, @regionId, @lost, @comment)
+    set @id = scope_identity()
+  end
   else
     update Transponder 
     set
@@ -16,3 +19,5 @@ as
       Comment = @comment
     where
       Id = @id
+
+  exec dbo.GetTransponderById @id

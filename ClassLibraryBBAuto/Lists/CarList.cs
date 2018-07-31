@@ -126,7 +126,7 @@ namespace BBAuto.Domain.Lists
       return null;
     }
 
-    public object ToDataTable(Status status)
+    public DataTable ToDataTable(Status status)
     {
       switch (status)
       {

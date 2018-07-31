@@ -9,3 +9,5 @@ as
     t.Comment
   from
     Transponder t
+  where
+    t.Id = @id

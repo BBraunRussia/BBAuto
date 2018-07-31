@@ -46,7 +46,7 @@ namespace BBAuto.AddEdit
       cbDriver.SelectedValue = _driverTransponder.DriverId;
       dtpDateBegin.Value = _driverTransponder.DateBegin ?? DateTime.Today;
 
-      chbNotUse.Checked = !_driverTransponder.DateEnd.HasValue;
+      chbNotUse.Checked = _driverTransponder.DateEnd.HasValue;
 
       if (_driverTransponder.DateEnd.HasValue)
       {
@@ -72,7 +72,11 @@ namespace BBAuto.AddEdit
         {
           if (!_driverTransponder.DateEnd.HasValue)
           {
-            _driverTransponderService.Save(new DriverTransponder {TransponderId = _driverTransponder.TransponderId});
+            _driverTransponderService.Save(new DriverTransponder
+            {
+              TransponderId = _driverTransponder.TransponderId,
+              DateBegin = dtpDateEnd.Value.Date
+            });
           }
 
           _driverTransponder.DateEnd = dtpDateEnd.Value.Date;

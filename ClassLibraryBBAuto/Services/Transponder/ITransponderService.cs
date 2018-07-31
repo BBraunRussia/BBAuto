@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+using System.Data;
 
 namespace BBAuto.Domain.Services.Transponder
 {
   public interface ITransponderService
   {
-    IList<ReportTransponder> GetReportTransponderList();
+    DataTable GetReportTransponderList();
     Transponder Save(Transponder transponder);
+    Transponder GetTransponder(int id);
   }
 }

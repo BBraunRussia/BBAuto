@@ -6,6 +6,7 @@ using BBAuto.Domain.Static;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Common;
 
 namespace BBAuto
 {
@@ -74,6 +75,9 @@ namespace BBAuto
           break;
         case Status.Driver:
           SetFormatDriver();
+          break;
+        case Status.Transponder:
+          SetFormatTransponder();
           break;
       }
     }
@@ -254,9 +258,28 @@ namespace BBAuto
       }
     }
 
+    private void SetFormatTransponder()
+    {
+      HideColumn("Lost");
+
+      foreach (DataGridViewRow row in _dgv.Rows)
+      {
+        bool.TryParse(row.Cells["Lost"].Value.ToString(), out bool lost);
+
+        int.TryParse(row.Cells["DriverId"].Value.ToString(), out int driverId);
+
+        if (lost)
+          row.DefaultCellStyle.BackColor = BBColors.bbGray4;
+        else if (driverId == Consts.ReserveDriverId)
+          row.DefaultCellStyle.BackColor = BBColors.bbGreen3;
+        else
+          row.DefaultCellStyle.BackColor = Color.White;
+      }
+    }
+
     private void SetFormatDriver()
     {
-      DriverList driverList = DriverList.getInstance();
+      var driverList = DriverList.getInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {

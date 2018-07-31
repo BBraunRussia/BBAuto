@@ -10,6 +10,7 @@ using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Services.Transponder;
 using BBAuto.FormsForCar.AddEdit;
 
 namespace BBAuto
@@ -123,7 +124,7 @@ namespace BBAuto
       if (User.GetRole() == RolesList.AccountantWayBill)
       {
         if (mainStatus.Get() == Status.Driver)
-          DoubleClickDriver(point);
+          DoubleClickDriver();
         if (mainStatus.Get() == Status.Actual)
           DoubleClickDefault(point);
         return;
@@ -148,7 +149,7 @@ namespace BBAuto
               DoubleClickPolicy(point);
               break;
             case Status.DTP:
-              DoubleClickDTP(point);
+              DoubleClickDTP();
               break;
             case Status.Violation:
               DoubleClickViolation(point);
@@ -157,10 +158,10 @@ namespace BBAuto
               DoubleClickDiagCard(point);
               break;
             case Status.TempMove:
-              DoubleClickTempMove(point);
+              DoubleClickTempMove();
               break;
             case Status.ShipPart:
-              DoubleClickShipPart(point);
+              DoubleClickShipPart();
               break;
             case Status.Account:
               DoubleClickAccount(point);
@@ -169,10 +170,13 @@ namespace BBAuto
               DoubleClickAccountViolation(point);
               break;
             case Status.FuelCard:
-              DoubleClickFuelCard(point);
+              DoubleClickFuelCard();
               break;
             case Status.Driver:
-              DoubleClickDriver(point);
+              DoubleClickDriver();
+              break;
+            case Status.Transponder:
+              DoubleClickTransponder();
               break;
             default:
               DoubleClickDefault(point);
@@ -253,7 +257,7 @@ namespace BBAuto
       }
     }
 
-    private void DoubleClickDTP(Point point)
+    private void DoubleClickDTP()
     {
       if (_dgvMain.GetID() == 0)
         return;
@@ -310,7 +314,7 @@ namespace BBAuto
       }
     }
 
-    private void DoubleClickTempMove(Point point)
+    private void DoubleClickTempMove()
     {
       if (_dgvMain.GetID() == 0)
         return;
@@ -325,7 +329,7 @@ namespace BBAuto
       }
     }
 
-    private void DoubleClickShipPart(Point point)
+    private void DoubleClickShipPart()
     {
       if (_dgvMain.GetID() == 0)
         return;
@@ -452,7 +456,7 @@ namespace BBAuto
       loadCars(dt);
     }
 
-    private void DoubleClickFuelCard(Point point)
+    private void DoubleClickFuelCard()
     {
       int id = _dgvMain.GetCarID();
       if (id == 0)
@@ -466,7 +470,21 @@ namespace BBAuto
         loadCars();
     }
 
-    private void DoubleClickDriver(Point point)
+    private void DoubleClickTransponder()
+    {
+      var id = _dgvMain.GetID();
+      if (id == 0)
+        return;
+
+      ITransponderService transponderService = new TransponderService();
+      var transponder = transponderService.GetTransponder(id);
+
+      var transponderForm = new TransponderForm(transponder);
+      if (transponderForm.ShowDialog() == DialogResult.OK)
+        loadCars();
+    }
+
+    private void DoubleClickDriver()
     {
       if (_dgvMain.GetID() == 0)
         return;

@@ -15,5 +15,7 @@ namespace BBAuto.Domain.Services.Transponder
 
     [DisplayName("Водитель")]
     public string DriverFio { get; set; }
+
+    public bool Lost { get; set; }
   }
 }

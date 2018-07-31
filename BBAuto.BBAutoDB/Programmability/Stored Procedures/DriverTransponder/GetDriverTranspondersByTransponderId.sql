@@ -13,3 +13,5 @@ as
     join Driver d on d.driver_id = dt.DriverId
   where
     dt.TransponderId = @transponderId
+  order by
+    dt.DateBegin desc, dt.DateEnd desc

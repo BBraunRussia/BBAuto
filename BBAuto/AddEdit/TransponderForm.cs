@@ -8,7 +8,7 @@ namespace BBAuto.AddEdit
 {
   public partial class TransponderForm : Form
   {
-    private readonly Transponder _transponder;
+    private Transponder _transponder;
     private DriverTransponder _driverTransponder;
 
     private readonly IDriverTransponderService _driverTransponderService;
@@ -24,8 +24,6 @@ namespace BBAuto.AddEdit
 
       _transponderService = new TransponderService();
       _driverTransponderService = new DriverTransponderService();
-
-      LoadData();
     }
 
     private void TransponderForm_Load(object sender, System.EventArgs e)
@@ -33,6 +31,8 @@ namespace BBAuto.AddEdit
       LoadRegions();
 
       LoadDriverList();
+
+      LoadData();
 
       _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.SetEditMode(_transponder.Id == 0);
@@ -79,8 +79,12 @@ namespace BBAuto.AddEdit
       {
         CopyFields();
 
-        _transponderService.Save(_transponder);
-        _driverTransponder = _driverTransponderService.Save(new DriverTransponder {TransponderId = _transponder.Id});
+        var isNew = _transponder.Id == 0;
+
+        _transponder = _transponderService.Save(_transponder);
+
+        if (isNew)
+          _driverTransponder = _driverTransponderService.Save(new DriverTransponder {TransponderId = _transponder.Id});
       }
       catch (NullReferenceException)
       {
@@ -111,10 +115,8 @@ namespace BBAuto.AddEdit
     
     private void _dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      int.TryParse(_dgv.Rows[_dgv.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int driverTransponderId);
-
-      var driverTransponder = _driverTransponderService.GetDriverTransponderById(driverTransponderId);
-
+      var driverTransponder = _dgv.Rows[_dgv.SelectedCells[0].RowIndex].DataBoundItem as DriverTransponder;
+      
       ShowDriverTransponderForm(driverTransponder);
     }
 
