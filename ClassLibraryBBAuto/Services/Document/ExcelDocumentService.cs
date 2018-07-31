@@ -64,8 +64,15 @@ namespace BBAuto.Domain.Services.Document
         {
           if (dgv.Rows[i].Cells[j].Visible)
           {
+            var value = dgv.Rows[i].Cells[j].Value.ToString();
+
+            if (DateTime.TryParse(value, out DateTime date))
+              value = date.ToShortDateString();
+            else if (value.All(char.IsDigit))
+              value = "'" + value;
+            
             excelDoc.setValue(index, dgv.Rows[i].Cells[j].ColumnIndex - diffColumn,
-              dgv.Rows[i].Cells[j].Value.ToString());
+              value);
             IsAdded = true;
           }
 
