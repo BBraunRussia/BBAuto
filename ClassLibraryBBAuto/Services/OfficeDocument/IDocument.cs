@@ -1,4 +1,4 @@
-namespace BBAuto.Domain.Services.Document
+namespace BBAuto.Domain.Services.OfficeDocument
 {
   public interface IDocument
   {

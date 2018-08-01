@@ -2,7 +2,7 @@ using System;
 using BBAuto.Domain.Common;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace BBAuto.Domain.Services.Document
+namespace BBAuto.Domain.Services.OfficeDocument
 {
   public class WordDoc : OfficeDoc, IDisposable, IDocument
   {

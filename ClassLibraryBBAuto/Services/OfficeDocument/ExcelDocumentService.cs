@@ -12,7 +12,7 @@ using BBAuto.Domain.Services.Comp;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Tables;
 
-namespace BBAuto.Domain.Services.Document
+namespace BBAuto.Domain.Services.OfficeDocument
 {
   public class ExcelDocumentService : IExcelDocumentService
   {

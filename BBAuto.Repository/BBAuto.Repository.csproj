@@ -64,12 +64,14 @@
     <Compile Include="Interfaces\IDbCarSale.cs" />
     <Compile Include="Interfaces\IDbComp.cs" />
     <Compile Include="Interfaces\IDbCustomer.cs" />
+    <Compile Include="Interfaces\IDbDocument.cs" />
     <Compile Include="Interfaces\IDbDriverTransponder.cs" />
     <Compile Include="Interfaces\IDbTransponder.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Models\DbCarSale.cs" />
     <Compile Include="Models\DbComp.cs" />
     <Compile Include="Models\DbCustomer.cs" />
+    <Compile Include="Models\DbDocument.cs" />
     <Compile Include="Models\DbDriverTransponder.cs" />
     <Compile Include="Models\DbReportTransponder.cs" />
     <Compile Include="Models\DbTransponder.cs" />

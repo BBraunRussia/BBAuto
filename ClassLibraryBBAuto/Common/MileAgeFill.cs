@@ -3,7 +3,7 @@ using System.IO;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Entities;
-using BBAuto.Domain.Services.Document;
+using BBAuto.Domain.Services.OfficeDocument;
 
 namespace BBAuto.Domain.Common
 {

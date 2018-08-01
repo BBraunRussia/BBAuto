@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.CommonForms
 {
     partial class TemplateAddEdit
     {

@@ -145,6 +145,7 @@ namespace BBAuto.ContextMenu
       ToolStripMenuItem itemCompanies = new ToolStripMenuItem("Компании, покупатели");
       ToolStripMenuItem itemStatusesTypes = new ToolStripMenuItem("Статусы, типы, виды");
       ToolStripMenuItem itemUsers = new ToolStripMenuItem("Пользователи программы");
+      ToolStripMenuItem itemDocuments = new ToolStripMenuItem("Документы");
 
       itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Region));
       itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.SuppyAddress));
@@ -173,16 +174,19 @@ namespace BBAuto.ContextMenu
       itemStatusesTypes.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ProxyType));
       itemStatusesTypes.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.FuelCardType));
       itemStatusesTypes.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MailText));
-      itemStatusesTypes.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Template));
-
+      
       itemUsers.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.UserAccess));
       itemUsers.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Profession));
+
+      itemDocuments.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.DocumentsForSend));
+      itemDocuments.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Template));
 
       itemExtraDictionary.DropDownItems.Add(itemDriverAndEmployee);
       itemExtraDictionary.DropDownItems.Add(itemMarkModel);
       itemExtraDictionary.DropDownItems.Add(itemCompanies);
       itemExtraDictionary.DropDownItems.Add(itemStatusesTypes);
       itemExtraDictionary.DropDownItems.Add(itemUsers);
+      itemExtraDictionary.DropDownItems.Add(itemDocuments);
 
       menuStrip.Items.Add(itemAction);
       menuStrip.Items.Add(itemMainDictionary);

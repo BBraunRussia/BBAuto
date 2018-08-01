@@ -1,7 +1,7 @@
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 
-namespace BBAuto.Domain.Services.Document
+namespace BBAuto.Domain.Services.OfficeDocument
 {
   public interface IWordDocumentService
   {

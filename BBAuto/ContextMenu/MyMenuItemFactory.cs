@@ -12,7 +12,7 @@ using BBAuto.Domain.ForCar;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Services.CarSale;
-using BBAuto.Domain.Services.Document;
+using BBAuto.Domain.Services.OfficeDocument;
 using BBAuto.Domain.Services.Transponder;
 using BBAuto.Domain.Static;
 using BBAuto.FormsForCar.AddEdit;
@@ -157,6 +157,8 @@ namespace BBAuto.ContextMenu
           return CreateMailText();
         case ContextMenuItem.Template:
           return CreateTemplate();
+        case ContextMenuItem.DocumentsForSend:
+          return CreateDocumentsForSend();
         case ContextMenuItem.UserAccess:
           return CreateUserAccess();
         case ContextMenuItem.Profession:
@@ -1140,6 +1142,17 @@ namespace BBAuto.ContextMenu
       {
         formTemplateList formtemplateList = new formTemplateList();
         formtemplateList.ShowDialog();
+      };
+      return item;
+    }
+
+    private ToolStripMenuItem CreateDocumentsForSend()
+    {
+      var item = CreateItem("Документы для рассылки");
+      item.Click += delegate
+      {
+        var documentsListForm = new DocumentsListForm();
+        documentsListForm.ShowDialog();
       };
       return item;
     }

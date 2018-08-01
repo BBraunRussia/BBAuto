@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BBAuto.Domain.Services.Document;
+using BBAuto.Domain.Services.OfficeDocument;
 
 namespace BBAuto.Domain.Loaders
 {

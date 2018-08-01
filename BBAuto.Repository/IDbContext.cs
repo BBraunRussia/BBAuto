@@ -8,6 +8,8 @@ namespace BBAuto.Repository
     IDbComp Comp { get; }
     IDbCustomer Customer { get; }
 
+    IDbDocument Document { get; }
+
     IDbDriverTransponder DriverTransponder { get; }
     IDbTransponder Transponder { get; }
   }

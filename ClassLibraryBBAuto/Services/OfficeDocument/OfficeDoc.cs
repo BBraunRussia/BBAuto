@@ -1,6 +1,6 @@
 using System;
 
-namespace BBAuto.Domain.Services.Document
+namespace BBAuto.Domain.Services.OfficeDocument
 {
   public abstract class OfficeDoc
   {

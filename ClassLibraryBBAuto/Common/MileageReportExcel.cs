@@ -1,4 +1,4 @@
-using BBAuto.Domain.Services.Document;
+using BBAuto.Domain.Services.OfficeDocument;
 
 namespace BBAuto.Domain.Common
 {

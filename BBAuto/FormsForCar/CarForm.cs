@@ -8,7 +8,7 @@ using BBAuto.Domain.Tables;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Common;
-using BBAuto.Domain.Services.Document;
+using BBAuto.Domain.Services.OfficeDocument;
 using BBAuto.FormsForCar.AddEdit;
 
 namespace BBAuto

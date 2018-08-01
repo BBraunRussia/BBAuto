@@ -70,8 +70,11 @@ namespace BBAuto.Domain.Common
 
     public static void Delete(string file)
     {
-      if (!string.IsNullOrEmpty(file))
-        File.Delete(file);
+      if (string.IsNullOrEmpty(file))
+        return;
+
+      var fullPath = GetFullPath(file);
+      File.Delete(fullPath);
     }
 
     public static void openFile(string file)

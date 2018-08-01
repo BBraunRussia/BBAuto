@@ -103,13 +103,17 @@
     <Compile Include="Senders\AccountSender.cs" />
     <Compile Include="Import\MileageMonthFromExcelFile.cs" />
     <Compile Include="Services\Customer\ICustomerService.cs" />
-    <Compile Include="Services\Document\ExcelDoc.cs" />
-    <Compile Include="Services\Document\IDocument.cs" />
-    <Compile Include="Services\Document\IExcelDoc.cs" />
-    <Compile Include="Services\Document\IExcelDocumentService.cs" />
-    <Compile Include="Services\Document\IWordDocumentService.cs" />
-    <Compile Include="Services\Document\WordDoc.cs" />
-    <Compile Include="Services\Document\WordDocumentService.cs" />
+    <Compile Include="Services\Documents\Document.cs" />
+    <Compile Include="Services\Documents\DocumentMappingProfile.cs" />
+    <Compile Include="Services\Documents\DocumentsService.cs" />
+    <Compile Include="Services\Documents\IDocumentsService.cs" />
+    <Compile Include="Services\OfficeDocument\ExcelDoc.cs" />
+    <Compile Include="Services\OfficeDocument\IDocument.cs" />
+    <Compile Include="Services\OfficeDocument\IExcelDoc.cs" />
+    <Compile Include="Services\OfficeDocument\IExcelDocumentService.cs" />
+    <Compile Include="Services\OfficeDocument\IWordDocumentService.cs" />
+    <Compile Include="Services\OfficeDocument\WordDoc.cs" />
+    <Compile Include="Services\OfficeDocument\WordDocumentService.cs" />
     <Compile Include="Services\DriverTransponder\DriverTransponderMappingProfile.cs" />
     <Compile Include="Services\DriverTransponder\DriverTransponderService.cs" />
     <Compile Include="Services\DriverTransponder\DriverTransponder.cs" />
@@ -163,9 +167,9 @@
     <Compile Include="ForCar\SsDTP.cs" />
     <Compile Include="ForDriver\UserAccess.cs" />
     <Compile Include="Lists\CarDocList.cs" />
-    <Compile Include="Services\Document\ExcelDocumentService.cs" />
+    <Compile Include="Services\OfficeDocument\ExcelDocumentService.cs" />
     <Compile Include="Common\MyDateTime.cs" />
-    <Compile Include="Services\Document\OfficeDoc.cs" />
+    <Compile Include="Services\OfficeDocument\OfficeDoc.cs" />
     <Compile Include="Common\Template.cs" />
     <Compile Include="Dictionary\Colors.cs" />
     <Compile Include="Dictionary\Culprits.cs" />
@@ -322,6 +326,7 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

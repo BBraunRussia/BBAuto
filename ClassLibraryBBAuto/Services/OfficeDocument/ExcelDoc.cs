@@ -2,7 +2,7 @@ using System;
 using BBAuto.Domain.Common;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace BBAuto.Domain.Services.Document
+namespace BBAuto.Domain.Services.OfficeDocument
 {
   public class ExcelDoc : OfficeDoc, IDisposable, IExcelDoc
   {

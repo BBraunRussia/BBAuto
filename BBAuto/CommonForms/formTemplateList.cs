@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using BBAuto.CommonForms;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Common;
 

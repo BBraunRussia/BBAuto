@@ -68,6 +68,12 @@
     <Compile Include="AddEdit\CustomerForm.Designer.cs">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEdit\DocumentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEdit\DocumentForm.Designer.cs">
+      <DependentUpon>DocumentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddEdit\DriverTransponderForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,12 @@
     </Compile>
     <Compile Include="AddEdit\CarSaleForm.Designer.cs">
       <DependentUpon>CarSaleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CommonForms\DocumentsListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CommonForms\DocumentsListForm.Designer.cs">
+      <DependentUpon>DocumentsListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CommonForms\FormLoadFuel.cs">
       <SubType>Form</SubType>
@@ -492,6 +504,9 @@
     <EmbeddedResource Include="AddEdit\CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddEdit\DocumentForm.resx">
+      <DependentUpon>DocumentForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\DriverTransponderForm.resx">
       <DependentUpon>DriverTransponderForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -524,6 +539,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\CarSaleForm.resx">
       <DependentUpon>CarSaleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonForms\DocumentsListForm.resx">
+      <DependentUpon>DocumentsListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\FormLoadFuel.resx">
       <DependentUpon>FormLoadFuel.cs</DependentUpon>

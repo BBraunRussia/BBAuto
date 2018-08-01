@@ -1,46 +1,39 @@
-using BBAuto.Domain.Common;
 using System;
 using System.Windows.Forms;
+using BBAuto.Domain.Common;
 
-namespace BBAuto
+namespace BBAuto.CommonForms
 {
   public partial class TemplateAddEdit : Form
   {
-    Template template;
+    readonly Template _template;
 
     public TemplateAddEdit(Template template)
     {
       InitializeComponent();
 
-      this.template = template;
+      this._template = template;
     }
 
     private void TemplateAddEdit_Load(object sender, EventArgs e)
     {
-      tbName.Text = template.Name;
-      tbPath.Text = template.File;
+      tbName.Text = _template.Name;
+      tbPath.Text = _template.File;
     }
 
     private void btnSave_Click(object sender, EventArgs e)
     {
-      template.Name = tbName.Text;
-      template.File = tbPath.Text;
+      _template.Name = tbName.Text;
+      _template.File = tbPath.Text;
 
-      template.Save();
+      _template.Save();
     }
 
     private void btnBrowse_Click(object sender, EventArgs e)
     {
-      tbPath.Text = getFilePath();
-    }
-
-    private string getFilePath()
-    {
-      OpenFileDialog ofd = new OpenFileDialog();
-      ofd.Multiselect = false;
-      ofd.ShowDialog();
-
-      return ofd.FileName;
+      var openFileDialog = new OpenFileDialog { Multiselect = false };
+      if (openFileDialog.ShowDialog() == DialogResult.OK)
+        tbPath.Text = openFileDialog.FileName;
     }
   }
 }

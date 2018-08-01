@@ -11,7 +11,7 @@ using BBAuto.Domain.Services.CarSale;
 using BBAuto.Domain.Services.Customer;
 using BBAuto.Domain.Static;
 
-namespace BBAuto.Domain.Services.Document
+namespace BBAuto.Domain.Services.OfficeDocument
 {
   public class WordDocumentService : IWordDocumentService
   {

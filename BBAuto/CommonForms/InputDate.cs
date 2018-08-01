@@ -4,7 +4,7 @@ using BBAuto.Domain.Common;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
-using BBAuto.Domain.Services.Document;
+using BBAuto.Domain.Services.OfficeDocument;
 using BBAuto.Domain.Static;
 
 namespace BBAuto.CommonForms
