@@ -7,3 +7,6 @@ as
     CustomerId
   from
     CarSale
+  order by
+    case when carSale_date is null then 0 else 1 end,
+    carSale_date desc
