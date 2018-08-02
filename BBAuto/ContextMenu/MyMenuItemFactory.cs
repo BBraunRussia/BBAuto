@@ -16,6 +16,7 @@ using BBAuto.Domain.Services.OfficeDocument;
 using BBAuto.Domain.Services.Transponder;
 using BBAuto.Domain.Static;
 using BBAuto.FormsForCar.AddEdit;
+using BBAuto.SendDocumentForms;
 
 namespace BBAuto.ContextMenu
 {
@@ -185,6 +186,8 @@ namespace BBAuto.ContextMenu
           return ShowContractOfSale();
         case ContextMenuItem.ShowTransferCarAct:
           return ShowTransferCarAct();
+        case ContextMenuItem.SelectRecipient:
+          return ShowSelectRecipient();
         default:
           throw new NotImplementedException();
       }
@@ -1356,6 +1359,17 @@ namespace BBAuto.ContextMenu
         var doc = wordDocumentService.CreateTransferCarAct(car);
 
         doc?.Show();
+      };
+      return item;
+    }
+
+    private ToolStripMenuItem ShowSelectRecipient()
+    {
+      var item = CreateItem("Отправить документ по выбору");
+      item.Click += delegate
+      {
+        var selectRecipientForm = new SelectRecipientStep1Form();
+        selectRecipientForm.ShowDialog();
       };
       return item;
     }

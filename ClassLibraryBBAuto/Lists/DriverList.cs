@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using BBAuto.Domain.Static;
@@ -11,8 +11,8 @@ namespace BBAuto.Domain.Lists
 {
   public class DriverList : MainList
   {
-    private List<Driver> _list;
-    private static DriverList uniqueInstance;
+    private readonly List<Driver> _list;
+    private static DriverList _uniqueInstance;
 
     private DriverList()
     {
@@ -23,10 +23,7 @@ namespace BBAuto.Domain.Lists
 
     public static DriverList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new DriverList();
-
-      return uniqueInstance;
+      return _uniqueInstance ?? (_uniqueInstance = new DriverList());
     }
 
     protected override void loadFromSql()
@@ -63,6 +60,13 @@ namespace BBAuto.Domain.Lists
       return CreateDataTable(tempList);
     }
 
+    public IList<Driver> GetDriversByRegionList(IList<Region> regions)
+    {
+      var regionIds = regions.Select(r => r.ID);
+
+      return _list.Where(item => regionIds.Contains(item.Region.ID) && item.IsDriver).ToList();
+    }
+
     public DataTable ToDataTableByRegion(Region region, bool all = false)
     {
       var tempList = (all)
@@ -72,7 +76,7 @@ namespace BBAuto.Domain.Lists
       return CreateDataTable(tempList);
     }
 
-    private DataTable CreateDataTable(IEnumerable<Driver> drivers)
+    private static DataTable CreateDataTable(IEnumerable<Driver> drivers)
     {
       DataTable dt = new DataTable();
       dt.Columns.Add("id");
@@ -129,8 +133,8 @@ namespace BBAuto.Domain.Lists
 
     public List<Driver> GetDriverListByRole(RolesList role)
     {
-      UserAccessList userAccessList = UserAccessList.getInstance();
-      List<UserAccess> userAccesses = userAccessList.ToList(role);
+      var userAccessList = UserAccessList.getInstance();
+      var userAccesses = userAccessList.ToList(role);
 
       if (userAccesses != null)
       {
@@ -143,23 +147,23 @@ namespace BBAuto.Domain.Lists
 
         return drivers;
       }
-      else
-        return null;
+
+      return null;
     }
 
-    public List<Driver> ToList()
+    public IList<Driver> GetList()
     {
-      return _list;
+      return _list.Where(item => item.IsDriver && !item.Decret && !item.Fired).ToList();
     }
 
     internal int CountDriversInRegion(Region region)
     {
-      return _list.Where(item => item.Region == region && !item.Fired).Count();
+      return _list.Count(item => item.Region == region && !item.Fired);
     }
 
     public bool IsUniqueNumber(string number)
     {
-      return _list.Where(item => item.Number == number).Count() == 0;
+      return _list.All(item => item.Number != number);
     }
   }
 }

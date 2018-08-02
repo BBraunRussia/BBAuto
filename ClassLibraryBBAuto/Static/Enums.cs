@@ -158,7 +158,8 @@ namespace BBAuto.Domain.Static
     ShowContractOfSale,
     ShowTransferCarAct,
 
-    DocumentsForSend
+    DocumentsForSend,
+    SelectRecipient
   }
 
   public enum Fields

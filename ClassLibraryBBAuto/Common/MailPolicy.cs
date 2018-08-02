@@ -1,4 +1,4 @@
-﻿using BBAuto.Domain.Entities;
+using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
@@ -19,7 +19,7 @@ namespace BBAuto.Domain.Common
             DriverCarList driverCarList = DriverCarList.getInstance();
             Driver driver = driverCarList.GetDriver(car);
 
-            return string.Concat("Полис ", type.ToString(), " отправлен на адрес ", driver.email);
+            return string.Concat("Полис ", type.ToString(), " отправлен на адрес ", driver.Email);
         }
     }
 }

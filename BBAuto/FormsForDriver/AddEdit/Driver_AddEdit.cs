@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using BBAuto.Domain.Common;
 using BBAuto.Domain.Entities;
@@ -87,7 +87,7 @@ namespace BBAuto
     {
       tbFio.Text = _driver.GetName(NameType.Full);
       mtbMobile.Text = _driver.Mobile;
-      tbEmail.Text = _driver.email;
+      tbEmail.Text = _driver.Email;
       mtbDateBirth.Text = _driver.DateBirth;
       if (_driver.Region != null)
         cbRegion.SelectedValue = _driver.Region.ID;
@@ -97,7 +97,7 @@ namespace BBAuto
       tbExpSince.Text = _driver.ExpSince;
       tbDept.Text = _driver.Dept;
       tbLogin.Text = _driver.Login;
-      tbSuppyAddress.Text = _driver.suppyAddress;
+      tbSuppyAddress.Text = _driver.SuppyAddress;
 
       rbMan.Checked = (_driver.SexIndex == 0);
       rbWoman.Checked = (_driver.SexIndex == 1);
@@ -328,10 +328,10 @@ namespace BBAuto
         _driver.Number = tbNumber.Text;
       }
 
-      _driver.email = tbEmail.Text;
+      _driver.Email = tbEmail.Text;
       _driver.ExpSince = tbExpSince.Text;
       _driver.Mobile = mtbMobile.Text;
-      _driver.suppyAddress = tbSuppyAddress.Text;
+      _driver.SuppyAddress = tbSuppyAddress.Text;
       _driver.DateStopNotification =
         (chbNotificationStop.Checked) ? dtpStopNotificationDate.Value : new DateTime(1, 1, 1);
 

@@ -10,7 +10,7 @@ namespace BBAuto.Domain.Senders
 {
   public class NotificationSender
   {
-    private INotificationList _list;
+    private readonly INotificationList _list;
 
     public NotificationSender(INotificationList list)
     {
@@ -19,7 +19,7 @@ namespace BBAuto.Domain.Senders
 
     public void SendNotification()
     {
-      List<INotification> list = GetList(DateTime.Today.AddDays(31));
+      var list = GetList(DateTime.Today.AddDays(31));
 
       foreach (INotification item in list)
       {
@@ -118,7 +118,7 @@ namespace BBAuto.Domain.Senders
     private List<INotification> GetListNotExist()
     {
       DriverList driverList = DriverList.getInstance();
-      List<Driver> listDriver = driverList.ToList()
+      List<Driver> listDriver = driverList.GetList()
         .Where(item => (!item.Fired && !item.Decret && !item.NotificationStop && item.IsDriver)).ToList();
 
       List<INotification> list = _list.ToList();
@@ -145,7 +145,7 @@ namespace BBAuto.Domain.Senders
     private List<INotification> GetListWithoutFile()
     {
       DriverList driverList = DriverList.getInstance();
-      List<Driver> listDriver = driverList.ToList()
+      List<Driver> listDriver = driverList.GetList()
         .Where(item => (!item.Fired && !item.Decret && !item.NotificationStop && item.IsDriver)).ToList();
 
       List<INotification> list = _list.ToList();
@@ -175,7 +175,7 @@ namespace BBAuto.Domain.Senders
     public void ClearStopIfNeed()
     {
       DriverList driverList = DriverList.getInstance();
-      List<Driver> listDriver = driverList.ToList()
+      List<Driver> listDriver = driverList.GetList()
         .Where(item => (item.NotificationStop && item.DateStopNotification == DateTime.Today)).ToList();
 
       foreach (Driver driver in listDriver)

@@ -6,10 +6,7 @@ using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Tables;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace BBAuto.Domain.Entities
 {
@@ -26,21 +23,69 @@ namespace BBAuto.Domain.Entities
     private int _isDriver;
     private int _from1C;
 
-    public string email;
-    public string suppyAddress;
+    public Driver()
+    {
+      ID = 0;
+      _isDriver = 0;
+      _mobile = string.Empty;
+      SuppyAddress = string.Empty;
+    }
+
+    public Driver(DataRow row)
+    {
+      int.TryParse(row.ItemArray[0].ToString(), out int id);
+      ID = id;
+
+      _fio = row.ItemArray[1].ToString();
+
+      int.TryParse(row.ItemArray[2].ToString(), out int idRegion);
+      Region = RegionList.getInstance().getItem(idRegion);
+
+      DateTime.TryParse(row.ItemArray[3].ToString(), out _dateBirth);
+      _mobile = row.ItemArray[4].ToString();
+      Email = row.ItemArray[5].ToString();
+      int.TryParse(row.ItemArray[6].ToString(), out _fired);
+      int.TryParse(row.ItemArray[7].ToString(), out _expSince);
+
+      int.TryParse(row.ItemArray[8].ToString(), out int idPosition);
+      PositionID = idPosition;
+
+      int.TryParse(row.ItemArray[9].ToString(), out int idDept);
+      DeptID = idDept;
+
+      Login = row.ItemArray[10].ToString();
+
+      int.TryParse(row.ItemArray[11].ToString(), out int idOwner);
+      OwnerID = idOwner;
+
+      SuppyAddress = row.ItemArray[12].ToString();
+
+      int.TryParse(row.ItemArray[13].ToString(), out int idSex);
+      SexIndex = idSex;
+
+      int.TryParse(row.ItemArray[14].ToString(), out _decret);
+      DateTime.TryParse(row.ItemArray[15].ToString(), out _dateStopNotification);
+      _number = row.ItemArray[16].ToString();
+      int.TryParse(row.ItemArray[17].ToString(), out _isDriver);
+      int.TryParse(row.ItemArray[18].ToString(), out _from1C);
+    }
+
+    public string Name => GetName(NameType.Short);
+
+    public string Email { get; set; }
+    public string SuppyAddress { get; set; }
 
     public string Fio
     {
-      set { _fio = value.Trim(); }
+      set => _fio = value.Trim();
     }
 
     public string DateBirth
     {
-      get { return (_dateBirth.Year == 1) ? string.Empty : _dateBirth.ToShortDateString(); }
+      get => _dateBirth.Year == 1 ? string.Empty : _dateBirth.ToShortDateString();
       set
       {
-        DateTime date = DateTime.Today;
-        DateTime.TryParse(value, out date);
+        DateTime.TryParse(value, out DateTime date);
         _dateBirth = date;
       }
     }
@@ -92,8 +137,6 @@ namespace BBAuto.Domain.Entities
       }
       set
       {
-        int tempID = PositionID;
-
         Positions positions = Positions.getInstance();
         PositionID = positions.getItem(value);
 
@@ -117,8 +160,6 @@ namespace BBAuto.Domain.Entities
       }
       set
       {
-        int tempID = DeptID;
-
         Depts depts = Depts.getInstance();
         DeptID = depts.getItem(value);
 
@@ -144,8 +185,6 @@ namespace BBAuto.Domain.Entities
       {
         if (!string.IsNullOrEmpty(value))
         {
-          int tempID = OwnerID;
-
           Owners owners = Owners.getInstance();
           OwnerID = owners.getItem(value);
 
@@ -218,20 +257,17 @@ namespace BBAuto.Domain.Entities
     }
 
     /*TODO: проверять включена ли рассылка */
-    public bool NotificationStop
-    {
-      get { return _dateStopNotification.Year == 1 || _dateStopNotification <= DateTime.Today ? false : true; }
-    }
+    public bool NotificationStop => _dateStopNotification.Year != 1 && _dateStopNotification > DateTime.Today;
 
     public DateTime DateStopNotification
     {
-      get { return _dateStopNotification; }
-      set { _dateStopNotification = value; }
+      get => _dateStopNotification;
+      set => _dateStopNotification = value;
     }
 
     public string Number
     {
-      get { return _number; }
+      get => _number;
       set
       {
         _number = value;
@@ -239,60 +275,7 @@ namespace BBAuto.Domain.Entities
           From1C = true;
       }
     }
-
-    public Driver()
-    {
-      ID = 0;
-      _isDriver = 0;
-      _mobile = string.Empty;
-      suppyAddress = string.Empty;
-    }
-
-    public Driver(DataRow row)
-    {
-      int id;
-      int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
-
-      _fio = row.ItemArray[1].ToString();
-
-      int idRegion;
-      int.TryParse(row.ItemArray[2].ToString(), out idRegion);
-      Region = RegionList.getInstance().getItem(idRegion);
-
-      DateTime.TryParse(row.ItemArray[3].ToString(), out _dateBirth);
-      _mobile = row.ItemArray[4].ToString();
-      email = row.ItemArray[5].ToString();
-      int.TryParse(row.ItemArray[6].ToString(), out _fired);
-      int.TryParse(row.ItemArray[7].ToString(), out _expSince);
-
-      int idPosition;
-      int.TryParse(row.ItemArray[8].ToString(), out idPosition);
-      PositionID = idPosition;
-
-      int idDept;
-      int.TryParse(row.ItemArray[9].ToString(), out idDept);
-      DeptID = idDept;
-
-      Login = row.ItemArray[10].ToString();
-
-      int idOwner;
-      int.TryParse(row.ItemArray[11].ToString(), out idOwner);
-      OwnerID = idOwner;
-
-      suppyAddress = row.ItemArray[12].ToString();
-
-      int idSex;
-      int.TryParse(row.ItemArray[13].ToString(), out idSex);
-      SexIndex = idSex;
-
-      int.TryParse(row.ItemArray[14].ToString(), out _decret);
-      DateTime.TryParse(row.ItemArray[15].ToString(), out _dateStopNotification);
-      _number = row.ItemArray[16].ToString();
-      int.TryParse(row.ItemArray[17].ToString(), out _isDriver);
-      int.TryParse(row.ItemArray[18].ToString(), out _from1C);
-    }
-
+    
     public override void Save()
     {
       DriverList driverList = DriverList.getInstance();
@@ -308,9 +291,9 @@ namespace BBAuto.Domain.Entities
           DateStopNotification.Month.ToString(), "-", DateStopNotification.Day.ToString());
 
       int id;
-      int.TryParse(_provider.Insert("Driver", ID, GetName(NameType.Full), Region.ID, dateBirthSql, _mobile, email,
+      int.TryParse(_provider.Insert("Driver", ID, GetName(NameType.Full), Region.ID, dateBirthSql, _mobile, Email,
         _fired, _expSince, PositionID,
-        DeptID, Login, OwnerID, suppyAddress, SexIndex, _decret,
+        DeptID, Login, OwnerID, SuppyAddress, SexIndex, _decret,
         dateStopNotificationSql, _number, _isDriver, _from1C), out id);
       ID = id;
 

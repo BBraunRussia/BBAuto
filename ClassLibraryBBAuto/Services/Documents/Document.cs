@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.IO;
 using BBAuto.Domain.Common;
 
 namespace BBAuto.Domain.Services.Documents
@@ -9,7 +8,7 @@ namespace BBAuto.Domain.Services.Documents
   {
     private string _path;
 
-    [Browsable(false)]
+    
     public int Id { get; set; }
     [DisplayName("Название")]
     public string Name { get; set; }

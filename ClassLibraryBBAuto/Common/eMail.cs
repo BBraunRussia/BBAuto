@@ -1,4 +1,4 @@
-﻿using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
@@ -32,7 +32,7 @@ namespace BBAuto.Domain.Common
             Driver driver = User.getDriver();
             DriverList driverList = DriverList.getInstance();
             Driver employeeTransport = driverList.GetDriverListByRole(RolesList.Editor).First();
-            _authorEmail = driver == null ? employeeTransport == null ? ROBOT_EMAIL : employeeTransport.email : driver.email;
+            _authorEmail = driver == null ? employeeTransport == null ? ROBOT_EMAIL : employeeTransport.Email : driver.Email;
         }
 
         public void SendMailAccountViolation(Violation violation)
@@ -180,7 +180,7 @@ namespace BBAuto.Domain.Common
 
             Driver boss = driverList.GetDriverListByRole(RolesList.Boss).First();
             
-            Send(accountants, new string[] { boss.email }, new List<Attachment>() { new Attachment(account.File) });
+            Send(accountants, new string[] { boss.Email }, new List<Attachment>() { new Attachment(account.File) });
         }
 
         private List<Driver> GetAccountants(string owner)
@@ -270,10 +270,10 @@ namespace BBAuto.Domain.Common
 
                 foreach (Driver driver in drivers)
                 {
-                    if (string.IsNullOrEmpty(driver.email))
+                    if (string.IsNullOrEmpty(driver.Email))
                         _subject += " не найден email сотрудника " + driver.GetName(NameType.Genetive);
                     else
-                        msg.To.Add(new MailAddress(driver.email));
+                        msg.To.Add(new MailAddress(driver.Email));
                 }
 
                 if (msg.To.Count == 0)
@@ -323,7 +323,7 @@ namespace BBAuto.Domain.Common
             if (addTransportToCopy)
             {
                 Driver transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
-                copyEmails = new string[] { transportEmployee.email };
+                copyEmails = new string[] { transportEmployee.Email };
             }
 
             var listAttachment = new List<Attachment>();

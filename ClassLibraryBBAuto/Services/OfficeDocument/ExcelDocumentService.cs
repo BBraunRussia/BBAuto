@@ -348,9 +348,9 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       string suppyAddressName;
 
-      if (driver.suppyAddress != string.Empty)
+      if (driver.SuppyAddress != string.Empty)
       {
-        suppyAddressName = driver.suppyAddress;
+        suppyAddressName = driver.SuppyAddress;
       }
       else
       {

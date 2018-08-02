@@ -86,7 +86,7 @@ namespace BBAuto.ContextMenu
       ToolStripItem itemShowDriverLicense = _factory.CreateItem(ContextMenuItem.ShowDriverLicense);
       ToolStripItem itemShowWayBill = _factory.CreateItem(ContextMenuItem.ShowWayBill);
       ToolStripItem itemShowSTS = _factory.CreateItem(ContextMenuItem.ShowSTS);
-      itemShowDriverLicense.Enabled = ((_mainStatus.Get() != Status.Account) && (_mainStatus.Get() != Status.FuelCard));
+      itemShowDriverLicense.Enabled = _mainStatus.Get() != Status.Account && _mainStatus.Get() != Status.FuelCard;
       itemShowWayBill.Enabled = itemShowDriverLicense.Enabled;
       itemShowSTS.Enabled = itemShowDriverLicense.Enabled;
       itemShow.DropDownItems.Add(itemShowDriverLicense);
@@ -103,12 +103,13 @@ namespace BBAuto.ContextMenu
       ToolStripItem itemLotusMail = _factory.CreateItem(ContextMenuItem.LotusMail);
       ToolStripItem itemSendPolicyKasko = _factory.CreateItem(ContextMenuItem.SendPolicyKasko);
       ToolStripItem itemSendPolicyOsago = _factory.CreateItem(ContextMenuItem.SendPolicyOsago);
-      itemLotusMail.Enabled = (_mainStatus.Get() != Status.Account);
+      itemLotusMail.Enabled = _mainStatus.Get() != Status.Account;
       itemSendPolicyKasko.Enabled = itemLotusMail.Enabled;
       itemSendPolicyOsago.Enabled = itemLotusMail.Enabled;
       itemDriverMail.DropDownItems.Add(itemLotusMail);
       itemDriverMail.DropDownItems.Add(itemSendPolicyKasko);
       itemDriverMail.DropDownItems.Add(itemSendPolicyOsago);
+      itemDriverMail.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.SelectRecipient));
 
       itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Print));
       itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));

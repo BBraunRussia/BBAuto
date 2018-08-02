@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +26,7 @@ namespace BBAuto
 
             var list = from driver in drivers
                        orderby driver.GetName(NameType.Full)
-                       select driver.email;
+                       select driver.Email;
 
             foreach (string email in list)
             {
@@ -53,7 +53,7 @@ namespace BBAuto
                     Car car = carList.getItem(_dgvMain.GetCarID(cell.RowIndex));
                     Driver driver = driverCarList.GetDriver(car);
 
-                    if (CanAddToList(drivers, driver.email))
+                    if (CanAddToList(drivers, driver.Email))
                         drivers.Add(driver);
                 }
             }
@@ -66,7 +66,7 @@ namespace BBAuto
             if (newEmail == string.Empty)
                 return false;
 
-            List<string> addresses = drivers.Where(item => item.email == newEmail).Select(item => item.email).ToList();
+            List<string> addresses = drivers.Where(item => item.Email == newEmail).Select(item => item.Email).ToList();
 
             return addresses.Count() == 0;
         }
