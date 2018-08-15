@@ -317,11 +317,11 @@ namespace BBAuto.ContextMenu
             return null;
         }
       }
-      else if ((User.GetRole() == RolesList.AccountantWayBill) &&
-               ((_mainStatus.Get() == Status.Actual) || (_mainStatus.Get() == Status.Sale)))
+      if (User.GetRole() == RolesList.AccountantWayBill &&
+          (_mainStatus.Get() == Status.Actual || _mainStatus.Get() == Status.Sale))
         return CreateContextMenuWayBill();
-      else
-        return null;
+
+      return null;
     }
 
     private ContextMenuStrip CreateContextMenuCar()
@@ -343,6 +343,7 @@ namespace BBAuto.ContextMenu
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.LotusMail));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SendPolicyOsago));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SendPolicyKasko));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SelectDocumentsForSend));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Copy));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Print));
@@ -450,6 +451,8 @@ namespace BBAuto.ContextMenu
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.AddDriver));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.DeleteDriver));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SelectDocumentsForSend));
 
       return menuStrip;
     }

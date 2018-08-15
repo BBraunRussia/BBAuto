@@ -213,7 +213,7 @@
     <Compile Include="CommonForms\InputDate.Designer.cs">
       <DependentUpon>InputDate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\DriverMails.cs" />
+    <Compile Include="DriverMails.cs" />
     <Compile Include="Common\MyStatusStrip.cs" />
     <Compile Include="ContextMenu\MyMenuItemFactory.cs" />
     <Compile Include="Dictionary\formEmployeesList.cs">

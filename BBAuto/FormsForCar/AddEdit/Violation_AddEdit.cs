@@ -1,21 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Static;
-using BBAuto.Domain.Common;
+using BBAuto.Domain.Services.Mail;
 
 namespace BBAuto
 {
   public partial class Violation_AddEdit : Form
   {
-    private Violation _violation;
+    private readonly Violation _violation;
 
     private WorkWithForm _workWithForm;
 
@@ -30,7 +24,7 @@ namespace BBAuto
     {
       fillFields();
 
-      changeVisible();
+      ChangeVisible();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.SetEditMode(_violation.ID == 0);
@@ -70,7 +64,7 @@ namespace BBAuto
       if (_workWithForm.IsEditMode())
       {
         TrySave();
-        this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        DialogResult = DialogResult.OK;
       }
       else
         _workWithForm.SetEditMode(true);
@@ -96,7 +90,7 @@ namespace BBAuto
       if (chbPaid.Checked)
       {
         _violation.DatePay = dtpDatePaid.Value.Date;
-        TextBox tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
+        var tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
         _violation.FilePay = tbFilePay.Text;
       }
       else
@@ -118,10 +112,10 @@ namespace BBAuto
 
     private void chbPaid_CheckedChanged(object sender, EventArgs e)
     {
-      changeVisible();
+      ChangeVisible();
     }
 
-    private void changeVisible()
+    private void ChangeVisible()
     {
       labelDatePaid.Visible = chbPaid.Checked;
       dtpDatePaid.Visible = chbPaid.Checked;
@@ -135,17 +129,17 @@ namespace BBAuto
     {
       TrySave();
 
-      if (trySend())
+      if (TrySend())
       {
         _violation.Sent = true;
         TrySave();
 
-        this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        DialogResult = DialogResult.OK;
         Close();
       }
     }
 
-    private bool trySend()
+    private bool TrySend()
     {
       try
       {
@@ -163,19 +157,19 @@ namespace BBAuto
 
     private void Send()
     {
-      EMail mail = new EMail();
-      mail.sendMailViolation(_violation);
+      IMailService mailService = new MailService();
+      mailService.SendMailViolation(_violation);
     }
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      Driver_AddEdit driverAE = new Driver_AddEdit(_violation.getDriver());
+      var driverAE = new Driver_AddEdit(_violation.getDriver());
       driverAE.ShowDialog();
     }
 
     private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      CarForm carAE = new CarForm(_violation.Car);
+      var carAE = new CarForm(_violation.Car);
       carAE.ShowDialog();
     }
   }

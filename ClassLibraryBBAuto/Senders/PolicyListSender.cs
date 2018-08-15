@@ -1,5 +1,3 @@
-﻿using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
@@ -7,51 +5,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BBAuto.Domain.Services.Mail;
 
 namespace BBAuto.Domain.Senders
 {
-    public class PolicyListSender
+  public class PolicyListSender
+  {
+    private const int SendDay = 5;
+
+    public void SendNotification()
     {
-        private const int SEND_DAY = 5;
+      if (DateTime.Today.Day != SendDay)
+        return;
 
-        public void SendNotification()
-        {
-            if (DateTime.Today.Day != SEND_DAY)
-                return;
+      var policyList = PolicyList.getInstance().GetPolicyEnds().ToList();
 
-            PolicyList policyList = PolicyList.getInstance();
-            IEnumerable<Policy> list = policyList.GetPolicyEnds();
+      if (!policyList.Any())
+        return;
 
-            if (list.Any())
-            {
-                Driver driversTo = GetDriverForSending();
-                
-                string mailText = CreateMail(list);
+      var driversTo = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).FirstOrDefault();
 
-                EMail email = new EMail();
+      var mailText = CreateMail(policyList);
 
-                email.SendNotification(driversTo, mailText);
-            }
-        }
+      IMailService mailService = new MailService();
 
-        private Driver GetDriverForSending(RolesList role = RolesList.Editor)
-        {
-            return DriverList.getInstance().GetDriverListByRole(role).First();
-        }
-
-        private string CreateMail(IEnumerable<Policy> policies)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (Policy policy in policies)
-            {
-                sb.AppendLine(policy.ToMail());
-            }
-
-            MailTextList mailTextList = MailTextList.getInstance();
-            MailText mailText = mailTextList.getItemByType(MailTextType.Policy);
-
-            return mailText == null ? "Шаблон текста письма не найден" : mailText.Text.Replace("List", sb.ToString());
-        }
+      mailService.SendNotification(driversTo, mailText);
     }
+    
+    private static string CreateMail(List<Policy> policies)
+    {
+      var sb = new StringBuilder();
+
+      policies.ForEach(policy => sb.AppendLine(policy.ToMail()));
+      
+      var mailText = MailTextList.getInstance().getItemByType(MailTextType.Policy);
+
+      return mailText?.Text.Replace("List", sb.ToString()) ?? "Шаблон текста письма не найден";
+    }
+  }
 }

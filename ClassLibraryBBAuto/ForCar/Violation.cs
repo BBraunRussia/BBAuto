@@ -5,6 +5,7 @@ using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
+using BBAuto.Domain.Services.Mail;
 
 namespace BBAuto.Domain.ForCar
 {
@@ -214,8 +215,8 @@ namespace BBAuto.Domain.ForCar
 
     public void Agree()
     {
-      EMail email = new EMail();
-      email.SendMailAccountViolation(this);
+      IMailService mailService = new MailService();
+      mailService.SendMailAccountViolation(this);
 
       Agreed = true;
 

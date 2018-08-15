@@ -6,6 +6,7 @@ using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Common;
 using BBAuto.Domain.Entities;
+using BBAuto.Domain.Services.Mail;
 
 namespace BBAuto.Domain.ForCar
 {
@@ -153,8 +154,8 @@ namespace BBAuto.Domain.ForCar
     {
       if (_agreed == 0)
       {
-        EMail mail = new EMail();
-        mail.sendMailAccount(this);
+        IMailService mailService = new MailService();
+        mailService.SendMailAccount(this);
         _agreed = 1;
         ExecQuery();
       }

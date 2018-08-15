@@ -12,6 +12,7 @@ using BBAuto.Domain.ForCar;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Services.CarSale;
+using BBAuto.Domain.Services.Mail;
 using BBAuto.Domain.Services.OfficeDocument;
 using BBAuto.Domain.Services.Transponder;
 using BBAuto.Domain.Static;
@@ -188,6 +189,8 @@ namespace BBAuto.ContextMenu
           return ShowTransferCarAct();
         case ContextMenuItem.SelectRecipient:
           return ShowSelectRecipient();
+        case ContextMenuItem.SelectDocumentsForSend:
+          return ShowSelectDocumentsForSend();
         default:
           throw new NotImplementedException();
       }
@@ -398,14 +401,14 @@ namespace BBAuto.ContextMenu
         if (car == null)
           return;
 
-        DriverMails driverMails = new DriverMails(_dgvMain);
-        string driverList = driverMails.ToString();
+        var driverMails = new DriverMails(_dgvMain);
+        var driverList = driverMails.ToString();
 
         if (string.IsNullOrEmpty(driverList))
           MessageBox.Show("Email-адреса не обнаружены", "Невозможно создать письмо", MessageBoxButtons.OK,
             MessageBoxIcon.Warning);
         else
-          EMail.OpenEmailProgram(driverList);
+          MailService.OpenEmailProgram(driverList);
       };
       return item;
     }
@@ -1258,7 +1261,7 @@ namespace BBAuto.ContextMenu
       item.Click += delegate
       {
         if (MessageBox.Show("Вы действительно хотите удалить водителя из списка?", "Удаление", MessageBoxButtons.YesNo,
-              MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+              MessageBoxIcon.Question) == DialogResult.Yes)
         {
           DriverList driverList = DriverList.getInstance();
           Driver driver = driverList.getItem(_dgvMain.GetID());
@@ -1370,6 +1373,20 @@ namespace BBAuto.ContextMenu
       {
         var selectRecipientForm = new SelectRecipientStep1Form();
         selectRecipientForm.ShowDialog();
+      };
+      return item;
+    }
+
+    private ToolStripMenuItem ShowSelectDocumentsForSend()
+    {
+      var item = CreateItem("Отправить документ по выбору");
+      item.Click += delegate
+      {
+        var driverMails = new DriverMails(_dgvMain);
+        var driverList = driverMails.GetDrivers();
+        
+        var selectDocumentsForm = new SelectDocumentsForm(driverList);
+        selectDocumentsForm.ShowDialog();
       };
       return item;
     }

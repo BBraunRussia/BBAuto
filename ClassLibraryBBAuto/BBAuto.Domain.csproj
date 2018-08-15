@@ -107,6 +107,7 @@
     <Compile Include="Services\Documents\DocumentMappingProfile.cs" />
     <Compile Include="Services\Documents\DocumentsService.cs" />
     <Compile Include="Services\Documents\IDocumentsService.cs" />
+    <Compile Include="Services\Mail\IMailService.cs" />
     <Compile Include="Services\OfficeDocument\ExcelDoc.cs" />
     <Compile Include="Services\OfficeDocument\IDocument.cs" />
     <Compile Include="Services\OfficeDocument\IExcelDoc.cs" />
@@ -143,7 +144,7 @@
     <Compile Include="Lists\WayBillRouteList.cs" />
     <Compile Include="Loaders\FuelLoader.cs" />
     <Compile Include="Abstract\MainList.cs" />
-    <Compile Include="Common\EMail.cs" />
+    <Compile Include="Services\Mail\MailService.cs" />
     <Compile Include="Common\Employees.cs" />
     <Compile Include="Common\Ldap.cs" />
     <Compile Include="Common\MailText.cs" />

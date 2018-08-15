@@ -2,27 +2,18 @@ using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace BBAuto
 {
   public class MainDGV
   {
-    private DataGridView _dgv;
-    private DGVFormat _dgvFormated;
+    private readonly DataGridView _dgv;
+    private readonly DGVFormat _dgvFormated;
 
-    public DataGridViewSelectedCellCollection SelectedCells
-    {
-      get { return _dgv.SelectedCells; }
-    }
+    public DataGridViewSelectedCellCollection SelectedCells => _dgv.SelectedCells;
 
-    public DataGridViewCell CurrentCell
-    {
-      get { return _dgv.CurrentCell; }
-    }
+    public DataGridViewCell CurrentCell => _dgv.CurrentCell;
 
     public MainDGV(DataGridView dgv)
     {

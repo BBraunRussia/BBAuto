@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Services.Documents;
+using BBAuto.Domain.Services.Mail;
 
 namespace BBAuto.SendDocumentForms
 {
@@ -24,16 +25,27 @@ namespace BBAuto.SendDocumentForms
       chbList.DisplayMember = "Name";
       chbList.ValueMember = "Id";
 
-      listBoxDrivers.DataSource = _drivers;
+      listBoxDrivers.DataSource = _drivers.OrderBy(driver => driver.Name).ToList();
       listBoxDrivers.DisplayMember = "Name";
       listBoxDrivers.ValueMember = "ID";
     }
 
     private void btnSend_Click(object sender, System.EventArgs e)
     {
-      var documentsForSend = chbList.CheckedItems.Cast<Document>().ToList();
+      if (chbList.CheckedItems.Count == 0)
+      {
+        MessageBox.Show("Для продолжения выберите хотя бы один элемент", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
 
+      if (MessageBox.Show("Подтверждаете отправку выбранных документов пользователям автомобилей", "Отправка документов", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+        return;
+
+      var documentsForSend = chbList.CheckedItems.Cast<Document>().ToList();
       
+      IMailService mailService = new MailService();
+
+      mailService.SendDocuments(_drivers, documentsForSend);
     }
   }
 }

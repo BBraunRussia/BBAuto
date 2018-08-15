@@ -1,44 +1,41 @@
-﻿using BBAuto.Domain.Common;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BBAuto.Domain.Services.Mail;
 
 namespace BBAuto.Domain.Senders
 {
-    public class AccountSender
+  public class AccountSender
+  {
+    public void SendNotification()
     {
-        public void SendNotification()
-        {
-            AccountList accountList = AccountList.getInstance();
-            IEnumerable<Account> list = accountList.GetAccountForAgree();
+      var accountList = AccountList.getInstance();
+      IList<Account> list = accountList.GetAccountForAgree().ToList();
 
-            if (list.Any())
-            {
-                Driver driversTo = GetDriverForSending(RolesList.Boss);
+      if (!list.Any())
+        return;
 
-                string mailText = CreateMailToBoss(list);
+      var driversTo = GetDriverForSending(RolesList.Boss);
 
-                var email = new EMail();
+      var mailText = CreateMailToBoss(list);
 
-                email.SendNotification(driversTo, mailText);
-            }
-        }
+      IMailService mailService = new MailService();
 
-        private Driver GetDriverForSending(RolesList role = RolesList.Editor)
-        {
-            return DriverList.getInstance().GetDriverListByRole(role).First();
-        }
-
-        private string CreateMailToBoss(IEnumerable<Account> list)
-        {
-            return string.Format("Добрый день!\n\n"
-                 + "В программе BBAuto появились новые счета по страховым полисам для согласования. Количество счетов: {0}", list.Count());
-        }
+      mailService.SendNotification(driversTo, mailText);
     }
+
+    private static Driver GetDriverForSending(RolesList role = RolesList.Editor)
+    {
+      return DriverList.getInstance().GetDriverListByRole(role).First();
+    }
+
+    private static string CreateMailToBoss(IEnumerable<Account> list)
+    {
+      return "Добрый день!\n\n" +
+             $"В программе BBAuto появились новые счета по страховым полисам для согласования. Количество счетов: {list.Count()}";
+    }
+  }
 }
