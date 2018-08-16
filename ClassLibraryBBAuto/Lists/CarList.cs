@@ -12,36 +12,36 @@ namespace BBAuto.Domain.Lists
 {
   public class CarList : MainList
   {
-    private static CarList uniqueInstance;
-    private List<Car> list;
+    private static CarList _uniqueInstance;
+    private readonly List<Car> _list;
 
     private CarList()
     {
-      list = new List<Car>();
+      _list = new List<Car>();
 
       loadFromSql();
     }
 
     public static CarList GetInstance()
     {
-      return uniqueInstance ?? (uniqueInstance = new CarList());
+      return _uniqueInstance ?? (_uniqueInstance = new CarList());
     }
 
     protected override void loadFromSql()
     {
-      list.Clear();
+      _list.Clear();
 
       var dt = _provider.Select("Car");
 
       foreach (DataRow row in dt.Rows)
       {
-        list.Add(new Car(row));
+        _list.Add(new Car(row));
       }
     }
 
     private DataTable ToDataTable()
     {
-      return createTable(list);
+      return createTable(_list);
     }
 
     private DataTable ToDataTableActual()
@@ -51,16 +51,16 @@ namespace BBAuto.Domain.Lists
       if (User.GetRole() == RolesList.Employee)
       {
         DriverCarList driverCarList = DriverCarList.getInstance();
-        Car myCar = driverCarList.GetCar(User.getDriver());
+        Car myCar = driverCarList.GetCar(User.GetDriver());
 
-        cars = list.Where(car => car == myCar).ToList();
+        cars = _list.Where(car => car == myCar).ToList();
       }
       else
       {
         ICarSaleService carSaleService = new CarSaleService();
         var carSaleList = carSaleService.GetCarSaleList();
 
-        cars = list.Where(car => car.IsGet && carSaleList.All(carSale => carSale.CarId != car.ID)).ToList();
+        cars = _list.Where(car => car.IsGet && carSaleList.All(carSale => carSale.CarId != car.ID)).ToList();
       }
 
       return createTable(cars);
@@ -68,7 +68,7 @@ namespace BBAuto.Domain.Lists
 
     private DataTable ToDataTableBuy()
     {
-      var cars = list.Where(car => !car.IsGet);
+      var cars = _list.Where(car => !car.IsGet);
 
       return createTable(cars.ToList());
     }
@@ -102,20 +102,20 @@ namespace BBAuto.Domain.Lists
 
     public Car getItem(int id)
     {
-      return list.FirstOrDefault(car => car.ID == id);
+      return _list.FirstOrDefault(car => car.ID == id);
     }
 
     public Car getItem(string grz)
     {
-      var cars = list.Where(item =>
+      var cars = _list.Where(item =>
         ((item.Grz.Replace(" ", "") != string.Empty) && (item.Grz.Replace(" ", "") == grz.Replace(" ", ""))));
 
-      if (cars.Count() > 0)
+      if (cars.Any())
         return cars.First();
 
       if (grz.Replace(" ", "").Length >= 6)
       {
-        cars = list.Where(item =>
+        cars = _list.Where(item =>
           ((item.Grz.Replace(" ", "") != string.Empty) &&
            (item.Grz.Replace(" ", "").Substring(0, 6) == grz.Replace(" ", "").Substring(0, 6))));
 
@@ -175,9 +175,9 @@ namespace BBAuto.Domain.Lists
 
     internal int getNextBBNumber()
     {
-      if (list.Count > 0)
+      if (_list.Count > 0)
       {
-        int maxNumber = list.Max(item => item.BBNumberInt);
+        int maxNumber = _list.Max(item => item.BBNumberInt);
 
         return maxNumber + 1;
       }
@@ -187,12 +187,11 @@ namespace BBAuto.Domain.Lists
 
     public void Delete(int idCar)
     {
-      Car car = getItem(idCar);
+      var car = getItem(idCar);
 
-      list.Remove(car);
+      _list.Remove(car);
 
-      if (car != null)
-        car.Delete();
+      car?.Delete();
     }
   }
 }

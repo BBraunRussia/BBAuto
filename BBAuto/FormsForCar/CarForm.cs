@@ -16,9 +16,9 @@ namespace BBAuto
   public partial class CarForm : Form
   {
     private System.Drawing.Point _curPosition;
-    private Car _car;
-    STS sts;
-    PTS pts;
+    private readonly Car _car;
+    private STS _sts;
+    private PTS _pts;
 
     private bool _load;
 
@@ -65,7 +65,7 @@ namespace BBAuto
 
 
       /*TODO: Столярова видит основную инфу */
-      if (User.getDriver().UserRole == RolesList.AccountantWayBill)
+      if (User.GetDriver().UserRole == RolesList.AccountantWayBill)
       {
         foreach (TabPage tab in tabControl1.TabPages)
         {
@@ -234,20 +234,20 @@ namespace BBAuto
       }
 
       PTSList ptsList = PTSList.getInstance();
-      pts = ptsList.getItem(_car);
-      mtbNumberPTS.Text = pts.Number;
-      dtpDatePTS.Value = pts.Date;
-      tbGiveOrgPTS.Text = pts.GiveOrg;
+      _pts = ptsList.getItem(_car);
+      mtbNumberPTS.Text = _pts.Number;
+      dtpDatePTS.Value = _pts.Date;
+      tbGiveOrgPTS.Text = _pts.GiveOrg;
       TextBox tbFilePTS = ucFilePTS.Controls["tbFile"] as TextBox;
-      tbFilePTS.Text = pts.File;
+      tbFilePTS.Text = _pts.File;
 
       STSList stsList = STSList.getInstance();
-      sts = stsList.getItem(_car);
-      mtbNumberSTS.Text = sts.Number;
-      dtpDateSTS.Value = sts.Date;
-      tbGiveOrgSTS.Text = sts.GiveOrg;
+      _sts = stsList.getItem(_car);
+      mtbNumberSTS.Text = _sts.Number;
+      dtpDateSTS.Value = _sts.Date;
+      tbGiveOrgSTS.Text = _sts.GiveOrg;
       TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
-      tbFileSTS.Text = sts.File;
+      tbFileSTS.Text = _sts.File;
 
       Mileage mileage = mileageList.getItem(_car);
       if (mileage != null)
@@ -339,21 +339,21 @@ namespace BBAuto
       _car.events = tbEvents.Text;
       _car.idDiller = Convert.ToInt32(cbDealer.SelectedValue);
 
-      pts.Number = mtbNumberPTS.Text;
-      pts.Date = Convert.ToDateTime(dtpDatePTS.Text);
-      pts.GiveOrg = tbGiveOrgPTS.Text;
+      _pts.Number = mtbNumberPTS.Text;
+      _pts.Date = Convert.ToDateTime(dtpDatePTS.Text);
+      _pts.GiveOrg = tbGiveOrgPTS.Text;
 
       TextBox tbFilePTS = ucFilePTS.Controls["tbFile"] as TextBox;
-      pts.File = tbFilePTS.Text;
-      pts.Save();
+      _pts.File = tbFilePTS.Text;
+      _pts.Save();
 
-      sts.Number = mtbNumberSTS.Text;
-      sts.Date = Convert.ToDateTime(dtpDateSTS.Text);
-      sts.GiveOrg = tbGiveOrgSTS.Text;
+      _sts.Number = mtbNumberSTS.Text;
+      _sts.Date = Convert.ToDateTime(dtpDateSTS.Text);
+      _sts.GiveOrg = tbGiveOrgSTS.Text;
 
       TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
-      sts.File = tbFileSTS.Text;
-      sts.Save();
+      _sts.File = tbFileSTS.Text;
+      _sts.Save();
 
       _car.Lising = (chbLising.Checked) ? mtbLising.Text : string.Empty;
 
@@ -902,7 +902,7 @@ namespace BBAuto
     {
       try
       {
-        WorkWithFiles.openFile(sts.File);
+        WorkWithFiles.openFile(_sts.File);
       }
       catch (Exception ex)
       {

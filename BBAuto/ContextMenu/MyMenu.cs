@@ -207,11 +207,12 @@ namespace BBAuto.ContextMenu
 
       ToolStripItem itemShowWayBill = _factory.CreateItem(ContextMenuItem.ShowWayBill);
       ToolStripItem itemPrintWayBill = _factory.CreateItem(ContextMenuItem.PrintWayBill);
-      itemShowWayBill.Enabled = ((_mainStatus.Get() != Status.Account) && (_mainStatus.Get() != Status.FuelCard));
+      itemShowWayBill.Enabled = _mainStatus.Get() != Status.Account && _mainStatus.Get() != Status.FuelCard;
       itemPrintWayBill.Enabled = itemShowWayBill.Enabled;
 
       itemAction.DropDownItems.Add(itemShowWayBill);
       itemAction.DropDownItems.Add(itemPrintWayBill);
+      itemAction.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MileageFill));
       itemAction.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Separator));
       itemAction.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Copy));
       itemAction.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Separator));
@@ -298,7 +299,7 @@ namespace BBAuto.ContextMenu
           case Status.Invoice:
             return CreateContextMenuInvoice();
           case Status.DTP:
-            return CreateContextMenuDTP();
+            return CreateContextMenuDtp();
           case Status.Sale:
             return CreateContextMenuSale();
           case Status.Policy:
@@ -376,7 +377,7 @@ namespace BBAuto.ContextMenu
       return menuStrip;
     }
 
-    private ContextMenuStrip CreateContextMenuDTP()
+    private ContextMenuStrip CreateContextMenuDtp()
     {
       ContextMenuStrip menuStrip = new ContextMenuStrip();
 

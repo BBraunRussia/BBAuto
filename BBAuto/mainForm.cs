@@ -17,31 +17,31 @@ namespace BBAuto
 {
   public partial class mainForm : Form
   {
-    private const string COLUMN_BBNUMBER = "Бортовой номер";
+    private const string ColumnBbnumber = "Бортовой номер";
 
-    Point curPosition;
-    Point savedPosition;
+    private Point _curPosition;
+    private Point _savedPosition;
 
-    MainStatus mainStatus;
+    private readonly MainStatus _mainStatus;
 
-    private MainDGV _dgvMain;
+    private readonly MainDGV _dgvMain;
 
-    private SearchInDgv _seacher;
+    private readonly SearchInDgv _seacher;
 
-    CarList carList;
+    private readonly CarList _carList;
 
-    private MyFilter _myFilter;
-    private MyStatusStrip _myStatusStrip;
+    private readonly MyFilter _myFilter;
+    private readonly MyStatusStrip _myStatusStrip;
 
     public mainForm()
     {
       InitializeComponent();
 
-      carList = CarList.GetInstance();
-      mainStatus = MainStatus.getInstance();
-      mainStatus.StatusChanged += statusChanged;
-      mainStatus.StatusChanged += SetWindowHeaderText;
-      mainStatus.StatusChanged += ConfigContextMenu;
+      _carList = CarList.GetInstance();
+      _mainStatus = MainStatus.getInstance();
+      _mainStatus.StatusChanged += statusChanged;
+      _mainStatus.StatusChanged += SetWindowHeaderText;
+      _mainStatus.StatusChanged += ConfigContextMenu;
 
       _dgvMain = new MainDGV(_dgvCar);
 
@@ -63,8 +63,8 @@ namespace BBAuto
 
     private void SetWindowHeaderText(Object sender, StatusEventArgs e)
     {
-      Text = string.Concat("BBAuto - ТЕСТОВАЯ ВЕРСИЯ. Пользователь: ", User.getDriver().GetName(NameType.Short), " Справочник: ",
-        mainStatus.ToString());
+      Text = string.Concat("BBAuto - ТЕСТОВАЯ ВЕРСИЯ. Пользователь: ", User.GetDriver().GetName(NameType.Short), " Справочник: ",
+        _mainStatus.ToString());
     }
 
     private void ConfigContextMenu(Object sender, StatusEventArgs e)
@@ -81,15 +81,15 @@ namespace BBAuto
 
     private void mainForm_Load(object sender, EventArgs e)
     {
-      curPosition = new Point(1, 0);
-      savedPosition = new Point(1, 0);
+      _curPosition = new Point(1, 0);
+      _savedPosition = new Point(1, 0);
 
-      mainStatus.Set(Status.Actual);
+      _mainStatus.Set(Status.Actual);
     }
 
     private void loadCars()
     {
-      loadCars(carList.ToDataTable(mainStatus.Get()));
+      loadCars(_carList.ToDataTable(_mainStatus.Get()));
     }
 
     private void loadCars(object dataSource)
@@ -123,21 +123,21 @@ namespace BBAuto
       /*TO DO: для Столяровой открыть просмотр всех вкладок*/
       if (User.GetRole() == RolesList.AccountantWayBill)
       {
-        if (mainStatus.Get() == Status.Driver)
+        if (_mainStatus.Get() == Status.Driver)
           DoubleClickDriver();
-        if (mainStatus.Get() == Status.Actual)
+        if (_mainStatus.Get() == Status.Actual)
           DoubleClickDefault(point);
         return;
       }
 
       if (isCellNoHeader(e.RowIndex))
       {
-        if ((_dgvCar.Columns[e.ColumnIndex].HeaderText == COLUMN_BBNUMBER) &&
-            (mainStatus.Get() != Status.AccountViolation))
+        if ((_dgvCar.Columns[e.ColumnIndex].HeaderText == ColumnBbnumber) &&
+            (_mainStatus.Get() != Status.AccountViolation))
           DoubleClickDefault(point);
         else
         {
-          switch (mainStatus.Get())
+          switch (_mainStatus.Get())
           {
             case Status.Sale:
               DoubleClickSale(point);
@@ -448,8 +448,8 @@ namespace BBAuto
 
     private void GotoPagePolicy(Account account)
     {
-      savedPosition = new Point(_dgvCar.SelectedCells[0].RowIndex, _dgvCar.SelectedCells[0].ColumnIndex);
-      mainStatus.Set(Status.Policy);
+      _savedPosition = new Point(_dgvCar.SelectedCells[0].RowIndex, _dgvCar.SelectedCells[0].ColumnIndex);
+      _mainStatus.Set(Status.Policy);
       PolicyList policyList = PolicyList.getInstance();
       DataTable dt = policyList.ToDataTable(account);
       btnBack.Visible = true;
@@ -503,7 +503,7 @@ namespace BBAuto
         return;
 
       /*TODO: Столяровой доступ к информации про водителя и основную о машине */
-      if (User.getDriver().UserRole == RolesList.AccountantWayBill && _dgvCar.Columns[point.X].HeaderText != "Водитель")
+      if (User.GetDriver().UserRole == RolesList.AccountantWayBill && _dgvCar.Columns[point.X].HeaderText != "Водитель")
       {
         OpenCarAddEdit(car);
         return;
@@ -574,8 +574,8 @@ namespace BBAuto
 
     private void _dgvCar_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
     {
-      curPosition.X = e.ColumnIndex;
-      curPosition.Y = e.RowIndex;
+      _curPosition.X = e.ColumnIndex;
+      _curPosition.Y = e.RowIndex;
     }
 
     private void _dgvCar_SelectionChanged(object sender, EventArgs e)
@@ -591,15 +591,15 @@ namespace BBAuto
 
     private void formatDGV()
     {
-      _dgvMain.Format(mainStatus.Get());
+      _dgvMain.Format(_mainStatus.Get());
     }
 
     private void btnBack_Click(object sender, EventArgs e)
     {
       btnBack.Visible = false;
-      mainStatus.Set(Status.Account);
+      _mainStatus.Set(Status.Account);
       loadCars();
-      _dgvCar.CurrentCell = _dgvCar.Rows[savedPosition.X].Cells[savedPosition.Y];
+      _dgvCar.CurrentCell = _dgvCar.Rows[_savedPosition.X].Cells[_savedPosition.Y];
     }
 
     private void _dgvCar_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
@@ -610,10 +610,10 @@ namespace BBAuto
 
     private ColumnSize GetColumnSize()
     {
-      Driver driver = User.getDriver();
+      Driver driver = User.GetDriver();
 
       ColumnSizeList columnSizeList = ColumnSizeList.getInstance();
-      return columnSizeList.getItem(driver, mainStatus.Get());
+      return columnSizeList.getItem(driver, _mainStatus.Get());
     }
 
     private void btnClearFilter_Click(object sender, EventArgs e)
