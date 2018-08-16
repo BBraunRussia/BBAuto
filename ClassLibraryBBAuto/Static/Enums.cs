@@ -108,7 +108,6 @@ namespace BBAuto.Domain.Static
     NewAccount,
     NewFuelCard,
     NewTransponder,
-    ShowPolicyList,
     PrintAllTable,
     ShowAllTable,
 
@@ -160,7 +159,12 @@ namespace BBAuto.Domain.Static
 
     DocumentsForSend,
     SelectRecipient,
-    SelectDocumentsForSend
+    SelectDocumentsForSend,
+
+    ReportPolicy,
+    ReportInstractionDocument,
+    ReportMileage,
+    ReportViolation
   }
 
   public enum Fields

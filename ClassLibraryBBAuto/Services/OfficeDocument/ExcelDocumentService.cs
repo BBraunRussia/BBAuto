@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -206,83 +207,9 @@ namespace BBAuto.Domain.Services.OfficeDocument
       excelDoc.setValue(29, 3, regions.getItem(Convert.ToInt32(dtp.IDRegion))); //город
       excelDoc.setValue(31, 14, dtp.Damage); //повреждения
       excelDoc.setValue(33, 2, dtp.Facts); //обстоятельства происшествия
-
-      //SsDTP ssDTP = SsDTPList.getInstance().getItem(_car.Mark);
-
-      //_excelDoc.setValue(63, 11, ssDTP.ServiceStantion);
-
-      //DateTime date = DateTime.Today;
-      //MyDateTime myDate = new MyDateTime(date.ToShortDateString());
-
-      //_excelDoc.setValue(71, 3, string.Concat("« ", date.Day.ToString(), " »"));
-      //_excelDoc.setValue(71, 4, myDate.MonthToStringGenitive());
-      //_excelDoc.setValue(71, 8, date.Year.ToString().Substring(2, 2));
-
+      
       return excelDoc;
     }
-
-    /* Старое извещение
-      public void showNotice(DTP dtp)
-    {
-        _excelDoc = openDocumentExcel("Извещение о страховом случае");
-
-        Owners owners = Owners.getInstance();
-
-        _excelDoc.setValue(7, 4, owners.getItem(Convert.ToInt32(_car.ownerID)));
-        _excelDoc.setValue(8, 5, "а/я 34, 196128");
-        _excelDoc.setValue(9, 6, "320-40-04");
-
-        DriverCarList driverCarList = DriverCarList.getInstance();
-        Driver driver = driverCarList.GetDriver(_car, dtp.Date);
-
-        PassportList passportList = PassportList.getInstance();
-        Passport passport = passportList.getLastPassport(driver);
-
-        if (passport.Number != string.Empty)
-        {
-            string number = passport.Number;
-            string[] numbers = number.Split(' ');
-
-            _excelDoc.setValue(11, 2, numbers[0]);
-            _excelDoc.setValue(11, 5, numbers[1]);
-
-            _excelDoc.setValue(12, 2, passport.GiveOrg);
-            _excelDoc.setValue(13, 3, passport.GiveDate.ToShortDateString());
-        }
-
-        PolicyList policyList = PolicyList.getInstance();
-        Policy policy = policyList.getItem(_car, PolicyType.КАСКО);
-        _excelDoc.setValue(15, 5, policy.Number);
-
-        _excelDoc.setValue(17, 5, string.Concat(_car.Mark.Name, " ", _car.info.Model));
-        _excelDoc.setValue(19, 5, _car.Grz);
-        _excelDoc.setValue(21, 5, _car.vin);
-
-        _excelDoc.setValue(23, 5, dtp.Date.ToShortDateString());
-
-        _excelDoc.setValue(28, 1, driver.GetName(NameType.Full));
-
-        Regions regions = Regions.getInstance();
-
-        _excelDoc.setValue(30, 2, regions.getItem(Convert.ToInt32(dtp.IDRegion)));
-        _excelDoc.setValue(32, 13, dtp.Damage);
-        _excelDoc.setValue(34, 1, dtp.Facts);
-
-        SsDTP ssDTP = SsDTPList.getInstance().getItem(_car.Mark);
-
-        _excelDoc.setValue(63, 11, ssDTP.ServiceStantion);
-
-        DateTime date = DateTime.Today;
-        MyDateTime myDate = new MyDateTime(date.ToShortDateString());
-
-        _excelDoc.setValue(71, 3, string.Concat("« ", date.Day.ToString(), " »"));
-        _excelDoc.setValue(71, 4, myDate.MonthToStringGenitive());
-        _excelDoc.setValue(71, 8, date.Year.ToString().Substring(2, 2));
-
-        _excelDoc.Show();
-    }
-     
-     */
 
     public IExcelDoc CreateWaybill(Car car, DateTime date, Driver driver = null)
     {
@@ -518,7 +445,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       return excelDoc;
     }
     
-    public IDocument CreatePolicyTable()
+    public IDocument CreateReportPolicy()
     {
       var date = DateTime.Today.AddMonths(1);
 
@@ -569,6 +496,27 @@ namespace BBAuto.Domain.Services.OfficeDocument
       }
 
       return excelDoc;
+    }
+
+    public IDocument CreateReportInstractionDocument()
+    {
+      IExcelDoc document = new ExcelDoc();
+
+      throw new NotImplementedException();
+
+      //var docs = InstractionList.getInstance().getItem()
+
+      //WriteHeaderReportInstractionDocument(document);
+    }
+
+    private void WriteHeaderReportInstractionDocument(IExcelDoc excelDoc, IList<string> documentNames)
+    {
+      excelDoc.setValue(1, 1, "ФИО водителя");
+
+      for (var i = 0; i < documentNames.Count; i++)
+      {
+        excelDoc.setValue(1, i + 2, documentNames[i]);
+      }
     }
 
     private static IExcelDoc OpenDocumentExcel(string name)

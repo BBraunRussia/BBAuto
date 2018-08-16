@@ -106,8 +106,8 @@ namespace BBAuto.ContextMenu
           return CreateNewFuelCard();
         case ContextMenuItem.NewTransponder:
           return CreateNewTransponder();
-        case ContextMenuItem.ShowPolicyList:
-          return CreateShowPolicyList();
+        case ContextMenuItem.ReportPolicy:
+          return ReportPolicy();
         case ContextMenuItem.PrintAllTable:
           return CreatePrintAllTable();
         case ContextMenuItem.ShowAllTable:
@@ -760,19 +760,7 @@ namespace BBAuto.ContextMenu
       };
       return item;
     }
-
-    private ToolStripMenuItem CreateShowPolicyList()
-    {
-      ToolStripMenuItem item = CreateItem("Сформировать таблицу страхования");
-      item.Click += delegate
-      {
-        var service = new ExcelDocumentService();
-        var document = service.CreatePolicyTable();
-        document.Show();
-      };
-      return item;
-    }
-
+    
     private ToolStripMenuItem CreatePrintAllTable()
     {
       ToolStripMenuItem item = CreateItem("Текущий справочник");
@@ -1391,18 +1379,42 @@ namespace BBAuto.ContextMenu
       return item;
     }
 
-    private ToolStripMenuItem CreateItem(string name)
+    private static ToolStripMenuItem ReportPolicy()
+    {
+      var item = CreateItem("Таблица страхования");
+      item.Click += delegate
+      {
+        IExcelDocumentService service = new ExcelDocumentService();
+        var report = service.CreateReportPolicy();
+        report.Show();
+      };
+      return item;
+    }
+
+    private static ToolStripMenuItem ReportInstractionDocument()
+    {
+      var item = CreateItem("Ознакомление с документами инструктажа");
+      item.Click += delegate
+      {
+        IExcelDocumentService service = new ExcelDocumentService();
+        var report = service.CreateReportInstractionDocument();
+        report.Show();
+      };
+      return item;
+    }
+
+    private static ToolStripMenuItem CreateItem(string name)
     {
       return new ToolStripMenuItem(name);
     }
 
     private void SendPolicy(PolicyType type)
     {
-      Car car = _dgvMain.GetCar();
+      var car = _dgvMain.GetCar();
       if (car == null)
         return;
 
-      string result = MailPolicy.Send(car, type);
+      var result = MailPolicy.Send(car, type);
 
       MessageBox.Show(result, "Отправка", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }

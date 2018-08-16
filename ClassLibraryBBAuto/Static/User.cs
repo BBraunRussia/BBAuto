@@ -13,9 +13,9 @@ namespace BBAuto.Domain.Static
       var login = WindowsIdentity.GetCurrent().Name.Replace("\\", "-");
       var s2 = login.Split('-');
       login = s2[1];
-      //login = "shelmaru";
+      login = "shelmaru";
       //login = "boganaru";
-      login = "stolekru";            
+      //login = "stolekru";            
       //login = "mikhmrru";
       var driverList = DriverList.getInstance();
       _driver = driverList.getItem(login);

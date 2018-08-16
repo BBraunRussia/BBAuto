@@ -36,17 +36,18 @@ namespace BBAuto.ContextMenu
 
     private MenuStrip CreateMainMenuAdministrator()
     {
-      MenuStrip menuStrip = new MenuStrip();
+      var menuStrip = new MenuStrip();
 
-      ToolStripMenuItem itemAction = new ToolStripMenuItem("Действия");
-      ToolStripMenuItem itemMainDictionary = new ToolStripMenuItem("Основные справочники");
-      ToolStripMenuItem itemExtraDictionary = new ToolStripMenuItem("Дополнительные справочники");
+      var itemAction = new ToolStripMenuItem("Действия");
+      var itemMainDictionary = new ToolStripMenuItem("Основные справочники");
+      var itemExtraDictionary = new ToolStripMenuItem("Дополнительные справочники");
+      var itemReports = new ToolStripMenuItem("Отчёты");
 
-      ToolStripMenuItem itemCreate = new ToolStripMenuItem("Создать");
-      ToolStripMenuItem itemShow = new ToolStripMenuItem("Показать");
-      ToolStripMenuItem itemChangeStatus = new ToolStripMenuItem("Изменить статус");
-      ToolStripMenuItem itemDriverMail = new ToolStripMenuItem("Письмо водителю");
-      ToolStripMenuItem itemPrint = new ToolStripMenuItem("Печать");
+      var itemCreate = new ToolStripMenuItem("Создать");
+      var itemShow = new ToolStripMenuItem("Показать");
+      var itemChangeStatus = new ToolStripMenuItem("Изменить статус");
+      var itemDriverMail = new ToolStripMenuItem("Письмо водителю");
+      var itemPrint = new ToolStripMenuItem("Печать");
 
       itemAction.DropDownItems.Add(itemCreate);
       itemAction.DropDownItems.Add(itemShow);
@@ -77,8 +78,6 @@ namespace BBAuto.ContextMenu
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ShowNotice));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.NewViolation));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.NewPolicy));
-      itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Separator));
-      itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ShowPolicyList));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Separator));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MileageFill));
       itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.FuelLoad));
@@ -189,9 +188,12 @@ namespace BBAuto.ContextMenu
       itemExtraDictionary.DropDownItems.Add(itemUsers);
       itemExtraDictionary.DropDownItems.Add(itemDocuments);
 
+      itemReports.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ReportPolicy));
+
       menuStrip.Items.Add(itemAction);
       menuStrip.Items.Add(itemMainDictionary);
       menuStrip.Items.Add(itemExtraDictionary);
+      menuStrip.Items.Add(itemReports);
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Documents));
 
       return menuStrip;

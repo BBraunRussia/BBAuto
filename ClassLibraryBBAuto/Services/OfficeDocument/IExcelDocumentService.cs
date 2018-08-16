@@ -15,7 +15,9 @@ namespace BBAuto.Domain.Services.OfficeDocument
     IExcelDoc CreateWaybill(Car car, DateTime date, Driver driver = null);
     void AddRouteInWayBill(IExcelDoc excelDoc, Car car, DateTime date, Fields fields);
     IDocument CreateAttacheToOrder(Car car, Invoice invoice);
-    IDocument CreatePolicyTable();
     void CreateHeader(ExcelDoc excelDoc, string text);
+
+    IDocument CreateReportPolicy();
+    IDocument CreateReportInstractionDocument();
   }
 }
