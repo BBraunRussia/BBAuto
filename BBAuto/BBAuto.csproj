@@ -404,11 +404,11 @@
     <Compile Include="FormsForCar\ListDTP.Designer.cs">
       <DependentUpon>ListDTP.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForDriver\AddEdit\Instraction_AddEdit.cs">
+    <Compile Include="FormsForDriver\AddEdit\DriverInstractionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForDriver\AddEdit\Instraction_AddEdit.Designer.cs">
-      <DependentUpon>Instraction_AddEdit.cs</DependentUpon>
+    <Compile Include="FormsForDriver\AddEdit\DriverInstractionForm.Designer.cs">
+      <DependentUpon>DriverInstractionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForDriver\AddEdit\License_AddEdit.cs">
       <SubType>Form</SubType>
@@ -689,8 +689,8 @@
     <EmbeddedResource Include="FormsForCar\ListDTP.resx">
       <DependentUpon>ListDTP.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForDriver\AddEdit\Instraction_AddEdit.resx">
-      <DependentUpon>Instraction_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForDriver\AddEdit\DriverInstractionForm.resx">
+      <DependentUpon>DriverInstractionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForDriver\AddEdit\License_AddEdit.resx">
       <DependentUpon>License_AddEdit.cs</DependentUpon>

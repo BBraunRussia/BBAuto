@@ -10,11 +10,11 @@ namespace BBAuto.Domain.Lists
   public class InstractionList : MainList
   {
     private static InstractionList _uniqueInstance;
-    private readonly List<Instraction> _list;
+    private readonly List<Instruction> _list;
 
     private InstractionList()
     {
-      _list = new List<Instraction>();
+      _list = new List<Instruction>();
 
       loadFromSql();
     }
@@ -30,12 +30,12 @@ namespace BBAuto.Domain.Lists
 
       foreach (DataRow row in dt.Rows)
       {
-        Instraction instraction = new Instraction(row);
+        Instruction instraction = new Instruction(row);
         Add(instraction);
       }
     }
 
-    public void Add(Instraction instraction)
+    public void Add(Instruction instraction)
     {
       if (_list.Exists(item => item == instraction))
         return;
@@ -50,35 +50,35 @@ namespace BBAuto.Domain.Lists
 
     public DataTable ToDataTable(Driver driver)
     {
-      return CreateTable(_list.Where(i => i.Driver.ID == driver.ID));
+      return CreateTable(_list.Where(i => i.DriverId == driver.ID));
     }
 
-    private DataTable CreateTable(IEnumerable<Instraction> instractions)
+    private DataTable CreateTable(IEnumerable<Instruction> instractions)
     {
       DataTable dt = new DataTable();
       dt.Columns.Add("id");
-      dt.Columns.Add("Номер");
+      dt.Columns.Add("Название");
       dt.Columns.Add("Дата инструктажа");
 
-      foreach (Instraction instraction in instractions)
+      foreach (Instruction instraction in instractions)
         dt.Rows.Add(instraction.getRow());
 
       return dt;
     }
 
-    public Instraction getItem(int id)
+    public Instruction getItem(int id)
     {
       return _list.FirstOrDefault(i => i.ID == id);
     }
 
-    public Instraction getItem(Driver driver)
+    public Instruction getItem(Driver driver)
     {
-      return _list.FirstOrDefault(i => i.Driver.ID == driver.ID);
+      return _list.FirstOrDefault(i => i.DriverId == driver.ID);
     }
 
     public void Delete(int idInstraction)
     {
-      Instraction instraction = getItem(idInstraction);
+      Instruction instraction = getItem(idInstraction);
 
       _list.Remove(instraction);
 

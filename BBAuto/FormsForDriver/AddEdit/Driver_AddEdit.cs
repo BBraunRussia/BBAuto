@@ -1,10 +1,13 @@
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using BBAuto.Domain.Common;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
+using BBAuto.Domain.Services.Documents;
+using BBAuto.Domain.Services.DriverInstruction;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Tables;
 
@@ -132,11 +135,22 @@ namespace BBAuto
 
     private void FillInstraction()
     {
-      InstractionList instractionList = InstractionList.getInstance();
-      Instraction instraction = instractionList.getItem(_driver);
+      IDriverInstructionService driverInstructionService = new DriverInstructionService();
+      var driverInstructions = driverInstructionService.GetDriverInstructionsByDriverId(_driver.ID);
 
-      if (instraction != null)
-        instractionInfo.Text = instraction.ToString();
+      if (driverInstructions.Any())
+      {
+        var driverInstruction = driverInstructions.First();
+
+        IDocumentsService documentsService = new DocumentsService();
+        var document = documentsService.GetDocumentById(driverInstruction.DocumentId);
+      
+        instractionInfo.Text = $"{document.Name} дата {driverInstruction.Date.ToShortDateString()}";
+      }
+      else
+      {
+        instractionInfo.Text = "нет данных";
+      }
     }
 
     private void FillMedicalCert()
@@ -232,8 +246,8 @@ namespace BBAuto
     {
       if (trySave())
       {
-        formInstractionList instList = new formInstractionList(_driver);
-        if (instList.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        var instList = new formInstractionList(_driver);
+        if (instList.ShowDialog() == DialogResult.OK)
           FillInstraction();
       }
     }
@@ -243,7 +257,7 @@ namespace BBAuto
       if (trySave())
       {
         formMedicalCertList mcList = new formMedicalCertList(_driver);
-        if (mcList.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        if (mcList.ShowDialog() == DialogResult.OK)
           FillMedicalCert();
       }
     }
@@ -253,7 +267,7 @@ namespace BBAuto
       if (trySave())
       {
         formLicenseList licList = new formLicenseList(_driver);
-        if (licList.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        if (licList.ShowDialog() == DialogResult.OK)
           FillDriverLicense();
       }
     }
@@ -263,7 +277,7 @@ namespace BBAuto
       if (trySave())
       {
         formPassportList passList = new formPassportList(_driver);
-        if (passList.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        if (passList.ShowDialog() == DialogResult.OK)
           FillPassport();
       }
     }

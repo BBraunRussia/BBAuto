@@ -7,7 +7,6 @@ namespace BBAuto.Domain.Services.Documents
   public class Document
   {
     private string _path;
-
     
     public int Id { get; set; }
     [DisplayName("Название")]
@@ -25,7 +24,7 @@ namespace BBAuto.Domain.Services.Documents
         _path = WorkWithFiles.fileCopy(value, "Documents", System.IO.Path.GetFileNameWithoutExtension(value));
       }
     }
-    [DisplayName("Тип")]
+    [DisplayName("Инструктаж")]
     public bool Instruction { get; set; }
 
     private void DeleteFile(string filePath)

@@ -9,6 +9,7 @@ namespace BBAuto.Repository
     IDbCustomer Customer { get; }
 
     IDbDocument Document { get; }
+    IDbDriverInstruction DriverInstruction { get; }
 
     IDbDriverTransponder DriverTransponder { get; }
     IDbTransponder Transponder { get; }

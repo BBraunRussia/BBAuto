@@ -34,5 +34,12 @@ namespace BBAuto.Domain.Services.Documents
 
       _dbContext.Document.DeleteDocument(document.Id);
     }
+
+    public Document GetDocumentById(int id)
+    {
+      var dbDocument = _dbContext.Document.GetDocumentById(id);
+
+      return Mapper.Map<Document>(dbDocument);
+    }
   }
 }

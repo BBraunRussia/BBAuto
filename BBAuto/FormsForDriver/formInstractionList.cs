@@ -1,100 +1,85 @@
-﻿using BBAuto.Domain.Common;
+using BBAuto.Domain.Common;
 using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using BBAuto.Domain.Services.Documents;
+using BBAuto.Domain.Services.DriverInstruction;
 
 namespace BBAuto
 {
-    public partial class formInstractionList : Form
+  public partial class formInstractionList : Form
+  {
+    private readonly Driver _driver;
+    private readonly IDriverInstructionService _driverInstructionService;
+
+    public formInstractionList(Driver driver)
     {
-        private Driver _driver;
-        private InstractionList instractionList;
+      InitializeComponent();
 
-        public formInstractionList(Driver driver)
-        {
-            InitializeComponent();
-
-            _driver = driver;
-
-            instractionList = InstractionList.getInstance();
-        }
-
-        private void InstractionList_Load(object sender, EventArgs e)
-        {
-            LoadData();
-            SetEnable();
-        }
-
-        private void LoadData()
-        {
-            dgvInstractions.DataSource = instractionList.ToDataTable(_driver);
-            dgvInstractions.Columns[0].Visible = false;
-
-            foreach (DataGridViewRow row in dgvInstractions.Rows)
-            {
-                int id = 0;
-                int.TryParse(row.Cells[0].Value.ToString(), out id);
-
-                Instraction instraction = instractionList.getItem(id);
-
-                if (instraction.File != string.Empty)
-                    row.DefaultCellStyle.BackColor = BBColors.bbGreen3;
-            }
-        }
-
-        private void SetEnable()
-        {
-            btnAdd.Enabled = User.IsFullAccess();
-            btnDelete.Enabled = User.IsFullAccess();
-        }
-
-        private void add_Click(object sender, EventArgs e)
-        {
-            Instraction_AddEdit instAE = new Instraction_AddEdit(_driver.createInstraction());
-            if (instAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                LoadData();
-        }
-
-        private void delete_Click(object sender, EventArgs e)
-        {
-            int idInstraction = Convert.ToInt32(dgvInstractions.Rows[dgvInstractions.SelectedCells[0].RowIndex].Cells[0].Value);
-            instractionList.Delete(idInstraction);
-
-            LoadData();
-        }
-
-        private void dgvInstractions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (isCellNoHeader(e.RowIndex))
-            {
-                int idInstraction = Convert.ToInt32(dgvInstractions.Rows[e.RowIndex].Cells[0].Value);
-                Instraction instraction = instractionList.getItem(idInstraction);
-
-                if ((dgvInstractions.Columns[e.ColumnIndex].HeaderText == "Номер") && (instraction.File != string.Empty))
-                {
-                    WorkWithFiles.openFile(instraction.File);
-                }
-                else
-                {
-                    Instraction_AddEdit instAE = new Instraction_AddEdit(instraction);
-                    if (instAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        LoadData();
-                }
-            }
-        }
-
-        private bool isCellNoHeader(int rowIndex)
-        {
-            return rowIndex >= 0;
-        }
+      _driver = driver;
+      _driverInstructionService = new DriverInstructionService();
     }
+
+    private void InstractionList_Load(object sender, EventArgs e)
+    {
+      LoadData();
+      SetEnable();
+    }
+
+    private void LoadData()
+    {
+      dgvInstractions.DataSource = _driverInstructionService.GetDriverInstructionsByDriverId(_driver.ID);
+    }
+
+    private void SetEnable()
+    {
+      btnAdd.Enabled = User.IsFullAccess();
+      btnDelete.Enabled = User.IsFullAccess();
+    }
+
+    private void add_Click(object sender, EventArgs e)
+    {
+      var driverInstractionForm = new DriverInstractionForm(new DriverInstruction(_driver.ID), _driverInstructionService);
+      if (driverInstractionForm.ShowDialog() == DialogResult.OK)
+        LoadData();
+    }
+
+    private void delete_Click(object sender, EventArgs e)
+    {
+      var driverInstruction = dgvInstractions.Rows[dgvInstractions.SelectedCells[0].RowIndex].DataBoundItem as DriverInstruction;
+      _driverInstructionService.DeleteDriverInstruction(driverInstruction?.Id ?? 0);
+
+      LoadData();
+    }
+
+    private void dgvInstractions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    {
+      if (isCellNoHeader(e.RowIndex))
+      {
+        var driverInstruction = dgvInstractions.Rows[e.RowIndex].DataBoundItem as DriverInstruction;
+        if (driverInstruction == null)
+          return;
+
+        if (dgvInstractions.Columns[e.ColumnIndex].HeaderText == "Название")
+        {
+          IDocumentsService documentsService = new DocumentsService();
+          var document = documentsService.GetDocumentById(driverInstruction.DocumentId);
+          WorkWithFiles.openFile(document.Path);
+        }
+        else
+        {
+          var driverInstractionForm = new DriverInstractionForm(driverInstruction, _driverInstructionService);
+          if (driverInstractionForm.ShowDialog() == DialogResult.OK)
+            LoadData();
+        }
+      }
+    }
+
+    private bool isCellNoHeader(int rowIndex)
+    {
+      return rowIndex >= 0;
+    }
+  }
 }

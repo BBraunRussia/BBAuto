@@ -8,6 +8,7 @@ namespace BBAuto.Repository.Interfaces
   public interface IDbDocument
   {
     IList<DbDocument> GetDocumentList();
+    DbDocument GetDocumentById(int id);
     void UpsertDocument(DbDocument dbDocument);
     void DeleteDocument(int id);
   }

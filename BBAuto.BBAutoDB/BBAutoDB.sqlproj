@@ -87,7 +87,7 @@
     <Folder Include="Programmability\Stored Procedures\FuelCardType" />
     <Folder Include="Programmability\Stored Procedures\Grade" />
     <Folder Include="Programmability\Stored Procedures\History" />
-    <Folder Include="Programmability\Stored Procedures\Instraction" />
+    <Folder Include="Programmability\Stored Procedures\DriverInstruction" />
     <Folder Include="Programmability\Stored Procedures\Invoice" />
     <Folder Include="Programmability\Stored Procedures\MailText" />
     <Folder Include="Programmability\Stored Procedures\MainPoint" />
@@ -158,6 +158,7 @@
     <Build Include="Tables\Grade.sql" />
     <Build Include="Tables\History.sql" />
     <Build Include="Tables\Instraction.sql" />
+    <Build Include="Tables\DriverInstruction.sql" />
     <Build Include="Tables\Invoice.sql" />
     <Build Include="Tables\MailText.sql" />
     <Build Include="Tables\MainPoint.sql" />
@@ -271,10 +272,9 @@
     <Build Include="Programmability\Stored Procedures\Grade\Grade_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\Grade\Grade_Select.sql" />
     <Build Include="Programmability\Stored Procedures\History\History_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\Instraction\Instraction_Delete.sql" />
-    <Build Include="Programmability\Stored Procedures\Instraction\Instraction_GetLast.sql" />
-    <Build Include="Programmability\Stored Procedures\Instraction\Instraction_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\Instraction\Instraction_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverInstruction\DeleteDriverInstruction.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverInstruction\UpsertDriverInstruction.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverInstruction\GetDriverInstructions.sql" />
     <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\Invoice\Invoice_Select.sql" />
@@ -403,6 +403,8 @@
     <Build Include="Programmability\Stored Procedures\Documents\GetDocumentList.sql" />
     <Build Include="Programmability\Stored Procedures\Documents\UpsertDocument.sql" />
     <Build Include="Programmability\Stored Procedures\Documents\DeleteDocument.sql" />
+    <Build Include="Programmability\Stored Procedures\Documents\GetDocumentById.sql" />
+    <Build Include="Programmability\Stored Procedures\DriverInstruction\GetDriverInstructionsByDriverId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />

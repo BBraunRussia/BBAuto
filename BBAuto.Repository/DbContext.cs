@@ -44,6 +44,7 @@ namespace BBAuto.Repository
     public IDbComp Comp => CreateRepository<IDbComp>();
     public IDbCustomer Customer => CreateRepository<IDbCustomer>();
     public IDbDocument Document => CreateRepository<IDbDocument>();
+    public IDbDriverInstruction DriverInstruction => CreateRepository<IDbDriverInstruction>();
 
     public IDbDriverTransponder DriverTransponder => CreateRepository<IDbDriverTransponder>();
     public IDbTransponder Transponder => CreateRepository<IDbTransponder>();

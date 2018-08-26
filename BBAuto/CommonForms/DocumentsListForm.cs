@@ -24,6 +24,7 @@ namespace BBAuto.CommonForms
     private void LoadData()
     {
       _dgv.DataSource = _documentsService.GetList();
+      _dgv.Columns["Id"].Visible = false;
     }
 
     private void btnAdd_Click(object sender, EventArgs e)

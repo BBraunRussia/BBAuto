@@ -38,3 +38,14 @@ if not exists(select 1 from Status where Status_id = 16)
 begin
   insert into Status(Status_name, Status_seq) values(N'Транспондеры', 16)
 end
+
+if not exists(select 1 from Documents)
+begin
+  insert into Documents (Name, Instruction)
+  select distinct i.Instraction_number, 1 FROM Instraction i
+end
+if not exists(select 1 from DriverInstruction)
+begin
+  insert into DriverInstruction (DocumentId, DriverId, Date)
+  select (select Id from Documents d where d.Name = i.Instraction_number) as DocumentId, driver_id, instraction_date from Instraction i
+end

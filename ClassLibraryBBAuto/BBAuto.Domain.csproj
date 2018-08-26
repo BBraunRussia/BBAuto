@@ -107,6 +107,10 @@
     <Compile Include="Services\Documents\DocumentMappingProfile.cs" />
     <Compile Include="Services\Documents\DocumentsService.cs" />
     <Compile Include="Services\Documents\IDocumentsService.cs" />
+    <Compile Include="Services\DriverInstruction\DriverInstruction.cs" />
+    <Compile Include="Services\DriverInstruction\DriverInstructionMappingProfile.cs" />
+    <Compile Include="Services\DriverInstruction\DriverInstructionService.cs" />
+    <Compile Include="Services\DriverInstruction\IDriverInstructionService.cs" />
     <Compile Include="Services\Mail\IMailService.cs" />
     <Compile Include="Services\OfficeDocument\ExcelDoc.cs" />
     <Compile Include="Services\OfficeDocument\IDocument.cs" />
@@ -203,7 +207,7 @@
     <Compile Include="ForDriver\DriverLicense.cs" />
     <Compile Include="ForCar\DTP.cs" />
     <Compile Include="ForCar\Grade.cs" />
-    <Compile Include="ForDriver\Instraction.cs" />
+    <Compile Include="ForDriver\Instruction.cs" />
     <Compile Include="Abstract\INotification.cs" />
     <Compile Include="ForCar\Invoice.cs" />
     <Compile Include="Lists\DTPFileList.cs" />

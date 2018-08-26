@@ -7,5 +7,6 @@ namespace BBAuto.Domain.Services.Documents
     IList<Document> GetList();
     void Save(Document document);
     void DeleteDocument(Document document);
+    Document GetDocumentById(int id);
   }
 }
