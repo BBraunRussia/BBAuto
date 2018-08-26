@@ -162,7 +162,7 @@ namespace BBAuto.Domain.Static
     SelectDocumentsForSend,
 
     ReportPolicy,
-    ReportInstractionDocument,
+    ReportDriverInstraction,
     ReportMileage,
     ReportViolation
   }

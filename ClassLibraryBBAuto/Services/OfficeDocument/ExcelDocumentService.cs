@@ -10,8 +10,11 @@ using BBAuto.Domain.ForCar;
 using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Services.Comp;
+using BBAuto.Domain.Services.Documents;
+using BBAuto.Domain.Services.DriverInstruction;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Tables;
+using Common;
 
 namespace BBAuto.Domain.Services.OfficeDocument
 {
@@ -502,11 +505,32 @@ namespace BBAuto.Domain.Services.OfficeDocument
     {
       IExcelDoc document = new ExcelDoc();
 
-      throw new NotImplementedException();
+      IDocumentsService documentsService = new DocumentsService();
+      
+      var instructionList = documentsService.GetList().Where(doc => doc.Instruction).ToList();
 
-      //var docs = InstractionList.getInstance().getItem()
+      WriteHeaderReportInstractionDocument(document, instructionList.OrderBy(ins => ins.Id).Select(ins => ins.Name).ToList());
 
-      //WriteHeaderReportInstractionDocument(document);
+      var driverList = DriverList.getInstance().GetList().Where(driver => driver.ID != Consts.ReserveDriverId);
+      IDriverInstructionService driverInstructionService = new DriverInstructionService();
+      var driverInstructionList = driverInstructionService.GetDriverInstructions();
+
+      var i = 2;
+      foreach (var driver in driverList)
+      {
+        document.setValue(i, 1, driver.Name);
+        var j = 2;
+        var driverInstructions = driverInstructionList.Where(drIns => drIns.DriverId == driver.ID).ToList();
+        foreach (var documentInstruction in instructionList)
+        {
+          var driverInstruction = driverInstructions.FirstOrDefault(drIns => drIns.DocumentId == documentInstruction.Id);
+          document.setValue(i, j, driverInstruction?.Date.ToShortDateString() ?? "-");
+          j++;
+        }
+        i++;
+      }
+
+      return document;
     }
 
     private void WriteHeaderReportInstractionDocument(IExcelDoc excelDoc, IList<string> documentNames)

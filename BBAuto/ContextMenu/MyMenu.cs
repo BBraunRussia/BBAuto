@@ -189,6 +189,8 @@ namespace BBAuto.ContextMenu
       itemExtraDictionary.DropDownItems.Add(itemDocuments);
 
       itemReports.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ReportPolicy));
+      itemReports.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ReportDriverInstraction));
+      itemReports.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ReportMileage));
 
       menuStrip.Items.Add(itemAction);
       menuStrip.Items.Add(itemMainDictionary);

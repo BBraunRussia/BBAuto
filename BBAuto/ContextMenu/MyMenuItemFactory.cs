@@ -106,8 +106,12 @@ namespace BBAuto.ContextMenu
           return CreateNewFuelCard();
         case ContextMenuItem.NewTransponder:
           return CreateNewTransponder();
+
         case ContextMenuItem.ReportPolicy:
           return ReportPolicy();
+        case ContextMenuItem.ReportDriverInstraction:
+          return ReportDriverInstraction();
+
         case ContextMenuItem.PrintAllTable:
           return CreatePrintAllTable();
         case ContextMenuItem.ShowAllTable:
@@ -1391,7 +1395,7 @@ namespace BBAuto.ContextMenu
       return item;
     }
 
-    private static ToolStripMenuItem ReportInstractionDocument()
+    private static ToolStripMenuItem ReportDriverInstraction()
     {
       var item = CreateItem("Ознакомление с документами инструктажа");
       item.Click += delegate
