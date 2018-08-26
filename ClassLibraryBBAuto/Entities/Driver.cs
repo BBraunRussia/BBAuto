@@ -300,11 +300,6 @@ namespace BBAuto.Domain.Entities
       driverList.ReLoad();
     }
 
-    public Instruction createInstraction()
-    {
-      return new Instruction(ID);
-    }
-
     public MedicalCert createMedicalCert()
     {
       return new MedicalCert(this);

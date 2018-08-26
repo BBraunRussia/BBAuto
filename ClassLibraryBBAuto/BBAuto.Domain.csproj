@@ -207,14 +207,12 @@
     <Compile Include="ForDriver\DriverLicense.cs" />
     <Compile Include="ForCar\DTP.cs" />
     <Compile Include="ForCar\Grade.cs" />
-    <Compile Include="ForDriver\Instruction.cs" />
     <Compile Include="Abstract\INotification.cs" />
     <Compile Include="ForCar\Invoice.cs" />
     <Compile Include="Lists\DTPFileList.cs" />
     <Compile Include="Lists\DTPList.cs" />
     <Compile Include="Dictionary\EmployeesNames.cs" />
     <Compile Include="Lists\EmployeesList.cs" />
-    <Compile Include="Lists\InstractionList.cs" />
     <Compile Include="Lists\InvoiceList.cs" />
     <Compile Include="Lists\LicencesList.cs" />
     <Compile Include="Lists\MedicalCertList.cs" />
