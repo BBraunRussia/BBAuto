@@ -286,7 +286,7 @@ namespace BBAuto
         WorkWithFiles.openFile(violation.FilePay);
       else
       {
-        Violation_AddEdit vAE = new Violation_AddEdit(violation);
+        ViolationForm vAE = new ViolationForm(violation);
         if (vAE.ShowDialog() == DialogResult.OK)
         {
           loadCars();
@@ -425,7 +425,7 @@ namespace BBAuto
           _myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
         else
         {
-          Violation_AddEdit violationAE = new Violation_AddEdit(violation);
+          ViolationForm violationAE = new ViolationForm(violation);
           if (violationAE.ShowDialog() == DialogResult.OK)
           {
             loadCars();

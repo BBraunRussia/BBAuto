@@ -622,7 +622,7 @@ namespace BBAuto
     {
       Violation violation = _car.createViolation();
 
-      Violation_AddEdit vAE = new Violation_AddEdit(violation);
+      ViolationForm vAE = new ViolationForm(violation);
 
       if (vAE.ShowDialog() == DialogResult.OK)
       {
@@ -643,7 +643,7 @@ namespace BBAuto
         WorkWithFiles.openFile(violation.FilePay);
       else
       {
-        Violation_AddEdit vAE = new Violation_AddEdit(violation);
+        ViolationForm vAE = new ViolationForm(violation);
         if (vAE.ShowDialog() == DialogResult.OK)
           loadViolation();
       }

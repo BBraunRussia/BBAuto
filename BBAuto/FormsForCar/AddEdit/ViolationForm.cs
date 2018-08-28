@@ -7,22 +7,22 @@ using BBAuto.Domain.Services.Mail;
 
 namespace BBAuto
 {
-  public partial class Violation_AddEdit : Form
+  public partial class ViolationForm : Form
   {
     private readonly Violation _violation;
 
     private WorkWithForm _workWithForm;
 
-    public Violation_AddEdit(Violation violation)
+    public ViolationForm(Violation violation)
     {
       InitializeComponent();
 
       _violation = violation;
     }
 
-    private void Violation_AddEdit_Load(object sender, EventArgs e)
+    private void ViolationForm_Load(object sender, EventArgs e)
     {
-      fillFields();
+      FillFields();
 
       ChangeVisible();
 
@@ -30,19 +30,21 @@ namespace BBAuto
       _workWithForm.SetEditMode(_violation.ID == 0);
     }
 
-    private void fillFields()
+    private void FillFields()
     {
       dtpDate.Value = _violation.Date;
       tbNumber.Text = _violation.Number;
-      chbPaid.Checked = (_violation.DatePay != null);
+      chbPaid.Checked = _violation.DatePay != null;
+      if (_violation.DatePay != null)
+        dtpDatePaid.Value = _violation.DatePay.Value;
 
-      TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
+      var tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _violation.File;
 
       cbViolationType.SelectedValue = _violation.IDViolationType;
       tbSum.Text = _violation.Sum;
 
-      ViolationTypes violationType = ViolationTypes.getInstance();
+      var violationType = ViolationTypes.getInstance();
       cbViolationType.DataSource = violationType.ToDataTable();
       cbViolationType.ValueMember = "id";
       cbViolationType.DisplayMember = "Название";
@@ -50,7 +52,7 @@ namespace BBAuto
       cbViolationType.SelectedValue = _violation.IDViolationType;
       tbSum.Text = _violation.Sum;
 
-      TextBox tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
+      var tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
       tbFilePay.Text = _violation.FilePay;
 
       chbNoDeduction.Checked = _violation.NoDeduction;
@@ -163,14 +165,14 @@ namespace BBAuto
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      var driverAE = new Driver_AddEdit(_violation.getDriver());
-      driverAE.ShowDialog();
+      var driverForm = new Driver_AddEdit(_violation.getDriver());
+      driverForm.ShowDialog();
     }
 
     private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      var carAE = new CarForm(_violation.Car);
-      carAE.ShowDialog();
+      var carForm = new CarForm(_violation.Car);
+      carForm.ShowDialog();
     }
   }
 }

@@ -1,6 +1,6 @@
 namespace BBAuto
 {
-    partial class Violation_AddEdit
+    partial class ViolationForm
     {
         /// <summary>
         /// Required designer variable.
@@ -295,10 +295,10 @@ namespace BBAuto
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
       this.MaximizeBox = false;
       this.MinimizeBox = false;
-      this.Name = "Violation_AddEdit";
+      this.Name = "ViolationForm";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Нарушение ПДД";
-      this.Load += new System.EventHandler(this.Violation_AddEdit_Load);
+      this.Load += new System.EventHandler(this.ViolationForm_Load);
       this.ResumeLayout(false);
       this.PerformLayout();
 

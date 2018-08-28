@@ -350,11 +350,11 @@
     <Compile Include="FormsForCar\AddEdit\PolicyForm.Designer.cs">
       <DependentUpon>PolicyForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\Violation_AddEdit.cs">
+    <Compile Include="FormsForCar\AddEdit\ViolationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsForCar\AddEdit\Violation_AddEdit.Designer.cs">
-      <DependentUpon>Violation_AddEdit.cs</DependentUpon>
+    <Compile Include="FormsForCar\AddEdit\ViolationForm.Designer.cs">
+      <DependentUpon>ViolationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForDriver\AddEdit\Driver_AddEdit.cs">
       <SubType>Form</SubType>
@@ -662,8 +662,8 @@
     <EmbeddedResource Include="FormsForCar\AddEdit\PolicyForm.resx">
       <DependentUpon>PolicyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsForCar\AddEdit\Violation_AddEdit.resx">
-      <DependentUpon>Violation_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="FormsForCar\AddEdit\ViolationForm.resx">
+      <DependentUpon>ViolationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForDriver\AddEdit\Driver_AddEdit.resx">
       <DependentUpon>Driver_AddEdit.cs</DependentUpon>
