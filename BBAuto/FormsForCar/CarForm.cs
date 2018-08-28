@@ -198,7 +198,7 @@ namespace BBAuto
 
     private void fillFields()
     {
-      cbMark.SelectedValue = (_car.Mark != null) ? _car.Mark.ID.ToString() : "0";
+      cbMark.SelectedValue = _car.Mark?.ID.ToString() ?? "0";
       cbModel.SelectedValue = _car.ModelID;
       cbGrade.SelectedValue = _car.GradeID;
       /* когда Audi не заполняется таблица с инфо о машине */
@@ -214,7 +214,7 @@ namespace BBAuto
       mtbGRZ.Text = _car.Grz;
       cbOwner.SelectedValue = _car.ownerID;
       cbRegionBuy.SelectedValue = _car.RegionBuyID;
-      cbRegionUsing.SelectedValue = _car.regionUsingID;
+      cbRegionUsing.SelectedValue = _car.RegionUsingId;
       cbDriver.SelectedValue = _car.driverID;
       cbDealer.SelectedValue = _car.idDiller;
       dtpDateOrder.Value = _car.dateOrder;
@@ -329,7 +329,10 @@ namespace BBAuto
 
       _car.ownerID = cbOwner.SelectedValue;
       _car.RegionBuyID = cbRegionBuy.SelectedValue;
-      _car.regionUsingID = cbRegionUsing.SelectedValue;
+
+      if (int.TryParse(cbRegionUsing.SelectedValue.ToString(), out int regionUsingId))
+        _car.RegionUsingId = regionUsingId;
+
       _car.driverID = cbDriver.SelectedValue;
       _car.dateOrder = dtpDateOrder.Value;
       _car.IsGet = chbIsGet.Checked;

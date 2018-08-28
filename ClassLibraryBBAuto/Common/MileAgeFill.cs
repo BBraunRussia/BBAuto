@@ -129,7 +129,7 @@ namespace BBAuto.Domain.Common
 
       if (count > Convert.ToInt32(mileage.Count))
       {
-        if (mileage.Count != string.Empty)
+        if (mileage.CountString != string.Empty)
         {
           mileage = car.createMileage();
         }

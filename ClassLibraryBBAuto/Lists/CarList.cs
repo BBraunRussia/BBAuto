@@ -46,6 +46,13 @@ namespace BBAuto.Domain.Lists
 
     private DataTable ToDataTableActual()
     {
+      var cars = GetActualCars();
+
+      return createTable(cars);
+    }
+
+    public IList<Car> GetActualCars()
+    {
       List<Car> cars;
 
       if (User.GetRole() == RolesList.Employee)
@@ -63,7 +70,7 @@ namespace BBAuto.Domain.Lists
         cars = _list.Where(car => car.IsGet && carSaleList.All(carSale => carSale.CarId != car.ID)).ToList();
       }
 
-      return createTable(cars);
+      return cars;
     }
 
     private DataTable ToDataTableBuy()
@@ -73,7 +80,7 @@ namespace BBAuto.Domain.Lists
       return createTable(cars.ToList());
     }
 
-    internal DataTable createTable(List<Car> cars)
+    internal DataTable createTable(IList<Car> cars)
     {
       DataTable dt = new DataTable();
       dt.Columns.Add("id");

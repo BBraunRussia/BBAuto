@@ -100,9 +100,9 @@ namespace BBAuto.Domain.ForCar
 
       if (invoice == null)
       {
-        int.TryParse(Car.regionUsingID.ToString(), out _idRegionFrom);
+        _idRegionFrom = Car.RegionUsingId;
         _idDriverFrom = DEFAULT_DRIVER_MEDIATOR;
-        int.TryParse(Car.regionUsingID.ToString(), out _idRegionTo);
+        _idRegionTo = Car.RegionUsingId;
         int.TryParse(Car.driverID.ToString(), out _idDriverTo);
       }
       else

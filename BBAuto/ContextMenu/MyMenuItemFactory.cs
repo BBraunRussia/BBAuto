@@ -17,6 +17,7 @@ using BBAuto.Domain.Services.OfficeDocument;
 using BBAuto.Domain.Services.Transponder;
 using BBAuto.Domain.Static;
 using BBAuto.FormsForCar.AddEdit;
+using BBAuto.Report;
 using BBAuto.SendDocumentForms;
 
 namespace BBAuto.ContextMenu
@@ -110,7 +111,9 @@ namespace BBAuto.ContextMenu
         case ContextMenuItem.ReportPolicy:
           return ReportPolicy();
         case ContextMenuItem.ReportDriverInstraction:
-          return ReportDriverInstraction();
+          return ReportDriverInstruction();
+        case ContextMenuItem.ReportMileage:
+          return ReportMileage();
 
         case ContextMenuItem.PrintAllTable:
           return CreatePrintAllTable();
@@ -1395,7 +1398,7 @@ namespace BBAuto.ContextMenu
       return item;
     }
 
-    private static ToolStripMenuItem ReportDriverInstraction()
+    private static ToolStripMenuItem ReportDriverInstruction()
     {
       var item = CreateItem("Ознакомление с документами инструктажа");
       item.Click += delegate
@@ -1403,6 +1406,17 @@ namespace BBAuto.ContextMenu
         IExcelDocumentService service = new ExcelDocumentService();
         var report = service.CreateReportInstractionDocument();
         report.Show();
+      };
+      return item;
+    }
+
+    private static ToolStripMenuItem ReportMileage()
+    {
+      var item = CreateItem("Пробеги");
+      item.Click += delegate
+      {
+        var reportMileageForm = new ReportMileageForm();
+        reportMileageForm.ShowDialog();
       };
       return item;
     }

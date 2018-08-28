@@ -18,7 +18,6 @@ namespace BBAuto.Domain.Entities
     private int _year;
     private int _idColor;
     private int _idRegionBuy;
-    private int _idRegionUsing;
     private int _idOwner;
     private int _idDriver;
     private int _isGet;
@@ -42,6 +41,7 @@ namespace BBAuto.Domain.Entities
     public double cost;
 
     public bool IsSale { get; set; }
+    public int RegionUsingId { get; set; }
 
     public string GradeID
     {
@@ -92,17 +92,7 @@ namespace BBAuto.Domain.Entities
           int.TryParse(value.ToString(), out _idOwner);
       }
     }
-
-    public object regionUsingID
-    {
-      get { return _idRegionUsing.ToString(); }
-      set
-      {
-        if (value != null)
-          int.TryParse(value.ToString(), out _idRegionUsing);
-      }
-    }
-
+    
     public object driverID
     {
       get => _idDriver.ToString();
@@ -206,7 +196,10 @@ namespace BBAuto.Domain.Entities
     {
       ownerID = row.ItemArray[11].ToString();
       RegionBuyID = row.ItemArray[12].ToString();
-      regionUsingID = row.ItemArray[13].ToString();
+
+      if (int.TryParse(row.ItemArray[13].ToString(), out int regionUsingId))
+        RegionUsingId = regionUsingId;
+
       driverID = row.ItemArray[14].ToString();
 
       if (!DateTime.TryParse(row.ItemArray[15].ToString(), out dateOrder))
@@ -242,7 +235,7 @@ namespace BBAuto.Domain.Entities
 
     private void saveCarBuy()
     {
-      _provider.Insert("CarBuy", ID, _idOwner, _idRegionBuy, _idRegionUsing, driverID, dateOrder, _isGet, dateGet, cost,
+      _provider.Insert("CarBuy", ID, _idOwner, _idRegionBuy, RegionUsingId, driverID, dateOrder, _isGet, dateGet, cost,
         dop, events, idDiller);
     }
 
@@ -332,31 +325,24 @@ namespace BBAuto.Domain.Entities
     {
       MileageList mileageList = MileageList.getInstance();
       Mileage mileage = mileageList.getItem(this);
-      InvoiceList invoiceList = InvoiceList.getInstance();
-      Invoice invoice = invoiceList.getItem(this);
-
+      
       PTSList ptsList = PTSList.getInstance();
       PTS pts = ptsList.getItem(this);
 
       STSList stsList = STSList.getInstance();
       STS sts = stsList.getItem(this);
 
-      Regions regions = Regions.getInstance();
-      string regionName = (invoice == null)
-        ? regions.getItem(_idRegionUsing)
-        : regions.getItem(Convert.ToInt32(invoice.RegionToID));
-
       int mileageInt = 0;
       DateTime mileageDate = DateTime.Today;
       if (mileage != null)
       {
-        int.TryParse(mileage.Count, out mileageInt);
+        mileageInt = mileage.Count;
         mileageDate = mileage.MonthToString();
       }
 
       return new object[]
       {
-        ID, ID, BBNumber, Grz, Mark.Name, info.Model, vin, regionName,
+        ID, ID, BBNumber, Grz, Mark.Name, info.Model, vin, info.Region,
         info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
         mileageDate, info.Owner, info.Guarantee, GetStatus()
       };

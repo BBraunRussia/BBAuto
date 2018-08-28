@@ -543,6 +543,49 @@ namespace BBAuto.Domain.Services.OfficeDocument
       }
     }
 
+    public IDocument CreateReportMileage(IList<Car> carList, DateTime dateBegin, DateTime dateEnd)
+    {
+      IExcelDoc excelDoc = new ExcelDoc();
+
+      WriteHeaderReportMileage(excelDoc, dateBegin, dateEnd);
+
+      var mileageList = MileageList.getInstance();
+
+      var i = 2;
+      foreach (var car in carList)
+      {
+        excelDoc.setValue(i, 1, car.Grz);
+        excelDoc.setValue(i, 2, car.Mark.Name);
+        excelDoc.setValue(i, 3, car.info.Model);
+        excelDoc.setValue(i, 4, car.info.Region);
+        excelDoc.setValue(i, 5, car.info.Driver.Name);
+
+        var beginMileage = mileageList.getItem(car, dateBegin)?.Count ?? 0;
+        var endMileage = mileageList.getItem(car, dateEnd)?.Count ?? 0;
+        var diff = endMileage - beginMileage;
+
+        excelDoc.setValue(i, 6, MyString.GetFormatedDigitInteger(beginMileage.ToString()));
+        excelDoc.setValue(i, 7, MyString.GetFormatedDigitInteger(endMileage.ToString()));
+        excelDoc.setValue(i, 8, MyString.GetFormatedDigitInteger(diff.ToString()));
+
+        i++;
+      }
+
+      return excelDoc;
+    }
+
+    private void WriteHeaderReportMileage(IExcelDoc excelDoc, DateTime dateBegin, DateTime dateEnd)
+    {
+      excelDoc.setValue(1, 1, "Гос. номер");
+      excelDoc.setValue(1, 2, "Марка");
+      excelDoc.setValue(1, 3, "Модель");
+      excelDoc.setValue(1, 4, "Регион");
+      excelDoc.setValue(1, 5, "ФИО сотрудника");
+      excelDoc.setValue(1, 6, $"Показания одометра на конец {dateBegin.Month}.{dateBegin.Year}");
+      excelDoc.setValue(1, 7, $"Показания одометра на конец {dateEnd.Month}.{dateEnd.Year}");
+      excelDoc.setValue(1, 8, "Пробег");
+    }
+
     private static IExcelDoc OpenDocumentExcel(string name)
     {
       var template = TemplateList.getInstance().getItem(name);

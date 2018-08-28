@@ -24,6 +24,19 @@ namespace BBAuto.Domain.ForCar
 
     public Grade Grade => GradeList.getInstance().getItem(Convert.ToInt32(_car.GradeID));
 
+    public string Region
+    {
+      get
+      {
+        var invoice = InvoiceList.getInstance().getItem(_car);
+
+        var regions = Regions.getInstance();
+        return invoice == null
+          ? regions.getItem(_car.RegionUsingId)
+          : regions.getItem(Convert.ToInt32(invoice.RegionToID));
+      }
+    }
+
     /*
     public bool IsSale
     {
@@ -49,10 +62,10 @@ namespace BBAuto.Domain.ForCar
 
         DateTime dateEnd = _car.dateGet.AddYears(3);
 
-        int miles = 0;
+        var miles = 0;
         if (mileage != null)
         {
-          int.TryParse(mileage.Count, out miles);
+          miles = mileage.Count;
         }
 
         return ((miles < MileageGuarantee) && (DateTime.Today < dateEnd)) ? dateEnd : new DateTime(1, 1, 1);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
@@ -19,5 +20,6 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
     IDocument CreateReportPolicy();
     IDocument CreateReportInstractionDocument();
+    IDocument CreateReportMileage(IList<Car> carList, DateTime dateBegin, DateTime dateEnd);
   }
 }

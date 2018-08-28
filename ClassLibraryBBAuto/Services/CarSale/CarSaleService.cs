@@ -91,11 +91,9 @@ namespace BBAuto.Domain.Services.CarSale
       STSList stsList = STSList.getInstance();
       STS sts = stsList.getItem(car);
 
-      int.TryParse(car.regionUsingID.ToString(), out int idRegion);
-
       Regions regions = Regions.getInstance();
       string regionName = (invoice == null)
-        ? regions.getItem(idRegion)
+        ? regions.getItem(car.RegionUsingId)
         : regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
       var customer = customerList.FirstOrDefault(cust => cust.Id == carSale.CustomerId);
