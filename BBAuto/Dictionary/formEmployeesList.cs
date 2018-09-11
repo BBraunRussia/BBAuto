@@ -8,39 +8,39 @@ namespace BBAuto
 {
   public partial class formEmployeesList : Form
   {
-    EmployeesList employeesList;
+    private readonly EmployeesList _employeesList;
 
     public formEmployeesList()
     {
       InitializeComponent();
 
-      employeesList = EmployeesList.getInstance();
+      _employeesList = EmployeesList.getInstance();
     }
 
     private void formEmployeesList_Load(object sender, EventArgs e)
     {
-      loadData();
+      LoadData();
 
       ResizeDGV();
     }
 
-    private void loadData()
+    private void LoadData()
     {
-      _dgvEmployees.DataSource = employeesList.ToDataTable();
+      _dgvEmployees.DataSource = _employeesList.ToDataTable();
       _dgvEmployees.Columns[0].Visible = false;
       _dgvEmployees.Columns[1].Visible = false;
     }
 
     private void btnAdd_Click(object sender, EventArgs e)
     {
-      Employees employees = new Employees();
+      var employees = new Employees();
 
-      Employees_AddEdit aeemployees = new Employees_AddEdit(employees);
+      var aeemployees = new Employees_AddEdit(employees);
 
       if (aeemployees.ShowDialog() == DialogResult.OK)
       {
-        employeesList.Add(employees);
-        loadData();
+        _employeesList.Add(employees);
+        LoadData();
       }
     }
 
@@ -50,12 +50,12 @@ namespace BBAuto
 
       string EmployeesName = _dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[3].Value.ToString();
 
-      Employees employees = employeesList.getItem(region, EmployeesName);
+      Employees employees = _employeesList.getItem(region, EmployeesName);
 
       Employees_AddEdit aeemployees = new Employees_AddEdit(employees);
 
       if (aeemployees.ShowDialog() == DialogResult.OK)
-        loadData();
+        LoadData();
     }
 
     private void btnDel_Click(object sender, EventArgs e)
@@ -65,7 +65,7 @@ namespace BBAuto
       int.TryParse(_dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[1].Value.ToString(),
         out int idEmployeesName);
 
-      employeesList.Delete(region, idEmployeesName);
+      _employeesList.Delete(region, idEmployeesName);
     }
 
     private Region getRegion()

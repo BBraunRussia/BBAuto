@@ -175,7 +175,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       excelDoc.setValue(7, 6, "а/я 34, 196128"); //почтовый адрес
       excelDoc.setValue(8, 7, "320-40-04"); //телефон
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
       Driver driver = driverCarList.GetDriver(car, dtp.Date);
 
       PassportList passportList = PassportList.getInstance();
@@ -207,7 +207,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       Regions regions = Regions.getInstance();
 
-      excelDoc.setValue(29, 3, regions.getItem(Convert.ToInt32(dtp.IDRegion))); //город
+      excelDoc.setValue(29, 3, regions.getItem(Convert.ToInt32(dtp.RegionId))); //город
       excelDoc.setValue(31, 14, dtp.Damage); //повреждения
       excelDoc.setValue(33, 2, dtp.Facts); //обстоятельства происшествия
       
@@ -220,7 +220,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       if (driver == null)
       {
-        DriverCarList driverCarList = DriverCarList.getInstance();
+        DriverCarList driverCarList = DriverCarList.GetInstance();
         driver = driverCarList.GetDriver(car, date);
 
         if (driver == null)
@@ -326,10 +326,9 @@ namespace BBAuto.Domain.Services.OfficeDocument
       else
       {
         Employees mechanic = employeesList.getItem(driver.Region, "Механик", true);
-        if (mechanic == null)
-          mechanicName = driver.GetName(NameType.Short);
-        else
-          mechanicName = mechanic.Name;
+        mechanicName = mechanic == null
+          ? driver.GetName(NameType.Short)
+          : mechanic.Name;
       }
 
       Employees dispatcher = employeesList.getItem(driver.Region, "Диспечер-нарядчик");

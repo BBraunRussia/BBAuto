@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
-using System.Windows.Forms;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Static;
@@ -21,25 +20,24 @@ namespace BBAuto.Domain.Lists
       loadFromSql();
     }
 
-    public static DriverCarList getInstance()
+    public static DriverCarList GetInstance()
     {
       return _uniqueInstance ?? (_uniqueInstance = new DriverCarList());
     }
 
     protected override void loadFromSql()
     {
-      DataTable dt = _provider.Select("DriverCar");
+      var dt = _provider.Select("DriverCar");
 
       foreach (DataRow row in dt.Rows)
       {
-        DriverCar drCar = new DriverCar(row);
-        Add(drCar);
+        Add(new DriverCar(row));
       }
     }
 
     private void Add(DriverCar drCar)
     {
-      if ((drCar.Driver == null) || (drCar.Car == null))
+      if (drCar.Driver == null || drCar.Car == null)
         return;
 
       if (_list.Exists(item => item == drCar))
@@ -71,9 +69,9 @@ namespace BBAuto.Domain.Lists
         orderby driverCar.DateEnd descending, driverCar.Number descending
         select driverCar;
 
-      TempMoveList tempMoveList = TempMoveList.getInstance();
+      var tempMoveList = TempMoveList.getInstance();
 
-      Driver driver = tempMoveList.getDriver(car, date);
+      var driver = tempMoveList.getDriver(car, date);
       return driver ?? getDriver(driverCars.ToList());
     }
 
@@ -133,14 +131,8 @@ namespace BBAuto.Domain.Lists
     {
       var driverCars = _list.Where(item => item.Driver.ID == driver.ID).OrderByDescending(item => item.DateEnd);
 
-      CarList carList = CarList.GetInstance();
-      List<Car> cars = new List<Car>();
-
-      foreach (DriverCar driverCar in driverCars)
-      {
-        Car car = carList.getItem(driverCar.Car.ID);
-        cars.Add(car);
-      }
+      var carList = CarList.GetInstance();
+      var cars = driverCars.Select(driverCar => carList.getItem(driverCar.Car.ID)).ToList();
 
       return carList.createTable(cars);
     }

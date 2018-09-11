@@ -9,7 +9,7 @@ namespace BBAuto.Domain.ForCar
   public class CarInfo
   {
     private const int MileageGuarantee = 100000;
-    private Car _car;
+    private readonly Car _car;
 
     public CarInfo(Car car)
     {
@@ -17,11 +17,8 @@ namespace BBAuto.Domain.ForCar
     }
 
     public string Model => ModelList.getInstance().getItem(Convert.ToInt32(_car.ModelID)).Name;
-
     public string Color => Colors.getInstance().getItem(Convert.ToInt32(_car.ColorID));
-
     public string Owner => Owners.getInstance().getItem(Convert.ToInt32(_car.ownerID));
-
     public Grade Grade => GradeList.getInstance().getItem(Convert.ToInt32(_car.GradeID));
 
     public string Region
@@ -47,7 +44,7 @@ namespace BBAuto.Domain.ForCar
       }
     } 
     */
-    public Driver Driver => DriverCarList.getInstance().GetDriver(_car) ?? new Driver();
+    public Driver Driver => DriverCarList.GetInstance().GetDriver(_car) ?? new Driver();
 
     public PTS pts => PTSList.getInstance().getItem(_car);
 

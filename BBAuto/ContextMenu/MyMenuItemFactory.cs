@@ -694,7 +694,7 @@ namespace BBAuto.ContextMenu
         if (car == null)
           return;
 
-        DriverCarList driverCarList = DriverCarList.getInstance();
+        DriverCarList driverCarList = DriverCarList.GetInstance();
         Driver driver = driverCarList.GetDriver(car, date);
 
         LicenseList licencesList = LicenseList.getInstance();
@@ -947,11 +947,11 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateEmployee()
     {
-      ToolStripMenuItem item = CreateItem("Сотрудники в регионе");
+      var item = CreateItem("Должностные лица для путевых листов");
       item.Click += delegate
       {
-        formEmployeesList formemployeesList = new formEmployeesList();
-        formemployeesList.ShowDialog();
+        var employeesListForm = new formEmployeesList();
+        employeesListForm.ShowDialog();
       };
       return item;
     }
@@ -1260,7 +1260,7 @@ namespace BBAuto.ContextMenu
         {
           DriverList driverList = DriverList.getInstance();
           Driver driver = driverList.getItem(_dgvMain.GetID());
-          DriverCarList driverCarList = DriverCarList.getInstance();
+          DriverCarList driverCarList = DriverCarList.GetInstance();
 
           if (driverCarList.IsDriverHaveCar(driver))
             MessageBox.Show("За водителем закреплён автомобиль, удаление невозможно", "Удаление", MessageBoxButtons.OK,

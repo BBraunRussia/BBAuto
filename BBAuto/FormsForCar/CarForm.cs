@@ -42,7 +42,7 @@ namespace BBAuto
       _car = car;
 
       diagCardList = DiagCardList.getInstance();
-      driverCarList = DriverCarList.getInstance();
+      driverCarList = DriverCarList.GetInstance();
       driverList = DriverList.getInstance();
       dtpList = DTPList.getInstance();
       invoiceList = InvoiceList.getInstance();
@@ -512,9 +512,9 @@ namespace BBAuto
 
     private void btnAddInvoice_Click(object sender, EventArgs e)
     {
-      Invoice invoice = _car.createInvoice();
+      var invoice = _car.createInvoice();
 
-      if (openAddEditDialog(invoice))
+      if (OpenAddEditDialog(invoice))
       {
         invoiceList.Add(invoice);
 
@@ -526,20 +526,20 @@ namespace BBAuto
 
     private void _dgvInvoice_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      int idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
+      var idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
 
-      Invoice invoice = invoiceList.getItem(idInvoice);
+      var invoice = invoiceList.getItem(idInvoice);
 
-      if ((e.ColumnIndex == 4) && (invoice.File != string.Empty))
+      if (e.ColumnIndex == 4 && (invoice.File != string.Empty))
         WorkWithFiles.openFile(invoice.File);
-      else if (openAddEditDialog(invoice))
+      else if (OpenAddEditDialog(invoice))
         loadInvoice();
     }
 
-    private bool openAddEditDialog(Invoice invoice)
+    private static bool OpenAddEditDialog(Invoice invoice)
     {
-      Invoice_AddEdit invoiceAE = new Invoice_AddEdit(invoice);
-      return (invoiceAE.ShowDialog() == DialogResult.OK);
+      var invoiceForm = new Invoice_AddEdit(invoice);
+      return invoiceForm.ShowDialog() == DialogResult.OK;
     }
 
     private void btnDelInvoice_Click(object sender, EventArgs e)
@@ -1184,7 +1184,7 @@ namespace BBAuto
 
     private void LoadDrivers()
     {
-      dgvDrivers.DataSource = DriverCarList.getInstance().ToDataTable(_car);
+      dgvDrivers.DataSource = DriverCarList.GetInstance().ToDataTable(_car);
       dgvDrivers.Columns[1].Width = 200;
     }
   }

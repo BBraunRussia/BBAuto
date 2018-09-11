@@ -12,9 +12,9 @@ namespace BBAuto.Domain.Common
   {
     private const int MinDailyMileage = 100;
 
-    private Car _car;
+    private readonly Car _car;
     private DateTime _date;
-    private Dictionary<int, WayBillDay> _list;
+    private readonly Dictionary<int, WayBillDay> _list;
 
     private MileageList _mileageList;
 
@@ -134,7 +134,7 @@ namespace BBAuto.Domain.Common
 
     private Dictionary<int, Driver> GetDriversDictionary()
     {
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
       //TODO: EF??
       TabelList tabelList = TabelList.GetInstance();
 

@@ -30,7 +30,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       if (doc == null)
         return null;
 
-      var driverCarList = DriverCarList.getInstance();
+      var driverCarList = DriverCarList.GetInstance();
 
       var driver = invoice == null
         ? driverCarList.GetDriver(car)
@@ -91,7 +91,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       int regionId;
       if (invoice == null)
       {
-        var driver = DriverCarList.getInstance().GetDriver(car);
+        var driver = DriverCarList.GetInstance().GetDriver(car);
         driverId = driver.ID;
         regionId = driver.Region.ID;
       }

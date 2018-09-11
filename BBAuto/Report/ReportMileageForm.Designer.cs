@@ -28,9 +28,9 @@ namespace BBAuto.Report
     /// </summary>
     private void InitializeComponent()
     {
-      PresentationControls.CheckBoxProperties checkBoxProperties3 = new PresentationControls.CheckBoxProperties();
-      PresentationControls.CheckBoxProperties checkBoxProperties4 = new PresentationControls.CheckBoxProperties();
       PresentationControls.CheckBoxProperties checkBoxProperties1 = new PresentationControls.CheckBoxProperties();
+      PresentationControls.CheckBoxProperties checkBoxProperties2 = new PresentationControls.CheckBoxProperties();
+      PresentationControls.CheckBoxProperties checkBoxProperties3 = new PresentationControls.CheckBoxProperties();
       this.label1 = new System.Windows.Forms.Label();
       this.rbGrz = new System.Windows.Forms.RadioButton();
       this.rbMark = new System.Windows.Forms.RadioButton();
@@ -186,7 +186,6 @@ namespace BBAuto.Report
       // btnOk
       // 
       this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
       this.btnOk.Location = new System.Drawing.Point(529, 231);
       this.btnOk.Name = "btnOk";
       this.btnOk.Size = new System.Drawing.Size(75, 23);
@@ -208,8 +207,8 @@ namespace BBAuto.Report
       // 
       // cbGrz
       // 
-      checkBoxProperties3.ForeColor = System.Drawing.SystemColors.ControlText;
-      this.cbGrz.CheckBoxProperties = checkBoxProperties3;
+      checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
+      this.cbGrz.CheckBoxProperties = checkBoxProperties1;
       this.cbGrz.DisplayMemberSingleItem = "";
       this.cbGrz.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbGrz.FormattingEnabled = true;
@@ -220,8 +219,8 @@ namespace BBAuto.Report
       // 
       // cbDriver
       // 
-      checkBoxProperties4.ForeColor = System.Drawing.SystemColors.ControlText;
-      this.cbDriver.CheckBoxProperties = checkBoxProperties4;
+      checkBoxProperties2.ForeColor = System.Drawing.SystemColors.ControlText;
+      this.cbDriver.CheckBoxProperties = checkBoxProperties2;
       this.cbDriver.DisplayMemberSingleItem = "";
       this.cbDriver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbDriver.FormattingEnabled = true;
@@ -232,8 +231,8 @@ namespace BBAuto.Report
       // 
       // cbRegion
       // 
-      checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
-      this.cbRegion.CheckBoxProperties = checkBoxProperties1;
+      checkBoxProperties3.ForeColor = System.Drawing.SystemColors.ControlText;
+      this.cbRegion.CheckBoxProperties = checkBoxProperties3;
       this.cbRegion.DisplayMemberSingleItem = "";
       this.cbRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbRegion.FormattingEnabled = true;

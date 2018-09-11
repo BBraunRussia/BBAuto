@@ -41,7 +41,7 @@ namespace BBAuto
     public List<Driver> GetDrivers()
     {
       var drivers = new List<Driver>();
-      var driverCarList = DriverCarList.getInstance();
+      var driverCarList = DriverCarList.GetInstance();
 
       var carList = CarList.GetInstance();
       var driverList = DriverList.getInstance();

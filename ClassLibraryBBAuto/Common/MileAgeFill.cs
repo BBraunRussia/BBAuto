@@ -61,7 +61,7 @@ namespace BBAuto.Domain.Common
 
               if (driver != null)
               {
-                DriverCarList driverCarList = DriverCarList.getInstance();
+                DriverCarList driverCarList = DriverCarList.GetInstance();
                 car = driverCarList.GetCar(driver);
               }
 

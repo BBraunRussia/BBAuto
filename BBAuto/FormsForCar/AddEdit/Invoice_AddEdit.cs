@@ -125,10 +125,15 @@ namespace BBAuto.FormsForCar.AddEdit
         else
           _invoice.DateMove = null;
 
-        TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
+        var tbFile = ucFile.Controls["tbFile"] as TextBox;
         _invoice.File = tbFile.Text;
 
         _invoice.Save();
+
+        if (_invoice.IsMain)
+        {
+          DriverCarList.GetInstance().ReLoad();
+        }
 
         if (_check.Checked)
         {

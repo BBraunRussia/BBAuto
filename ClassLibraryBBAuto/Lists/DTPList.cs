@@ -1,11 +1,10 @@
-﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace BBAuto.Domain.Lists
 {
@@ -67,7 +66,7 @@ namespace BBAuto.Domain.Lists
       if (driver.ID == 0)
         return null;
 
-      var dtps = list.Where(item => item.isEqualDriverID(driver))
+      var dtps = list.Where(item => item.IsEqualDriverId(driver))
         .OrderByDescending(item => item.Date).ToList();
 
       return CreateTable(dtps);
@@ -130,7 +129,7 @@ namespace BBAuto.Domain.Lists
 
     public DTP GetLastByDriver(Driver driver)
     {
-      var dtps = list.Where(item => item.isEqualDriverID(driver)).OrderByDescending(item => item.Date).ToList();
+      var dtps = list.Where(item => item.IsEqualDriverId(driver)).OrderByDescending(item => item.Date).ToList();
 
       return dtps.Any() ? dtps.First() : null;
     }

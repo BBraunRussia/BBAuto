@@ -201,7 +201,7 @@ namespace BBAuto.Domain.ForCar
 
     public Driver getDriver()
     {
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
       Driver driver = driverCarList.GetDriver(Car, Date);
 
       return driver ?? new Driver();

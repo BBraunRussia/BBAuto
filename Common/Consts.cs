@@ -8,5 +8,7 @@ namespace Common
     }
 
     public const int ReserveDriverId = 1;
+
+    public const string ValueAllForCheckBox = "(все)";
   }
 }

@@ -69,12 +69,12 @@ namespace BBAuto
 
     private void ConfigContextMenu(Object sender, StatusEventArgs e)
     {
-      MyMenu menu = new MyMenu(_dgvMain);
-      MenuStrip menuStrip = menu.CreateMainMenu();
+      var menu = new MyMenu(_dgvMain);
+      var menuStrip = menu.CreateMainMenu();
 
-      this.Controls.Remove(this.MainMenuStrip);
-      this.MainMenuStrip = menuStrip;
-      this.Controls.Add(menuStrip);
+      Controls.Remove(MainMenuStrip);
+      MainMenuStrip = menuStrip;
+      Controls.Add(menuStrip);
 
       _dgvCar.ContextMenuStrip = menu.CreateContextMenu();
     }
@@ -207,8 +207,7 @@ namespace BBAuto
         CarSaleForm carSaleForm = new CarSaleForm(car.ID);
         if (carSaleForm.ShowDialog() == DialogResult.OK)
         {
-          _dgvCar.Refresh();
-          //loadCars();
+          loadCars();
         }
       }
     }
@@ -526,7 +525,7 @@ namespace BBAuto
       {
         if (isCellNoHeader(point.X))
         {
-          DriverCarList driverCarList = DriverCarList.getInstance();
+          DriverCarList driverCarList = DriverCarList.GetInstance();
           Driver driver = driverCarList.GetDriver(car);
 
           if (driver == null)

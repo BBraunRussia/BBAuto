@@ -12,7 +12,7 @@ namespace BBAuto
 {
   internal class DGVFormat
   {
-    private DataGridView _dgv;
+    private readonly DataGridView _dgv;
 
     internal DGVFormat(DataGridView dgv)
     {
@@ -21,7 +21,7 @@ namespace BBAuto
 
     internal void FormatByOwner()
     {
-      CarList carList = CarList.GetInstance();
+      var carList = CarList.GetInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
@@ -167,7 +167,7 @@ namespace BBAuto
 
         DTP dtp = dtpList.getItem(id);
 
-        if (dtp.GetCurrentStatusAfterDTP() == "Отремонтирован")
+        if (dtp.GetCurrentStatusAfterDtp() == "Отремонтирован")
         {
           row.Cells["Текущее состояние"].Style.BackColor = BBColors.bbGreen3;
 

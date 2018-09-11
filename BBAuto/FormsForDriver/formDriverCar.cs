@@ -7,7 +7,7 @@ namespace BBAuto
 {
   public partial class formDriverCar : Form
   {
-    private Driver _driver;
+    private readonly Driver _driver;
 
     public formDriverCar(Driver driver)
     {
@@ -18,7 +18,7 @@ namespace BBAuto
 
     private void DriverCar_Load(object sender, EventArgs e)
     {
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
 
       dgvDriverCar.DataSource = driverCarList.ToDataTableCar(_driver);
       dgvDriverCar.Columns[0].Visible = false;

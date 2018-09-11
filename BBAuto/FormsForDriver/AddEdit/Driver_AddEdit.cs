@@ -126,7 +126,7 @@ namespace BBAuto
 
     private void FillCar()
     {
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
       Car car = driverCarList.GetCar(_driver);
 
       if (car != null)

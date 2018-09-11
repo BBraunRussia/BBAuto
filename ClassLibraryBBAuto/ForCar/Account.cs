@@ -12,7 +12,7 @@ namespace BBAuto.Domain.ForCar
 {
   public class Account : MainDictionary
   {
-    private const int NOT_SAVE_ID = 0;
+    private const int NotSaveId = 0;
 
     private int _agreed;
     private int _idPolicyType;
@@ -79,7 +79,7 @@ namespace BBAuto.Domain.ForCar
 
     public Account()
     {
-      ID = NOT_SAVE_ID;
+      ID = NotSaveId;
       _idPolicyType = 1;
     }
 
@@ -138,7 +138,7 @@ namespace BBAuto.Domain.ForCar
       CarList carList = CarList.GetInstance();
       Car car = carList.getItem(idCar);
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
       return driverCarList.GetDriver(car);
     }
 
@@ -177,7 +177,7 @@ namespace BBAuto.Domain.ForCar
 
     private bool IsNotSaved()
     {
-      return ID == NOT_SAVE_ID;
+      return ID == NotSaveId;
     }
 
     public override void Save()

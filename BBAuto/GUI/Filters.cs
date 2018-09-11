@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Data;
 using BBAuto.Domain.Common;
+using Common;
 
 namespace BBAuto
 {
@@ -41,7 +42,7 @@ namespace BBAuto
       list.Sort();
 
       if (list.Count > 0)
-        list.Insert(0, "(все)");
+        list.Insert(0, Consts.ValueAllForCheckBox);
 
       return list;
     }

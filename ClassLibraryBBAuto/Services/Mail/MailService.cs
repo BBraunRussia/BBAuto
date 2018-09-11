@@ -133,7 +133,7 @@ namespace BBAuto.Domain.Services.Mail
 
       CreateBodyPolicy(type);
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
       Driver driver = driverCarList.GetDriver(car);
 
       Send(new List<Driver> {driver}, new[] {_authorEmail},

@@ -13,7 +13,7 @@ namespace BBAuto.Domain.Common
 
       mailService.SendMailPolicy(car, type);
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
       Driver driver = driverCarList.GetDriver(car);
 
       return string.Concat("Полис ", type.ToString(), " отправлен на адрес ", driver.Email);

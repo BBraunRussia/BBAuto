@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Common;
 
 namespace BBAuto
 {
@@ -162,7 +163,7 @@ namespace BBAuto
       {
         if (valueList[i].Count > 0)
         {
-          if (valueList[i][0] == "(все)")
+          if (valueList[i][0] == Consts.ValueAllForCheckBox)
             combo.CheckBoxItems[1].Checked = true;
           else
           {
@@ -275,16 +276,12 @@ namespace BBAuto
 
     private bool IsAllSelected(int comboIndex)
     {
-      int valuesCount = valueList[comboIndex].Where(item => item == "(все)").Count();
-
-      return valuesCount > 0;
+      return valueList[comboIndex].Any(item => item == Consts.ValueAllForCheckBox);
     }
 
     private bool IsEqualsFilterValue(int comboIndex, string dgvValue)
     {
-      int valuesCount = valueList[comboIndex].Where(item => item == dgvValue).Count();
-
-      return valuesCount > 0;
+      return valueList[comboIndex].Any(item => item == dgvValue);
     }
 
     private void setFocus()

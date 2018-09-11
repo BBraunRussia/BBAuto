@@ -33,10 +33,9 @@ namespace BBAuto.Report
     private void LoadDictionaries()
     {
       var carList = CarList.GetInstance().GetActualCars().OrderBy(car => car.Grz).Select(car => car.Grz).ToArray();
-      cbGrz.Items.Add("(все)");
+      cbGrz.Items.Add(Consts.ValueAllForCheckBox);
       cbGrz.Items.AddRange(carList);
-      //cbGrz.ValueMember = nameof(Car.ID);
-      //cbGrz.DisplayMember = nameof(Car.Grz);
+      cbGrz.CheckBoxItems[1].Checked = true;
 
       var markList = Marks.getInstance().ToDataTable();
       cbMark.DataSource = markList;
@@ -45,17 +44,13 @@ namespace BBAuto.Report
 
       var driverList = DriverList.getInstance().GetList().Where(dr => dr.ID != Consts.ReserveDriverId)
         .OrderBy(dr => dr.Name).Select(d => d.Name).ToArray();
-      //cbDriver.ValueMember = nameof(Driver.ID);
-      //cbDriver.DisplayMember = nameof(Driver.Name);
-      cbDriver.Items.Add("(все)");
+      cbDriver.Items.Add(Consts.ValueAllForCheckBox);
       cbDriver.Items.AddRange(driverList);
 
 
       var regionList = RegionList.getInstance().GetList().Select(r => r.Name).ToArray();
-      cbRegion.Items.Add("(все)");
+      cbRegion.Items.Add(Consts.ValueAllForCheckBox);
       cbRegion.Items.AddRange(regionList);
-      //cbRegion.ValueMember = nameof(Domain.Tables.Region.ID);
-      //cbRegion.DisplayMember = nameof(Domain.Tables.Region.Name);
     }
 
     private void rb_CheckedChanged(object sender, EventArgs e)
@@ -137,6 +132,7 @@ namespace BBAuto.Report
 
       var report = service.CreateReportMileage(cars, dtpBeginDate.Value, dtpEndDate.Value);
       report.Show();
+      DialogResult = DialogResult.OK;
     }
 
     private IList<Car> GetCars()
@@ -146,7 +142,9 @@ namespace BBAuto.Report
 
       if (rbGrz.Checked)
       {
-        return cbGrz.CheckBoxItems.Where(item => item.Checked).Select(item => carList.getItem(item.Text)).ToList();
+        return cbGrz.CheckBoxItems.FirstOrDefault(item => item.Checked)?.Text == Consts.ValueAllForCheckBox
+          ? actualCars
+          : cbGrz.CheckBoxItems.Where(item => item.Checked).Select(item => carList.getItem(item.Text)).ToList();
       }
 
       if (rbMark.Checked)

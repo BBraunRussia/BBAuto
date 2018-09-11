@@ -330,7 +330,7 @@ namespace BBAuto.Domain.Entities
       DriverLicense license = licenseList.getItem(this);
       string licenseStatus = ((license == null) || (!license.IsActual())) ? "нет" : "есть";
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      DriverCarList driverCarList = DriverCarList.GetInstance();
       Car car = driverCarList.GetCar(this);
 
       return new object[]
