@@ -31,6 +31,8 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
     public void Print()
     {
+      Show();
+      return;
       _wordApp.PrintOut();
 
       Dispose();

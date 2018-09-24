@@ -127,8 +127,16 @@ namespace BBAuto.Domain.ForCar
 
       File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Invoices", Number);
 
-      ID = Convert.ToInt32(_provider.Insert("Invoice", ID, Car.ID, Number, DriverFromID, DriverToID, Date,
-        DateMove?.ToShortDateString() ?? string.Empty, RegionFromID, RegionToID, File, IsMain));
+      var dateSql = string.Concat(Date.Year.ToString(), "-", Date.Month.ToString(), "-",
+        Date.Day.ToString());
+
+      var dateMoveSql = string.Empty;
+      if (DateMove.HasValue)
+        dateMoveSql = string.Concat(DateMove.Value.Year.ToString(), "-", DateMove.Value.Month.ToString(), "-",
+          DateMove.Value.Day.ToString());
+
+      ID = Convert.ToInt32(_provider.Insert("Invoice", ID, Car.ID, Number, DriverFromID, DriverToID, dateSql,
+        dateMoveSql, RegionFromID, RegionToID, File, IsMain));
     }
 
     internal override object[] getRow()
