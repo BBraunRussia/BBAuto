@@ -39,7 +39,7 @@ namespace BBAuto
 
       _carList = CarList.GetInstance();
       _mainStatus = MainStatus.getInstance();
-      _mainStatus.StatusChanged += statusChanged;
+      _mainStatus.StatusChanged += StatusChanged;
       _mainStatus.StatusChanged += SetWindowHeaderText;
       _mainStatus.StatusChanged += ConfigContextMenu;
 
@@ -53,7 +53,7 @@ namespace BBAuto
       _myFilter.Fill(_dgvCar, _myStatusStrip, this);
     }
 
-    private void statusChanged(Object sender, StatusEventArgs e)
+    private void StatusChanged(Object sender, StatusEventArgs e)
     {
       _myFilter.clearComboList();
       _myFilter.clearFilterValue();
@@ -559,8 +559,8 @@ namespace BBAuto
 
     private void OpenCarAddEdit(Car car)
     {
-      CarForm carAE = new CarForm(car);
-      if (carAE.ShowDialog() == DialogResult.OK)
+      var carForm = new CarForm(car);
+      if (carForm.ShowDialog() == DialogResult.OK)
       {
         loadCars();
       }

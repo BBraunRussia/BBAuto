@@ -22,16 +22,16 @@ namespace BBAuto
 
     private bool _load;
 
-    DiagCardList diagCardList;
-    DriverCarList driverCarList;
-    DriverList driverList;
-    DTPList dtpList;
-    InvoiceList invoiceList;
-    MileageList mileageList;
-    PolicyList policyList;
-    RepairList repairList;
-    ViolationList violationList;
-    ShipPartList shipPartList;
+    private readonly DiagCardList _diagCardList;
+    private readonly DriverCarList _driverCarList;
+    private readonly DriverList _driverList;
+    private readonly DTPList _dtpList;
+    private readonly InvoiceList _invoiceList;
+    private readonly MileageList _mileageList;
+    private readonly PolicyList _policyList;
+    private readonly RepairList _repairList;
+    private readonly ViolationList _violationList;
+    private readonly ShipPartList _shipPartList;
 
     private WorkWithForm _workWithForm;
 
@@ -41,16 +41,16 @@ namespace BBAuto
 
       _car = car;
 
-      diagCardList = DiagCardList.getInstance();
-      driverCarList = DriverCarList.GetInstance();
-      driverList = DriverList.getInstance();
-      dtpList = DTPList.getInstance();
-      invoiceList = InvoiceList.getInstance();
-      mileageList = MileageList.getInstance();
-      policyList = PolicyList.getInstance();
-      repairList = RepairList.getInstance();
-      violationList = ViolationList.getInstance();
-      shipPartList = ShipPartList.getInstance();
+      _diagCardList = DiagCardList.getInstance();
+      _driverCarList = DriverCarList.GetInstance();
+      _driverList = DriverList.getInstance();
+      _dtpList = DTPList.getInstance();
+      _invoiceList = InvoiceList.getInstance();
+      _mileageList = MileageList.getInstance();
+      _policyList = PolicyList.getInstance();
+      _repairList = RepairList.getInstance();
+      _violationList = ViolationList.getInstance();
+      _shipPartList = ShipPartList.getInstance();
     }
 
     private void Car_AddEdit_Load(object sender, EventArgs e)
@@ -59,7 +59,7 @@ namespace BBAuto
 
       SetWindowHeader();
 
-      _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+      _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += SetNotEditableItems;
       _workWithForm.SetEditMode(_car.ID == 0 || (!_car.IsGet));
 
@@ -82,7 +82,7 @@ namespace BBAuto
       _load = false;
       loadOneStringDictionary(cbMark, "Mark");
       _load = true;
-      loadModel();
+      LoadModel();
       _load = false;
       loadOneStringDictionary(cbColor, "Color");
       loadOneStringDictionary(cbRegionBuy, "Region");
@@ -90,23 +90,22 @@ namespace BBAuto
       loadOneStringDictionary(cbOwner, "Owner");
       loadOneStringDictionary(cbDealer, "Diller");
 
-      Region region = getRegion();
+      Region region = GetRegion();
 
-      cbDriver.DataSource = driverList.ToDataTableByRegion(region);
+      cbDriver.DataSource = _driverList.ToDataTableByRegion(region);
       cbDriver.DisplayMember = "ФИО";
       cbDriver.ValueMember = "id";
       _load = true;
 
-      fillFields();
+      FillFields();
 
       loadCarDoc();
     }
 
-    private Region getRegion()
+    private Region GetRegion()
     {
-      int idRegion = 0;
-      int.TryParse(cbRegionUsing.SelectedValue.ToString(), out idRegion);
-      RegionList regionList = RegionList.getInstance();
+      int.TryParse(cbRegionUsing.SelectedValue.ToString(), out int idRegion);
+      var regionList = RegionList.getInstance();
       return regionList.getItem(idRegion);
     }
 
@@ -152,51 +151,47 @@ namespace BBAuto
 
     private void SetWindowHeader()
     {
-      this.Text = string.Concat("Карточка автомобиля: ", _car.ToString());
+      Text = string.Concat("Карточка автомобиля: ", _car.ToString());
     }
 
     private void cbMark_SelectedValueChanged(object sender, EventArgs e)
     {
       if (_load)
-        loadModel();
+        LoadModel();
     }
 
-    private void loadModel()
+    private void LoadModel()
     {
-      if (_load)
-      {
-        _load = false;
+      if (!_load)
+        return;
 
-        int idMark = 0;
-        if (cbMark.SelectedValue != null)
-          int.TryParse(cbMark.SelectedValue.ToString(), out idMark);
+      _load = false;
 
-        ModelList models = ModelList.getInstance();
+      int.TryParse(cbMark.SelectedValue?.ToString(), out int idMark);
 
-        cbModel.DataSource = models.ToDataTable(idMark);
-        cbModel.DisplayMember = "Название";
-        cbModel.ValueMember = "id";
-        _load = true;
-        loadGrade();
-      }
+      var models = ModelList.getInstance();
+
+      cbModel.DataSource = models.ToDataTable(idMark);
+      cbModel.DisplayMember = "Название";
+      cbModel.ValueMember = "id";
+      _load = true;
+      LoadGrade();
     }
 
-    private void loadGrade()
+    private void LoadGrade()
     {
-      if (_load)
-      {
-        int idModel = 0;
-        if (cbModel.SelectedValue != null)
-          int.TryParse(cbModel.SelectedValue.ToString(), out idModel);
-        GradeList grades = GradeList.getInstance();
+      if (!_load)
+        return;
 
-        cbGrade.DataSource = grades.ToDataTable(idModel);
-        cbGrade.DisplayMember = "Название";
-        cbGrade.ValueMember = "id";
-      }
+      int.TryParse(cbModel.SelectedValue?.ToString(), out int idModel);
+      var grades = GradeList.getInstance();
+
+      cbGrade.DataSource = grades.ToDataTable(idModel);
+      cbGrade.DisplayMember = "Название";
+      cbGrade.ValueMember = "id";
     }
 
-    private void fillFields()
+    private void FillFields()
     {
       cbMark.SelectedValue = _car.Mark?.ID.ToString() ?? "0";
       cbModel.SelectedValue = _car.ModelID;
@@ -224,7 +219,7 @@ namespace BBAuto
       tbCost.Text = _car.cost.ToString();
       tbDOP.Text = _car.dop;
 
-      Driver driver = driverCarList.GetDriver(_car) ?? new Driver();
+      Driver driver = _driverCarList.GetDriver(_car) ?? new Driver();
       llDriver.Text = driver.GetName(NameType.Full);
 
       //если не назначен водитель
@@ -233,7 +228,7 @@ namespace BBAuto
         lbRegion.Text = driver.Region.Name;
       }
 
-      PTSList ptsList = PTSList.getInstance();
+      var ptsList = PTSList.getInstance();
       _pts = ptsList.getItem(_car);
       mtbNumberPTS.Text = _pts.Number;
       dtpDatePTS.Value = _pts.Date;
@@ -241,7 +236,7 @@ namespace BBAuto
       TextBox tbFilePTS = ucFilePTS.Controls["tbFile"] as TextBox;
       tbFilePTS.Text = _pts.File;
 
-      STSList stsList = STSList.getInstance();
+      var stsList = STSList.getInstance();
       _sts = stsList.getItem(_car);
       mtbNumberSTS.Text = _sts.Number;
       dtpDateSTS.Value = _sts.Date;
@@ -249,11 +244,11 @@ namespace BBAuto
       TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
       tbFileSTS.Text = _sts.File;
 
-      Mileage mileage = mileageList.getItem(_car);
+      var mileage = _mileageList.getItem(_car);
       if (mileage != null)
         lbMileage.Text = mileage.ToString();
 
-      changeDiler(_car.idDiller);
+      ChangeDiler(_car.idDiller);
 
       if (_car.Lising == string.Empty)
       {
@@ -275,21 +270,19 @@ namespace BBAuto
     private void cbDiller_SelectedIndexChanged(object sender, EventArgs e)
     {
       if ((_load) && (cbDealer.SelectedValue != null))
-        changeDiler(Convert.ToInt32(cbDealer.SelectedValue));
+        ChangeDiler(Convert.ToInt32(cbDealer.SelectedValue));
     }
 
-    private void changeDiler(int idDiler)
+    private void ChangeDiler(int idDiler)
     {
-      DilerList dilerList = DilerList.getInstance();
-      Diler diller = dilerList.getItem(idDiler);
+      var diller = DilerList.getInstance().getItem(idDiler);
 
-      if (diller != null)
-        tbDealerContacts.Text = diller.Text;
+      tbDealerContacts.Text = diller?.Text;
     }
 
     private void model_SelectedIndexChanged(object sender, EventArgs e)
     {
-      loadGrade();
+      LoadGrade();
     }
 
     private void btnSave_Click(object sender, EventArgs e)
@@ -299,7 +292,7 @@ namespace BBAuto
         if (CopyFields())
         {
           _car.Save();
-          DialogResult = System.Windows.Forms.DialogResult.OK;
+          DialogResult = DialogResult.OK;
         }
       }
       else
@@ -330,7 +323,7 @@ namespace BBAuto
       _car.ownerID = cbOwner.SelectedValue;
       _car.RegionBuyID = cbRegionBuy.SelectedValue;
 
-      if (int.TryParse(cbRegionUsing.SelectedValue.ToString(), out int regionUsingId))
+      if (int.TryParse(cbRegionUsing.SelectedValue?.ToString(), out int regionUsingId))
         _car.RegionUsingId = regionUsingId;
 
       _car.driverID = cbDriver.SelectedValue;
@@ -365,14 +358,14 @@ namespace BBAuto
       return true;
     }
 
-    private void loadInvoice()
+    private void LoadInvoice()
     {
-      _dgvInvoice.DataSource = invoiceList.ToDataTable(_car);
+      _dgvInvoice.DataSource = _invoiceList.ToDataTable(_car);
 
-      formatDGVInvoice();
+      FormatDgvInvoice();
     }
 
-    private void formatDGVInvoice()
+    private void FormatDgvInvoice()
     {
       DGVFormat dgvFormated = new DGVFormat(_dgvInvoice);
       dgvFormated.HideTwoFirstColumns();
@@ -396,9 +389,9 @@ namespace BBAuto
     {
       if ((_load) && (cbRegionUsing.SelectedValue != null))
       {
-        Region region = getRegion();
+        Region region = GetRegion();
 
-        cbDriver.DataSource = driverList.ToDataTableByRegion(region);
+        cbDriver.DataSource = _driverList.ToDataTableByRegion(region);
       }
     }
 
@@ -413,13 +406,13 @@ namespace BBAuto
 
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
-      loadPage();
+      LoadPage();
     }
 
-    private void loadPage()
+    private void LoadPage()
     {
       if (tabControl1.SelectedTab == tabInvoice)
-        loadInvoice();
+        LoadInvoice();
       else if (tabControl1.SelectedTab == tabPolicy)
         loadPolicy();
       else if (tabControl1.SelectedTab == tabDTP)
@@ -440,7 +433,7 @@ namespace BBAuto
 
     private void loadPolicy()
     {
-      _dgvPolicy.DataSource = policyList.ToDataTable(_car);
+      _dgvPolicy.DataSource = _policyList.ToDataTable(_car);
 
       formatDGVPolicy();
     }
@@ -456,7 +449,7 @@ namespace BBAuto
 
     private void loadDTP()
     {
-      _dgvDTP.DataSource = dtpList.ToDataTable(_car);
+      _dgvDTP.DataSource = _dtpList.ToDataTable(_car);
       FormatDgvDTP();
     }
 
@@ -484,7 +477,7 @@ namespace BBAuto
 
     private void loadMileage()
     {
-      _dgvMileage.DataSource = mileageList.ToDataTable(_car);
+      _dgvMileage.DataSource = _mileageList.ToDataTable(_car);
       FormatDGVMileage();
     }
 
@@ -497,7 +490,7 @@ namespace BBAuto
 
     private void loadRepair()
     {
-      dgvRepair.DataSource = repairList.ToDataTableByCar(_car);
+      dgvRepair.DataSource = _repairList.ToDataTableByCar(_car);
       FormatDGVRepair();
     }
 
@@ -516,11 +509,11 @@ namespace BBAuto
 
       if (OpenAddEditDialog(invoice))
       {
-        invoiceList.Add(invoice);
+        _invoiceList.Add(invoice);
 
-        driverCarList.ReLoad();
+        _driverCarList.ReLoad();
 
-        loadInvoice();
+        LoadInvoice();
       }
     }
 
@@ -528,12 +521,16 @@ namespace BBAuto
     {
       var idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
 
-      var invoice = invoiceList.getItem(idInvoice);
+      var invoice = _invoiceList.getItem(idInvoice);
 
       if (e.ColumnIndex == 4 && (invoice.File != string.Empty))
         WorkWithFiles.openFile(invoice.File);
       else if (OpenAddEditDialog(invoice))
-        loadInvoice();
+      {
+        _driverCarList.ReLoad();
+
+        LoadInvoice();
+      }
     }
 
     private static bool OpenAddEditDialog(Invoice invoice)
@@ -548,11 +545,11 @@ namespace BBAuto
           DialogResult.Yes)
       {
         int idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
-        invoiceList.Delete(idInvoice);
+        _invoiceList.Delete(idInvoice);
 
-        driverCarList.ReLoad();
+        _driverCarList.ReLoad();
 
-        loadInvoice();
+        LoadInvoice();
       }
     }
 
@@ -570,7 +567,7 @@ namespace BBAuto
       {
         int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        policyList.Delete(idPolicy);
+        _policyList.Delete(idPolicy);
 
         loadPolicy();
       }
@@ -581,7 +578,7 @@ namespace BBAuto
       if (!int.TryParse(_dgvPolicy.Rows[e.RowIndex].Cells[0].Value.ToString(), out int policyId))
         return;
 
-      var policy = policyList.getItem(policyId);
+      var policy = _policyList.getItem(policyId);
 
       if (e.ColumnIndex == 4 && !string.IsNullOrEmpty(policy.File))
       {
@@ -603,7 +600,7 @@ namespace BBAuto
 
       if (dtpAE.ShowDialog() == DialogResult.OK)
       {
-        dtpList.Add(dtp);
+        _dtpList.Add(dtp);
 
         loadDTP();
       }
@@ -613,7 +610,7 @@ namespace BBAuto
     {
       int idDTP = Convert.ToInt32(_dgvDTP.Rows[e.RowIndex].Cells[0].Value);
 
-      DTP dtp = dtpList.getItem(idDTP);
+      DTP dtp = _dtpList.getItem(idDTP);
 
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
 
@@ -629,7 +626,7 @@ namespace BBAuto
 
       if (vAE.ShowDialog() == DialogResult.OK)
       {
-        violationList.Add(violation);
+        _violationList.Add(violation);
         loadViolation();
       }
     }
@@ -638,7 +635,7 @@ namespace BBAuto
     {
       int idViolation = Convert.ToInt32(_dgvViolation.Rows[e.RowIndex].Cells[0].Value);
 
-      Violation violation = violationList.getItem(idViolation);
+      Violation violation = _violationList.getItem(idViolation);
 
       if ((e.ColumnIndex == 6) && (violation.File != string.Empty))
         WorkWithFiles.openFile(violation.File);
@@ -659,7 +656,7 @@ namespace BBAuto
       {
         int idViolation = Convert.ToInt32(_dgvViolation.Rows[_dgvViolation.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        violationList.Delete(idViolation);
+        _violationList.Delete(idViolation);
 
         loadViolation();
       }
@@ -667,7 +664,7 @@ namespace BBAuto
 
     private void loadViolation()
     {
-      _dgvViolation.DataSource = violationList.ToDataTable(_car);
+      _dgvViolation.DataSource = _violationList.ToDataTable(_car);
 
       FormatDGVViolation();
     }
@@ -688,7 +685,7 @@ namespace BBAuto
       DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
       if (diagcardAE.ShowDialog() == DialogResult.OK)
       {
-        diagCardList.Add(diagCard);
+        _diagCardList.Add(diagCard);
 
         loadDiagCard();
       }
@@ -698,7 +695,7 @@ namespace BBAuto
     {
       int idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[e.RowIndex].Cells[0].Value);
 
-      DiagCard diagCard = diagCardList.getItem(idDiagCard);
+      DiagCard diagCard = _diagCardList.getItem(idDiagCard);
 
 
       if ((e.ColumnIndex == 4) && (diagCard.File != string.Empty))
@@ -719,7 +716,7 @@ namespace BBAuto
       {
         int idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[_dgvDiagCard.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        diagCardList.Delete(idDiagCard);
+        _diagCardList.Delete(idDiagCard);
 
         loadDiagCard();
       }
@@ -739,7 +736,7 @@ namespace BBAuto
 
       if (mAE.ShowDialog() == DialogResult.OK)
       {
-        mileageList.Add(mileage);
+        _mileageList.Add(mileage);
 
         loadMileage();
       }
@@ -749,7 +746,7 @@ namespace BBAuto
     {
       int idMileage = Convert.ToInt32(_dgvMileage.Rows[e.RowIndex].Cells[0].Value);
 
-      Mileage mileage = mileageList.getItem(idMileage);
+      Mileage mileage = _mileageList.getItem(idMileage);
 
       Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
 
@@ -838,7 +835,7 @@ namespace BBAuto
 
       if (repairAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
       {
-        repairList.Add(repair);
+        _repairList.Add(repair);
         loadRepair();
       }
     }
@@ -847,7 +844,7 @@ namespace BBAuto
     {
       int idRepair = Convert.ToInt32(dgvRepair.Rows[dgvRepair.SelectedCells[0].RowIndex].Cells[0].Value);
 
-      Repair repair = repairList.getItem(idRepair);
+      Repair repair = _repairList.getItem(idRepair);
 
       Repair_AddEdit repairAE = new Repair_AddEdit(repair);
 
@@ -862,7 +859,7 @@ namespace BBAuto
       {
         int idRepair = Convert.ToInt32(dgvRepair.Rows[dgvRepair.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        repairList.Delete(idRepair);
+        _repairList.Delete(idRepair);
 
         loadRepair();
       }
@@ -879,7 +876,7 @@ namespace BBAuto
     {
       try
       {
-        Policy policy = policyList.getItem(_car, PolicyType.КАСКО);
+        Policy policy = _policyList.getItem(_car, PolicyType.КАСКО);
 
         WorkWithFiles.openFile(policy.File);
       }
@@ -915,9 +912,9 @@ namespace BBAuto
 
     private void driverLicenseToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      DTP dtp = dtpList.getItem(Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value));
+      DTP dtp = _dtpList.getItem(Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value));
 
-      Driver driver = driverCarList.GetDriver(dtp.Car, dtp.Date);
+      Driver driver = _driverCarList.GetDriver(dtp.Car, dtp.Date);
 
       LicenseList licencesList = LicenseList.getInstance();
       DriverLicense driverLicense = licencesList.getItem(driver);
@@ -929,7 +926,7 @@ namespace BBAuto
     {
       int.TryParse(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int idDtp);
 
-      var dtp = dtpList.getItem(idDtp);
+      var dtp = _dtpList.getItem(idDtp);
 
       IExcelDocumentService excelDocumentService = new ExcelDocumentService();
 
@@ -945,7 +942,7 @@ namespace BBAuto
       {
         int idDTP = Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        dtpList.Delete(idDTP);
+        _dtpList.Delete(idDTP);
 
         loadDTP();
       }
@@ -958,7 +955,7 @@ namespace BBAuto
       {
         var idMileage = Convert.ToInt32(_dgvMileage.Rows[_dgvMileage.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        mileageList.Delete(idMileage);
+        _mileageList.Delete(idMileage);
 
         loadMileage();
       }
@@ -988,7 +985,7 @@ namespace BBAuto
 
     private void loadShipPart()
     {
-      dgvShipPart.DataSource = shipPartList.ToDataTable(_car);
+      dgvShipPart.DataSource = _shipPartList.ToDataTable(_car);
       FormatDGVShipPart();
     }
 
@@ -1006,7 +1003,7 @@ namespace BBAuto
 
       if (shipPartAE.ShowDialog() == DialogResult.OK)
       {
-        shipPartList.Add(shipPart);
+        _shipPartList.Add(shipPart);
         loadShipPart();
       }
     }
@@ -1016,7 +1013,7 @@ namespace BBAuto
       int idShipPart = 0;
       int.TryParse(dgvShipPart.Rows[e.RowIndex].Cells[0].Value.ToString(), out idShipPart);
 
-      ShipPart shipPart = shipPartList.getItem(idShipPart);
+      ShipPart shipPart = _shipPartList.getItem(idShipPart);
       ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
 
       if (shipPartAE.ShowDialog() == DialogResult.OK)
@@ -1031,7 +1028,7 @@ namespace BBAuto
       if (MessageBox.Show("Удалить информацию об отправки запчастей?", "Удаление", MessageBoxButtons.YesNo,
             MessageBoxIcon.Question) == DialogResult.Yes)
       {
-        shipPartList.Delete(idShipPart);
+        _shipPartList.Delete(idShipPart);
         loadShipPart();
       }
     }
@@ -1075,7 +1072,7 @@ namespace BBAuto
     
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      Driver driver = driverCarList.GetDriver(_car);
+      Driver driver = _driverCarList.GetDriver(_car);
 
       if (driver == null)
         return;
@@ -1086,7 +1083,7 @@ namespace BBAuto
 
     private void _dgvInvoice_Sorted(object sender, EventArgs e)
     {
-      formatDGVInvoice();
+      FormatDgvInvoice();
     }
 
     private void _dgvPolicy_Sorted(object sender, EventArgs e)

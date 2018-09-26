@@ -26,7 +26,7 @@ namespace BBAuto
 
       ChangeVisible();
 
-      _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+      _workWithForm = new WorkWithForm(Controls, btnSave, btnClose);
       _workWithForm.SetEditMode(_violation.ID == 0);
     }
 
@@ -41,7 +41,7 @@ namespace BBAuto
       var tbFile = ucFile.Controls["tbFile"] as TextBox;
       tbFile.Text = _violation.File;
 
-      cbViolationType.SelectedValue = _violation.IDViolationType;
+      cbViolationType.SelectedValue = _violation.ViolationTypeId;
       tbSum.Text = _violation.Sum;
 
       var violationType = ViolationTypes.getInstance();
@@ -49,7 +49,7 @@ namespace BBAuto
       cbViolationType.ValueMember = "id";
       cbViolationType.DisplayMember = "Название";
 
-      cbViolationType.SelectedValue = _violation.IDViolationType;
+      cbViolationType.SelectedValue = _violation.ViolationTypeId;
       tbSum.Text = _violation.Sum;
 
       var tbFilePay = ucFilePay.Controls["tbFile"] as TextBox;
@@ -57,7 +57,7 @@ namespace BBAuto
 
       chbNoDeduction.Checked = _violation.NoDeduction;
 
-      llDriver.Text = _violation.getDriver().GetName(NameType.Full);
+      llDriver.Text = _violation.GetDriver().GetName(NameType.Full);
       llCar.Text = _violation.Car.ToString();
     }
 
@@ -65,23 +65,25 @@ namespace BBAuto
     {
       if (_workWithForm.IsEditMode())
       {
-        TrySave();
-        DialogResult = DialogResult.OK;
+        if (TrySave())
+          DialogResult = DialogResult.OK;
       }
       else
         _workWithForm.SetEditMode(true);
     }
 
-    private void TrySave()
+    private bool TrySave()
     {
       try
       {
         Save();
+        return true;
       }
       catch (NullReferenceException)
       {
         MessageBox.Show("Для сохранения выберите тип нарушения", "Не возможно сохранить", MessageBoxButtons.OK,
           MessageBoxIcon.Warning);
+        return false;
       }
     }
 
@@ -104,7 +106,9 @@ namespace BBAuto
       TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
       _violation.File = tbFile.Text;
 
-      _violation.IDViolationType = cbViolationType.SelectedValue.ToString();
+      int.TryParse(cbViolationType.SelectedValue.ToString(), out int violationTypeId);
+      _violation.ViolationTypeId = violationTypeId;
+
       _violation.Sum = tbSum.Text;
       
       _violation.NoDeduction = chbNoDeduction.Checked;
@@ -129,16 +133,14 @@ namespace BBAuto
 
     private void btnSend_Click(object sender, EventArgs e)
     {
+      if (!(TrySave() && TrySend()))
+        return;
+      
+      _violation.Sent = true;
       TrySave();
 
-      if (TrySend())
-      {
-        _violation.Sent = true;
-        TrySave();
-
-        DialogResult = DialogResult.OK;
-        Close();
-      }
+      DialogResult = DialogResult.OK;
+      Close();
     }
 
     private bool TrySend()
@@ -165,7 +167,7 @@ namespace BBAuto
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      var driverForm = new Driver_AddEdit(_violation.getDriver());
+      var driverForm = new Driver_AddEdit(_violation.GetDriver());
       driverForm.ShowDialog();
     }
 

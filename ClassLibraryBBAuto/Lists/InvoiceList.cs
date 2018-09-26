@@ -22,14 +22,13 @@ namespace BBAuto.Domain.Lists
 
     public static InvoiceList getInstance()
     {
-      if (_uniqueInstance == null)
-        _uniqueInstance = new InvoiceList();
-
-      return _uniqueInstance;
+      return _uniqueInstance ?? (_uniqueInstance = new InvoiceList());
     }
 
     protected override void loadFromSql()
     {
+      _list.Clear();
+
       var dt = _provider.Select("Invoice");
 
       foreach (DataRow row in dt.Rows)

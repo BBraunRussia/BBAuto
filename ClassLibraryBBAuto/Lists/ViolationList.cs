@@ -54,7 +54,7 @@ namespace BBAuto.Domain.Lists
 
     public Violation getItem(Driver driver)
     {
-      return _list.FirstOrDefault(item => item.getDriver().ID == driver.ID);
+      return _list.FirstOrDefault(item => item.GetDriver().ID == driver.ID);
     }
 
     public DataTable ToDataTable()
@@ -86,7 +86,7 @@ namespace BBAuto.Domain.Lists
     public DataTable ToDataTable(Driver driver)
     {
       var violations = from violation in _list
-        where violation.getDriver().ID == driver.ID
+        where violation.GetDriver().ID == driver.ID
         orderby violation.Date descending
         select violation;
 

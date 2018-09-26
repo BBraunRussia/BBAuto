@@ -478,20 +478,19 @@ namespace BBAuto.Domain.Services.OfficeDocument
         excelDoc.setValue(rowIndex, 4, car.info.Model);
         excelDoc.setValue(rowIndex, 5, car.vin);
         excelDoc.setValue(rowIndex, 6, car.Year);
-        excelDoc.setValue(rowIndex, 7, compList.FirstOrDefault(comp => comp.Id == policyOsago?.CompId)?.Name ?? "(нет данных)");
-        excelDoc.setValue(rowIndex, 8, policyOsago?.DateBegin.ToShortDateString() ?? "не надо");
-        excelDoc.setValue(rowIndex, 9, compList.FirstOrDefault(comp => comp.Id == policyKasko?.CompId)?.Name ?? "(нет данных)");
-        excelDoc.setValue(rowIndex, 10, policyKasko?.DateBegin.ToShortDateString() ?? "не надо");
+        excelDoc.setValue(rowIndex, 7, policyOsago?.DateBegin.ToShortDateString() ?? "не надо");
+        excelDoc.setValue(rowIndex, 8, policyKasko?.DateBegin.ToShortDateString() ?? "не надо");
+        excelDoc.setValue(rowIndex, 9, car.info.Owner);
+        excelDoc.setValue(rowIndex, 10, car.info.Owner);
         excelDoc.setValue(rowIndex, 11, car.info.Owner);
-        excelDoc.setValue(rowIndex, 12, car.info.Owner);
-        excelDoc.setValue(rowIndex, 13, car.info.Owner);
+        ////compList.FirstOrDefault(comp => comp.Id == policyOsago?.CompId)?.Name ?? "(нет данных)");
 
         var diagCard = diagCardList.getItem(car);
 
         if (diagCard != null)
         {
-          excelDoc.setValue(rowIndex, 14, diagCard.Date.ToShortDateString());
-          excelDoc.setValue(rowIndex, 15, diagCard.Number);
+          excelDoc.setValue(rowIndex, 12, diagCard.Date.ToShortDateString());
+          excelDoc.setValue(rowIndex, 13, diagCard.Number);
         }
 
         rowIndex++;

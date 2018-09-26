@@ -370,6 +370,8 @@ namespace BBAuto.ContextMenu
         {
           ICarSaleService carSaleService = new CarSaleService();
           carSaleService.SaveCarSale(new CarSale {CarId = carId});
+
+          CarList.GetInstance().ReLoad();
           
           _mainStatus.Set(_mainStatus.Get());
         }

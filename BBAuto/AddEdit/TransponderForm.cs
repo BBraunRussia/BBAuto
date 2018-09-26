@@ -65,15 +65,14 @@ namespace BBAuto.AddEdit
     {
       if (_workWithForm.IsEditMode())
       {
-        Save();
-        
-        DialogResult = DialogResult.OK;
+        if (Save())
+          DialogResult = DialogResult.OK;
       }
       else
         _workWithForm.SetEditMode(true);
     }
 
-    private void Save()
+    private bool Save()
     {
       try
       {
@@ -84,13 +83,20 @@ namespace BBAuto.AddEdit
         _transponder = _transponderService.Save(_transponder);
 
         if (isNew)
+        {
           _driverTransponder = _driverTransponderService.Save(new DriverTransponder {TransponderId = _transponder.Id});
+
+          if (_driverTransponder == null)
+            throw new NullReferenceException("Не удалось привязать водителя к транспондеру");
+        }
+
+        return true;
       }
-      catch (NullReferenceException)
+      catch (NullReferenceException ex)
       {
-        MessageBox.Show("Не удалось сохранить транспондер. Не выбран элемент из списка", "Ошибка",
-          MessageBoxButtons.OK, MessageBoxIcon.Error);
-        DialogResult = DialogResult.None;
+        MessageBox.Show("Не удалось сохранить транспондер. " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        return false;
       }
     }
 
@@ -98,8 +104,10 @@ namespace BBAuto.AddEdit
     {
       _transponder.Number = tbNumber.Text;
 
-      int.TryParse(cbRegion.SelectedValue.ToString(), out int regionId);
-      _transponder.RegionId = regionId;
+      if (int.TryParse(cbRegion.SelectedValue?.ToString(), out int regionId))
+        _transponder.RegionId = regionId;
+      else
+        throw new NullReferenceException("Не выбран регион.");
 
       _transponder.Lost = chbLost.Checked;
       _transponder.Comment = tbComment.Text;
@@ -107,10 +115,15 @@ namespace BBAuto.AddEdit
 
     private void btnAdd_Click(object sender, EventArgs e)
     {
-      if (_driverTransponder == null)
-        Save();
+      var reloadDrivers = _driverTransponder == null;
+
+      if (_driverTransponder == null && !Save())
+        return;
 
       ShowDriverTransponderForm(_driverTransponder);
+
+      if (reloadDrivers)
+        LoadDriverList();
     }
     
     private void _dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

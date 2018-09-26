@@ -43,7 +43,7 @@ namespace BBAuto.Domain.Services.Mail
       _subject = $"Штраф по а/м {violation.Car.Grz}";
 
       _body = "Здравствуйте, коллеги!\n"
-              + violation.getDriver().GetName(NameType.Full) + " совершил нарушение ПДД.\n"
+              + violation.GetDriver().GetName(NameType.Full) + " совершил нарушение ПДД.\n"
               + "Оплачиваем, удерживаем.";
 
       string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
@@ -79,7 +79,7 @@ namespace BBAuto.Domain.Services.Mail
       else
       {
         CreateBodyViolation(violation);
-        drivers = new List<Driver> {violation.getDriver()};
+        drivers = new List<Driver> {violation.GetDriver()};
       }
 
       var list = new List<Attachment> {new Attachment(violation.File)};
@@ -89,7 +89,7 @@ namespace BBAuto.Domain.Services.Mail
 
     private void CreateBodyViolation(Violation violation)
     {
-      var driver = violation.getDriver();
+      var driver = violation.GetDriver();
 
       var appeal = driver.Sex == "мужской" ? "Уважаемый" : "Уважаемая";
 
@@ -104,7 +104,7 @@ namespace BBAuto.Domain.Services.Mail
 
     private void CreateBodyViolationNoDeduction(Violation violation)
     {
-      var driver = violation.getDriver();
+      var driver = violation.GetDriver();
 
       var sb = new StringBuilder();
       sb.AppendLine("Добрый день!");

@@ -6,7 +6,11 @@ create procedure [dbo].[UpsertDriverTransponder]
   @dateEnd datetime
 as
   if not exists (select 1 from DriverTransponder dt where dt.Id = @id)
+  begin
     insert into DriverTransponder(TransponderId, DriverId, DateBegin, DateEnd) values(@transponderId, @driverId, @dateBegin, @dateEnd);
+
+    set @id = scope_identity()
+  end
   else
     update
       DriverTransponder
@@ -16,3 +20,5 @@ as
       DateEnd = @dateEnd
     where
       Id = @id
+
+  exec dbo.GetDriverTransponderById @id

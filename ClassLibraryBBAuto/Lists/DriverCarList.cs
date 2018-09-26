@@ -27,6 +27,8 @@ namespace BBAuto.Domain.Lists
 
     protected override void loadFromSql()
     {
+      _list.Clear();
+
       var dt = _provider.Select("DriverCar");
 
       foreach (DataRow row in dt.Rows)

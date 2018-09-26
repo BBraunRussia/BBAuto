@@ -228,9 +228,9 @@ namespace BBAuto.Domain.Entities
           _lisingDate, _invertoryNumber), out int id);
       ID = id;
 
-      CarList.GetInstance().ReLoad();
-
       saveCarBuy();
+
+      CarList.GetInstance().ReLoad();
     }
 
     private void saveCarBuy()

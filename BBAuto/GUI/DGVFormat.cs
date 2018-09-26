@@ -184,19 +184,18 @@ namespace BBAuto
       SetCellFormat("Сумма штрафа", "N0");
       SetRightAligment("Сумма штрафа");
 
-      ViolationList violationList = ViolationList.getInstance();
+      var violationList = ViolationList.getInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
-        Violation violation = violationList.getItem(id);
+        var violation = violationList.getItem(id);
 
         if (violation.Sent)
           row.Cells["№ постановления"].Style.BackColor = Color.MediumPurple;
 
-        if (violation.FilePay != string.Empty)
+        if (!string.IsNullOrEmpty(violation.FilePay))
           row.Cells["Дата оплаты"].Style.BackColor = Color.MediumPurple;
       }
     }
@@ -207,8 +206,7 @@ namespace BBAuto
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
         DiagCard diagCard = diagCardList.getItem(id);
 
         if (diagCard.File != string.Empty)
@@ -225,8 +223,7 @@ namespace BBAuto
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[0].Value.ToString(), out id);
+        int.TryParse(row.Cells[0].Value.ToString(), out int id);
 
         Account account = accountList.getItem(id);
 
@@ -244,8 +241,7 @@ namespace BBAuto
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        int id;
-        int.TryParse(row.Cells[1].Value.ToString(), out id);
+        int.TryParse(row.Cells[1].Value.ToString(), out int id);
 
         FuelCard fuelCard = fuelCardList.getItem(id);
 
@@ -283,20 +279,19 @@ namespace BBAuto
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {
-        if ((row.Cells["Скан водительского удостоверения"].Value.ToString() == "нет")
-            || (row.Cells["Скан медицинской справки"].Value.ToString() == "нет"))
+        if (row.Cells["Скан водительского удостоверения"].Value.ToString() == "нет"
+            || row.Cells["Скан медицинской справки"].Value.ToString() == "нет")
         {
           row.DefaultCellStyle.BackColor = Color.LightYellow;
         }
 
-        int idDriver = 0;
-        int.TryParse(row.Cells[0].Value.ToString(), out idDriver);
+        int.TryParse(row.Cells[0].Value.ToString(), out int idDriver);
         Driver driver = driverList.getItem(idDriver);
 
         if (driver.Fired)
           row.DefaultCellStyle.ForeColor = Color.Red;
 
-        if (((driver.OwnerID < 3) && (string.IsNullOrEmpty(driver.Number))) || (driver.Decret))
+        if (driver.OwnerID < 3 && string.IsNullOrEmpty(driver.Number) || driver.Decret)
           row.DefaultCellStyle.ForeColor = Color.Blue;
 
         if (driver.OwnerID > 2)
