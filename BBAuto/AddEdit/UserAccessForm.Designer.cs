@@ -1,6 +1,6 @@
-﻿namespace BBAuto
+namespace BBAuto
 {
-    partial class UserAccess_AddEdit
+    partial class UserAccessForm
     {
         /// <summary>
         /// Required designer variable.
@@ -131,7 +131,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "UserAccess_AddEdit";
+            this.Name = "UserAccessForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "User Access";
             this.Load += new System.EventHandler(this.aeUserAccess_Load);

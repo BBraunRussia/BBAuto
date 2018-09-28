@@ -1,6 +1,6 @@
-﻿namespace BBAuto
+namespace BBAuto
 {
-    partial class formUsersAccess
+    partial class UserAccessListForm
     {
         /// <summary>
         /// Required designer variable.
@@ -93,7 +93,7 @@
             this.Controls.Add(this.btnDel);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this._dgvUserAccess);
-            this.Name = "formUsersAccess";
+            this.Name = "UserAccessListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Доступ пользователей";
             this.Load += new System.EventHandler(this.formUsersAccess_Load);

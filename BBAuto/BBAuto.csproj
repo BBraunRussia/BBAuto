@@ -128,11 +128,11 @@
     <Compile Include="AddEdit\TransponderForm.Designer.cs">
       <DependentUpon>TransponderForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddEdit\UserAccess_AddEdit.cs">
+    <Compile Include="AddEdit\UserAccessForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddEdit\UserAccess_AddEdit.Designer.cs">
-      <DependentUpon>UserAccess_AddEdit.cs</DependentUpon>
+    <Compile Include="AddEdit\UserAccessForm.Designer.cs">
+      <DependentUpon>UserAccessForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddEdit\CarSaleForm.cs">
       <SubType>Form</SubType>
@@ -252,11 +252,11 @@
     <Compile Include="Dictionary\formSsDTPList.Designer.cs">
       <DependentUpon>formSsDTPList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dictionary\formUsersAccess.cs">
+    <Compile Include="Dictionary\UserAccessListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dictionary\formUsersAccess.Designer.cs">
-      <DependentUpon>formUsersAccess.cs</DependentUpon>
+    <Compile Include="Dictionary\UserAccessListForm.Designer.cs">
+      <DependentUpon>UserAccessListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\MyFilter.cs" />
     <Compile Include="Events\StatusEventArgs.cs" />
@@ -559,8 +559,8 @@
     <EmbeddedResource Include="AddEdit\TransponderForm.resx">
       <DependentUpon>TransponderForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddEdit\UserAccess_AddEdit.resx">
-      <DependentUpon>UserAccess_AddEdit.cs</DependentUpon>
+    <EmbeddedResource Include="AddEdit\UserAccessForm.resx">
+      <DependentUpon>UserAccessForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\CarSaleForm.resx">
       <DependentUpon>CarSaleForm.cs</DependentUpon>
@@ -619,8 +619,8 @@
     <EmbeddedResource Include="Dictionary\formSsDTPList.resx">
       <DependentUpon>formSsDTPList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dictionary\formUsersAccess.resx">
-      <DependentUpon>formUsersAccess.cs</DependentUpon>
+    <EmbeddedResource Include="Dictionary\UserAccessListForm.resx">
+      <DependentUpon>UserAccessListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForCar\AddEdit\CarDoc_AddEdit.resx">
       <DependentUpon>CarDoc_AddEdit.cs</DependentUpon>

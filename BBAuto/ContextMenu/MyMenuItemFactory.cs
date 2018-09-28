@@ -1165,7 +1165,7 @@ namespace BBAuto.ContextMenu
       ToolStripMenuItem item = CreateItem("Доступ пользователей");
       item.Click += delegate
       {
-        formUsersAccess fUserAccess = new formUsersAccess();
+        UserAccessListForm fUserAccess = new UserAccessListForm();
         fUserAccess.ShowDialog();
       };
       return item;
