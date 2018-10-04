@@ -185,24 +185,18 @@ namespace BBAuto.Report
         return cars;
       }
 
+      return int.TryParse(tbAll.Text, out int mileage)
+        ? actualCars.Where(car => GetDiff(car, dtpBeginDate.Value, dtpEndDate.Value) >= mileage).ToList()
+        : new List<Car>();
+    }
+
+    private int GetDiff(Car car, DateTime dateBegin, DateTime dateEnd)
+    {
       var mileageList = MileageList.getInstance();
 
-      if (int.TryParse(tbAll.Text, out int mileage))
-        return actualCars.Where(car =>
-        {
-          var carMileage = 0;
-          try
-          {
-            carMileage = mileageList.GetBeginDistance(car, dtpBeginDate.Value);
-          }
-          catch
-          {
-            // ignored
-          }
-          return carMileage >= mileage;
-        }).ToList();
-
-      return new List<Car>();
+      var beginMileage = mileageList.getItem(car, dateBegin)?.Count ?? 0;
+      var endMileage = mileageList.getItem(car, dateEnd)?.Count ?? 0;
+      return endMileage - beginMileage;
     }
   }
 }
