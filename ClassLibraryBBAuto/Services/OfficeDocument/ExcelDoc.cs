@@ -114,8 +114,6 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
     public void Print()
     {
-      Show();
-      return;
       object misValue = System.Reflection.Missing.Value;
 
       xlSh.Columns.AutoFit();

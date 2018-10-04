@@ -163,7 +163,8 @@ namespace BBAuto.Report
         var cars = new List<Car>();
         foreach (var item in cbDriver.CheckBoxItems)
         {
-          cars.AddRange(actualCars.Where(car => car.info.Driver.Name == item.Text));
+          if (item.Checked)
+            cars.AddRange(actualCars.Where(car => car.info.Driver.Name == item.Text));
         }
 
         return cars;
@@ -172,9 +173,10 @@ namespace BBAuto.Report
       if (rbRegion.Checked)
       {
         var cars = new List<Car>();
-        foreach (var item in cbDriver.CheckBoxItems)
+        foreach (var item in cbRegion.CheckBoxItems)
         {
-          cars.AddRange(actualCars.Where(car => car.info.Region == item.Text));
+          if (item.Checked)
+            cars.AddRange(actualCars.Where(car => car.info.Region == item.Text));
         }
 
         return cars;
@@ -188,7 +190,7 @@ namespace BBAuto.Report
           var carMileage = 0;
           try
           {
-            mileage = mileageList.GetBeginDistance(car, dtpBeginDate.Value);
+            carMileage = mileageList.GetBeginDistance(car, dtpBeginDate.Value);
           }
           catch
           {

@@ -34,9 +34,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Insight.Database, Version=6.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insight.Database.6.2.4\lib\net45\Insight.Database.dll</HintPath>
-    </Reference>
     <Reference Include="Insight.Database.Configuration, Version=6.2.4.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
       <HintPath>..\packages\Insight.Database.Configuration.6.2.4\lib\net45\Insight.Database.Configuration.dll</HintPath>
     </Reference>

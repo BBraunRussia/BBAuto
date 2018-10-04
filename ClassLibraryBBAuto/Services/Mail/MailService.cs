@@ -129,6 +129,8 @@ namespace BBAuto.Domain.Services.Mail
       if (string.IsNullOrEmpty(policy.File))
         throw new Exception("Не найден файл полиса");
 
+      var policyFilePath = Common.WorkWithFiles.GetFullPath(policy.File);
+
       _subject = "Полис " + type;
 
       CreateBodyPolicy(type);
@@ -137,7 +139,7 @@ namespace BBAuto.Domain.Services.Mail
       Driver driver = driverCarList.GetDriver(car);
 
       Send(new List<Driver> {driver}, new[] {_authorEmail},
-        new List<Attachment> {new Attachment(policy.File)});
+        new List<Attachment> {new Attachment(policyFilePath)});
     }
 
     private void CreateBodyPolicy(PolicyType type)

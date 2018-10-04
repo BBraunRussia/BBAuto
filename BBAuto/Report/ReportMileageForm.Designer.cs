@@ -289,7 +289,7 @@ namespace BBAuto.Report
       this.Controls.Add(this.label1);
       this.Name = "ReportMileageForm";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-      this.Text = "ReportMileageForm";
+      this.Text = "Формирование отчёта \"Пробеги\"";
       this.Load += new System.EventHandler(this.ReportMileageForm_Load);
       this.ResumeLayout(false);
       this.PerformLayout();

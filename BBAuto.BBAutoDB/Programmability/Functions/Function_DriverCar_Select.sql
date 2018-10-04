@@ -20,7 +20,7 @@ as
               Invoice i2
             where
               i.car_id = i2.car_id
-              and i.invoice_id <> i2.invoice_id
+              and i.invoice_id < i2.invoice_id
               and i.invoice_dateMove <= i2.invoice_dateMove)
           date2,
           invoice_number,
