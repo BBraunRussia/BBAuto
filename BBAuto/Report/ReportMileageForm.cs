@@ -160,6 +160,9 @@ namespace BBAuto.Report
 
       if (rbDriver.Checked)
       {
+        if (cbDriver.CheckBoxItems.FirstOrDefault(item => item.Checked)?.Text == Consts.ValueAllForCheckBox)
+          return actualCars;
+
         var cars = new List<Car>();
         foreach (var item in cbDriver.CheckBoxItems)
         {

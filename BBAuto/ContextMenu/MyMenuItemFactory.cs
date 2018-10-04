@@ -17,6 +17,7 @@ using BBAuto.Domain.Services.OfficeDocument;
 using BBAuto.Domain.Services.Transponder;
 using BBAuto.Domain.Static;
 using BBAuto.FormsForCar.AddEdit;
+using BBAuto.Print;
 using BBAuto.Report;
 using BBAuto.SendDocumentForms;
 
@@ -567,17 +568,8 @@ namespace BBAuto.ContextMenu
       ToolStripMenuItem item = CreateItem("Печать доверенности на предоставление интересов на СТО");
       item.Click += delegate
       {
-        IWordDocumentService wordDocumentService = new WordDocumentService();
-
-        foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
-        {
-          var car = GetCar(cell);
-          var invoice = GetInvoice(cell);
-
-          var doc = wordDocumentService.CreateProxyOnSto(car, invoice);
-
-          doc.Print();
-        }
+        var proxyOnStoForm = new ProxyOnStoForm();
+        proxyOnStoForm.ShowDialog();
       };
       return item;
     }

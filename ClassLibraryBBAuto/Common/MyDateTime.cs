@@ -4,6 +4,18 @@ namespace BBAuto.Domain.Common
 {
   public class MyDateTime
   {
+    private DateTime _date;
+
+    public MyDateTime(string sdate)
+    {
+      DateTime.TryParse(sdate, out _date);
+    }
+
+    public MyDateTime(DateTime date)
+    {
+      _date = date;
+    }
+
     private enum MonthsGenitive
     {
       января = 1,
@@ -52,22 +64,11 @@ namespace BBAuto.Domain.Common
       декабре = 12
     };
 
-    private DateTime _date;
+    
 
-    public string DaysRange
-    {
-      get { return string.Concat(_date.Day.ToString(), "-", DateTime.DaysInMonth(_date.Year, _date.Month).ToString()); }
-    }
+    public string DaysRange => string.Concat(_date.Day.ToString(), "-", DateTime.DaysInMonth(_date.Year, _date.Month).ToString());
 
-    public string Year
-    {
-      get { return _date.Year.ToString(); }
-    }
-
-    public MyDateTime(string sdate)
-    {
-      DateTime.TryParse(sdate, out _date);
-    }
+    public string Year => _date.Year.ToString();
 
     public override string ToString()
     {
@@ -80,35 +81,35 @@ namespace BBAuto.Domain.Common
 
     public string ToLongString()
     {
-      MonthsGenitive ms = (MonthsGenitive) _date.Month;
+      var ms = (MonthsGenitive) _date.Month;
 
       return $"{_date.Day} {ms} {_date.Year} года";
     }
 
     public string MonthToStringGenitive()
     {
-      MonthsGenitive ms = (MonthsGenitive) _date.Month;
+      var ms = (MonthsGenitive) _date.Month;
 
       return ms.ToString();
     }
 
     public string MonthToStringNominative()
     {
-      MonthsNominative ms = (MonthsNominative) _date.Month;
+      var ms = (MonthsNominative) _date.Month;
 
       return ms.ToString();
     }
 
     public string MonthToStringPrepositive()
     {
-      MonthsPrepositive ms = (MonthsPrepositive) _date.Month;
+      var ms = (MonthsPrepositive) _date.Month;
 
       return ms.ToString();
     }
 
     public string MonthSlashYear()
     {
-      string month = _date.Month.ToString();
+      var month = _date.Month.ToString();
       if (_date.Month < 10)
         month = "0" + month;
 
@@ -117,8 +118,7 @@ namespace BBAuto.Domain.Common
 
     public static bool IsDate(string value)
     {
-      DateTime date;
-      return DateTime.TryParse(value, out date);
+      return DateTime.TryParse(value, out DateTime _);
     }
   }
 }

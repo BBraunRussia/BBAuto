@@ -80,7 +80,7 @@ namespace BBAuto.SendDocumentForms
       this.MinimizeBox = false;
       this.Name = "SelectRecipientStep2Form";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-      this.Text = "SelectRecipientStep2Form";
+      this.Text = "Выбор получателей";
       this.Load += new System.EventHandler(this.SelectRecipientStep2Form_Load);
       this.ResumeLayout(false);
 

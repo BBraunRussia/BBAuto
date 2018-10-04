@@ -23,21 +23,35 @@ namespace BBAuto.Domain.Services.OfficeDocument
     private const string TerminationKasko = "Заявление о расторжении КАСКО";
     private const string ExtraTerminationOsago = "Доп. cоглашение о расторжении ОСАГО";
     private const string ExtraTerminationKasko = "Доп. cоглашение о расторжении КАСКО";
-    
+
+
     public IDocument CreateProxyOnSto(Car car, Invoice invoice)
     {
-      var doc = OpenDocumentWord(ProxyOnSto);
-      if (doc == null)
-        return null;
-
       var driverCarList = DriverCarList.GetInstance();
 
       var driver = invoice == null
         ? driverCarList.GetDriver(car)
         : DriverList.getInstance().getItem(Convert.ToInt32(invoice.DriverToID));
 
-      var myDate = new MyDateTime(DateTime.Today.ToShortDateString());
-      doc.SetValue("текущая дата", myDate.ToLongString());
+      return CreateProxyOnSto(car, driver, DateTime.Today, new DateTime(DateTime.Today.Year, 12, 31));
+    }
+
+    public IDocument CreateProxyOnSto(Driver driver, DateTime dateBegin, DateTime dateEnd)
+    {
+      var driverCarList = DriverCarList.GetInstance();
+
+      var car = driverCarList.GetCar(driver);
+
+      return CreateProxyOnSto(car, driver, dateBegin, dateEnd);
+    }
+    private IDocument CreateProxyOnSto(Car car, Driver driver, DateTime dateBegin, DateTime dateEnd)
+    {
+      var doc = OpenDocumentWord(ProxyOnSto);
+      if (doc == null)
+        return null;
+
+      var myDateBegin = new MyDateTime(dateBegin);
+      doc.SetValue("дата начала доверенности", myDateBegin.ToLongString());
 
       var fio = string.Empty;
       if (driver != null)
@@ -74,8 +88,10 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       doc.SetValue("ПТС автомобиля", ptsName);
       doc.SetValue("ГРЗ автомобиля", car.Grz);
-      doc.SetValue("текущий год", DateTime.Today.Year.ToString());
 
+      var myDateEnd = new MyDateTime(dateEnd);
+      doc.SetValue("дата окончания доверенности", myDateEnd.ToLongString());
+      
       return doc;
     }
 
