@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using BBAuto.Domain.Common;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
@@ -49,7 +50,7 @@ namespace BBAuto.Domain.Services.Mail
       string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
       var drivers = GetAccountants(owner);
 
-      var list = new List<Attachment> {new Attachment(violation.File)};
+      var list = new List<Attachment> {new Attachment(WorkWithFiles.GetFullPath(violation.File))};
       var transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
 
       /* TO DO: добавила в копию Шелякову Марию */
@@ -82,7 +83,7 @@ namespace BBAuto.Domain.Services.Mail
         drivers = new List<Driver> {violation.GetDriver()};
       }
 
-      var list = new List<Attachment> {new Attachment(violation.File)};
+      var list = new List<Attachment> {new Attachment(WorkWithFiles.GetFullPath(violation.File))};
 
       Send(drivers, new[] {_authorEmail}, list);
     }
@@ -129,8 +130,6 @@ namespace BBAuto.Domain.Services.Mail
       if (string.IsNullOrEmpty(policy.File))
         throw new Exception("Не найден файл полиса");
 
-      var policyFilePath = Common.WorkWithFiles.GetFullPath(policy.File);
-
       _subject = "Полис " + type;
 
       CreateBodyPolicy(type);
@@ -139,7 +138,7 @@ namespace BBAuto.Domain.Services.Mail
       Driver driver = driverCarList.GetDriver(car);
 
       Send(new List<Driver> {driver}, new[] {_authorEmail},
-        new List<Attachment> {new Attachment(policyFilePath)});
+        new List<Attachment> {new Attachment(WorkWithFiles.GetFullPath(policy.File))});
     }
 
     private void CreateBodyPolicy(PolicyType type)
@@ -180,8 +179,9 @@ namespace BBAuto.Domain.Services.Mail
         throw new NullReferenceException("Не найдены e-mail адреса бухгалтеров");
 
       Driver boss = driverList.GetDriverListByRole(RolesList.Boss).First();
-
-      Send(accountants, new[] {boss.Email}, new List<Attachment>() {new Attachment(account.File)});
+      
+      Send(accountants, new[] {boss.Email},
+        new List<Attachment> {new Attachment(WorkWithFiles.GetFullPath(account.File))});
     }
 
     private List<Driver> GetAccountants(string owner)
@@ -289,7 +289,10 @@ namespace BBAuto.Domain.Services.Mail
       }
 
       var listAttachment = new List<Attachment>();
-      fileNames?.ForEach(item => listAttachment.Add(new Attachment(item)));
+
+
+
+      fileNames?.ForEach(item => listAttachment.Add(new Attachment(WorkWithFiles.GetFullPath(item))));
 
 
       Send(new List<Driver> {driver}, copyEmails, listAttachment);
@@ -306,7 +309,7 @@ namespace BBAuto.Domain.Services.Mail
       var copyEmails = new[] { transportEmployee.Email };
 
       var listAttachment = new List<Attachment>();
-      documentsForSend.ForEach(document => listAttachment.Add(new Attachment(document.Path)));
+      documentsForSend.ForEach(document => listAttachment.Add(new Attachment(WorkWithFiles.GetFullPath(document.Path))));
 
       Send(drivers, copyEmails, listAttachment);
     }
