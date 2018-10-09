@@ -83,7 +83,7 @@ namespace BBAuto.Domain.ForDriver
     {
       return new object[]
       {
-        ID, FuelCard.ID, FuelCard.Number, Driver.GetName(NameType.Full), FuelCard.Region, FuelCard.DateEnd,
+        ID, FuelCard.ID, FuelCard.Number, Driver.FullName, FuelCard.Region, FuelCard.DateEnd,
         FuelCard.FuelCardType,
         DateBegin, DateEnd ?? new DateTime(1, 1, 1)
       };

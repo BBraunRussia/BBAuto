@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,7 +74,7 @@ namespace BBAuto.Domain.Lists
 
         internal Driver getDriver(Car car, DateTime date)
         {
-            var tempMoves = list.Where(item => item.isDriverCar(car, date));
+            var tempMoves = list.Where(item => item.IsDriverCar(car, date));
 
             if (tempMoves.Count() > 0)
             {

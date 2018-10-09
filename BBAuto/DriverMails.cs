@@ -24,7 +24,7 @@ namespace BBAuto
       StringBuilder sb = new StringBuilder();
 
       var list = from driver in drivers
-        orderby driver.GetName(NameType.Full)
+        orderby driver.FullName
         select driver.Email;
 
       foreach (string email in list)

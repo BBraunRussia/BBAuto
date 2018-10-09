@@ -88,7 +88,7 @@ namespace BBAuto
 
     private void fillCommonFields()
     {
-      tbFio.Text = _driver.GetName(NameType.Full);
+      tbFio.Text = _driver.FullName;
       mtbMobile.Text = _driver.Mobile;
       tbEmail.Text = _driver.Email;
       mtbDateBirth.Text = _driver.DateBirth;

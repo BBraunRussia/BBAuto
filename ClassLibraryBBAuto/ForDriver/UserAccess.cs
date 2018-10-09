@@ -53,7 +53,7 @@ namespace BBAuto.Domain.ForDriver
 
     internal override object[] getRow()
     {
-      return new object[] {ID, Driver.Login, Driver.GetName(NameType.Full), Role};
+      return new object[] {ID, Driver.Login, Driver.FullName, Role};
     }
 
     internal override void Delete()

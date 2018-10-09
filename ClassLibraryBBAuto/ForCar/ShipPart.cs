@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,7 +76,7 @@ namespace BBAuto.Domain.ForCar
 
         internal override object[] getRow()
         {
-            return new object[] { ID, Car.ID, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), Number, _dateRequest, _dateSent };
+            return new object[] { ID, Car.ID, Car.BBNumber, Car.Grz, Driver.FullName, Number, _dateRequest, _dateSent };
         }
 
         internal override void Delete()

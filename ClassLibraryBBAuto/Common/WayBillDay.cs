@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -148,7 +148,7 @@ namespace BBAuto.Domain.Common
         
         internal override object[] getRow()
         {
-            return new object[] { _date.ToShortDateString(), _driver.GetName(NameType.Short) };
+            return new object[] { _date.ToShortDateString(), _driver.Name };
         }
                 
         public IEnumerator GetEnumerator()

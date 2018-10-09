@@ -55,7 +55,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       var fio = string.Empty;
       if (driver != null)
-        fio = driver.GetName(NameType.Full);
+        fio = driver.FullName;
 
       doc.SetValue("ФИО регионального представителя", fio);
 
@@ -135,9 +135,9 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       foreach (var fuelCardDriver in driverCards)
       {
-        doc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName,
+        doc.AddRowInTable(1, i.ToString(), driverTo.FullName, regionName,
           fuelCardDriver.FuelCard.Number);
-        doc.AddRowInTable(2, i.ToString(), driverTo.GetName(NameType.Full), regionName,
+        doc.AddRowInTable(2, i.ToString(), driverTo.FullName, regionName,
           fuelCardDriver.FuelCard.Number, fuelCardDriver.FuelCard.Pin);
 
         i++;

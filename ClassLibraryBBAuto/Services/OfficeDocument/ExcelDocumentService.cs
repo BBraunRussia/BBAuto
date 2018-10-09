@@ -156,11 +156,11 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       excelDoc.setValue(9, 10, driver1.Dept);
       excelDoc.setValue(56, 11, driver1.Position);
-      excelDoc.setValue(56, 63, driver1.GetName(NameType.Full));
+      excelDoc.setValue(56, 63, driver1.FullName);
 
       excelDoc.setValue(11, 13, driver2.Dept);
       excelDoc.setValue(60, 11, driver2.Position);
-      excelDoc.setValue(60, 63, driver2.GetName(NameType.Full));
+      excelDoc.setValue(60, 63, driver2.FullName);
 
       return excelDoc;
     }
@@ -203,7 +203,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       excelDoc.setValue(22, 6, dtp.Date.ToShortDateString()); //дата дтп
 
-      excelDoc.setValue(27, 2, driver.GetName(NameType.Full)); //водитель фио
+      excelDoc.setValue(27, 2, driver.FullName); //водитель фио
 
       Regions regions = Regions.getInstance();
 
@@ -265,9 +265,9 @@ namespace BBAuto.Domain.Services.OfficeDocument
       excelDoc.setValue(10, 11, string.Concat(car.Mark.Name, " ", car.info.Model));
       excelDoc.setValue(11, 17, car.Grz);
 
-      excelDoc.setValue(12, 6, driver.GetName(NameType.Full));
-      excelDoc.setValue(44, 16, driver.GetName(NameType.Short));
-      excelDoc.setValue(26, 40, driver.GetName(NameType.Short));
+      excelDoc.setValue(12, 6, driver.FullName);
+      excelDoc.setValue(44, 16, driver.Name);
+      excelDoc.setValue(26, 40, driver.Name);
 
       LicenseList licencesList = LicenseList.getInstance();
       DriverLicense driverLicense = licencesList.getItem(driver);
@@ -321,13 +321,13 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       if (driver.IsOne)
       {
-        mechanicName = driver.GetName(NameType.Short);
+        mechanicName = driver.Name;
       }
       else
       {
         Employees mechanic = employeesList.getItem(driver.Region, "Механик", true);
         mechanicName = mechanic == null
-          ? driver.GetName(NameType.Short)
+          ? driver.Name
           : mechanic.Name;
       }
 
@@ -402,9 +402,9 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
         excelDoc.setValue(4 + (47 * i), 39, fullNumber);
 
-        excelDoc.setValue(12 + (47 * i), 6, item.Driver.GetName(NameType.Full));
-        excelDoc.setValue(44 + (47 * i), 16, item.Driver.GetName(NameType.Short));
-        excelDoc.setValue(26 + (47 * i), 40, item.Driver.GetName(NameType.Short));
+        excelDoc.setValue(12 + (47 * i), 6, item.Driver.FullName);
+        excelDoc.setValue(44 + (47 * i), 16, item.Driver.Name);
+        excelDoc.setValue(26 + (47 * i), 40, item.Driver.Name);
 
         i++;
       }
@@ -441,7 +441,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       
       Driver driver = DriverList.getInstance().getItem(Convert.ToInt32(invoice.DriverToID));
 
-      excelDoc.setValue(18, 4, driver.GetName(NameType.Full));
+      excelDoc.setValue(18, 4, driver.FullName);
       excelDoc.setValue(18, 5, driver.Position);
 
       return excelDoc;

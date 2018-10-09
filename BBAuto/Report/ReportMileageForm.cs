@@ -20,12 +20,10 @@ namespace BBAuto.Report
     private void ReportMileageForm_Load(object sender, EventArgs e)
     {
       var dateMinus2 = DateTime.Today.AddMonths(-2);
-      dtpBeginDate.Value = new DateTime(dateMinus2.Year, dateMinus2.Month,
-        DateTime.DaysInMonth(dateMinus2.Year, dateMinus2.Month));
+      dtpBeginDate.Value = new DateTime(dateMinus2.Year, dateMinus2.Month, 1);
 
       var dateMinus1 = DateTime.Today.AddMonths(-1);
-      dtpEndDate.Value = new DateTime(dateMinus1.Year, dateMinus1.Month,
-        DateTime.DaysInMonth(dateMinus1.Year, dateMinus1.Month));
+      dtpEndDate.Value = new DateTime(dateMinus1.Year, dateMinus1.Month, 1);
 
       LoadDictionaries();
     }

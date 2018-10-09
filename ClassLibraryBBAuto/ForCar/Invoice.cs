@@ -149,8 +149,8 @@ namespace BBAuto.Domain.ForCar
 
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, Number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
-        regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), IsMain ? "Основной" : "Временный", Date, DateMove
+        ID, Car.ID, Car.BBNumber, Car.Grz, Number, regions.getItem(_idRegionFrom), driverFrom.FullName,
+        regions.getItem(_idRegionTo), driverTo.FullName, IsMain ? "РћСЃРЅРѕРІРЅРѕР№" : "Р’СЂРµРјРµРЅРЅС‹Р№", Date, DateMove
       };
     }
 

@@ -73,7 +73,7 @@ namespace BBAuto.Domain.Lists
 
       var drivers = list.OrderBy(item => item.Driver.OwnerID).GroupBy(item => item.Driver.Login).Select(group => group.First());
 
-      var userAccesses = list.Where(driver => drivers.Contains(driver)).OrderBy(item => item.Driver.GetName(NameType.Full)).ToList();
+      var userAccesses = list.Where(driver => drivers.Contains(driver)).OrderBy(item => item.Driver.FullName).ToList();
       
       userAccesses.ForEach(userAccess => dt.Rows.Add(userAccess.getRow()));
       

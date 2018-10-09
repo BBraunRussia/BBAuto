@@ -220,7 +220,7 @@ namespace BBAuto
       tbDOP.Text = _car.dop;
 
       Driver driver = _driverCarList.GetDriver(_car) ?? new Driver();
-      llDriver.Text = driver.GetName(NameType.Full);
+      llDriver.Text = driver.FullName;
 
       //если не назначен водитель
       if (driver.Region != null)

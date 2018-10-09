@@ -71,6 +71,8 @@ namespace BBAuto.Domain.Entities
     }
 
     public string Name => GetName(NameType.Short);
+    public string GenetiveName => GetName(NameType.Genetive);
+    public string FullName => GetName(NameType.Full);
 
     public string Email { get; set; }
     public string SuppyAddress { get; set; }
@@ -278,26 +280,23 @@ namespace BBAuto.Domain.Entities
     
     public override void Save()
     {
-      DriverList driverList = DriverList.getInstance();
-
-      string dateBirthSql = string.Empty;
+      var dateBirthSql = string.Empty;
       if (DateBirth != string.Empty)
         dateBirthSql = string.Concat(_dateBirth.Year.ToString(), "-", _dateBirth.Month.ToString(), "-",
           _dateBirth.Day.ToString());
 
-      string dateStopNotificationSql = string.Empty;
+      var dateStopNotificationSql = string.Empty;
       if (DateStopNotification.Year != 1)
         dateStopNotificationSql = string.Concat(DateStopNotification.Year.ToString(), "-",
           DateStopNotification.Month.ToString(), "-", DateStopNotification.Day.ToString());
 
-      int id;
-      int.TryParse(_provider.Insert("Driver", ID, GetName(NameType.Full), Region.ID, dateBirthSql, _mobile, Email,
+      int.TryParse(_provider.Insert("Driver", ID, FullName, Region.ID, dateBirthSql, _mobile, Email,
         _fired, _expSince, PositionID,
         DeptID, Login, OwnerID, SuppyAddress, SexIndex, _decret,
-        dateStopNotificationSql, _number, _isDriver, _from1C), out id);
+        dateStopNotificationSql, _number, _isDriver, _from1C), out int id);
       ID = id;
 
-      driverList.ReLoad();
+      DriverList.getInstance().ReLoad();
     }
 
     public MedicalCert createMedicalCert()
@@ -337,7 +336,7 @@ namespace BBAuto.Domain.Entities
       {
         ID,
         0,
-        GetName(NameType.Full),
+        FullName,
         licenseStatus,
         medicalCertStatus,
         car?.ToString() ?? "нет автомобиля",
@@ -347,7 +346,7 @@ namespace BBAuto.Domain.Entities
       };
     }
 
-    public string GetName(NameType nameType)
+    private string GetName(NameType nameType)
     {
       if (string.IsNullOrEmpty(_fio))
         return "(нет водителя)";

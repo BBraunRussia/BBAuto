@@ -144,16 +144,16 @@ namespace BBAuto.Domain.Lists
       var driverCars = _list.Where(item => item.Car.ID == car.ID && item.IsMain).OrderByDescending(item => item.DateEnd);
       
       var dt = new DataTable();
-      dt.Columns.Add("Регион");
-      dt.Columns.Add("ФИО сотрудника");
-      dt.Columns.Add("Начало пользования");
-      dt.Columns.Add("Окончание пользования");
+      dt.Columns.Add("Р РµРіРёРѕРЅ");
+      dt.Columns.Add("Р¤РРћ СЃРѕС‚СЂСѓРґРЅРёРєР°");
+      dt.Columns.Add("РќР°С‡Р°Р»Рѕ РїРѕР»СЊР·РѕРІР°РЅРёСЏ");
+      dt.Columns.Add("РћРєРѕРЅС‡Р°РЅРёРµ РїРѕР»СЊР·РѕРІР°РЅРёСЏ");
 
       var regions = RegionList.getInstance();
 
       foreach (var driverCar in driverCars)
       {
-        dt.Rows.Add(regions.getItem(driverCar.RegionId).Name, driverCar.Driver.GetName(NameType.Full),
+        dt.Rows.Add(regions.getItem(driverCar.RegionId).Name, driverCar.Driver.FullName,
           driverCar.DateBegin.ToShortDateString(), driverCar.DateEnd.ToShortDateString());
       }
 

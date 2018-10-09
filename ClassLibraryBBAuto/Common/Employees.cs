@@ -15,7 +15,7 @@ namespace BBAuto.Domain.Common
     public Region Region { get; set; }
 
     public string EmployeeName => EmployeesNames.getInstance().getItem(EmployeesNameId);
-    public string Name => DriverList.getInstance().getItem(DriverId).GetName(NameType.Short);
+    public string Name => DriverList.getInstance().getItem(DriverId).Name;
     
     public Driver Driver => DriverList.getInstance().getItem(DriverId);
 
@@ -48,7 +48,7 @@ namespace BBAuto.Domain.Common
 
     internal override object[] getRow()
     {
-      return new object[] {Region.ID, EmployeesNameId, Region.Name, EmployeeName, Driver.GetName(NameType.Full)};
+      return new object[] {Region.ID, EmployeesNameId, Region.Name, EmployeeName, Driver.FullName};
     }
 
     public override void Save()

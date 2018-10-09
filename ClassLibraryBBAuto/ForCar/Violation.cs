@@ -158,7 +158,7 @@ namespace BBAuto.Domain.ForCar
 
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
+        ID, Car.ID, Car.BBNumber, Car.Grz, regionName, Date, driver.FullName, Number, DatePay,
         violationType.getItem(ViolationTypeId), _sum
       };
     }
@@ -175,7 +175,7 @@ namespace BBAuto.Domain.ForCar
         Car.Grz,
         Number,
         Date,
-        GetDriver().GetName(NameType.Full),
+        GetDriver().FullName,
         ViolationTypes.getInstance().getItem(ViolationTypeId),
         _sum,
         btnName

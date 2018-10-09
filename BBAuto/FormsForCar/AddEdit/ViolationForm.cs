@@ -57,7 +57,7 @@ namespace BBAuto
 
       chbNoDeduction.Checked = _violation.NoDeduction;
 
-      llDriver.Text = _violation.GetDriver().GetName(NameType.Full);
+      llDriver.Text = _violation.GetDriver().FullName;
       llCar.Text = _violation.Car.ToString();
     }
 

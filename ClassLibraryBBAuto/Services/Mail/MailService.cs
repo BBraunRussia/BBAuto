@@ -44,7 +44,7 @@ namespace BBAuto.Domain.Services.Mail
       _subject = $"Штраф по а/м {violation.Car.Grz}";
 
       _body = "Здравствуйте, коллеги!\n"
-              + violation.GetDriver().GetName(NameType.Full) + " совершил нарушение ПДД.\n"
+              + violation.GetDriver().FullName + " совершил нарушение ПДД.\n"
               + "Оплачиваем, удерживаем.";
 
       string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
@@ -94,12 +94,12 @@ namespace BBAuto.Domain.Services.Mail
 
       var appeal = driver.Sex == "мужской" ? "Уважаемый" : "Уважаемая";
 
-      _body = $"{appeal} {driver.GetName(NameType.Full)}!\n\n" +
+      _body = $"{appeal} {driver.FullName}!\n\n" +
               "Информирую Вас о том, что пришло постановление о штрафе за нарушения ПДД.\n" +
               "Оплатить штраф можно самостоятельно и в течении 5 дней предоставить документ об оплате.\n" +
               "После указанного срока штраф автоматически уйдет в оплату в бухгалтерию без возможности льготной оплаты 50%\n" +
-              $"Документ об оплате штрафа следует присылать на эл. почту {User.GetDriver().GetName(NameType.Genetive)} в виде вложенного файла.\n" +
-              $"Если есть возражения по данному штрафу, то необходимо сообщить об этом {User.GetDriver().GetName(NameType.Short)}.\n" +
+              $"Документ об оплате штрафа следует присылать на эл. почту {User.GetDriver().GenetiveName} в виде вложенного файла.\n" +
+              $"Если есть возражения по данному штрафу, то необходимо сообщить об этом {User.GetDriver().Name}.\n" +
               "Скан копия постановления во вложении.";
     }
 
@@ -115,7 +115,7 @@ namespace BBAuto.Domain.Services.Mail
       sb.AppendLine("Постановление в приложении.");
       sb.AppendLine("");
       sb.AppendLine("С уважением,");
-      sb.AppendLine(User.GetDriver().GetName(NameType.Full));
+      sb.AppendLine(User.GetDriver().FullName);
       sb.AppendLine(User.GetDriver().Position);
       sb.AppendLine(User.GetDriver().Mobile);
 
@@ -153,7 +153,7 @@ namespace BBAuto.Domain.Services.Mail
           ", прошу проинформировать меня о его получении."));
       sb.AppendLine("");
       sb.AppendLine("С уважением,");
-      sb.AppendLine(User.GetDriver().GetName(NameType.Full));
+      sb.AppendLine(User.GetDriver().FullName);
       sb.AppendLine(User.GetDriver().Position);
       sb.AppendLine(User.GetDriver().Mobile);
 
@@ -218,15 +218,15 @@ namespace BBAuto.Domain.Services.Mail
         sb.Append("Прошу оплатить счет с удержанием из заработной платы ");
         sb.Append(employeeSex);
         sb.Append(" ");
-        sb.Append(driver.GetName(NameType.Genetive));
+        sb.Append(driver.GenetiveName);
         sb.Append(" сумму в размере ");
       }
-      else if ((policyType == PolicyType.расш_КАСКО) && ((account.BusinessTrip)))
+      else if (policyType == PolicyType.расш_КАСКО && account.BusinessTrip)
       {
         sb.Append("В связи с командировкой ");
         sb.Append(employeeSex);
         sb.Append(" ");
-        sb.Append(driver.GetName(NameType.Genetive));
+        sb.Append(driver.GenetiveName);
         sb.AppendLine(" за пределы РФ, был сделан полис по расширению КАСКО.");
         sb.Append("Прошу оплатить счет в размере ");
       }
@@ -244,7 +244,7 @@ namespace BBAuto.Domain.Services.Mail
       if (policyType == PolicyType.ДСАГО)
       {
         sb.Append("Данную сумму необходимо удержать из заработной платы ");
-        sb.Append(driver.GetName(NameType.Short));
+        sb.Append(driver.Name);
         sb.AppendLine(".");
       }
 
@@ -252,7 +252,7 @@ namespace BBAuto.Domain.Services.Mail
 
       sb.AppendLine("");
       sb.AppendLine("С уважением,");
-      sb.AppendLine(User.GetDriver().GetName(NameType.Full));
+      sb.AppendLine(User.GetDriver().FullName);
       sb.AppendLine(User.GetDriver().Position);
       sb.AppendLine(User.GetDriver().Dept);
       sb.AppendLine(User.GetDriver().Mobile);
@@ -322,7 +322,7 @@ namespace BBAuto.Domain.Services.Mail
       sb.AppendLine("Высылаю документы для ознакомления");
       sb.AppendLine("");
       sb.AppendLine("С уважением,");
-      sb.AppendLine(User.GetDriver().GetName(NameType.Full));
+      sb.AppendLine(User.GetDriver().FullName);
       sb.AppendLine(User.GetDriver().Position);
       sb.AppendLine(User.GetDriver().Mobile);
 
@@ -355,7 +355,7 @@ namespace BBAuto.Domain.Services.Mail
         foreach (var driver in drivers)
         {
           if (string.IsNullOrEmpty(driver.Email))
-            _subject += " не найден email сотрудника " + driver.GetName(NameType.Genetive);
+            _subject += " не найден email сотрудника " + driver.GenetiveName;
           else
             msg.To.Add(new MailAddress(driver.Email));
         }

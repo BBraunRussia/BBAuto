@@ -162,16 +162,20 @@ namespace BBAuto.Report
       // 
       // dtpBeginDate
       // 
+      this.dtpBeginDate.CustomFormat = "MMMM yyyy";
+      this.dtpBeginDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
       this.dtpBeginDate.Location = new System.Drawing.Point(474, 50);
       this.dtpBeginDate.Name = "dtpBeginDate";
-      this.dtpBeginDate.Size = new System.Drawing.Size(200, 20);
+      this.dtpBeginDate.Size = new System.Drawing.Size(130, 20);
       this.dtpBeginDate.TabIndex = 15;
       // 
       // dtpEndDate
       // 
+      this.dtpEndDate.CustomFormat = "MMMM yyyy";
+      this.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
       this.dtpEndDate.Location = new System.Drawing.Point(474, 79);
       this.dtpEndDate.Name = "dtpEndDate";
-      this.dtpEndDate.Size = new System.Drawing.Size(200, 20);
+      this.dtpEndDate.Size = new System.Drawing.Size(130, 20);
       this.dtpEndDate.TabIndex = 17;
       // 
       // lbEndDate
@@ -186,7 +190,7 @@ namespace BBAuto.Report
       // btnOk
       // 
       this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnOk.Location = new System.Drawing.Point(529, 231);
+      this.btnOk.Location = new System.Drawing.Point(448, 231);
       this.btnOk.Name = "btnOk";
       this.btnOk.Size = new System.Drawing.Size(75, 23);
       this.btnOk.TabIndex = 18;
@@ -198,7 +202,7 @@ namespace BBAuto.Report
       // 
       this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
       this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.btnCancel.Location = new System.Drawing.Point(610, 231);
+      this.btnCancel.Location = new System.Drawing.Point(529, 231);
       this.btnCancel.Name = "btnCancel";
       this.btnCancel.Size = new System.Drawing.Size(75, 23);
       this.btnCancel.TabIndex = 19;
@@ -266,7 +270,7 @@ namespace BBAuto.Report
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.btnCancel;
-      this.ClientSize = new System.Drawing.Size(697, 266);
+      this.ClientSize = new System.Drawing.Size(616, 266);
       this.Controls.Add(this.cbModel);
       this.Controls.Add(this.cbMark);
       this.Controls.Add(this.cbRegion);

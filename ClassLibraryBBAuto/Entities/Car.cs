@@ -343,7 +343,7 @@ namespace BBAuto.Domain.Entities
       return new object[]
       {
         ID, ID, BBNumber, Grz, Mark.Name, info.Model, vin, info.Region,
-        info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
+        info.Driver.FullName, pts.Number, sts.Number, Year, mileageInt,
         mileageDate, info.Owner, info.Guarantee, GetStatus()
       };
     }

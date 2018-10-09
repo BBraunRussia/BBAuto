@@ -34,11 +34,11 @@ namespace BBAuto.SendDocumentForms
     {
       if (chbList.CheckedItems.Count == 0)
       {
-        MessageBox.Show("Для продолжения выберите хотя бы один элемент", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        MessageBox.Show("Р”Р»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ РІС‹Р±РµСЂРёС‚Рµ С…РѕС‚СЏ Р±С‹ РѕРґРёРЅ СЌР»РµРјРµРЅС‚", "РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
       }
 
-      if (MessageBox.Show("Подтверждаете отправку выбранных документов пользователям автомобилей", "Отправка документов", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+      if (MessageBox.Show("РџРѕРґС‚РІРµСЂР¶РґР°РµС‚Рµ РѕС‚РїСЂР°РІРєСѓ РІС‹Р±СЂР°РЅРЅС‹С… РґРѕРєСѓРјРµРЅС‚РѕРІ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРј Р°РІС‚РѕРјРѕР±РёР»РµР№", "РћС‚РїСЂР°РІРєР° РґРѕРєСѓРјРµРЅС‚РѕРІ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
         return;
 
       var documentsForSend = chbList.CheckedItems.Cast<Document>().ToList();

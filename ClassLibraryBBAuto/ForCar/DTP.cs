@@ -138,7 +138,7 @@ namespace BBAuto.Domain.ForCar
 
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, Number, Date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
+        ID, Car.ID, Car.BBNumber, Car.Grz, Number, Date, regions.getItem(_idRegion), driver.FullName,
         _dateCallInsure, GetCurrentStatusAfterDtp(), culpritList.getItem(_idCulprit), _sum, Comm, Facts, Damage,
         statusAfterDTP.getItem(_statusAfterDtpId), NumberLoss
       };
@@ -166,7 +166,7 @@ namespace BBAuto.Domain.ForCar
       var driverCarList = DriverCarList.GetInstance();
       var driver = driverCarList.GetDriver(Car, Date);
 
-      return new object[] {4, driver.GetName(NameType.Full)};
+      return new object[] {4, driver.FullName};
     }
 
     public Driver GetDriver()

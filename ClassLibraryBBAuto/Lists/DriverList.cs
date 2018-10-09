@@ -116,18 +116,14 @@ namespace BBAuto.Domain.Lists
 
     public Driver getItemByFIO(string fio)
     {
-      List<Driver> drivers = _list.Where(item =>
-        item.GetName(NameType.Short).Replace(" ", "") == fio.Replace(" ", "") && item.IsDriver).ToList();
-
-      return drivers.FirstOrDefault();
+      return _list.FirstOrDefault(item =>
+        item.Name.Replace(" ", "") == fio.Replace(" ", "") && item.IsDriver);
     }
 
     public Driver getItemByFullFIO(string fio)
     {
-      List<Driver> drivers = _list.Where(item =>
-        item.GetName(NameType.Full).Replace(" ", "") == fio.Replace(" ", "") && item.IsDriver).ToList();
-
-      return drivers.FirstOrDefault();
+      return _list.FirstOrDefault(item =>
+        item.FullName.Replace(" ", "") == fio.Replace(" ", "") && item.IsDriver);
     }
 
 
@@ -136,19 +132,7 @@ namespace BBAuto.Domain.Lists
       var userAccessList = UserAccessList.getInstance();
       var userAccesses = userAccessList.ToList(role);
 
-      if (userAccesses != null)
-      {
-        List<Driver> drivers = new List<Driver>();
-
-        foreach (UserAccess userAccess in userAccesses)
-        {
-          drivers.Add(getItem(userAccess.Driver.ID));
-        }
-
-        return drivers;
-      }
-
-      return null;
+      return userAccesses?.Select(userAccess => getItem(userAccess.Driver.ID)).ToList();
     }
 
     public IList<Driver> GetList()

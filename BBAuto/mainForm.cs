@@ -63,7 +63,7 @@ namespace BBAuto
 
     private void SetWindowHeaderText(Object sender, StatusEventArgs e)
     {
-      Text = string.Concat("BBAuto. Пользователь: ", User.GetDriver().GetName(NameType.Short), " Справочник: ",
+      Text = string.Concat("BBAuto. Пользователь: ", User.GetDriver().Name, " Справочник: ",
         _mainStatus.ToString());
     }
 

@@ -73,7 +73,7 @@ namespace BBAuto
 
       lbCarInfo.Text = _dtp.Car.ToString();
 
-      llDriver.Text = _dtp.GetDriver().GetName(NameType.Full);
+      llDriver.Text = _dtp.GetDriver().FullName;
 
       FillDgv();
     }

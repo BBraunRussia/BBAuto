@@ -117,17 +117,15 @@ namespace BBAuto.Domain.ForDriver
     {
       if (!IsHaveFile())
       {
-        return "Добрый день, " + Driver.GetName(NameType.Full) +
+        return "Добрый день, " + Driver.FullName +
                "!\r\n\r\nПросьба предоставить скан копию Вашего водительского удостоверения в транспортный отдел.\r\n\r\nС уважением,\r\nТранспортный отдел.";
       }
 
       MailTextList mailTextList = MailTextList.getInstance();
       MailText mailText = mailTextList.getItemByType(MailTextType.License);
 
-      return mailText == null
-        ? "Шаблон текста письма не найден"
-        : mailText.Text.Replace("UserName", Driver.GetName(NameType.Full))
-          .Replace("DateEnd", DateEnd.ToShortDateString());
+      return mailText?.Text.Replace("UserName", Driver.FullName)
+               .Replace("DateEnd", DateEnd.ToShortDateString()) ?? "Шаблон текста письма не найден";
     }
 
     public bool IsActual()

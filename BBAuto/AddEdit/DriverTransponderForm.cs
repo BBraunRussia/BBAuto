@@ -36,7 +36,7 @@ namespace BBAuto.AddEdit
     private void LoadDictionary()
     {
       DriverList driverList = DriverList.getInstance();
-      cbDriver.DataSource = driverList.ToDataTable(_driverTransponder.DriverId != 0);
+      cbDriver.DataSource = driverList.ToDataTable();
       cbDriver.DisplayMember = "ФИО";
       cbDriver.ValueMember = "id";
     }

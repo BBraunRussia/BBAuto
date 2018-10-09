@@ -2,6 +2,7 @@ using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Lists;
 using System;
 using System.Windows.Forms;
+using BBAuto.Domain.Entities;
 
 namespace BBAuto
 {
@@ -30,8 +31,7 @@ namespace BBAuto
 
     private void LoadDictionary()
     {
-      DriverList driverList = DriverList.getInstance();
-      cbDriver.DataSource = driverList.ToDataTable(_fuelCardDriver.Driver.ID != 0);
+      cbDriver.DataSource = DriverList.getInstance().ToDataTable();
       cbDriver.DisplayMember = "ФИО";
       cbDriver.ValueMember = "id";
     }
@@ -59,8 +59,7 @@ namespace BBAuto
     {
       if (_workWithForm.IsEditMode())
       {
-        int idDriver;
-        int.TryParse(cbDriver.SelectedValue.ToString(), out idDriver);
+        int.TryParse(cbDriver.SelectedValue.ToString(), out int idDriver);
         _fuelCardDriver.Driver = DriverList.getInstance().getItem(idDriver);
         _fuelCardDriver.DateBegin = dtpDateBegin.Value;
 
