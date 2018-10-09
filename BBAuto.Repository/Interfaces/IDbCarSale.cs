@@ -7,7 +7,7 @@ namespace BBAuto.Repository.Interfaces
   [Sql(Schema = "dbo")]
   public interface IDbCarSale
   {
-    void DeleteCarSale(int carId);
+    void DeleteCarSale(int id);
 
     DbCarSale GetCarSaleByCarId(int carId);
 
