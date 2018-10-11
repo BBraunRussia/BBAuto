@@ -96,19 +96,13 @@ namespace BBAuto.Domain.Lists
       var driverCars = _list.Where(item => item.Driver.ID == driver.ID && item.DateEnd == date)
         .OrderByDescending(item => item.DateEnd);
 
-      if (driverCars.Any())
-      {
-        CarList carList = CarList.GetInstance();
-
-        foreach (var driverCar in driverCars)
-        {
-          if (_list.Where(item =>
-                !(item.Driver.ID == driver.ID) && item.DateEnd == date && item.Car.ID == driverCar.Car.ID &&
-                item.Number > driverCar.Number).Count() == 0)
-            return carList.getItem(driverCar.Car.ID);
-        }
-
+      if (!driverCars.Any())
         return null;
+
+      foreach (var driverCar in driverCars)
+      {
+        if (_list.Count(item => item.Driver.ID != driver.ID && item.DateEnd == date && item.Car.ID == driverCar.Car.ID && item.Number > driverCar.Number) == 0)
+          return CarList.GetInstance().getItem(driverCar.Car.ID);
       }
 
       return null;

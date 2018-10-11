@@ -1,16 +1,15 @@
 using System;
 using System.IO;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
 using BBAuto.Domain.Services.OfficeDocument;
 
 namespace BBAuto.Domain.Common
 {
   public class MileageFill
   {
-    private string[,] literal = new string[,]
-    {
+    private readonly string[,] _literal = {
       {"A", "А"}, {"B", "В"}, {"E", "Е"}, {"K", "К"}, {"M", "М"}, {"H", "Н"}, {"O", "О"}, {"P", "Р"}, {"C", "С"},
       {"T", "Т"}, {"Y", "У"}, {"X", "Х"}, {"RUS", ""}, {"/", ""}
     };
@@ -78,9 +77,9 @@ namespace BBAuto.Domain.Common
             }
           }
 
-          catch (IndexOutOfRangeException)
+          catch (IndexOutOfRangeException ex)
           {
-            _mileageReportList.Add(new MileageReport(null, string.Concat("Ошибка при чтении файла: ", filename)));
+            _mileageReportList.Add(new MileageReport(null, $"Ошибка при чтении файла: {filename} Ошибка: {ex.Message}"));
           }
           catch (OverflowException)
           {
@@ -89,9 +88,9 @@ namespace BBAuto.Domain.Common
           }
         }
       }
-      catch
+      catch(Exception ex)
       {
-        _mileageReportList.Add(new MileageReport(null, string.Concat("Ошибка при чтении файла: ", filename)));
+        _mileageReportList.Add(new MileageReport(null, $"Ошибка при открытии файла: {filename} Ошибка: {ex.Message}"));
       }
     }
 
@@ -110,7 +109,7 @@ namespace BBAuto.Domain.Common
 
       for (int i = 0; i < 14; i++)
       {
-        value = value.Replace(literal[i, 0], literal[i, 1]);
+        value = value.Replace(_literal[i, 0], _literal[i, 1]);
       }
 
       return value;
