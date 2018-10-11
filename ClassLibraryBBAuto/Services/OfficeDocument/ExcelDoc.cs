@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using BBAuto.Domain.Common;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -34,7 +35,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
         EnableEvents = false
       };
 
-      var fullPath = WorkWithFiles.GetFullPath(Name);
+      var fullPath = File.Exists(Name) ? Name : WorkWithFiles.GetFullPath(Name);
 
       xlWorkBook = xlApp.Workbooks.Open(fullPath, 0, true, 5, "", "", true,
         Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);

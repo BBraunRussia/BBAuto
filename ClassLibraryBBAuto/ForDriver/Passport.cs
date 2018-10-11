@@ -73,14 +73,16 @@ namespace BBAuto.Domain.ForDriver
 
     public override void Save()
     {
-      DeleteFile(File);
+      if (_fileBegin != File)
+      {
+        DeleteFile(File);
 
-      File = WorkWithFiles.fileCopyByID(File, "drivers", Driver.ID, "Passports", _number);
+        File = WorkWithFiles.fileCopyByID(File, "drivers", Driver.ID, "Passports", _number);
+      }
 
-      int id;
       int.TryParse(
         _provider.Insert("Passport", ID, Driver.ID, LastName, FirstName, SecondName, Number, GiveOrg, GiveDate, Address,
-          File), out id);
+          File ?? string.Empty), out int id);
       ID = id;
 
       PassportList.getInstance().Add(this);

@@ -235,46 +235,46 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       var excelDoc = OpenDocumentExcel("Путевой лист");
 
-      excelDoc.setValue(4, 28, car.BBNumber);
+      excelDoc.setValue(3, 28, car.BBNumber);
 
       MyDateTime myDate = new MyDateTime(date.ToShortDateString());
 
-      excelDoc.setValue(4, 39, driver.ID + "/01/" + myDate.MonthSlashYear());
-      excelDoc.setValue(6, 15, myDate.DaysRange);
-      excelDoc.setValue(6, 19, myDate.MonthToStringNominative());
-      excelDoc.setValue(6, 32, date.Year.ToString());
+      excelDoc.setValue(3, 39, driver.ID + "/01/" + myDate.MonthSlashYear());
+      excelDoc.setValue(5, 15, myDate.DaysRange);
+      excelDoc.setValue(5, 19, myDate.MonthToStringNominative());
+      excelDoc.setValue(5, 32, date.Year.ToString());
 
-      excelDoc.setValue(29, 35, car.info.Grade.EngineType.ShortName);
+      excelDoc.setValue(28, 35, car.info.Grade.EngineType.ShortName);
 
       MileageMonthList mml = new MileageMonthList(car.ID, date.Year + "-" + date.Month + "-01");
       /* Из файла Татьяны Мироновой пробег за месяц */
-      excelDoc.setValue(19, 39, mml.PSN);
-      excelDoc.setValue(33, 41, mml.Gas);
-      excelDoc.setValue(35, 41, mml.GasBegin);
-      excelDoc.setValue(36, 41, mml.GasEnd);
+      excelDoc.setValue(17, 39, mml.PSN);
+      excelDoc.setValue(32, 41, mml.Gas);
+      excelDoc.setValue(34, 41, mml.GasBegin);
+      excelDoc.setValue(35, 41, mml.GasEnd);
+      excelDoc.setValue(36, 41, mml.GasNorm);
       excelDoc.setValue(37, 41, mml.GasNorm);
-      excelDoc.setValue(38, 41, mml.GasNorm);
-      excelDoc.setValue(43, 39, mml.PSK);
-      excelDoc.setValue(41, 59, mml.Mileage);
+      excelDoc.setValue(42, 39, mml.PSK);
+      excelDoc.setValue(43, 59, mml.Mileage);
 
       Owners owners = Owners.getInstance();
       string owner = owners.getItem(1);
 
-      excelDoc.setValue(8, 8, owner);
+      excelDoc.setValue(7, 8, owner);
 
-      excelDoc.setValue(10, 11, string.Concat(car.Mark.Name, " ", car.info.Model));
-      excelDoc.setValue(11, 17, car.Grz);
+      excelDoc.setValue(9, 11, string.Concat(car.Mark.Name, " ", car.info.Model));
+      excelDoc.setValue(10, 17, car.Grz);
 
-      excelDoc.setValue(12, 6, driver.FullName);
-      excelDoc.setValue(44, 16, driver.Name);
-      excelDoc.setValue(26, 40, driver.Name);
+      excelDoc.setValue(11, 6, driver.FullName);
+      excelDoc.setValue(46, 16, driver.Name);
+      excelDoc.setValue(25, 40, driver.Name);
 
       LicenseList licencesList = LicenseList.getInstance();
       DriverLicense driverLicense = licencesList.getItem(driver);
 
-      excelDoc.setValue(14, 10, driverLicense.Number);
+      excelDoc.setValue(13, 10, driverLicense.Number);
 
-      excelDoc.setValue(20, 9, owner);
+      excelDoc.setValue(19, 9, owner);
 
       string suppyAddressName;
 
@@ -311,8 +311,8 @@ namespace BBAuto.Domain.Services.OfficeDocument
         }
       }
 
-      excelDoc.setValue(25, 8, suppyAddressName);
-      excelDoc.setValue(26, 1, suppyAddressName2);
+      excelDoc.setValue(24, 8, suppyAddressName);
+      excelDoc.setValue(25, 1, suppyAddressName2);
 
       string mechanicName;
 
@@ -334,13 +334,13 @@ namespace BBAuto.Domain.Services.OfficeDocument
       Employees dispatcher = employeesList.getItem(driver.Region, "Диспечер-нарядчик");
       string dispatcherName = dispatcher.Name;
 
-      excelDoc.setValue(22, 40, mechanicName);
-      excelDoc.setValue(44, 40, mechanicName);
+      excelDoc.setValue(21, 40, mechanicName);
+      excelDoc.setValue(46, 40, mechanicName);
 
-      excelDoc.setValue(31, 18, dispatcherName);
-      excelDoc.setValue(35, 18, dispatcherName);
+      excelDoc.setValue(30, 18, dispatcherName);
+      excelDoc.setValue(36, 18, dispatcherName);
 
-      excelDoc.setValue(43, 72, accountant.Name);
+      excelDoc.setValue(46, 72, accountant.Name);
 
       return excelDoc;
     }

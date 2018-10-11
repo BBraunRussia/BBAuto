@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Tables;
@@ -11,83 +9,86 @@ using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Import
 {
-    public class EmployeesFrom1C : IExcelImporter
+  public class EmployeesFrom1C : IExcelImporter
+  {
+    public string FilePath { get; set; }
+
+    public void StartImport()
     {
-        public string FilePath { get; set; }
-        
-        public void StartImport()
+      string[] files = Directory.GetFiles(FilePath, "*.txt");
+
+      foreach (var file in files)
+      {
+        string[] lines = File.ReadAllLines(file);
+
+        for (int i = 1; i < lines.Count(); i++)
         {
-            string[] files = Directory.GetFiles(FilePath, "*.txt");
+          string[] fields = lines[i].Split(';');
 
-            foreach (var file in files)
-            {
-                string[] lines = File.ReadAllLines(file);
+          if (fields.Length < 16)
+            break;
 
-                for (int i = 1; i < lines.Count(); i++)
-                {
-                    string[] fields = lines[i].Split(';');
+          DriverList driverList = DriverList.getInstance();
+          Driver driver = driverList.getItemByNumber(fields[1]);
 
-                    DriverList driverList = DriverList.getInstance();
-                    Driver driver = driverList.getItemByNumber(fields[1]);
+          if (driver == null)
+            driver = new Driver();
 
-                    if (driver == null)
-                        driver = new Driver();
+          driver.Fio = fields[0];
+          driver.Number = fields[1];
+          driver.Sex = fields[2];
 
-                    driver.Fio = fields[0];
-                    driver.Number = fields[1];
-                    driver.Sex = fields[2];
+          string regionName = fields[3];
+          RegionList regionList = RegionList.getInstance();
+          Region region = regionList.getItem(regionName);
 
-                    string regionName = fields[3];
-                    RegionList regionList = RegionList.getInstance();
-                    Region region = regionList.getItem(regionName);
+          if (region == null)
+          {
+            region = new Region(fields[3]);
+            region.Save();
+            region = regionList.getItem(regionName);
+          }
 
-                    if (region == null)
-                    {
-                        region = new Region(fields[3]);
-                        region.Save();
-                        region = regionList.getItem(regionName);
-                    }
-
-                    driver.Region = region;
+          driver.Region = region;
 
 
-                    driver.CompanyName = fields[4];
-                    driver.Dept = fields[5];
-                    driver.Position = fields[6];
-                    driver.DateBirth = fields[7];
-                    driver.Login = fields[9];
-                    driver.Email = fields[10];
+          driver.CompanyName = fields[4];
+          driver.Dept = fields[5];
+          driver.Position = fields[6];
+          driver.DateBirth = fields[7];
+          driver.Login = fields[9];
+          driver.Email = fields[10];
 
-                    driver.Decret = ((fields[15] == "Временно не работает") || (fields[15] == "В декретном отпуске"));
-                    driver.Fired = (!string.IsNullOrEmpty(fields[15]) && (fields[15].Split(' ')[0] == "Уволен"));
-                    driver.Save();
-                    
-                    if (!string.IsNullOrEmpty(fields[11]))
-                    {
-                        string passportNumber = fields[11].Replace(" ", "");
-                        if (passportNumber.Length == 0)
-                            continue;
+          driver.Decret = ((fields[15] == "Временно не работает") || (fields[15] == "В декретном отпуске"));
+          driver.Fired = (!string.IsNullOrEmpty(fields[15]) && (fields[15].Split(' ')[0] == "Уволен"));
+          driver.Save();
 
-                        PassportList passportList = PassportList.getInstance();
-                        Passport passport = passportList.GetPassport(driver, passportNumber);
-                        passport.Number = passportNumber;
+          if (!string.IsNullOrEmpty(fields[11]))
+          {
+            string passportNumber = fields[11].Replace(" ", "");
+            if (passportNumber.Length == 0)
+              continue;
 
-                        string[] fio = fields[0].Split(' ');
-                        passport.LastName = fio[0];
-                        passport.FirstName = fio[1];
-                        passport.SecondName = fio[2];
+            PassportList passportList = PassportList.getInstance();
+            Passport passport = passportList.GetPassport(driver, passportNumber);
+            passport.Number = passportNumber;
 
-                        DateTime date;
-                        DateTime.TryParse(fields[12], out date);
-                        passport.GiveDate = date;
-                        passport.GiveOrg = fields[13];
-                        passport.Address = fields[14];
-                        passport.Save();
-                    }
-                }
-                
-                File.Move(file, FilePath + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(file));
-            }
+            string[] fio = fields[0].Split(' ');
+            passport.LastName = fio[0];
+            passport.FirstName = fio[1];
+            passport.SecondName = fio[2];
+
+            DateTime date;
+            DateTime.TryParse(fields[12], out date);
+            passport.GiveDate = date;
+            passport.GiveOrg = fields[13];
+            passport.Address = fields[14];
+            passport.Save();
+          }
         }
+
+        File.Move(file, FilePath + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(file));
+      }
     }
+  }
 }
