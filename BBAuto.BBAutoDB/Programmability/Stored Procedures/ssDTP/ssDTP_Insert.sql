@@ -1,13 +1,13 @@
-CREATE PROCEDURE [dbo].[ssDTP_Insert]
-@idMark int,
-@idServiceStantion int
-AS
-BEGIN
-	Declare @count int
-	SELECT @count=count(mark_id) FROM ssDTP WHERE mark_id=@idMark
-	if (@count = 0)
-		INSERT INTO ssDTP VALUES(@idMark, @idServiceStantion)
-	else
-		UPDATE ssDTP SET serviceStantion_id=@idServiceStantion
-END
-GO
+create procedure [dbo].[ssDTP_Insert]
+  @markId int,
+  @serviceStantionId int
+as
+  if not exists(select * from ssDTP where mark_id = @markId)
+    insert into ssDTP values(@markId, @serviceStantionId)
+  else
+    update
+      ssDTP
+    set
+      serviceStantion_id = @serviceStantionId
+    where
+      mark_id = @markId

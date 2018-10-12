@@ -79,7 +79,7 @@ namespace BBAuto.Domain.Common
 
     public static void openFile(string file)
     {
-      var filePath = GetFullPath(file);
+      var filePath = File.Exists(file) ? file : GetFullPath(file);
 
       try
       {

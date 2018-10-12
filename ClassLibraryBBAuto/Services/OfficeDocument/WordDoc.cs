@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using BBAuto.Domain.Common;
 using Word = Microsoft.Office.Interop.Word;
 
@@ -32,6 +33,8 @@ namespace BBAuto.Domain.Services.OfficeDocument
     public void Print()
     {
       _wordApp.PrintOut();
+
+      Thread.Sleep(1000);
 
       Dispose();
     }

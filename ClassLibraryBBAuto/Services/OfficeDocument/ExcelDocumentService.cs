@@ -563,8 +563,8 @@ namespace BBAuto.Domain.Services.OfficeDocument
         excelDoc.setValue(i, 4, car.info.Region);
         excelDoc.setValue(i, 5, car.info.Driver.Name);
 
-        var beginMileage = mileageList.getItem(car, dateBegin)?.Count ?? 0;
-        var endMileage = mileageList.getItem(car, dateEnd)?.Count ?? 0;
+        var beginMileage = mileageList.getItem(car.ID, dateBegin)?.Count ?? 0;
+        var endMileage = mileageList.getItem(car.ID, dateEnd)?.Count ?? 0;
         var diff = endMileage - beginMileage;
 
         excelDoc.setValue(i, 6, MyString.GetFormatedDigitInteger(beginMileage.ToString()));

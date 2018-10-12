@@ -72,5 +72,17 @@ namespace BBAuto.Print
 
       return drivers;
     }
+
+    private void rbDriver_CheckedChanged(object sender, EventArgs e)
+    {
+      cbDriver.Enabled = true;
+      cbRegion.Enabled = false;
+    }
+
+    private void rbRegion_CheckedChanged(object sender, EventArgs e)
+    {
+      cbDriver.Enabled = false;
+      cbRegion.Enabled = true;
+    }
   }
 }

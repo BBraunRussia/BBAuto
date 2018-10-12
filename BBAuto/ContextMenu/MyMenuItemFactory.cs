@@ -330,7 +330,7 @@ namespace BBAuto.ContextMenu
         if (car == null)
           return;
 
-        Mileage mileage = car.createMileage();
+        Mileage mileage = new Mileage(car.ID);
 
         Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
         if (mAE.ShowDialog() == DialogResult.OK)

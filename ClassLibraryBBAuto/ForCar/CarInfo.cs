@@ -55,7 +55,7 @@ namespace BBAuto.Domain.ForCar
       get
       {
         MileageList mileageList = MileageList.getInstance();
-        Mileage mileage = mileageList.getItem(_car);
+        Mileage mileage = mileageList.getItemByCarId(_car.ID);
 
         DateTime dateEnd = _car.dateGet.AddYears(3);
 

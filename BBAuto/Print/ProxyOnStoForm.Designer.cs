@@ -130,6 +130,7 @@ namespace BBAuto.Print
       this.rbRegion.TabStop = true;
       this.rbRegion.Text = "Регион";
       this.rbRegion.UseVisualStyleBackColor = true;
+      this.rbRegion.CheckedChanged += new System.EventHandler(this.rbRegion_CheckedChanged);
       // 
       // rbDriver
       // 
@@ -141,6 +142,7 @@ namespace BBAuto.Print
       this.rbDriver.TabStop = true;
       this.rbDriver.Text = "ФИО сотрудника";
       this.rbDriver.UseVisualStyleBackColor = true;
+      this.rbDriver.CheckedChanged += new System.EventHandler(this.rbDriver_CheckedChanged);
       // 
       // ProxyOnStoForm
       // 

@@ -117,36 +117,21 @@ namespace BBAuto.Domain.Common
 
     private void SetMileage(Car car, string value)
     {
-      int count;
-      int.TryParse(value, out count);
-
-      if (count == 0)
+      if (!int.TryParse(value, out int count))
         return;
 
-      MileageList mileageList = MileageList.getInstance();
-      Mileage mileage = mileageList.getItem(car);
+      var lastMileage = MileageList.getInstance().getItemByCarId(car.ID);
+      var loadMonthMileage = MileageList.getInstance().getItem(car.ID, _date) ?? new Mileage(car.ID, new DateTime(_date.Year, _date.Month, DateTime.DaysInMonth(_date.Year, _date.Month)));
 
-      if (count > Convert.ToInt32(mileage.Count))
+      if ((lastMileage?.Count ?? 0) > count)
       {
-        if (mileage.CountString != string.Empty)
-        {
-          mileage = car.createMileage();
-        }
+        _mileageReportList.Add(new MileageReport(car, "Новое значение пробега меньше, чем уже внесённый в систему."));
+        return;
+      }
 
-        mileage.Date = new DateTime(_date.Year, _date.Month, DateTime.DaysInMonth(_date.Year, _date.Month));
-        mileage.SetCount(value);
-        mileage.Save();
-        _mileageReportList.Add(new MileageReport(car, "Пробег загружен"));
-      }
-      else if (count < Convert.ToInt32(mileage.Count))
-      {
-        _mileageReportList.Add(new MileageReport(car, "Значение пробега меньше, чем уже внесён в систему."));
-      }
-      else
-      {
-        _mileageReportList.Add(new MileageReport(car,
-          "Новое значение пробега равно значению пробега уже внесённому в систему."));
-      }
+      loadMonthMileage.SetCount(value);
+      loadMonthMileage.Save();
+      _mileageReportList.Add(new MileageReport(car, "Пробег загружен"));
     }
 
     public MileageReportList GetMileageReportList()

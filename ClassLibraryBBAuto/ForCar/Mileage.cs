@@ -11,44 +11,44 @@ namespace BBAuto.Domain.ForCar
   {
     public int Count { get; set; }
 
-    public string CountString => Count == 0 ? string.Empty : Count.ToString();
-
     public DateTime Date { get; set; }
-    public Car Car { get; private set; }
+    public int CarId { get; }
 
-    internal Mileage(Car car)
+    public Mileage(int carId)
     {
-      Car = car;
-      Date = DateTime.Today.Date;
+      CarId = carId;
+      Date = DateTime.Today;
+      ID = 0;
+    }
+
+    public Mileage(int carId, DateTime date)
+    {
+      CarId = carId;
+      Date = date;
       ID = 0;
     }
 
     public Mileage(DataRow row)
     {
-      fillFields(row);
-    }
-
-    private void fillFields(DataRow row)
-    {
       ID = Convert.ToInt32(row.ItemArray[0]);
 
-      int.TryParse(row.ItemArray[1].ToString(), out int idCar);
-      Car = CarList.GetInstance().getItem(idCar);
+      if (int.TryParse(row.ItemArray[1].ToString(), out int carId))
+        CarId = carId;
 
       DateTime.TryParse(row.ItemArray[2].ToString(), out DateTime date);
       Date = date;
 
       if (int.TryParse(row.ItemArray[3].ToString(), out int count))
         Count = count;
-
     }
-
+    
     public override void Save()
     {
-      ID = Convert.ToInt32(_provider.Insert("Mileage", ID, Car.ID, Date, Count));
+      if (!int.TryParse(_provider.Insert("Mileage", ID, CarId, Date, Count), out int id))
+        return;
 
-      MileageList mileageList = MileageList.getInstance();
-      mileageList.Add(this);
+      ID = id;
+      MileageList.getInstance().Add(this);
     }
 
     internal override object[] getRow()
@@ -96,14 +96,14 @@ namespace BBAuto.Domain.ForCar
 
     private Mileage GetPrev()
     {
-      return MileageList.getInstance().getItem(Car, this);
+      return MileageList.getInstance().getItem(CarId, this);
     }
 
     public override string ToString()
     {
-      return (CountString == string.Empty)
+      return Count == 0
         ? "(нет данных)"
-        : string.Concat(MyString.GetFormatedDigitInteger(CountString), " км от ", Date.ToShortDateString());
+        : string.Concat(MyString.GetFormatedDigitInteger(Count.ToString()), " км от ", Date.ToShortDateString());
     }
   }
 }

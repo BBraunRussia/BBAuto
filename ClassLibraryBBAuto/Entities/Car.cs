@@ -290,12 +290,7 @@ namespace BBAuto.Domain.Entities
     {
       return new DiagCard(this);
     }
-
-    public Mileage createMileage()
-    {
-      return new Mileage(this);
-    }
-
+    
     public Invoice createInvoice()
     {
       return new Invoice(this);
@@ -324,7 +319,7 @@ namespace BBAuto.Domain.Entities
     internal override object[] getRow()
     {
       MileageList mileageList = MileageList.getInstance();
-      Mileage mileage = mileageList.getItem(this);
+      Mileage mileage = mileageList.getItemByCarId(ID);
       
       PTSList ptsList = PTSList.getInstance();
       PTS pts = ptsList.getItem(this);

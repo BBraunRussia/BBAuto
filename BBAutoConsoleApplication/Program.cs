@@ -63,9 +63,9 @@ namespace BBAutoConsoleApplication
       //violationSender.SendNotification();
       //LogManager.Logger.Debug("Violations sent");
 
-      //var accountSender = new AccountSender();
-      //accountSender.SendNotification();
-      //LogManager.Logger.Debug("Accounts sent");
+      var accountSender = new AccountSender();
+      accountSender.SendNotification();
+      LogManager.Logger.Debug("Accounts sent");
 
       LogManager.Logger.Debug("Program finished");
     }

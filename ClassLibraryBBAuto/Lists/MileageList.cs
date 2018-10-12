@@ -49,19 +49,19 @@ namespace BBAuto.Domain.Lists
       return list.FirstOrDefault(m => m.ID == id);
     }
 
-    public Mileage getItem(Car car)
+    public Mileage getItemByCarId(int carId)
     {
-      return list.OrderByDescending(item => item.Date).FirstOrDefault(item => item.Car.ID == car.ID);
+      return list.OrderByDescending(item => item.Date).FirstOrDefault(item => item.CarId == carId);
     }
 
-    public Mileage getItem(Car car, DateTime date)
+    public Mileage getItem(int carId, DateTime date)
     {
-      return list.OrderByDescending(item => item.Date).FirstOrDefault(item => item.Car.ID == car.ID && item.Date.Year == date.Year && item.Date.Month == date.Month);
+      return list.OrderByDescending(item => item.Date).FirstOrDefault(item => item.CarId == carId && item.Date.Year == date.Year && item.Date.Month == date.Month);
     }
 
-    public Mileage getItem(Car car, Mileage current)
+    public Mileage getItem(int carId, Mileage current)
     {
-      return list.OrderByDescending(item => item.Date).FirstOrDefault(item => item.Car.ID == car.ID && item != current);
+      return list.OrderByDescending(item => item.Date).FirstOrDefault(item => item.CarId == carId && item != current);
     }
     
     public void Delete(int idMileage)
@@ -77,7 +77,7 @@ namespace BBAuto.Domain.Lists
     {
       DataTable dt = createTable();
 
-      var mileages = list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date);
+      var mileages = list.Where(item => item.CarId == car.ID).OrderByDescending(item => item.Date);
 
       foreach (Mileage mileage in mileages)
         dt.Rows.Add(mileage.getRow());
@@ -104,12 +104,12 @@ namespace BBAuto.Domain.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.CarId == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.CarId == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
@@ -134,12 +134,12 @@ namespace BBAuto.Domain.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.CarId == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.CarId == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
@@ -164,12 +164,12 @@ namespace BBAuto.Domain.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.CarId == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.CarId == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 

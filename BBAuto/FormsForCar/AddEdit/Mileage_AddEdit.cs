@@ -1,11 +1,6 @@
 using BBAuto.Domain.ForCar;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace BBAuto
@@ -34,7 +29,7 @@ namespace BBAuto
     private void fillFields()
     {
       dtpDate.Value = _mileage.Date;
-      tbCount.Text = _mileage.CountString;
+      tbCount.Text = _mileage.Count.ToString();
 
       lbPrevMileage.Text = _mileage.PrevToString();
     }
@@ -48,7 +43,7 @@ namespace BBAuto
         if (trySetCount())
           _mileage.Save();
 
-        DialogResult = System.Windows.Forms.DialogResult.OK;
+        DialogResult = DialogResult.OK;
       }
       else
         _workWithForm.SetEditMode(true);

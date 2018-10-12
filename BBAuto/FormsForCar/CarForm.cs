@@ -244,7 +244,7 @@ namespace BBAuto
       TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
       tbFileSTS.Text = _sts.File;
 
-      var mileage = _mileageList.getItem(_car);
+      var mileage = _mileageList.getItemByCarId(_car.ID);
       if (mileage != null)
         lbMileage.Text = mileage.ToString();
 
@@ -730,7 +730,7 @@ namespace BBAuto
 
     private void btnAddMileage_Click(object sender, EventArgs e)
     {
-      Mileage mileage = _car.createMileage();
+      Mileage mileage = new Mileage(_car.ID);
 
       Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
 
@@ -750,7 +750,7 @@ namespace BBAuto
 
       Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
 
-      if (mAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (mAE.ShowDialog() == DialogResult.OK)
         loadMileage();
     }
 
