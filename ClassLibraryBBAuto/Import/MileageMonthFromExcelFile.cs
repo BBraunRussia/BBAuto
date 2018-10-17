@@ -17,7 +17,7 @@ namespace BBAuto.Domain.Senders
     public string FilePath { get; set; }
     private IProvider provider;
 
-    public void StartImport()
+    public bool StartImport()
     {
       try
       {
@@ -682,14 +682,13 @@ namespace BBAuto.Domain.Senders
             curCell = "D" + i;
           }
         }
+
+        return true;
       }
-      catch (NullReferenceException ex)
+      catch (Exception ex)
       {
-        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
-      }
-      catch (COMException ex)
-      {
-        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
+        LogManager.Logger.Error(ex, ex.Message);
+        return false;
       }
     }
 

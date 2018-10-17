@@ -5,25 +5,39 @@ using BBAuto.Domain.Static;
 using System.Collections.Generic;
 using System.Linq;
 using BBAuto.Domain.Services.Mail;
+using System;
 
 namespace BBAuto.Domain.Senders
 {
   public class ViolationSender
   {
-    public void SendNotification()
+    public bool SendNotification()
     {
-      var list = ViolationList.getInstance().GetViolationForAccount();
+      try
+      {
+        var list = ViolationList.getInstance().GetViolationForAccount();
 
-      if (!list.Any())
-        return;
+        if (!list.Any())
+        {
+          Logger.LogManager.Logger.Debug("Нарушения ПДД для отправки не найдены");
+          return false;
+        }
 
-      var driversTo = GetDriverForSending();
+        var driversTo = GetDriverForSending();
 
-      var mailText = CreateMail(list);
+        var mailText = CreateMail(list);
 
-      var email = new MailService();
+        var email = new MailService();
 
-      email.SendNotification(driversTo, mailText, false);
+        email.SendNotification(driversTo, mailText, false);
+
+        return true;
+      }
+      catch(Exception ex)
+      {
+        Logger.LogManager.Logger.Error(ex, ex.Message);
+        return false;
+      }
     }
 
     private static Driver GetDriverForSending()

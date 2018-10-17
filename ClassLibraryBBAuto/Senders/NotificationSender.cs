@@ -17,13 +17,31 @@ namespace BBAuto.Domain.Senders
       _list = list;
     }
 
-    public void SendNotification()
+    public bool SendNotification()
     {
-      var list = GetList(DateTime.Today.AddDays(31));
-
-      foreach (INotification item in list)
+      try
       {
-        item.SendNotification();
+        var list = GetList(DateTime.Today.AddDays(31));
+
+        if(!list.Any())
+        {
+          Logger.LogManager.Logger.Debug("Документы для для отправки не найдены");
+          return false;
+        }
+
+        Logger.LogManager.Logger.Information($"Найдено {list.Count} документов для отправки");
+
+        foreach (INotification item in list)
+        {
+          item.SendNotification();
+        }
+
+        return true;
+      }
+      catch (Exception ex)
+      {
+        Logger.LogManager.Logger.Error(ex, ex.Message);
+        return false;
       }
     }
 
@@ -41,16 +59,37 @@ namespace BBAuto.Domain.Senders
                                            item.DateEnd > notification.DateEnd);
     }
 
-    public void SendNotificationOverdue()
+    public bool SendNotificationOverdue()
     {
-      if ((DateTime.Today.Day % 7) != 0)
-        return;
-
-      List<INotification> list = GetListOverdue(DateTime.Today);
-
-      foreach (INotification item in list)
+      try
       {
-        item.SendNotification();
+        if ((DateTime.Today.Day % 7) != 0)
+        {
+          Logger.LogManager.Logger.Debug("Сегодня рассылка по напониманию о просроченным документам не производится");
+          return false;
+        }
+
+        List<INotification> list = GetListOverdue(DateTime.Today);
+
+        if (!list.Any())
+        {
+          Logger.LogManager.Logger.Debug("Документы для для отправки не найдены");
+          return false;
+        }
+
+        Logger.LogManager.Logger.Information($"Найдено {list.Count} документов для отправки");
+
+        foreach (INotification item in list)
+        {
+          item.SendNotification();
+        }
+
+        return true;
+      }
+      catch (Exception ex)
+      {
+        Logger.LogManager.Logger.Error(ex, ex.Message);
+        return false;
       }
     }
 
@@ -78,40 +117,53 @@ namespace BBAuto.Domain.Senders
        */
 
       var temp = (from item in list
-        group item by item.Driver.ID
-        into t
-        orderby t.Key
-        select t.OrderByDescending(y => y.DateEnd).FirstOrDefault()).ToList();
+                  where item.DateEnd < date
+                  group item by item.Driver.ID
+                  into t
+                  orderby t.Key
+                  select t.OrderByDescending(y => y.DateEnd).FirstOrDefault()).ToList();
 
       /* тут будет несколько прошлогодних справок */
       //var list1 = (list.Where(item => (item.DateEnd < date))).ToList();
-      var list2 = (list.Where(item => (item.DateEnd >= date))).ToList();
-
-
-
+      var actualDocuments = (list.Where(item => (item.DateEnd >= date))).ToList();
 
       DriverList driverList = DriverList.getInstance();
 
       return (from item1 in temp
-        join item2 in list2 on item1.Driver.ID equals item2.Driver.ID into table1
-        from item3 in table1.DefaultIfEmpty()
-        where item3 == null && (!driverList.getItem(item1.Driver.ID).NotificationStop)
-        select item1).ToList();
+              join item2 in actualDocuments on item1.Driver.ID equals item2.Driver.ID into table1
+              from item3 in table1.DefaultIfEmpty()
+              where item3 == null && (!driverList.getItem(item1.Driver.ID).NotificationStop)
+              select item1).ToList();
     }
 
-    public void SendNotificationNotExist()
+    public bool SendNotificationNotExist()
     {
       if ((DateTime.Today.Day % 7) != 0)
-        return;
-
-      List<INotification> list = GetListNotExist();
-      List<INotification> list2 = GetListWithoutFile();
-
-      list.AddRange(list2);
-
-      foreach (INotification item in list)
       {
-        item.SendNotification();
+        Logger.LogManager.Logger.Debug("Сегодня рассылка по напониманию об отсутствующих документах не производится");
+        return false;
+      }
+
+      try
+      {
+        List<INotification> list = GetListNotExist();
+        List<INotification> list2 = GetListWithoutFile();
+
+        list.AddRange(list2);
+
+        Logger.LogManager.Logger.Information($"Найдено {list.Count} документов для отправки");
+
+        foreach (INotification item in list)
+        {
+          item.SendNotification();
+        }
+
+        return true;
+      }
+      catch (Exception ex)
+      {
+        Logger.LogManager.Logger.Error(ex, ex.Message);
+        return false;
       }
     }
 
@@ -124,10 +176,10 @@ namespace BBAuto.Domain.Senders
       List<INotification> list = _list.ToList();
 
       List<Driver> listNotExist = (from itemDriver in listDriver
-        join itemMC in list on itemDriver.ID equals itemMC.Driver.ID into table1
-        from itemRes in table1.DefaultIfEmpty()
-        where itemRes == null
-        select itemDriver).ToList();
+                                   join itemMC in list on itemDriver.ID equals itemMC.Driver.ID into table1
+                                   from itemRes in table1.DefaultIfEmpty()
+                                   where itemRes == null
+                                   select itemDriver).ToList();
 
       List<INotification> listNotification = new List<INotification>();
 
@@ -151,10 +203,10 @@ namespace BBAuto.Domain.Senders
       List<INotification> list = _list.ToList();
 
       List<INotification> listExist = (from itemMC in list
-        join itemDriver in listDriver on itemMC.Driver.ID equals itemDriver.ID into table1
-        from itemRes in table1.DefaultIfEmpty()
-        where itemRes != null
-        select itemMC).ToList();
+                                       join itemDriver in listDriver on itemMC.Driver.ID equals itemDriver.ID into table1
+                                       from itemRes in table1.DefaultIfEmpty()
+                                       where itemRes != null
+                                       select itemMC).ToList();
 
       List<INotification> listNotification = new List<INotification>();
 

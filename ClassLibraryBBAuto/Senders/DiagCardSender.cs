@@ -14,47 +14,63 @@ namespace BBAuto.Domain.Senders
     private const int SendDay = 5;
     private const int MailsCount = 100;
 
-    public void SendNotification()
+    public bool SendNotification()
     {
       if (DateTime.Today.Day != SendDay)
-        return;
-
-      var diagCardList = DiagCardList.getInstance();
-      var list = diagCardList.GetDiagCardEnds().ToList();
-
-      var end = 0;
-
-      if (!list.Any())
-        return;
-
-      var stsList = STSList.getInstance();
-
-      IMailService mailService = new MailService();
-
-      while (end < list.Count)
       {
-        var begin = end;
-        end += end + MailsCount < list.Count ? MailsCount : list.Count - end;
+        Logger.LogManager.Logger.Debug("Сегодня рассылка по диагностическим картам не производится");
+        return false;
+      }
 
-        var listCut = new List<DiagCard>();
+      try
+      {
+        var diagCardList = DiagCardList.getInstance();
+        var list = diagCardList.GetDiagCardEnds().ToList();
 
-        for (var i = begin; i < end; i++)
-          listCut.Add(list[i]);
+        var end = 0;
 
-        var carList = diagCardList.GetCarListFromDiagCardList(listCut).ToList();
-        var files = new List<string>();
-
-        foreach (var car in carList)
+        if (!list.Any())
         {
-          var sts = stsList.getItem(car);
-          if (sts.File != string.Empty)
-            files.Add(sts.File);
+          Logger.LogManager.Logger.Information("Диагностические карты для отправки не найдены");
+          return false;
         }
 
-        var mailText = CreateMail(listCut);
-        
-        var employeeAutoDept = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).FirstOrDefault();
-        mailService.SendNotification(employeeAutoDept, mailText, true, files);
+        var stsList = STSList.getInstance();
+
+        IMailService mailService = new MailService();
+
+        while (end < list.Count)
+        {
+          var begin = end;
+          end += end + MailsCount < list.Count ? MailsCount : list.Count - end;
+
+          var listCut = new List<DiagCard>();
+
+          for (var i = begin; i < end; i++)
+            listCut.Add(list[i]);
+
+          var carList = diagCardList.GetCarListFromDiagCardList(listCut).ToList();
+          var files = new List<string>();
+
+          foreach (var car in carList)
+          {
+            var sts = stsList.getItem(car);
+            if (sts.File != string.Empty)
+              files.Add(sts.File);
+          }
+
+          var mailText = CreateMail(listCut);
+
+          var employeeAutoDept = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).FirstOrDefault();
+          mailService.SendNotification(employeeAutoDept, mailText, true, files);
+        }
+
+        return true;
+      }
+      catch(Exception ex)
+      {
+        Logger.LogManager.Logger.Error(ex, ex.Message);
+        return false;
       }
     }
     

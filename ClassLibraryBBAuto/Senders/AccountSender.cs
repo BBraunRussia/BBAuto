@@ -5,26 +5,40 @@ using BBAuto.Domain.Static;
 using System.Collections.Generic;
 using System.Linq;
 using BBAuto.Domain.Services.Mail;
+using System;
 
 namespace BBAuto.Domain.Senders
 {
   public class AccountSender
   {
-    public void SendNotification()
+    public bool SendNotification()
     {
-      var accountList = AccountList.getInstance();
-      IList<Account> list = accountList.GetAccountForAgree().ToList();
+      try
+      {
+        var accountList = AccountList.getInstance();
+        IList<Account> list = accountList.GetAccountForAgree().ToList();
 
-      if (!list.Any())
-        return;
+        if (!list.Any())
+        {
+          Logger.LogManager.Logger.Debug("Счета для отправки не найдены");
+          return false;
+        }
 
-      var driversTo = GetDriverForSending(RolesList.Boss);
+        var driversTo = GetDriverForSending(RolesList.Boss);
 
-      var mailText = CreateMailToBoss(list);
+        var mailText = CreateMailToBoss(list);
 
-      IMailService mailService = new MailService();
+        IMailService mailService = new MailService();
 
-      mailService.SendNotification(driversTo, mailText);
+        mailService.SendNotification(driversTo, mailText);
+
+        return true;
+      }
+      catch (Exception ex)
+      {
+        Logger.LogManager.Logger.Error(ex, ex.Message);
+        return false;
+      }
     }
 
     private static Driver GetDriverForSending(RolesList role = RolesList.Editor)

@@ -13,23 +13,39 @@ namespace BBAuto.Domain.Senders
   {
     private const int SendDay = 5;
 
-    public void SendNotification()
+    public bool SendNotification()
     {
       if (DateTime.Today.Day != SendDay)
-        return;
+      {
+        Logger.LogManager.Logger.Debug("Сегодня рассылка по страховым полисам не производится");
+        return false;
+      }
 
-      var policyList = PolicyList.getInstance().GetPolicyEnds().ToList();
+      try
+      {
+        var policyList = PolicyList.getInstance().GetPolicyEnds().ToList();
 
-      if (!policyList.Any())
-        return;
+        if (!policyList.Any())
+        {
+          Logger.LogManager.Logger.Information("Страховые полисы для отправки не найдены");
+          return false;
+        }
 
-      var driversTo = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).FirstOrDefault();
+        var driversTo = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).FirstOrDefault();
 
-      var mailText = CreateMail(policyList);
+        var mailText = CreateMail(policyList);
 
-      IMailService mailService = new MailService();
+        IMailService mailService = new MailService();
 
-      mailService.SendNotification(driversTo, mailText);
+        mailService.SendNotification(driversTo, mailText);
+
+        return true;
+      }
+      catch(Exception ex)
+      {
+        Logger.LogManager.Logger.Error(ex, ex.Message);
+        return false;
+      }
     }
     
     private static string CreateMail(List<Policy> policies)
