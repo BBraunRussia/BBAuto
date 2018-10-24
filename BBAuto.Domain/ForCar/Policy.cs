@@ -17,12 +17,10 @@ namespace BBAuto.Domain.ForCar
   public sealed class Policy : MainDictionary, IActual
   {
     private string _number;
-    private double _pay;
     private int _idOwner;
     private int _idAccount;
     private int _idAccount2;
     private double _limitCost;
-    private double _pay2;
     private int _idPolicyType;
     private DateTime _dateBegin;
     private DateTime _dateEnd;
@@ -30,30 +28,25 @@ namespace BBAuto.Domain.ForCar
 
     public string File { get; set; }
     public DateTime DateCreate { get; private set; }
+    
+    public double Pay { get; set; }
+    public double Pay2 { get; set; }
 
-    public string Pay
-    {
-      get { return _pay.ToString().Replace(',', '.'); }
-      set { double.TryParse(value.Trim().Replace(" ", "").Replace('.', ','), out _pay); }
-    }
-
-    public double PayToDouble
-    {
-      get { return _pay; }
-    }
-
+    public string PayString => Pay.ToString().Replace(',', '.');
+    public string Pay2String => Pay2.Equals(0) ? string.Empty : Pay2.ToString().Replace(',', '.');
+    
     public string IdOwner
     {
-      get { return _idOwner.ToString(); }
-      set { int.TryParse(value, out _idOwner); }
+      get => _idOwner.ToString();
+      set => int.TryParse(value, out _idOwner);
     }
 
     public int CompId { get; set; }
 
     public string Number
     {
-      get { return _number == string.Empty ? "нет данных" : _number; }
-      set { _number = value; }
+      get => _number == string.Empty ? "нет данных" : _number;
+      set => _number = value;
     }
 
     public bool IsCarSale => Car.IsSale;
@@ -72,60 +65,40 @@ namespace BBAuto.Domain.ForCar
 
     public DateTime DateBegin
     {
-      get { return _dateBegin == new DateTime() ? DateTime.Today : _dateBegin; }
-      set { _dateBegin = value; }
+      get => _dateBegin == new DateTime() ? DateTime.Today : _dateBegin;
+      set => _dateBegin = value;
     }
 
     public DateTime DateEnd
     {
-      get { return _dateEnd == new DateTime() ? DateTime.Today : _dateEnd; }
-      set { _dateEnd = value; }
+      get => _dateEnd == new DateTime() ? DateTime.Today : _dateEnd;
+      set => _dateEnd = value;
     }
 
     public string LimitCost
     {
-      get { return _limitCost.Equals(0) ? string.Empty : _limitCost.ToString().Replace(',', '.'); }
-      set { double.TryParse(value.Trim().Replace(" ", "").Replace('.', ','), out _limitCost); }
+      get => _limitCost.Equals(0) ? string.Empty : _limitCost.ToString().Replace(',', '.');
+      set => double.TryParse(value.Trim().Replace(" ", "").Replace('.', ','), out _limitCost);
     }
-
-    public string Pay2
-    {
-      get { return _pay2.Equals(0) ? string.Empty : _pay2.ToString().Replace(',', '.'); }
-      set { double.TryParse(value.Trim().Replace(" ", "").Replace('.', ','), out _pay2); }
-    }
-
-    public double Pay2ToDouble
-    {
-      get { return _pay2; }
-    }
-
+    
     public PolicyType Type
     {
-      get { return (PolicyType) _idPolicyType; }
-      set { _idPolicyType = (int) value; }
+      get => (PolicyType) _idPolicyType;
+      set => _idPolicyType = (int) value;
     }
 
     public DateTime DatePay2 { get; set; }
 
-    public string DatePay2ToString
-    {
-      get { return IsEmptyDate(DatePay2) ? string.Empty : DatePay2.ToShortDateString(); }
-    }
+    public string DatePay2ToString => IsEmptyDate(DatePay2) ? string.Empty : DatePay2.ToShortDateString();
 
-    public string DatePay2ForSQL
-    {
-      get
-      {
-        return IsEmptyDate(DatePay2)
-          ? string.Empty
-          : DatePay2.Year.ToString() + "-" + DatePay2.Month.ToString() + "-" + DatePay2.Day.ToString();
-      }
-    }
+    public string DatePay2ForSql => IsEmptyDate(DatePay2)
+      ? string.Empty
+      : DatePay2.Year + "-" + DatePay2.Month + "-" + DatePay2.Day;
 
     internal bool IsNotificationSent
     {
-      get { return Convert.ToBoolean(_notifacationSent); }
-      private set { _notifacationSent = Convert.ToInt32(value); }
+      get => Convert.ToBoolean(_notifacationSent);
+      private set => _notifacationSent = Convert.ToInt32(value);
     }
 
     public string Comment { get; set; }
@@ -139,35 +112,40 @@ namespace BBAuto.Domain.ForCar
 
     public Policy(DataRow row)
     {
-      fillFields(row);
+      FillFields(row);
     }
 
-    private void fillFields(DataRow row)
+    private void FillFields(DataRow row)
     {
-      int id;
-      int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      if (int.TryParse(row.ItemArray[0].ToString(), out int id))
+        ID = id;
 
       int.TryParse(row.ItemArray[1].ToString(), out int idCar);
       Car = CarList.GetInstance().getItem(idCar);
 
       int.TryParse(row.ItemArray[2].ToString(), out _idPolicyType);
       IdOwner = row.ItemArray[3].ToString();
-      int.TryParse(row.ItemArray[4].ToString(), out int compId);
-      CompId = compId;
+
+      if (int.TryParse(row.ItemArray[4].ToString(), out int compId))
+        CompId = compId;
+
       _number = row.ItemArray[5].ToString();
       DateTime.TryParse(row.ItemArray[6].ToString(), out _dateBegin);
       DateTime.TryParse(row.ItemArray[7].ToString(), out _dateEnd);
-      Pay = row.ItemArray[8].ToString();
+
+      if (double.TryParse(row.ItemArray[8].ToString(), out double pay))
+        Pay = pay;
+
       File = row.ItemArray[9].ToString();
       _fileBegin = File;
 
       LimitCost = row.ItemArray[10].ToString();
-      Pay2 = row.ItemArray[11].ToString();
 
-      DateTime datePay2;
-      DateTime.TryParse(row.ItemArray[12].ToString(), out datePay2);
-      DatePay2 = datePay2;
+      if (double.TryParse(row.ItemArray[11].ToString(), out double pay2))
+        Pay2 = pay2;
+
+      if (DateTime.TryParse(row.ItemArray[12].ToString(), out DateTime datePay2))
+        DatePay2 = datePay2;
 
       int.TryParse(row.ItemArray[13].ToString(), out _idAccount);
       int.TryParse(row.ItemArray[14].ToString(), out _idAccount2);
@@ -176,9 +154,8 @@ namespace BBAuto.Domain.ForCar
 
       Comment = row.ItemArray[16].ToString();
 
-      DateTime dateCreate;
-      DateTime.TryParse(row.ItemArray[17].ToString(), out dateCreate);
-      DateCreate = new DateTime(dateCreate.Year, dateCreate.Month, dateCreate.Day);
+      if (DateTime.TryParse(row.ItemArray[17].ToString(), out DateTime dateCreate))
+        DateCreate = new DateTime(dateCreate.Year, dateCreate.Month, dateCreate.Day);
     }
 
     public override void Save()
@@ -192,7 +169,7 @@ namespace BBAuto.Domain.ForCar
 
       DeleteFile(File);
 
-      File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Policy", _number);
+      File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Policy", $"{_number}_{DateBegin.Year}");
       _fileBegin = File;
 
       execSave();
@@ -202,8 +179,8 @@ namespace BBAuto.Domain.ForCar
     {
       int id;
       int.TryParse(
-        _provider.Insert("Policy", ID, _idPolicyType, Car.ID, IdOwner, CompId, _number, _dateBegin, _dateEnd, Pay,
-          LimitCost, Pay2, DatePay2ForSQL, File, _notifacationSent, Comment), out id);
+        _provider.Insert("Policy", ID, _idPolicyType, Car.ID, IdOwner, CompId, _number, _dateBegin, _dateEnd, PayString,
+          LimitCost, Pay2String, DatePay2ForSql, File, _notifacationSent, Comment), out id);
       ID = id;
     }
 
@@ -221,12 +198,12 @@ namespace BBAuto.Domain.ForCar
 
     public bool IsInList(Account account)
     {
-      return (account.ID != 0) && ((_idAccount == account.ID) || (_idAccount2 == account.ID));
+      return account.ID != 0 && (_idAccount == account.ID || _idAccount2 == account.ID);
     }
 
     public void ClearAccountID(Account account)
     {
-      int sqlPaymentNumber = 1;
+      var sqlPaymentNumber = 1;
 
       if (account.IsPolicyKaskoAndPayment2())
       {
@@ -246,29 +223,23 @@ namespace BBAuto.Domain.ForCar
 
     public bool IsAgreed(int paymentNumber)
     {
-      if (IsHaveAccountID(paymentNumber))
-      {
-        AccountList accountList = AccountList.getInstance();
-
-        int idAccount = (paymentNumber == 1) ? _idAccount : _idAccount2;
-
-        Account account = accountList.getItem(idAccount);
-        return account.Agreed;
-      }
-      else
+      if (!IsHaveAccountID(paymentNumber))
         return false;
+
+      var idAccount = paymentNumber == 1 ? _idAccount : _idAccount2;
+
+      var account = AccountList.getInstance().getItem(idAccount);
+      return account.Agreed;
     }
 
     public object[] CreateRow(IList<Comp> compList)
     {
-      Owners owners = Owners.getInstance();
-      
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
+        ID, Car.ID, Car.BBNumber, Car.Grz, Type, Owners.getInstance().getItem(Convert.ToInt32(IdOwner)),
         compList.FirstOrDefault(comp => comp.Id == CompId)?.Name,
-        Number, _pay, DateBegin, DateEnd,
-        _limitCost, _pay2
+        Number, Pay, DateBegin, DateEnd,
+        _limitCost, Pay2
       };
     }
 
@@ -277,7 +248,7 @@ namespace BBAuto.Domain.ForCar
       throw new NotImplementedException();
     }
 
-    private bool IsEmptyDate(DateTime date)
+    private static bool IsEmptyDate(DateTime date)
     {
       return date == new DateTime();
     }

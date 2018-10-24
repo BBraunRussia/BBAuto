@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Remoting.Contexts;
-using Common;
 
-namespace BBAutoConsoleApplication.config
+namespace Common
 {
   public static class AutoMapperConfiguration
   {

@@ -1,89 +1,83 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Services.Comp;
+using BBAuto.Domain.Static;
 
 namespace BBAuto.Domain.Lists
 {
   public class PolicyList : MainList
   {
-    private List<Policy> list;
-    private static PolicyList uniqueInstance;
+    private readonly List<Policy> _list;
+    private static PolicyList _uniqueInstance;
 
     private PolicyList()
     {
-      list = new List<Policy>();
+      _list = new List<Policy>();
 
       loadFromSql();
     }
 
     public static PolicyList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new PolicyList();
-
-      return uniqueInstance;
+      return _uniqueInstance ?? (_uniqueInstance = new PolicyList());
     }
 
     protected override void loadFromSql()
     {
-      DataTable dt = _provider.Select("Policy");
+      var dt = _provider.Select("Policy");
 
       clearList();
 
       foreach (DataRow row in dt.Rows)
       {
-        Policy policy = new Policy(row);
-
-        Add(policy);
+        Add(new Policy(row));
       }
     }
 
     public void Add(Policy policy)
     {
-      if (list.Exists(item => item == policy))
+      if (_list.Exists(item => item == policy))
         return;
 
-      list.Add(policy);
+      _list.Add(policy);
     }
 
     private void clearList()
     {
-      if (list.Count > 0)
-        list.Clear();
+      if (_list.Count > 0)
+        _list.Clear();
     }
 
     public Policy getItem(int id)
     {
-      return list.FirstOrDefault(p => p.ID == id);
+      return _list.FirstOrDefault(p => p.ID == id);
     }
 
     public Policy getItem(Car car, PolicyType policyType)
     {
-      var policyList = from policy in list
+      var policyList = from policy in _list
         where policy.Car.ID == car.ID && policy.Type == policyType
         orderby policy.DateEnd descending
         select policy;
 
-      return (policyList.Count() > 0) ? policyList.First() : car.CreatePolicy();
+      return policyList.Any() ? policyList.First() : car.CreatePolicy();
     }
 
     internal DataTable ToDataTable()
     {
-      var policies = list.Where(item => !item.IsCarSaleWithDate).OrderByDescending(item => item.DateEnd);
+      var policies = _list.Where(item => !item.IsCarSaleWithDate).OrderByDescending(item => item.DateEnd);
 
       return createTable(policies.ToList());
     }
 
     public DataTable ToDataTable(Car car)
     {
-      var policies = from policy in list
+      var policies = from policy in _list
         where policy.Car.ID == car.ID
         orderby policy.DateEnd descending
         select policy;
@@ -93,14 +87,14 @@ namespace BBAuto.Domain.Lists
 
     public DataTable ToDataTable(Account account)
     {
-      return createTable(list.Where(p => p.IsInList(account)).OrderByDescending(p => p.DateEnd));
+      return createTable(_list.Where(p => p.IsInList(account)).OrderByDescending(p => p.DateEnd));
     }
 
     public DataTable ToDataTable(PolicyType policyType, string idOwner, int paymentNumber)
     {
       List<Policy> policies = new List<Policy>();
 
-      policies = (from policy in list
+      policies = (from policy in _list
         where !policy.IsCarSale && policy.Type == policyType
               && policy.IdOwner == idOwner && !policy.IsHaveAccountID(paymentNumber) && policy.IsActual()
         orderby policy.DateEnd descending
@@ -111,12 +105,12 @@ namespace BBAuto.Domain.Lists
 
     public double GetPaymentSum(Account account)
     {
-      return list.Where(p => p.IsInList(account)).Sum(p => GetSum(p, account));
+      return _list.Where(p => p.IsInList(account)).Sum(p => GetSum(p, account));
     }
 
-    private double GetSum(Policy policy, Account account)
+    private static double GetSum(Policy policy, Account account)
     {
-      return (account.IsPolicyKaskoAndPayment2()) ? policy.Pay2ToDouble : policy.PayToDouble;
+      return account.IsPolicyKaskoAndPayment2() ? policy.Pay2 : policy.Pay;
     }
 
     private DataTable createTable(IEnumerable<Policy> policies)
@@ -148,7 +142,7 @@ namespace BBAuto.Domain.Lists
     {
       Policy police = getItem(idPolicy);
 
-      list.Remove(police);
+      _list.Remove(police);
 
       police.Delete();
     }
@@ -168,7 +162,7 @@ namespace BBAuto.Domain.Lists
     */
     public List<Policy> GetPolicyList(DateTime date)
     {
-      return list.Where(police => (police.DateEnd.Month == date.Month && police.DateEnd.Year == date.Year &&
+      return _list.Where(police => (police.DateEnd.Month == date.Month && police.DateEnd.Year == date.Year &&
                                    !police.IsCarSale)).ToList();
     }
 

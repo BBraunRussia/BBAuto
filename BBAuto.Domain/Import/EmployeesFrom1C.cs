@@ -84,7 +84,7 @@ namespace BBAuto.Domain.Import
             }
           }
 
-          File.Move(file, FilePath + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(file));
+          File.Move(file, FilePath + @"\processed\" + $"{DateTime.Today.Year}-{DateTime.Today.Month}-{DateTime.Today.Day}-{DateTime.Now.Hour}-{DateTime.Now.Minute}_{Path.GetFileName(file)}");
         }
 
         return true;

@@ -778,13 +778,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BBAuto.Domain\BBAuto.Domain.csproj">
+      <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
+      <Name>BBAuto.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CheckBoxComboBox\CheckBoxComboBox.csproj">
       <Project>{70a25201-8ea4-48f8-a4a6-ed13adf8823c}</Project>
       <Name>CheckBoxComboBox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Domain.csproj">
-      <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
-      <Name>BBAuto.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{CCEFEC04-1E5E-4971-AB56-9EEC7E6B7C40}</Project>

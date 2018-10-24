@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="AutoProfiler.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="DisposableObject.cs" />

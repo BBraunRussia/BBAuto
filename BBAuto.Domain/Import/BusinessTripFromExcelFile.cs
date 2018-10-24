@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Linq;
-using System.Text;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Entities;
 using BBAuto.Domain.Common;
 
 namespace BBAuto.Domain.Import
@@ -109,7 +103,7 @@ namespace BBAuto.Domain.Import
 
         }
 
-        File.Move(files[0], FilePath + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(files[0]));
+        File.Move(files[0], FilePath + @"\processed\" + $"{DateTime.Today.Year}-{DateTime.Today.Month}-{DateTime.Today.Day}-{DateTime.Now.Hour}-{DateTime.Now.Minute}_{Path.GetFileName(files[0])}");
 
       }
       catch(Exception ex)

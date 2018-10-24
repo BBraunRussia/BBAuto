@@ -10,7 +10,7 @@ namespace BBAuto.FormsForCar.AddEdit
   public partial class PolicyForm : Form
   {
     private readonly ICompService _compService;
-    private Policy _policy;
+    private readonly Policy _policy;
     private bool _loadCompleted;
 
     private WorkWithForm _workWithForm;
@@ -68,7 +68,7 @@ namespace BBAuto.FormsForCar.AddEdit
       tbNumber.Text = _policy.Number;
       dtpDateBegin.Value = _policy.DateBegin;
       dtpDateEnd.Value = _policy.DateEnd;
-      tbPay.Text = _policy.Pay;
+      tbPay.Text = _policy.PayString;
       tbComment.Text = _policy.Comment;
 
       TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
@@ -79,8 +79,12 @@ namespace BBAuto.FormsForCar.AddEdit
       else if (_policy.Type == PolicyType.КАСКО)
       {
         tbLimitCost.Text = _policy.LimitCost;
-        tbPay2.Text = _policy.Pay2;
-        dtpDatePay2.Value = _policy.DatePay2;
+
+        if (_compService.GetCompById(((Comp) cbComp.SelectedItem).Id).KaskoPaymentCount == 2)
+        {
+          tbPay2.Text = _policy.Pay2String;
+          dtpDatePay2.Value = _policy.DatePay2;
+        }
       }
 
       tb_Leave(tbPay);
@@ -147,7 +151,10 @@ namespace BBAuto.FormsForCar.AddEdit
       _policy.Number = tbNumber.Text;
       _policy.DateBegin = dtpDateBegin.Value.Date;
       _policy.DateEnd = dtpDateEnd.Value.Date;
-      _policy.Pay = tbPay.Text;
+
+      if (double.TryParse(tbPay.Text, out double pay))
+        _policy.Pay = pay;
+
       _policy.Comment = tbComment.Text;
 
       TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
@@ -158,7 +165,10 @@ namespace BBAuto.FormsForCar.AddEdit
       else if (_policy.Type == PolicyType.КАСКО && _compService.GetCompById(_policy.CompId).KaskoPaymentCount == 2)
       {
         _policy.LimitCost = tbLimitCost.Text;
-        _policy.Pay2 = tbPay2.Text;
+
+        if (double.TryParse(tbPay2.Text, out double pay2))
+          _policy.Pay2 = pay2;
+
         _policy.DatePay2 = dtpDatePay2.Value.Date;
       }
     }

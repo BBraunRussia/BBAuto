@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
 using BBAuto.Domain.Common;
 
 namespace BBAuto.Domain.Import
@@ -15,9 +14,7 @@ namespace BBAuto.Domain.Import
     {
       try
       {
-        TabelList tabelList = TabelList.GetInstance();
-
-        string[] files = Directory.GetFiles(FilePath, "*.txt");
+        var files = Directory.GetFiles(FilePath, "*.txt");
 
         foreach (var file in files)
         {
@@ -33,7 +30,7 @@ namespace BBAuto.Domain.Import
 
             for (int j = 2; j < fields.Count(); j++)
             {
-              if ((fields[j] == "Я") || (fields[j] == "Я/Н"))
+              if (fields[j] == "Я" || fields[j] == "Я/Н")
               {
                 Tabel tabel = new Tabel(fields[0], new DateTime(year, month, j - 1));
                 tabel.Save();
@@ -41,7 +38,7 @@ namespace BBAuto.Domain.Import
             }
           }
 
-          File.Move(file, FilePath + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(file));
+          File.Move(file, FilePath + @"\processed\" + $"{DateTime.Today.Year}-{DateTime.Today.Month}-{DateTime.Today.Day}-{DateTime.Now.Hour}-{DateTime.Now.Minute}_{Path.GetFileName(file)}");
         }
 
         return true;

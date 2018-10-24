@@ -1,12 +1,10 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Import;
 using BBAuto.Domain.DataBase;
 using BBAuto.Domain.Lists;
-using BBAuto.Domain.Senders;
 using BBAuto.Domain.Logger;
-using BBAutoConsoleApplication.config;
+using BBAuto.Domain.Senders;
+using Common;
 
-namespace BBAutoConsoleApplication
+namespace BBAuto.Sender
 {
   class Program
   {
@@ -16,25 +14,7 @@ namespace BBAutoConsoleApplication
       Provider.InitSqlProvider();
       AutoMapperConfiguration.Initialize();
 
-      LogManager.Logger.Information("Program started");
-      /* старые командировки */
-      //IExcelImporter importer = new BusinessTripFromExcelFile { FilePath = @"\\bbmru08\depts\Accounting\Командировки\Реестр_" + DateTime.Today.Year + ".xls" };
-      BusinessTripFromExcelFile businessTripFromExcelFile = new BusinessTripFromExcelFile { FilePath = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto" };
-      if (businessTripFromExcelFile.StartImport())
-        LogManager.Logger.Information("BusinessTrip loading done");
-
-      ///* Сделать загрузку вручную */
-      ////importer = new MileageMonthFromExcelFile { FilePath = @"J:\Hospital Care\Kasyanova Tatyana\Отчёты\Командировки в BBAuto\Загрузка Перечень сотрудников для заполнения ПЛ на мес.xlsx" };
-      ////importer.StartImport();
-      ////LogManager.Logger.Debug("Mileage Month loading done");
-
-      IExcelImporter employeesImporter = new EmployeesFrom1C {FilePath = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto"};
-      if (employeesImporter.StartImport())
-        LogManager.Logger.Information("EmployeesFrom1C loading done");
-      
-      IExcelImporter tabelImporter = new TabelFrom1C { FilePath = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto\Time" };
-      if (tabelImporter.StartImport())
-        LogManager.Logger.Information("TabelFrom1C loading done");
+      LogManager.Logger.Information("Sender started");
 
       var medicalCertSender = new NotificationSender(MedicalCertList.getInstance());
       if (medicalCertSender.SendNotification())
@@ -74,7 +54,7 @@ namespace BBAutoConsoleApplication
       if (accountSender.SendNotification())
         LogManager.Logger.Information("Accounts sent");
 
-      LogManager.Logger.Information("Program finished");
+      LogManager.Logger.Information("Sender finished");
     }
   }
 }

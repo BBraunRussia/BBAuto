@@ -512,7 +512,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       
       var instructionList = documentsService.GetList().Where(doc => doc.Instruction).ToList();
 
-      WriteHeaderReportInstractionDocument(document, instructionList.OrderBy(ins => ins.Id).Select(ins => ins.Name).ToList());
+      WriteHeaderReportInstractionDocument(document, instructionList.OrderBy(ins => ins.Name).Select(ins => ins.Name).ToList());
 
       var driverList = DriverList.getInstance().GetList().Where(driver => driver.ID != Consts.ReserveDriverId);
       IDriverInstructionService driverInstructionService = new DriverInstructionService();
@@ -524,7 +524,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
         document.setValue(i, 1, driver.Name);
         var j = 2;
         var driverInstructions = driverInstructionList.Where(drIns => drIns.DriverId == driver.ID).ToList();
-        foreach (var documentInstruction in instructionList)
+        foreach (var documentInstruction in instructionList.OrderBy(ins => ins.Name))
         {
           var driverInstruction = driverInstructions.FirstOrDefault(drIns => drIns.DocumentId == documentInstruction.Id);
           document.setValue(i, j, driverInstruction?.Date.ToShortDateString() ?? "-");
