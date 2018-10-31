@@ -2,6 +2,8 @@ using System;
 using System.Windows.Forms;
 using BBAuto.AddEdit;
 using BBAuto.Domain.Services.Documents;
+using BBAuto.Domain.Services.Mail;
+using BBAuto.SendDocumentForms;
 
 namespace BBAuto.CommonForms
 {
@@ -53,6 +55,12 @@ namespace BBAuto.CommonForms
       _documentsService.DeleteDocument(document);
 
       LoadData();
+    }
+
+    private void btnSend_Click(object sender, EventArgs e)
+    {
+      var selectRecipientForm = new SelectRecipientStep1Form();
+      selectRecipientForm.ShowDialog();
     }
   }
 }

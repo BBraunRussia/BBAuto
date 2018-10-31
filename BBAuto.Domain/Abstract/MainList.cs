@@ -1,21 +1,38 @@
-﻿using BBAuto.Domain.DataBase;
+using System.Collections.Generic;
+using BBAuto.Domain.DataBase;
 
 namespace BBAuto.Domain.Abstract
 {
-  public abstract class MainList
+  public abstract class MainList<T>
   {
-    protected IProvider _provider;
+    protected List<T> _list;
 
-    protected abstract void loadFromSql();
+    protected IProvider Provider;
+
+    protected abstract void LoadFromSql();
 
     protected MainList()
     {
-      _provider = Provider.GetProvider();
+      Provider = DataBase.Provider.GetProvider();
+
+      _list = new List<T>();
+
+      LoadFromSql();
     }
 
     public void ReLoad()
     {
-      loadFromSql();
+      _list.Clear();
+
+      LoadFromSql();
+    }
+
+    public virtual void Add(T item)
+    {
+      if (_list.Contains(item))
+        return;
+
+      _list.Add(item);
     }
   }
 }

@@ -6,32 +6,19 @@ using BBAuto.Domain.ForCar;
 
 namespace BBAuto.Domain.Lists
 {
-  public class ModelList : MainList
+  public class ModelList : MainList<Model>
   {
-    private static ModelList uniqueInstance;
-    private List<Model> list;
-
-    private ModelList()
-    {
-      list = new List<Model>();
-
-      loadFromSql();
-    }
+    private static ModelList _uniqueInstance;
 
     public static ModelList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new ModelList();
-
-      return uniqueInstance;
+      return _uniqueInstance ?? (_uniqueInstance = new ModelList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Model");
-
-      clearList();
-
+      DataTable dt = Provider.Select("Model");
+      
       foreach (DataRow row in dt.Rows)
       {
         Model model = new Model(row);
@@ -39,30 +26,16 @@ namespace BBAuto.Domain.Lists
       }
     }
 
-    public void Add(Model model)
-    {
-      if (list.Exists(item => item.ID == model.ID))
-        return;
-
-      list.Add(model);
-    }
-
-    private void clearList()
-    {
-      if (list.Count > 0)
-        list.Clear();
-    }
-
     public Model getItem(int id)
     {
-      return list.FirstOrDefault(m => m.ID == id);
+      return _list.FirstOrDefault(m => m.ID == id);
     }
 
     public void Delete(int idModel)
     {
       Model model = getItem(idModel);
 
-      list.Remove(model);
+      _list.Remove(model);
 
       model.Delete();
     }
@@ -73,7 +46,7 @@ namespace BBAuto.Domain.Lists
       dt.Columns.Add("id");
       dt.Columns.Add("Название");
 
-      foreach (Model model in list.Where(m => m.MarkID == idMark))
+      foreach (Model model in _list.Where(m => m.MarkID == idMark))
       {
         dt.Rows.Add(model.getRow());
       }

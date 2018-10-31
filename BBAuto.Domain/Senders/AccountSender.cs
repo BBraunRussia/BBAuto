@@ -15,7 +15,7 @@ namespace BBAuto.Domain.Senders
     {
       try
       {
-        var accountList = AccountList.getInstance();
+        var accountList = AccountList.GetInstance();
         IList<Account> list = accountList.GetAccountForAgree().ToList();
 
         if (!list.Any())

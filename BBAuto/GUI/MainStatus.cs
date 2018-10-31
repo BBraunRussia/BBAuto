@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Dictionary;
 
@@ -28,10 +25,7 @@ namespace BBAuto
 
     public static MainStatus getInstance()
     {
-      if (_uniqueInstance == null)
-        _uniqueInstance = new MainStatus();
-
-      return _uniqueInstance;
+      return _uniqueInstance ?? (_uniqueInstance = new MainStatus());
     }
 
     public Status Get()
@@ -46,6 +40,9 @@ namespace BBAuto
 
     public void Set(Status status)
     {
+      if (_status == status)
+        return;
+
       _status = status;
 
       StatusEventArgs e = new StatusEventArgs(status);

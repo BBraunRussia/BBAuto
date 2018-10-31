@@ -8,28 +8,18 @@ using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Lists
 {
-  public class InvoiceList : MainList
+  public class InvoiceList : MainList<Invoice>
   {
     private static InvoiceList _uniqueInstance;
-    private readonly List<Invoice> _list;
-
-    private InvoiceList()
-    {
-      _list = new List<Invoice>();
-
-      loadFromSql();
-    }
-
+    
     public static InvoiceList getInstance()
     {
       return _uniqueInstance ?? (_uniqueInstance = new InvoiceList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      _list.Clear();
-
-      var dt = _provider.Select("Invoice");
+      var dt = Provider.Select("Invoice");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -37,15 +27,7 @@ namespace BBAuto.Domain.Lists
         Add(invoice);
       }
     }
-
-    public void Add(Invoice invoice)
-    {
-      if (_list.Exists(item => item == invoice))
-        return;
-
-      _list.Add(invoice);
-    }
-
+    
     public Invoice getItem(int id)
     {
       return _list.FirstOrDefault(i => i.ID == id);

@@ -8,26 +8,18 @@ using BBAuto.Domain.Dictionary;
 
 namespace BBAuto.Domain.Lists
 {
-  public class EmployeesList : MainList
+  public class EmployeesList : MainList<Employees>
   {
     private static EmployeesList _uniqueInstance;
-    private readonly List<Employees> _list;
-
-    private EmployeesList()
-    {
-      _list = new List<Employees>();
-
-      loadFromSql();
-    }
-
+    
     public static EmployeesList getInstance()
     {
       return _uniqueInstance ?? (_uniqueInstance = new EmployeesList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Employees");
+      DataTable dt = Provider.Select("Employees");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -35,15 +27,7 @@ namespace BBAuto.Domain.Lists
         Add(employees);
       }
     }
-
-    public void Add(Employees employees)
-    {
-      if (_list.Exists(item => item == employees))
-        return;
-
-      _list.Add(employees);
-    }
-
+    
     public void Delete(Region region, int idEmployeesName)
     {
       Employees employees = getItem(region, idEmployeesName);

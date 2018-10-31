@@ -93,6 +93,7 @@ namespace BBAuto.CommonForms
       this.btnSend.TabIndex = 28;
       this.btnSend.Text = "Рассылка";
       this.btnSend.UseVisualStyleBackColor = true;
+      this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
       // 
       // DocumentsListForm
       // 

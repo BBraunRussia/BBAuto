@@ -219,7 +219,7 @@ namespace BBAuto
       SetRightAligment("Сумма");
       SetCellFormat("Сумма", "N2");
 
-      AccountList accountList = AccountList.getInstance();
+      AccountList accountList = AccountList.GetInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {

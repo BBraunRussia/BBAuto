@@ -368,13 +368,16 @@ namespace BBAuto.ContextMenu
 
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowInvoice));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowAttacheToOrder));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowProxyOnSTO));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowPolicyKasko));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
-      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowActFuelCard));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintTransferCarAct));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Copy));
 

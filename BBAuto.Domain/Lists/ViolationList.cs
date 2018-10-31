@@ -8,16 +8,15 @@ using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Lists
 {
-  public class ViolationList : MainList
+  public class ViolationList : MainList<Violation>
   {
     private static ViolationList _uniqueInstance;
-    private readonly List<Violation> _list;
-
+    
     private ViolationList()
     {
       _list = new List<Violation>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static ViolationList getInstance()
@@ -25,12 +24,9 @@ namespace BBAuto.Domain.Lists
       return _uniqueInstance ?? (_uniqueInstance = new ViolationList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      if (_list.Any())
-        return;
-
-      DataTable dt = _provider.Select("Violation");
+      DataTable dt = Provider.Select("Violation");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -38,15 +34,7 @@ namespace BBAuto.Domain.Lists
         Add(violation);
       }
     }
-
-    public void Add(Violation violation)
-    {
-      if (_list.Exists(item => item.ID == violation.ID))
-        return;
-
-      _list.Add(violation);
-    }
-
+    
     public Violation getItem(int id)
     {
       return _list.FirstOrDefault(item => item.ID == id);

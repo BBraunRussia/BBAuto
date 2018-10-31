@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using BBAuto.Domain.ForCar;
@@ -6,28 +5,18 @@ using BBAuto.Domain.Abstract;
 
 namespace BBAuto.Domain.Lists
 {
-  public class SsDTPList : MainList
+  public class SsDTPList : MainList<SsDTP>
   {
     private static SsDTPList _uniqueInstance;
-    private readonly List<SsDTP> _list;
-
-    private SsDTPList()
-    {
-      _list = new List<SsDTP>();
-
-      loadFromSql();
-    }
 
     public static SsDTPList getInstance()
     {
       return _uniqueInstance ?? (_uniqueInstance = new SsDTPList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("ssDTP");
-
-      clearList();
+      DataTable dt = Provider.Select("ssDTP");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -35,21 +24,7 @@ namespace BBAuto.Domain.Lists
         Add(ssDTP);
       }
     }
-
-    public void Add(SsDTP ssDTP)
-    {
-      if (_list.Exists(item => item == ssDTP))
-        return;
-
-      _list.Add(ssDTP);
-    }
-
-    private void clearList()
-    {
-      if (_list.Count > 0)
-        _list.Clear();
-    }
-
+   
     public SsDTP getItem(int markId)
     {
       return _list.FirstOrDefault(item => item.MarkId == markId);

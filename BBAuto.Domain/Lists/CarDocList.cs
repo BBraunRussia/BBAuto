@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Data;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Abstract;
@@ -9,84 +6,68 @@ using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Lists
 {
-    public class CarDocList : MainList
+  public class CarDocList : MainList<CarDoc>
+  {
+    private static CarDocList _uniqueInstance;
+    
+    public static CarDocList getInstance()
     {
-        private static CarDocList uniqueInstance;
-        private List<CarDoc> list;
+      if (_uniqueInstance == null)
+        _uniqueInstance = new CarDocList();
 
-        private CarDocList()
-        {
-            list = new List<CarDoc>();
-
-            loadFromSql();
-        }
-
-        public static CarDocList getInstance()
-        {
-            if (uniqueInstance == null)
-                uniqueInstance = new CarDocList();
-
-            return uniqueInstance;
-        }
-        
-        protected override void loadFromSql()
-        {
-            DataTable dt = _provider.Select("CarDoc");
-
-            foreach (DataRow row in dt.Rows)
-            {
-                CarDoc carDoc = new CarDoc(row);
-                Add(carDoc);
-            }
-        }
-
-        public void Add(CarDoc carDoc)
-        {
-            if (list.Exists(item => item == carDoc))
-                return;
-
-            list.Add(carDoc);
-        }
-
-        public void Delete(int idCarDoc)
-        {
-            CarDoc carDoc = getItem(idCarDoc);
-
-            list.Remove(carDoc);
-
-            carDoc.Delete();
-        }
-
-        public CarDoc getItem(int id)
-        {
-            return list.FirstOrDefault(c => c.ID == id);
-        }
-
-        public DataTable ToDataTableByCar(Car car)
-        {
-            try
-            {
-                DataTable dt = createTable();
-
-                foreach (CarDoc carDoc in list.Where(c => c.Car.ID == car.ID))
-                    dt.Rows.Add(carDoc.getRow());
-
-                return dt;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private DataTable createTable()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("id");
-            dt.Columns.Add("Название");
-            dt.Columns.Add("Файл");
-
-            return dt;
-        }
+      return _uniqueInstance;
     }
+
+    protected override void LoadFromSql()
+    {
+      DataTable dt = Provider.Select("CarDoc");
+
+      foreach (DataRow row in dt.Rows)
+      {
+        CarDoc carDoc = new CarDoc(row);
+        Add(carDoc);
+      }
+    }
+    
+    public void Delete(int idCarDoc)
+    {
+      CarDoc carDoc = getItem(idCarDoc);
+
+      _list.Remove(carDoc);
+
+      carDoc.Delete();
+    }
+
+    public CarDoc getItem(int id)
+    {
+      return _list.FirstOrDefault(c => c.ID == id);
+    }
+
+    public DataTable ToDataTableByCar(Car car)
+    {
+      try
+      {
+        DataTable dt = createTable();
+
+        foreach (CarDoc carDoc in _list.Where(c => c.Car.ID == car.ID))
+          dt.Rows.Add(carDoc.getRow());
+
+        return dt;
+      }
+      catch
+      {
+        return null;
+      }
+    }
+
+    private DataTable createTable()
+    {
+      DataTable dt = new DataTable();
+      dt.Columns.Add("id");
+      dt.Columns.Add("Название");
+      dt.Columns.Add("Файл");
+
+      return dt;
+    }
+  }
 }

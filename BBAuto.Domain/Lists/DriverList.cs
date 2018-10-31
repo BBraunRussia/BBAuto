@@ -1,24 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
+using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.Tables;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Lists
 {
-  public class DriverList : MainList
+  public class DriverList : MainList<Driver>
   {
-    private readonly List<Driver> _list;
     private static DriverList _uniqueInstance;
 
     private DriverList()
     {
       _list = new List<Driver>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static DriverList getInstance()
@@ -26,26 +24,16 @@ namespace BBAuto.Domain.Lists
       return _uniqueInstance ?? (_uniqueInstance = new DriverList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      _list.Clear();
-
-      var dt = _provider.Select("Driver");
+      var dt = Provider.Select("Driver");
 
       foreach (DataRow row in dt.Rows)
       {
         _list.Add(new Driver(row));
       }
     }
-
-    public void Add(Driver driver)
-    {
-      if (_list.Exists(item => item == driver))
-        return;
-
-      _list.Add(driver);
-    }
-
+    
     public DataTable ToDataTable(bool all = false)
     {
       var tempList = (all) ? _list.ToList() : _list.Where(item => item.IsDriver);

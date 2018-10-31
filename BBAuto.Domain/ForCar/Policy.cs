@@ -177,10 +177,9 @@ namespace BBAuto.Domain.ForCar
 
     private void execSave()
     {
-      int id;
       int.TryParse(
         _provider.Insert("Policy", ID, _idPolicyType, Car.ID, IdOwner, CompId, _number, _dateBegin, _dateEnd, PayString,
-          LimitCost, Pay2String, DatePay2ForSql, File, _notifacationSent, Comment), out id);
+          LimitCost, Pay2String, DatePay2ForSql, File, _notifacationSent, Comment), out int id);
       ID = id;
     }
 
@@ -228,7 +227,7 @@ namespace BBAuto.Domain.ForCar
 
       var idAccount = paymentNumber == 1 ? _idAccount : _idAccount2;
 
-      var account = AccountList.getInstance().getItem(idAccount);
+      var account = AccountList.GetInstance().getItem(idAccount);
       return account.Agreed;
     }
 

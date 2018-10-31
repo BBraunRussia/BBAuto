@@ -8,32 +8,19 @@ using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Lists
 {
-  public class FuelCardDriverList : MainList
+  public class FuelCardDriverList : MainList<FuelCardDriver>
   {
-    private static FuelCardDriverList uniqueInstance;
-    private List<FuelCardDriver> list;
-
-    private FuelCardDriverList()
-    {
-      list = new List<FuelCardDriver>();
-
-      loadFromSql();
-    }
-
+    private static FuelCardDriverList _uniqueInstance;
+    
     public static FuelCardDriverList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new FuelCardDriverList();
-
-      return uniqueInstance;
+      return _uniqueInstance ?? (_uniqueInstance = new FuelCardDriverList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("FuelCardDriver");
-
-      list.Clear();
-
+      DataTable dt = Provider.Select("FuelCardDriver");
+      
       foreach (DataRow row in dt.Rows)
       {
         FuelCardDriver fuelCardDriver = new FuelCardDriver(row);
@@ -41,22 +28,22 @@ namespace BBAuto.Domain.Lists
       }
     }
 
-    public void Add(FuelCardDriver fuelCardDriver)
+    public override void Add(FuelCardDriver fuelCardDriver)
     {
-      if ((list.Exists(item => item == fuelCardDriver)) || (fuelCardDriver.FuelCard == null))
+      if (_list.Contains(fuelCardDriver) || fuelCardDriver.FuelCard == null)
         return;
 
-      list.Add(fuelCardDriver);
+      _list.Add(fuelCardDriver);
     }
 
     public FuelCardDriver getItem(int id)
     {
-      return list.FirstOrDefault(item => item.ID == id);
+      return _list.FirstOrDefault(item => item.ID == id);
     }
 
     public FuelCardDriver getItem(FuelCard fuelCard)
     {
-      return list.OrderByDescending(item => item.DateBegin).FirstOrDefault(item => item.FuelCard == fuelCard);
+      return _list.OrderByDescending(item => item.DateBegin).FirstOrDefault(item => item.FuelCard == fuelCard);
     }
 
     /*
@@ -76,7 +63,7 @@ namespace BBAuto.Domain.Lists
     {
       FuelCardDriver fuelCardDriver = getItem(idFuelCardDriver);
 
-      list.Remove(fuelCardDriver);
+      _list.Remove(fuelCardDriver);
 
       fuelCardDriver.Delete();
     }
@@ -84,14 +71,14 @@ namespace BBAuto.Domain.Lists
     public DataTable ToDataTable()
     {
       return createTable(
-        list.OrderBy(item => item.FuelCard.Number).OrderBy(item => item.FuelCard.IsLost).ToList()
+        _list.OrderBy(item => item.FuelCard.Number).OrderBy(item => item.FuelCard.IsLost).ToList()
       );
     }
 
     public DataTable ToDataTable(FuelCard fuelCard)
     {
       return createTable(
-        list.Where(item => item.FuelCard.ID == fuelCard.ID).OrderByDescending(item => item.DateBegin)
+        _list.Where(item => item.FuelCard.ID == fuelCard.ID).OrderByDescending(item => item.DateBegin)
       );
     }
 
@@ -130,13 +117,13 @@ namespace BBAuto.Domain.Lists
 
     internal List<FuelCardDriver> ToList(Driver driver)
     {
-      return list.Where(item => item.Driver == driver && item.DateEnd == null).OrderByDescending(item => item.DateBegin)
+      return _list.Where(item => item.Driver == driver && item.DateEnd == null).OrderByDescending(item => item.DateBegin)
         .ToList();
     }
 
     public DataTable ToDataTable(Driver driver)
     {
-      var myList = list.Where(item => item.Driver == driver).OrderByDescending(item => item.DateBegin).ToList();
+      var myList = _list.Where(item => item.Driver == driver).OrderByDescending(item => item.DateBegin).ToList();
 
       return createTable(myList);
     }

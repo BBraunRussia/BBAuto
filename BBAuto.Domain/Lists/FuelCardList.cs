@@ -7,31 +7,18 @@ using BBAuto.Domain.ForDriver;
 
 namespace BBAuto.Domain.Lists
 {
-  public class FuelCardList : MainList
+  public class FuelCardList : MainList<FuelCard>
   {
     private static FuelCardList _uniqueInstance;
-    private List<FuelCard> _list;
-
-    private FuelCardList()
-    {
-      _list = new List<FuelCard>();
-
-      loadFromSql();
-    }
-
+    
     public static FuelCardList getInstance()
     {
-      if (_uniqueInstance == null)
-        _uniqueInstance = new FuelCardList();
-
-      return _uniqueInstance;
+      return _uniqueInstance ?? (_uniqueInstance = new FuelCardList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("FuelCard");
-
-      _list.Clear();
+      DataTable dt = Provider.Select("FuelCard");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -39,15 +26,7 @@ namespace BBAuto.Domain.Lists
         Add(fuelCard);
       }
     }
-
-    internal void Add(FuelCard fuelCard)
-    {
-      if (_list.Exists(item => item.ID == fuelCard.ID))
-        return;
-
-      _list.Add(fuelCard);
-    }
-
+    
     public FuelCard getItem(int id)
     {
       return _list.FirstOrDefault(item => item.ID == id);

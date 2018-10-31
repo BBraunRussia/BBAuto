@@ -152,7 +152,7 @@ namespace BBAuto.FormsForCar.AddEdit
       _policy.DateBegin = dtpDateBegin.Value.Date;
       _policy.DateEnd = dtpDateEnd.Value.Date;
 
-      if (double.TryParse(tbPay.Text, out double pay))
+      if (double.TryParse(tbPay.Text.Replace(" ", ""), out double pay))
         _policy.Pay = pay;
 
       _policy.Comment = tbComment.Text;

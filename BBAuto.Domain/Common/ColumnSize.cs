@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,7 +57,7 @@ namespace BBAuto.Domain.Common
             _provider.Insert("ColumnSize", _idDriver, _idStatus, _arrayOfSize[0], _arrayOfSize[1], _arrayOfSize[2], _arrayOfSize[3], _arrayOfSize[4], _arrayOfSize[5], _arrayOfSize[6], _arrayOfSize[7],
                 _arrayOfSize[8], _arrayOfSize[9], _arrayOfSize[10], _arrayOfSize[11], _arrayOfSize[12], _arrayOfSize[13], _arrayOfSize[14], _arrayOfSize[15], _arrayOfSize[16]);
 
-            ColumnSizeList columnSizeList = ColumnSizeList.getInstance();
+            ColumnSizeList columnSizeList = ColumnSizeList.GetInstance();
             columnSizeList.Add(this);
         }
 

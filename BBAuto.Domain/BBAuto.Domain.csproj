@@ -186,7 +186,7 @@
     <Compile Include="Dictionary\StatusAfterDTPs.cs" />
     <Compile Include="Entities\DriverCar.cs" />
     <Compile Include="Lists\DiagCardList.cs" />
-    <Compile Include="Lists\DillerList.cs" />
+    <Compile Include="Lists\DilerList.cs" />
     <Compile Include="Lists\DriverCarList.cs" />
     <Compile Include="Lists\DriverList.cs" />
     <Compile Include="FileOpenTextBox.cs">
@@ -242,13 +242,13 @@
     <Compile Include="Senders\NotificationSender.cs" />
     <Compile Include="Senders\PolicyListSender.cs" />
     <Compile Include="ForCar\Violation.cs" />
-    <Compile Include="Static\User.cs" />
     <Compile Include="Senders\ViolationSender.cs" />
     <Compile Include="Service References\BBAutoWebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Static\User.cs" />
     <Compile Include="Tables\EngineType.cs" />
     <Compile Include="Tables\Fuel.cs" />
     <Compile Include="Tables\Mark.cs" />

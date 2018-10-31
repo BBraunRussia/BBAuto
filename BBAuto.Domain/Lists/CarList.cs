@@ -6,45 +6,34 @@ using BBAuto.Domain.Static;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Services.CarSale;
-using BBAuto.Domain.Services.Transponder;
 
 namespace BBAuto.Domain.Lists
 {
-  public class CarList : MainList
+  public class CarList : MainList<Car>
   {
     private static CarList _uniqueInstance;
-    private readonly List<Car> _list;
-
-    private CarList()
-    {
-      _list = new List<Car>();
-
-      loadFromSql();
-    }
-
+    
     public static CarList GetInstance()
     {
       return _uniqueInstance ?? (_uniqueInstance = new CarList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      _list.Clear();
-
-      var dt = _provider.Select("Car");
+      var dt = Provider.Select("Car");
 
       foreach (DataRow row in dt.Rows)
       {
-        _list.Add(new Car(row));
+        Add(new Car(row));
       }
     }
 
-    private DataTable ToDataTable()
+    public DataTable ToDataTable()
     {
       return createTable(_list);
     }
 
-    private DataTable ToDataTableActual()
+    public DataTable ToDataTableActual()
     {
       var cars = GetActualCars();
 
@@ -73,7 +62,7 @@ namespace BBAuto.Domain.Lists
       return cars;
     }
 
-    private DataTable ToDataTableBuy()
+    public DataTable ToDataTableBuy()
     {
       var cars = _list.Where(car => !car.IsGet);
 
@@ -95,10 +84,10 @@ namespace BBAuto.Domain.Lists
       dt.Columns.Add("№ ПТС");
       dt.Columns.Add("№ СТС");
       dt.Columns.Add("Год выпуска");
-      dt.Columns.Add("Пробег", System.Type.GetType("System.Int32"));
-      dt.Columns.Add("Дата последней записи о пробеге", Type.GetType("System.DateTime"));
+      dt.Columns.Add("Пробег", typeof(int));
+      dt.Columns.Add("Дата последней записи о пробеге", typeof(DateTime));
       dt.Columns.Add("Собственник");
-      dt.Columns.Add("Дата окончания гарантии", Type.GetType("System.DateTime"));
+      dt.Columns.Add("Дата окончания гарантии", typeof(DateTime));
       dt.Columns.Add("Статус");
 
       foreach (Car car in cars)
@@ -115,7 +104,7 @@ namespace BBAuto.Domain.Lists
     public Car getItem(string grz)
     {
       var cars = _list.Where(item =>
-        ((item.Grz.Replace(" ", "") != string.Empty) && (item.Grz.Replace(" ", "") == grz.Replace(" ", ""))));
+        ((item.Grz.Replace(" ", "") != string.Empty) && item.Grz.Replace(" ", "") == grz.Replace(" ", "")));
 
       if (cars.Any())
         return cars.First();
@@ -123,8 +112,8 @@ namespace BBAuto.Domain.Lists
       if (grz.Replace(" ", "").Length >= 6)
       {
         cars = _list.Where(item =>
-          ((item.Grz.Replace(" ", "") != string.Empty) &&
-           (item.Grz.Replace(" ", "").Substring(0, 6) == grz.Replace(" ", "").Substring(0, 6))));
+          item.Grz.Replace(" ", "") != string.Empty &&
+          item.Grz.Replace(" ", "").Substring(0, 6) == grz.Replace(" ", "").Substring(0, 6));
 
         if (cars.Count() == 1)
           return cars.First();
@@ -132,55 +121,8 @@ namespace BBAuto.Domain.Lists
 
       return null;
     }
-
-    public DataTable ToDataTable(Status status)
-    {
-      switch (status)
-      {
-        case Status.Buy:
-          return ToDataTableBuy();
-        case Status.Actual:
-          return ToDataTableActual();
-        case Status.Repair:
-          return RepairList.getInstance().ToDataTable();
-        case Status.Sale:
-        {
-          ICarSaleService carSaleService = new CarSaleService();
-          return carSaleService.ToDataTable();
-        }
-        case Status.Invoice:
-          return InvoiceList.getInstance().ToDataTable();
-        case Status.Policy:
-          return PolicyList.getInstance().ToDataTable();
-        case Status.DTP:
-          return DTPList.getInstance().ToDataTable();
-        case Status.Violation:
-          return ViolationList.getInstance().ToDataTable();
-        case Status.DiagCard:
-          return DiagCardList.getInstance().ToDataTable();
-        case Status.TempMove:
-          return TempMoveList.getInstance().ToDataTable();
-        case Status.ShipPart:
-          return ShipPartList.getInstance().ToDataTable();
-        case Status.Account:
-          return AccountList.getInstance().ToDataTable();
-        case Status.AccountViolation:
-          return ViolationList.getInstance().ToDataTableAccount();
-        case Status.FuelCard:
-          return FuelCardList.getInstance().ToDataTable();
-        case Status.Driver:
-          return DriverList.getInstance().ToDataTable();
-        case Status.Transponder:
-        {
-          ITransponderService transponderService = new TransponderService();
-          return transponderService.GetReportTransponderList();
-        }
-        default:
-          return ToDataTable();
-      }
-    }
-
-    internal int getNextBBNumber()
+    
+    internal int GetNextBbNumber()
     {
       if (_list.Count > 0)
       {

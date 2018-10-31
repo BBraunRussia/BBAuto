@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using BBAuto.Domain.Common;
@@ -6,29 +5,18 @@ using BBAuto.Domain.Abstract;
 
 namespace BBAuto.Domain.Lists
 {
-  public class TemplateList : MainList
+  public class TemplateList : MainList<Template>
   {
-    private static TemplateList uniqueInstance;
-
-    private List<Template> list;
-
-    private TemplateList()
-    {
-      list = new List<Template>();
-
-      loadFromSql();
-    }
+    private static TemplateList _uniqueInstance;
 
     public static TemplateList getInstance()
     {
-      return uniqueInstance ?? (uniqueInstance = new TemplateList());
+      return _uniqueInstance ?? (_uniqueInstance = new TemplateList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      list.Clear();
-
-      var dt = _provider.Select("Template");
+      var dt = Provider.Select("Template");
       
       foreach (DataRow row in dt.Rows)
       {
@@ -36,44 +24,36 @@ namespace BBAuto.Domain.Lists
         Add(template);
       }
     }
-
-    public void Add(Template template)
-    {
-      if (list.Exists(item => item.ID == template.ID))
-        return;
-
-      list.Add(template);
-    }
-
+    
     public void Delete(int idTemplate)
     {
       var template = getItem(idTemplate);
 
-      list.Remove(template);
+      _list.Remove(template);
 
       template.Delete();
     }
 
     public Template getItem(int id)
     {
-      return list.FirstOrDefault(t => t.ID == id);
+      return _list.FirstOrDefault(t => t.ID == id);
     }
 
     public Template getItem(string name)
     {
-      return list.FirstOrDefault(t => t.Name == name);
+      return _list.FirstOrDefault(t => t.Name == name);
     }
 
     public DataTable ToDataTable()
     {
-      loadFromSql();
+      LoadFromSql();
 
       var dt = new DataTable();
       dt.Columns.Add("id");
       dt.Columns.Add("Название");
       dt.Columns.Add("Файл");
 
-      list.ForEach(item => dt.Rows.Add(item.getRow()));
+      _list.ForEach(item => dt.Rows.Add(item.getRow()));
       
       return dt;
     }

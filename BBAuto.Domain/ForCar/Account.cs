@@ -184,7 +184,7 @@ namespace BBAuto.Domain.ForCar
     {
       if (IsNotSaved())
       {
-        AccountList accountList = AccountList.getInstance();
+        AccountList accountList = AccountList.GetInstance();
 
         if (accountList.Exists(Number))
           throw new Exception("Счёт с таким номером уже существует");

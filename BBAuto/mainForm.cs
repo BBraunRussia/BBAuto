@@ -10,6 +10,7 @@ using BBAuto.Domain.ForDriver;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Static;
 using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Services.CarSale;
 using BBAuto.Domain.Services.Transponder;
 using BBAuto.FormsForCar.AddEdit;
 
@@ -32,7 +33,7 @@ namespace BBAuto
 
     private readonly MyFilter _myFilter;
     private readonly MyStatusStrip _myStatusStrip;
-
+    
     public mainForm()
     {
       InitializeComponent();
@@ -58,7 +59,15 @@ namespace BBAuto
       _myFilter.clearComboList();
       _myFilter.clearFilterValue();
 
-      loadCars();
+      _dgvCar.Columns.Clear();
+
+      FillDataGridView();
+
+      _dgvMain.Format(_mainStatus.Get());
+
+      _myFilter.tryCreateComboBox();
+
+      SetColumnsWidth();
     }
 
     private void SetWindowHeaderText(Object sender, StatusEventArgs e)
@@ -86,24 +95,64 @@ namespace BBAuto
 
       _mainStatus.Set(Status.Actual);
     }
-
-    private void loadCars()
+    
+    private DataTable GetDataTable()
     {
-      loadCars(_carList.ToDataTable(_mainStatus.Get()));
+      switch (_mainStatus.Get())
+      {
+        case Status.Buy:
+          return _carList.ToDataTableBuy();
+        case Status.Actual:
+          return _carList.ToDataTableActual();
+        case Status.Repair:
+          return RepairList.getInstance().ToDataTable();
+        case Status.Sale:
+        {
+          ICarSaleService carSaleService = new CarSaleService();
+          return carSaleService.ToDataTable();
+        }
+        case Status.Invoice:
+          return InvoiceList.getInstance().ToDataTable();
+        case Status.Policy:
+          return PolicyList.getInstance().ToDataTable();
+        case Status.DTP:
+          return DTPList.getInstance().ToDataTable();
+        case Status.Violation:
+          return ViolationList.getInstance().ToDataTable();
+        case Status.DiagCard:
+          return DiagCardList.getInstance().ToDataTable();
+        case Status.TempMove:
+          return TempMoveList.getInstance().ToDataTable();
+        case Status.ShipPart:
+          return ShipPartList.getInstance().ToDataTable();
+        case Status.Account:
+          return AccountList.GetInstance().ToDataTable();
+        case Status.AccountViolation:
+          return ViolationList.getInstance().ToDataTableAccount();
+        case Status.FuelCard:
+          return FuelCardList.getInstance().ToDataTable();
+        case Status.Driver:
+          return DriverList.getInstance().ToDataTable();
+        case Status.Transponder:
+        {
+          ITransponderService transponderService = new TransponderService();
+          return transponderService.GetReportTransponderList();
+        }
+        default:
+          return _carList.ToDataTable();
+      }
     }
 
-    private void loadCars(object dataSource)
+    private void FillDataGridView(DataTable dt = null)
     {
-      _dgvCar.Columns.Clear();
-      _dgvCar.DataSource = dataSource;
-
-      formatDGV();
-
-      _myFilter.tryCreateComboBox();
-
-      SetColumnsWidth();
+      if (dt == null)
+        dt = GetDataTable();
+      
+      _dgvCar.DataSource = dt;
 
       _myStatusStrip.writeStatus();
+
+      _myFilter.ApplyFilter();
     }
 
     private void SetColumnsWidth()
@@ -204,10 +253,10 @@ namespace BBAuto
         WorkWithFiles.openFile(sts.File);
       else
       {
-        CarSaleForm carSaleForm = new CarSaleForm(car.ID);
+        var carSaleForm = new CarSaleForm(car.ID);
         if (carSaleForm.ShowDialog() == DialogResult.OK)
         {
-          loadCars();
+          FillDataGridView();
         }
       }
     }
@@ -226,7 +275,7 @@ namespace BBAuto
       {
         if (InvoiceDialog.Open(invoice))
         {
-          loadCars();
+          FillDataGridView();
         }
       }
     }
@@ -251,7 +300,7 @@ namespace BBAuto
         PolicyForm policyAE = new PolicyForm(policy);
         if (policyAE.ShowDialog() == DialogResult.OK)
         {
-          loadCars();
+          FillDataGridView();
         }
       }
     }
@@ -267,7 +316,7 @@ namespace BBAuto
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
       if (dtpAE.ShowDialog() == DialogResult.OK)
       {
-        loadCars();
+        FillDataGridView();
       }
     }
 
@@ -288,7 +337,7 @@ namespace BBAuto
         ViolationForm vAE = new ViolationForm(violation);
         if (vAE.ShowDialog() == DialogResult.OK)
         {
-          loadCars();
+          FillDataGridView();
         }
       }
     }
@@ -308,7 +357,7 @@ namespace BBAuto
         DiagCard_AddEdit diagCardAE = new DiagCard_AddEdit(diagCard);
         if (diagCardAE.ShowDialog() == DialogResult.OK)
         {
-          loadCars();
+          FillDataGridView();
         }
       }
     }
@@ -324,7 +373,7 @@ namespace BBAuto
       TempMove_AddEdit tempMoveAE = new TempMove_AddEdit(tempMove);
       if (tempMoveAE.ShowDialog() == DialogResult.OK)
       {
-        loadCars();
+        FillDataGridView();
       }
     }
 
@@ -339,7 +388,7 @@ namespace BBAuto
       ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
       if (shipPartAE.ShowDialog() == DialogResult.OK)
       {
-        loadCars();
+        FillDataGridView();
       }
     }
 
@@ -350,7 +399,7 @@ namespace BBAuto
         if (_dgvMain.GetID() == 0)
           return;
 
-        AccountList accountListList = AccountList.getInstance();
+        AccountList accountListList = AccountList.GetInstance();
         Account account = accountListList.getItem(_dgvMain.GetID());
 
         if ((_dgvCar.Columns[point.X].HeaderText == "Файл") && (!string.IsNullOrEmpty(account.File)))
@@ -364,7 +413,7 @@ namespace BBAuto
           else if ((User.GetRole() == RolesList.Boss) || (User.GetRole() == RolesList.Adminstrator))
           {
             account.Agree();
-            loadCars();
+            FillDataGridView();
           }
           else
             throw new AccessViolationException("Вы не имеете прав на выполнение этой операции");
@@ -374,7 +423,7 @@ namespace BBAuto
           Account_AddEdit accountAE = new Account_AddEdit(account);
           if (accountAE.ShowDialog() == DialogResult.OK)
           {
-            loadCars();
+            FillDataGridView();
           }
         }
       }
@@ -415,7 +464,7 @@ namespace BBAuto
           else if ((User.GetRole() == RolesList.Boss) || (User.GetRole() == RolesList.Adminstrator))
           {
             violation.Agree();
-            loadCars();
+            FillDataGridView();
           }
           else
             throw new AccessViolationException("Вы не имеете прав на выполнение этой операции");
@@ -427,7 +476,7 @@ namespace BBAuto
           ViolationForm violationAE = new ViolationForm(violation);
           if (violationAE.ShowDialog() == DialogResult.OK)
           {
-            loadCars();
+            FillDataGridView();
           }
         }
       }
@@ -452,7 +501,7 @@ namespace BBAuto
       PolicyList policyList = PolicyList.getInstance();
       DataTable dt = policyList.ToDataTable(account);
       btnBack.Visible = true;
-      loadCars(dt);
+      FillDataGridView(dt);
     }
 
     private void DoubleClickFuelCard()
@@ -466,7 +515,7 @@ namespace BBAuto
 
       FuelCard_AddEdit fuelCardAddEdit = new FuelCard_AddEdit(fuelCard);
       if (fuelCardAddEdit.ShowDialog() == DialogResult.OK)
-        loadCars();
+        FillDataGridView();
     }
 
     private void DoubleClickTransponder()
@@ -480,7 +529,7 @@ namespace BBAuto
 
       var transponderForm = new TransponderForm(transponder);
       if (transponderForm.ShowDialog() == DialogResult.OK)
-        loadCars();
+        FillDataGridView();
     }
 
     private void DoubleClickDriver()
@@ -492,7 +541,7 @@ namespace BBAuto
       Driver_AddEdit driverAddEdit = new Driver_AddEdit(driverList.getItem(_dgvMain.GetID()));
 
       if (driverAddEdit.ShowDialog() == DialogResult.OK)
-        loadCars();
+        FillDataGridView();
     }
 
     private void DoubleClickDefault(Point point)
@@ -537,7 +586,7 @@ namespace BBAuto
           Driver_AddEdit dAE = new Driver_AddEdit(driver);
           if (dAE.ShowDialog() == DialogResult.OK)
           {
-            loadCars();
+            FillDataGridView();
           }
         }
       }
@@ -562,7 +611,7 @@ namespace BBAuto
       var carForm = new CarForm(car);
       if (carForm.ShowDialog() == DialogResult.OK)
       {
-        loadCars();
+        FillDataGridView();
       }
     }
 
@@ -585,19 +634,14 @@ namespace BBAuto
     private void _dgvCar_Sorted(object sender, EventArgs e)
     {
       _myFilter.ApplyFilter();
-      formatDGV();
-    }
-
-    private void formatDGV()
-    {
       _dgvMain.Format(_mainStatus.Get());
     }
-
+    
     private void btnBack_Click(object sender, EventArgs e)
     {
       btnBack.Visible = false;
       _mainStatus.Set(Status.Account);
-      loadCars();
+      FillDataGridView();
       _dgvCar.CurrentCell = _dgvCar.Rows[_savedPosition.X].Cells[_savedPosition.Y];
     }
 
@@ -611,14 +655,14 @@ namespace BBAuto
     {
       Driver driver = User.GetDriver();
 
-      ColumnSizeList columnSizeList = ColumnSizeList.getInstance();
+      ColumnSizeList columnSizeList = ColumnSizeList.GetInstance();
       return columnSizeList.getItem(driver, _mainStatus.Get());
     }
 
     private void btnClearFilter_Click(object sender, EventArgs e)
     {
       _myFilter.clearFilterValue();
-      loadCars();
+      FillDataGridView();
     }
 
     private void btnApply_Click(object sender, EventArgs e)
@@ -648,6 +692,64 @@ namespace BBAuto
     private void _dgvCar_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
     {
       _dgvCar.CurrentCell = _dgvCar.Rows[e.RowIndex].Cells[e.ColumnIndex];
+    }
+
+    private void btnUpdateData_Click(object sender, EventArgs e)
+    {
+      ReLoadData();
+
+      FillDataGridView();
+    }
+
+    private void ReLoadData()
+    {
+      switch (_mainStatus.Get())
+      {
+        case Status.Buy:
+        case Status.Actual:
+          _carList.ReLoad();
+          break;
+        case Status.Repair:
+          RepairList.getInstance().ReLoad();
+          break;
+        case Status.Sale:
+          break;
+        case Status.Invoice:
+          InvoiceList.getInstance().ReLoad();
+          break;
+        case Status.Policy:
+          PolicyList.getInstance().ReLoad();
+          break;
+        case Status.DTP:
+          DTPList.getInstance().ReLoad();
+          break;
+        case Status.Violation:
+          ViolationList.getInstance().ReLoad();
+          break;
+        case Status.DiagCard:
+          DiagCardList.getInstance().ReLoad();
+          break;
+        case Status.TempMove:
+          TempMoveList.getInstance().ReLoad();
+          break;
+        case Status.ShipPart:
+          ShipPartList.getInstance().ReLoad();
+          break;
+        case Status.Account:
+          AccountList.GetInstance().ReLoad();
+          break;
+        case Status.AccountViolation:
+          ViolationList.getInstance().ReLoad();
+          break;
+        case Status.FuelCard:
+          FuelCardList.getInstance().ReLoad();
+          break;
+        case Status.Driver:
+          DriverList.getInstance().ReLoad();
+          break;
+        case Status.Transponder:
+          break;
+      }
     }
   }
 }

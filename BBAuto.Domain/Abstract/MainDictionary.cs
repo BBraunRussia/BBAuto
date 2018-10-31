@@ -10,13 +10,9 @@ namespace BBAuto.Domain.Abstract
 
     internal abstract object[] getRow();
 
-    public virtual void Save()
-    {
-    }
+    public virtual void Save() { }
 
-    internal virtual void Delete()
-    {
-    }
+    internal virtual void Delete() { }
 
     protected MainDictionary()
     {

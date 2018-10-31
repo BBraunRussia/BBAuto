@@ -7,29 +7,18 @@ using BBAuto.Domain.Static;
 
 namespace BBAuto.Domain.Lists
 {
-  public class UserAccessList : MainList
+  public class UserAccessList : MainList<UserAccess>
   {
-    private static UserAccessList uniqueInstance;
-    private List<UserAccess> list;
-
-    private UserAccessList()
-    {
-      list = new List<UserAccess>();
-
-      loadFromSql();
-    }
+    private static UserAccessList _uniqueInstance;
 
     public static UserAccessList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new UserAccessList();
-
-      return uniqueInstance;
+      return _uniqueInstance ?? (_uniqueInstance = new UserAccessList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("UserAccess");
+      DataTable dt = Provider.Select("UserAccess");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -38,26 +27,18 @@ namespace BBAuto.Domain.Lists
       }
     }
 
-    public void Add(UserAccess userAccess)
-    {
-      if (list.Exists(item => item == userAccess))
-        return;
-
-      list.Add(userAccess);
-    }
-
     public void Delete(int idDriver)
     {
       UserAccess userAccess = getItem(idDriver);
 
-      list.Remove(userAccess);
+      _list.Remove(userAccess);
 
       userAccess.Delete();
     }
 
     public UserAccess getItem(int id)
     {
-      return list.FirstOrDefault(item => item.Driver.ID == id);
+      return _list.FirstOrDefault(item => item.Driver.ID == id);
     }
 
     public UserAccess getItem(RolesList role)
@@ -71,9 +52,9 @@ namespace BBAuto.Domain.Lists
     {
       var dt = createTable();
 
-      var drivers = list.OrderBy(item => item.Driver.OwnerID).GroupBy(item => item.Driver.Login).Select(group => group.First());
+      var drivers = _list.OrderBy(item => item.Driver.OwnerID).GroupBy(item => item.Driver.Login).Select(group => group.First());
 
-      var userAccesses = list.Where(driver => drivers.Contains(driver)).OrderBy(item => item.Driver.FullName).ToList();
+      var userAccesses = _list.Where(driver => drivers.Contains(driver)).OrderBy(item => item.Driver.FullName).ToList();
       
       userAccesses.ForEach(userAccess => dt.Rows.Add(userAccess.getRow()));
       
@@ -95,7 +76,7 @@ namespace BBAuto.Domain.Lists
     {
       int idRole = (int) role;
 
-      List<UserAccess> userAccesses = list.Where(item => item.RoleID == idRole).ToList();
+      List<UserAccess> userAccesses = _list.Where(item => item.RoleID == idRole).ToList();
 
       return (userAccesses.Count() > 0) ? userAccesses : null;
     }

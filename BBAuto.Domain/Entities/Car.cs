@@ -2,7 +2,6 @@ using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using BBAuto.Domain.Tables;
 using System;
 using System.Data;
@@ -143,7 +142,7 @@ namespace BBAuto.Domain.Entities
       ID = 0;
 
       CarList carList = CarList.GetInstance();
-      _number = carList.getNextBBNumber();
+      _number = carList.GetNextBbNumber();
       dateOrder = DateTime.Today;
       dateGet = DateTime.Today;
       _year = DateTime.Today.Year;

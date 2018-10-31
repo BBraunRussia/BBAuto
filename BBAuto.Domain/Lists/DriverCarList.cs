@@ -4,32 +4,23 @@ using System.Linq;
 using System.Data;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Entities;
-using BBAuto.Domain.Static;
 
 namespace BBAuto.Domain.Lists
 {
-  public class DriverCarList : MainList
+  public class DriverCarList : MainList<DriverCar>
   {
     private static DriverCarList _uniqueInstance;
-    private readonly List<DriverCar> _list;
-
-    private DriverCarList()
-    {
-      _list = new List<DriverCar>();
-
-      loadFromSql();
-    }
-
+    
     public static DriverCarList GetInstance()
     {
       return _uniqueInstance ?? (_uniqueInstance = new DriverCarList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
       _list.Clear();
 
-      var dt = _provider.Select("DriverCar");
+      var dt = Provider.Select("DriverCar");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -37,12 +28,12 @@ namespace BBAuto.Domain.Lists
       }
     }
 
-    private void Add(DriverCar drCar)
+    public override void Add(DriverCar drCar)
     {
       if (drCar.Driver == null || drCar.Car == null)
         return;
 
-      if (_list.Exists(item => item == drCar))
+      if (_list.Contains(drCar))
         return;
 
       _list.Add(drCar);

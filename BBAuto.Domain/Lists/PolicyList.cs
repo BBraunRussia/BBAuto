@@ -10,28 +10,18 @@ using BBAuto.Domain.Static;
 
 namespace BBAuto.Domain.Lists
 {
-  public class PolicyList : MainList
+  public class PolicyList : MainList<Policy>
   {
-    private readonly List<Policy> _list;
     private static PolicyList _uniqueInstance;
-
-    private PolicyList()
-    {
-      _list = new List<Policy>();
-
-      loadFromSql();
-    }
 
     public static PolicyList getInstance()
     {
       return _uniqueInstance ?? (_uniqueInstance = new PolicyList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      var dt = _provider.Select("Policy");
-
-      clearList();
+      var dt = Provider.Select("Policy");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -45,12 +35,6 @@ namespace BBAuto.Domain.Lists
         return;
 
       _list.Add(policy);
-    }
-
-    private void clearList()
-    {
-      if (_list.Count > 0)
-        _list.Clear();
     }
 
     public Policy getItem(int id)
@@ -68,7 +52,7 @@ namespace BBAuto.Domain.Lists
       return policyList.Any() ? policyList.First() : car.CreatePolicy();
     }
 
-    internal DataTable ToDataTable()
+    public DataTable ToDataTable()
     {
       var policies = _list.Where(item => !item.IsCarSaleWithDate).OrderByDescending(item => item.DateEnd);
 

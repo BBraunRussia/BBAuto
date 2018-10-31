@@ -8,31 +8,18 @@ using System.Linq;
 
 namespace BBAuto.Domain.Lists
 {
-  public class DTPList : MainList
+  public class DTPList : MainList<DTP>
   {
     private static DTPList uniqueInstance;
-    private List<DTP> list;
-
-    private DTPList()
-    {
-      list = new List<DTP>();
-
-      loadFromSql();
-    }
-
+    
     public static DTPList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new DTPList();
-
-      return uniqueInstance;
+      return uniqueInstance ?? (uniqueInstance = new DTPList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      list.Clear();
-
-      DataTable dt = _provider.Select("DTP");
+      DataTable dt = Provider.Select("DTP");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -40,23 +27,15 @@ namespace BBAuto.Domain.Lists
         Add(dtp);
       }
     }
-
-    public void Add(DTP dtp)
-    {
-      if (list.Exists(item => item == dtp))
-        return;
-
-      list.Add(dtp);
-    }
-
+    
     public DTP getItem(int id)
     {
-      return list.FirstOrDefault(dtp => dtp.ID == id);
+      return _list.FirstOrDefault(dtp => dtp.ID == id);
     }
 
     public DataTable ToDataTable()
     {
-      var dtps = list.OrderByDescending(item => item.Date).ToList();
+      var dtps = _list.OrderByDescending(item => item.Date).ToList();
 
       return CreateTable(dtps);
     }
@@ -66,7 +45,7 @@ namespace BBAuto.Domain.Lists
       if (driver.ID == 0)
         return null;
 
-      var dtps = list.Where(item => item.IsEqualDriverId(driver))
+      var dtps = _list.Where(item => item.IsEqualDriverId(driver))
         .OrderByDescending(item => item.Date).ToList();
 
       return CreateTable(dtps);
@@ -88,7 +67,7 @@ namespace BBAuto.Domain.Lists
 
     private List<DTP> ToList(Car car)
     {
-      return list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date).ToList();
+      return _list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date).ToList();
     }
 
     private DataTable CreateTable(List<DTP> dtpList)
@@ -122,21 +101,21 @@ namespace BBAuto.Domain.Lists
     {
       DTP dtp = getItem(idDTP);
 
-      list.Remove(dtp);
+      _list.Remove(dtp);
 
       dtp.Delete();
     }
 
     public DTP GetLastByDriver(Driver driver)
     {
-      var dtps = list.Where(item => item.IsEqualDriverId(driver)).OrderByDescending(item => item.Date).ToList();
+      var dtps = _list.Where(item => item.IsEqualDriverId(driver)).OrderByDescending(item => item.Date).ToList();
 
       return dtps.Any() ? dtps.First() : null;
     }
 
     public int GetMaxNumber()
     {
-      return list.OrderByDescending(item => item.Number).First().Number;
+      return _list.OrderByDescending(item => item.Number).First().Number;
     }
   }
 }

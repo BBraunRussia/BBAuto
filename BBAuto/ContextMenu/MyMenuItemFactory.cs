@@ -195,6 +195,8 @@ namespace BBAuto.ContextMenu
           return ShowContractOfSale();
         case ContextMenuItem.ShowTransferCarAct:
           return ShowTransferCarAct();
+        case ContextMenuItem.PrintTransferCarAct:
+          return PrintTransferCarAct();
         case ContextMenuItem.SelectRecipient:
           return ShowSelectRecipient();
         case ContextMenuItem.SelectDocumentsForSend:
@@ -1351,6 +1353,21 @@ namespace BBAuto.ContextMenu
         var doc = wordDocumentService.CreateTransferCarAct(car);
 
         doc?.Show();
+      };
+      return item;
+    }
+
+    private ToolStripMenuItem PrintTransferCarAct()
+    {
+      var item = CreateItem("Печать Акта приёма-передачи ТС");
+      item.Click += delegate
+      {
+        var car = GetCar(_dgvMain.CurrentCell);
+
+        IWordDocumentService wordDocumentService = new WordDocumentService();
+        var doc = wordDocumentService.CreateTransferCarAct(car);
+
+        doc?.Print();
       };
       return item;
     }
