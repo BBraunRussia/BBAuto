@@ -661,8 +661,17 @@ namespace BBAuto
 
     private void btnClearFilter_Click(object sender, EventArgs e)
     {
+      _myFilter.clearComboList();
       _myFilter.clearFilterValue();
+      _dgvCar.Columns.Clear();
+
       FillDataGridView();
+
+      _dgvMain.Format(_mainStatus.Get());
+
+      _myFilter.tryCreateComboBox();
+
+      SetColumnsWidth();
     }
 
     private void btnApply_Click(object sender, EventArgs e)
@@ -699,6 +708,8 @@ namespace BBAuto
       ReLoadData();
 
       FillDataGridView();
+
+      _dgvMain.Format(_mainStatus.Get());
     }
 
     private void ReLoadData()

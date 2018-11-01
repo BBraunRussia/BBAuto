@@ -4,7 +4,7 @@ namespace BBAuto.Domain.Common
 {
   public class MileageReportExcel
   {
-    private MileageReportList _mileageReportList;
+    private readonly MileageReportList _mileageReportList;
 
     public MileageReportExcel(MileageReportList mileageReportList)
     {

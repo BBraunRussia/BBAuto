@@ -15,9 +15,9 @@ namespace BBAuto.Domain.Common
     };
 
     private DateTime _date;
-    private MileageReportList _mileageReportList;
+    private readonly MileageReportList _mileageReportList;
 
-    private string _folder;
+    private readonly string _folder;
 
     public MileageFill(string folder, DateTime date)
     {
