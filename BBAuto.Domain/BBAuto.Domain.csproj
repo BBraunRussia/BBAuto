@@ -69,8 +69,6 @@
     <Compile Include="Import\EmployeesFrom1C.cs" />
     <Compile Include="Common\MileAgeFill.cs" />
     <Compile Include="Common\MileageReport.cs" />
-    <Compile Include="Common\MileageReportExcel.cs" />
-    <Compile Include="Common\MileageReportList.cs" />
     <Compile Include="Common\MyBuffer.cs" />
     <Compile Include="Common\ColumnSize.cs" />
     <Compile Include="Common\MyPrinter.cs" />

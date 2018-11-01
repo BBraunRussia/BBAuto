@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
@@ -15,13 +16,13 @@ namespace BBAuto.Domain.Common
     };
 
     private DateTime _date;
-    private readonly MileageReportList _mileageReportList;
+    private readonly IList<MileageReport> _mileageReportList;
 
     private readonly string _folder;
 
     public MileageFill(string folder, DateTime date)
     {
-      _mileageReportList = new MileageReportList();
+      _mileageReportList = new List<MileageReport>();
 
       _folder = folder;
       _date = date;
@@ -39,75 +40,83 @@ namespace BBAuto.Domain.Common
 
     private void ReadFile(string filename)
     {
+      var mileageReport = new MileageReport { Filename = filename };
+
       try
       {
-        using (ExcelDoc excelDoc = new ExcelDoc(filename))
+        using (var excelDoc = new ExcelDoc(filename))
         {
           try
           {
             excelDoc.SetList("Расходы по а-м");
 
-            string grz = (excelDoc.getValue("B4") != null) ? excelDoc.getValue("B4").ToString() : string.Empty;
+            var grz = excelDoc.getValue("B4") != null ? excelDoc.getValue("B4").ToString() : string.Empty;
+            mileageReport.Grz = grz;
 
-            Car car = GetCar(grz);
+            var car = GetCar(grz);
+            mileageReport.Car = car;
 
+            var driverFio = excelDoc.getValue("B5") != null ? excelDoc.getValue("B5").ToString() : string.Empty;
+            mileageReport.Fio = driverFio;
+            
             if (car == null)
             {
-              string driverFIO = (excelDoc.getValue("B5") != null) ? excelDoc.getValue("B5").ToString() : string.Empty;
-
-              DriverList driverList = DriverList.getInstance();
-              Driver driver = driverList.getItemByFIO(driverFIO);
+              var driver = DriverList.getInstance().getItemByFIO(driverFio);
 
               if (driver != null)
               {
-                DriverCarList driverCarList = DriverCarList.GetInstance();
-                car = driverCarList.GetCar(driver);
+                car = DriverCarList.GetInstance().GetCar(driver);
               }
 
               if (car == null)
-                _mileageReportList.Add(new MileageReport(null,
-                  string.Concat("Не найден автомобиль: ", grz, " сотрудник: ", driverFIO, ". Файл: ", filename)));
+              {
+                mileageReport.Message = "Не найден автомобиль";
+                _mileageReportList.Add(mileageReport);
+              }
             }
-
+            
             if (car != null)
             {
-              string value = (excelDoc.getValue("C8") != null) ? excelDoc.getValue("C8").ToString() : string.Empty;
+              var value = excelDoc.getValue("C8") != null ? excelDoc.getValue("C8").ToString() : string.Empty;
 
-              SetMileage(car, value);
+              mileageReport.Car = car;
+              mileageReport.Mileage = value;
+              SetMileage(mileageReport);
+              _mileageReportList.Add(mileageReport);
             }
           }
 
           catch (IndexOutOfRangeException ex)
           {
-            _mileageReportList.Add(new MileageReport(null, $"Ошибка при чтении файла: {filename} Ошибка: {ex.Message}"));
+            mileageReport.Message = $"Ошибка при чтении файла: {ex.Message}";
+            _mileageReportList.Add(mileageReport);
           }
           catch (OverflowException)
           {
-            _mileageReportList.Add(new MileageReport(null,
-              string.Concat("Указан слишком большой пробег в файле: ", filename)));
+            mileageReport.Message = "Указан слишком большой пробег в файле";
+            _mileageReportList.Add(mileageReport);
           }
         }
       }
       catch(Exception ex)
       {
-        _mileageReportList.Add(new MileageReport(null, $"Ошибка при открытии файла: {filename} Ошибка: {ex.Message}"));
+        mileageReport.Message = $"Ошибка при открытии файла: {ex.Message}";
+        _mileageReportList.Add(mileageReport);
       }
     }
 
     private Car GetCar(string grz)
     {
-      if (grz == string.Empty)
-        return null;
-
-      CarList carList = CarList.GetInstance();
-      return carList.getItem(FormatGRZ(grz));
+      return string.IsNullOrEmpty(grz)
+        ? null
+        : CarList.GetInstance().getItem(FormatGrz(grz));
     }
 
-    private string FormatGRZ(string value)
+    private string FormatGrz(string value)
     {
       value = value.ToUpper();
 
-      for (int i = 0; i < 14; i++)
+      for (var i = 0; i < 14; i++)
       {
         value = value.Replace(_literal[i, 0], _literal[i, 1]);
       }
@@ -115,26 +124,26 @@ namespace BBAuto.Domain.Common
       return value;
     }
 
-    private void SetMileage(Car car, string value)
+    private void SetMileage(MileageReport mileageReport)
     {
-      if (!int.TryParse(value, out int count))
+      if (!int.TryParse(mileageReport.Mileage, out int count))
         return;
 
-      var lastMileage = MileageList.getInstance().getItemByCarId(car.ID);
-      var loadMonthMileage = MileageList.getInstance().getItem(car.ID, _date) ?? new Mileage(car.ID, new DateTime(_date.Year, _date.Month, DateTime.DaysInMonth(_date.Year, _date.Month)));
+      var lastMileage = MileageList.getInstance().getItemByCarId(mileageReport.Car.ID);
+      var loadMonthMileage = MileageList.getInstance().getItem(mileageReport.Car.ID, _date) ?? new Mileage(mileageReport.Car.ID, new DateTime(_date.Year, _date.Month, DateTime.DaysInMonth(_date.Year, _date.Month)));
 
       if ((lastMileage?.Count ?? 0) > count)
       {
-        _mileageReportList.Add(new MileageReport(car, "Новое значение пробега меньше, чем уже внесённый в систему."));
+        mileageReport.Message = "Новое значение пробега меньше, чем уже внесённый в систему";
         return;
       }
 
-      loadMonthMileage.SetCount(value);
+      loadMonthMileage.SetCount(mileageReport.Mileage);
       loadMonthMileage.Save();
-      _mileageReportList.Add(new MileageReport(car, "Пробег загружен"));
+      mileageReport.Message = "Пробег загружен";
     }
 
-    public MileageReportList GetMileageReportList()
+    public IList<MileageReport> GetMileageReportList()
     {
       return _mileageReportList;
     }

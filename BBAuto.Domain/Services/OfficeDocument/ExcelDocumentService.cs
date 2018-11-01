@@ -576,6 +576,36 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       return excelDoc;
     }
+    
+    public IDocument CreateReportLoadMileage(IList<MileageReport> mileageReportList)
+    {
+      IExcelDoc excelDoc = new ExcelDoc();
+
+      excelDoc.setValue(1, 1, "ФИО");
+      excelDoc.setValue(1, 2, "Марка и модель автомобиля");
+      excelDoc.setValue(1, 3, "Гос. номер");
+      excelDoc.setValue(1, 4, "Пробег");
+      excelDoc.setValue(1, 5, "Имя файла");
+      excelDoc.setValue(1, 6, "Описание проблемы");
+      
+      var i = 2;
+      foreach (var mileageReport in mileageReportList)
+      {
+        excelDoc.setValue(i, 1, mileageReport.Fio);
+
+        var mark = mileageReport.Car?.Mark?.Name ?? "не определено";
+        var model = mileageReport.Car?.info?.Model ?? "не определено";
+        excelDoc.setValue(i, 2, mark + model);
+
+        excelDoc.setValue(i, 3, mileageReport.Grz);
+        excelDoc.setValue(i, 4, mileageReport.Mileage);
+        excelDoc.setValue(i, 5, mileageReport.Filename);
+        excelDoc.setValue(i, 6, mileageReport.Message);
+        
+        i++;
+      }
+      return excelDoc;
+    }
 
     private void WriteHeaderReportMileage(IExcelDoc excelDoc, DateTime dateBegin, DateTime dateEnd)
     {
