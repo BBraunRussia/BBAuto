@@ -222,27 +222,20 @@ namespace BBAuto.Domain.Entities
 
     public override void Save()
     {
-      int.TryParse(
-        _provider.Insert("Car", ID, _number, Grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising,
-          _lisingDate, _invertoryNumber), out int id);
-      ID = id;
+      if (int.TryParse(_provider.Insert("Car", ID, _number, Grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising, _lisingDate, _invertoryNumber), out int id))
+        ID = id;
 
-      saveCarBuy();
+      SaveCarBuy();
 
       CarList.GetInstance().ReLoad();
     }
 
-    private void saveCarBuy()
+    private void SaveCarBuy()
     {
       _provider.Insert("CarBuy", ID, _idOwner, _idRegionBuy, RegionUsingId, driverID, dateOrder, _isGet, dateGet, cost,
         dop, events, idDiller);
     }
-
-    public DTP createDTP()
-    {
-      return new DTP(this);
-    }
-
+    
     public Policy CreatePolicy()
     {
       return new Policy(this);
@@ -300,16 +293,6 @@ namespace BBAuto.Domain.Entities
       return new Repair(this);
     }
 
-    public PTS createPTS()
-    {
-      return new PTS(this);
-    }
-
-    public STS createSTS()
-    {
-      return new STS(this);
-    }
-
     public TempMove createTempMove()
     {
       return new TempMove(this);
@@ -321,10 +304,10 @@ namespace BBAuto.Domain.Entities
       Mileage mileage = mileageList.getItemByCarId(ID);
       
       PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(this);
+      PTS pts = ptsList.getItem(ID);
 
       STSList stsList = STSList.getInstance();
-      STS sts = stsList.getItem(this);
+      STS sts = stsList.getItem(ID);
 
       int mileageInt = 0;
       DateTime mileageDate = DateTime.Today;
@@ -341,16 +324,7 @@ namespace BBAuto.Domain.Entities
         mileageDate, info.Owner, info.Guarantee, GetStatus()
       };
     }
-
-    public CarDoc createCarDoc(string file)
-    {
-      CarDoc carDoc = new CarDoc(this);
-      carDoc.File = file;
-      carDoc.Name = System.IO.Path.GetFileNameWithoutExtension(file);
-
-      return carDoc;
-    }
-
+    
     public override string ToString()
     {
       return (ID == 0) ? "нет данных" : string.Concat(Mark.Name, " ", info.Model, " ", Grz);

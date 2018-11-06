@@ -8,8 +8,9 @@ namespace BBAuto
   {
     private static MainStatus _uniqueInstance;
     private Status _status;
-
+    
     public event EventHandler<StatusEventArgs> StatusChanged;
+    public event EventHandler<EventArgs> DataSourceChanged;
 
     private MainStatus()
     {
@@ -17,10 +18,12 @@ namespace BBAuto
 
     protected virtual void OnStatusChanged(StatusEventArgs e)
     {
-      EventHandler<StatusEventArgs> temp = StatusChanged;
+      StatusChanged?.Invoke(this, e);
+    }
 
-      if (temp != null)
-        temp(this, e);
+    protected virtual void OnDataSourceChanged(EventArgs e)
+    {
+      DataSourceChanged?.Invoke(this, e);
     }
 
     public static MainStatus getInstance()
@@ -45,16 +48,14 @@ namespace BBAuto
 
       _status = status;
 
-      StatusEventArgs e = new StatusEventArgs(status);
-
-      OnStatusChanged(e);
+      OnStatusChanged(new StatusEventArgs(status));
     }
 
-    public bool IsSale()
+    public void Reload()
     {
-      return _status == Status.Sale;
+      OnDataSourceChanged(new EventArgs());
     }
-
+    
     public override string ToString()
     {
       var statuses = Statuses.getInstance();

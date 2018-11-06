@@ -1,13 +1,8 @@
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace BBAuto.Domain.ForCar
 {
@@ -15,30 +10,18 @@ namespace BBAuto.Domain.ForCar
   {
     private string _number;
 
-    public string Number
+    internal PTS(int carId)
     {
-      get { return _number; }
-      set { _number = value.ToUpper(); }
-    }
+      CarId = carId;
 
-    public string GiveOrg { get; set; }
-    public DateTime Date { get; set; }
-    public string File { get; set; }
-
-    public Car Car { get; private set; }
-
-    internal PTS(Car car)
-    {
-      Car = car;
       Date = DateTime.Today;
       Number = string.Empty;
     }
 
     public PTS(DataRow row)
     {
-      int idCar;
-      int.TryParse(row.ItemArray[0].ToString(), out idCar);
-      Car = CarList.GetInstance().getItem(idCar);
+      if (int.TryParse(row.ItemArray[0].ToString(), out int carId))
+        CarId = carId;
 
       Number = row.ItemArray[1].ToString();
       Date = Convert.ToDateTime(row.ItemArray[2]);
@@ -47,14 +30,25 @@ namespace BBAuto.Domain.ForCar
       _fileBegin = File;
     }
 
+    public string Number
+    {
+      get => _number;
+      set => _number = value.ToUpper();
+    }
+
+    public int CarId { get; set; }
+    public string GiveOrg { get; set; }
+    public DateTime Date { get; set; }
+    public string File { get; set; }
+    
     public override void Save()
     {
       DeleteFile(File);
 
       if (_fileBegin != File)
-        File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "", "PTS");
+        File = WorkWithFiles.fileCopyByID(File, "cars", CarId, "", "PTS");
 
-      _provider.Insert("PTS", Car.ID, Number, Date, GiveOrg, File);
+      _provider.Insert("PTS", CarId, Number, Date, GiveOrg, File);
 
       PTSList ptsList = PTSList.getInstance();
       ptsList.Add(this);
@@ -64,7 +58,7 @@ namespace BBAuto.Domain.ForCar
     {
       DeleteFile(File);
 
-      _provider.Delete("PTS", Car.ID);
+      _provider.Delete("PTS", CarId);
     }
 
     internal override object[] getRow()

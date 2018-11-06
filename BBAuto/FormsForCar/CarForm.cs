@@ -55,7 +55,7 @@ namespace BBAuto
 
     private void Car_AddEdit_Load(object sender, EventArgs e)
     {
-      loadData();
+      LoadData();
 
       SetWindowHeader();
 
@@ -77,7 +77,7 @@ namespace BBAuto
       }
     }
 
-    private void loadData()
+    private void LoadData()
     {
       _load = false;
       loadOneStringDictionary(cbMark, "Mark");
@@ -99,7 +99,7 @@ namespace BBAuto
 
       FillFields();
 
-      loadCarDoc();
+      LoadCarDoc();
     }
 
     private Region GetRegion()
@@ -228,27 +228,25 @@ namespace BBAuto
         lbRegion.Text = driver.Region.Name;
       }
 
-      var ptsList = PTSList.getInstance();
-      _pts = ptsList.getItem(_car);
+      _pts = PTSList.getInstance().getItem(_car.ID);
       mtbNumberPTS.Text = _pts.Number;
       dtpDatePTS.Value = _pts.Date;
       tbGiveOrgPTS.Text = _pts.GiveOrg;
-      TextBox tbFilePTS = ucFilePTS.Controls["tbFile"] as TextBox;
-      tbFilePTS.Text = _pts.File;
+      var tbFilePts = ucFilePTS.Controls["tbFile"] as TextBox;
+      tbFilePts.Text = _pts.File;
 
-      var stsList = STSList.getInstance();
-      _sts = stsList.getItem(_car);
+      _sts = STSList.getInstance().getItem(_car.ID);
       mtbNumberSTS.Text = _sts.Number;
       dtpDateSTS.Value = _sts.Date;
       tbGiveOrgSTS.Text = _sts.GiveOrg;
-      TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
-      tbFileSTS.Text = _sts.File;
+      var tbFileSts = ucFileSTS.Controls["tbFile"] as TextBox;
+      tbFileSts.Text = _sts.File;
 
       var mileage = _mileageList.getItemByCarId(_car.ID);
       if (mileage != null)
         lbMileage.Text = mileage.ToString();
 
-      ChangeDiler(_car.idDiller);
+      ChangeDealer(_car.idDiller);
 
       if (_car.Lising == string.Empty)
       {
@@ -269,15 +267,15 @@ namespace BBAuto
 
     private void cbDiller_SelectedIndexChanged(object sender, EventArgs e)
     {
-      if ((_load) && (cbDealer.SelectedValue != null))
-        ChangeDiler(Convert.ToInt32(cbDealer.SelectedValue));
+      if (_load && cbDealer.SelectedValue != null)
+        ChangeDealer(Convert.ToInt32(cbDealer.SelectedValue));
     }
 
-    private void ChangeDiler(int idDiler)
+    private void ChangeDealer(int dealerId)
     {
-      var diller = DilerList.getInstance().getItem(idDiler);
+      var dealer = DilerList.getInstance().getItem(dealerId);
 
-      tbDealerContacts.Text = diller?.Text;
+      tbDealerContacts.Text = dealer?.Text;
     }
 
     private void model_SelectedIndexChanged(object sender, EventArgs e)
@@ -291,7 +289,7 @@ namespace BBAuto
       {
         if (CopyFields())
         {
-          _car.Save();
+          SaveCar();
           DialogResult = DialogResult.OK;
         }
       }
@@ -308,8 +306,7 @@ namespace BBAuto
         return false;
       }
 
-      int idMark;
-      int.TryParse(cbMark.SelectedValue.ToString(), out idMark);
+      int.TryParse(cbMark.SelectedValue.ToString(), out int idMark);
       _car.Mark = MarkList.getInstance().getItem(idMark);
       _car.ModelID = cbModel.SelectedValue.ToString();
       _car.GradeID = cbGrade.SelectedValue.ToString();
@@ -335,27 +332,46 @@ namespace BBAuto
       _car.events = tbEvents.Text;
       _car.idDiller = Convert.ToInt32(cbDealer.SelectedValue);
 
+      _car.Lising = chbLising.Checked ? mtbLising.Text : string.Empty;
+
+      _car.InvertoryNumber = tbInvertoryNumber.Text;
+
+      return true;
+    }
+
+    private void SavePts()
+    {
+      if (_pts.CarId == 0)
+        _pts.CarId = _car.ID;
+
       _pts.Number = mtbNumberPTS.Text;
       _pts.Date = Convert.ToDateTime(dtpDatePTS.Text);
       _pts.GiveOrg = tbGiveOrgPTS.Text;
 
-      TextBox tbFilePTS = ucFilePTS.Controls["tbFile"] as TextBox;
-      _pts.File = tbFilePTS.Text;
+      var tbFilePts = ucFilePTS.Controls["tbFile"] as TextBox;
+      _pts.File = tbFilePts.Text;
       _pts.Save();
+    }
+
+    private void SaveSts()
+    {
+      if (_sts.CarId == 0)
+        _sts.CarId = _car.ID;
 
       _sts.Number = mtbNumberSTS.Text;
       _sts.Date = Convert.ToDateTime(dtpDateSTS.Text);
       _sts.GiveOrg = tbGiveOrgSTS.Text;
 
-      TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
-      _sts.File = tbFileSTS.Text;
+      var tbFileSts = ucFileSTS.Controls["tbFile"] as TextBox;
+      _sts.File = tbFileSts.Text;
       _sts.Save();
+    }
 
-      _car.Lising = (chbLising.Checked) ? mtbLising.Text : string.Empty;
-
-      _car.InvertoryNumber = tbInvertoryNumber.Text;
-
-      return true;
+    private void SaveCar()
+    {
+      _car.Save();
+      SavePts();
+      SaveSts();
     }
 
     private void LoadInvoice()
@@ -395,15 +411,6 @@ namespace BBAuto
       }
     }
 
-    private string getFilePath()
-    {
-      OpenFileDialog ofd = new OpenFileDialog();
-      ofd.Multiselect = false;
-      ofd.ShowDialog();
-
-      return ofd.FileName;
-    }
-
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
       LoadPage();
@@ -414,31 +421,31 @@ namespace BBAuto
       if (tabControl1.SelectedTab == tabInvoice)
         LoadInvoice();
       else if (tabControl1.SelectedTab == tabPolicy)
-        loadPolicy();
+        LoadPolicy();
       else if (tabControl1.SelectedTab == tabDTP)
-        loadDTP();
+        LoadDtp();
       else if (tabControl1.SelectedTab == tabViolation)
         loadViolation();
       else if (tabControl1.SelectedTab == tabDiagCard)
-        loadDiagCard();
+        LoadDiagCard();
       else if (tabControl1.SelectedTab == tabMileage)
-        loadMileage();
+        LoadMileage();
       else if (tabControl1.SelectedTab == tabRepair)
-        loadRepair();
+        LoadRepair();
       else if (tabControl1.SelectedTab == tabShipParts)
         loadShipPart();
       else if (tabControl1.SelectedTab == tabDrivers)
         LoadDrivers();
     }
 
-    private void loadPolicy()
+    private void LoadPolicy()
     {
       _dgvPolicy.DataSource = _policyList.ToDataTable(_car);
 
-      formatDGVPolicy();
+      FormatDgvPolicy();
     }
 
-    private void formatDGVPolicy()
+    private void FormatDgvPolicy()
     {
       DGVFormat dgvFormated = new DGVFormat(_dgvPolicy);
       dgvFormated.Format(Status.Policy);
@@ -447,26 +454,26 @@ namespace BBAuto
       dgvFormated.HideColumn(3);
     }
 
-    private void loadDTP()
+    private void LoadDtp()
     {
       _dgvDTP.DataSource = _dtpList.ToDataTable(_car);
-      FormatDgvDTP();
+      FormatDgvDtp();
     }
 
-    private void FormatDgvDTP()
+    private void FormatDgvDtp()
     {
       DGVFormat dgvFormated = new DGVFormat(_dgvDTP);
       dgvFormated.HideTwoFirstColumns();
       dgvFormated.Format(Status.DTP);
     }
 
-    private void loadDiagCard()
+    private void LoadDiagCard()
     {
       _dgvDiagCard.DataSource = _car.getDataTableDiagCard();
-      formatDGVDiagCard();
+      FormatDgvDiagCard();
     }
 
-    private void formatDGVDiagCard()
+    private void FormatDgvDiagCard()
     {
       DGVFormat dgvFormated = new DGVFormat(_dgvDiagCard);
       dgvFormated.HideTwoFirstColumns();
@@ -475,26 +482,26 @@ namespace BBAuto
       dgvFormated.Format(Status.DiagCard);
     }
 
-    private void loadMileage()
+    private void LoadMileage()
     {
       _dgvMileage.DataSource = _mileageList.ToDataTable(_car);
-      FormatDGVMileage();
+      FormatDgvMileage();
     }
 
-    private void FormatDGVMileage()
+    private void FormatDgvMileage()
     {
       DGVFormat dgvFormated = new DGVFormat(_dgvMileage);
       dgvFormated.HideColumn(0);
       dgvFormated.SetFormatMileage();
     }
 
-    private void loadRepair()
+    private void LoadRepair()
     {
       dgvRepair.DataSource = _repairList.ToDataTableByCar(_car);
-      FormatDGVRepair();
+      FormatDgvRepair();
     }
 
-    private void FormatDGVRepair()
+    private void FormatDgvRepair()
     {
       DGVFormat dgvFormated = new DGVFormat(dgvRepair);
       dgvFormated.HideTwoFirstColumns();
@@ -505,16 +512,19 @@ namespace BBAuto
 
     private void btnAddInvoice_Click(object sender, EventArgs e)
     {
+      if (!TrySaveNewCar())
+        return;
+
       var invoice = _car.createInvoice();
 
-      if (OpenAddEditDialog(invoice))
-      {
-        _invoiceList.Add(invoice);
+      if (!OpenAddEditDialog(invoice))
+        return;
 
-        _driverCarList.ReLoad();
+      _invoiceList.Add(invoice);
 
-        LoadInvoice();
-      }
+      _driverCarList.ReLoad();
+
+      LoadInvoice();
     }
 
     private void _dgvInvoice_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -541,35 +551,52 @@ namespace BBAuto
 
     private void btnDelInvoice_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить накладную?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          DialogResult.Yes)
+      try
       {
-        int idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
-        _invoiceList.Delete(idInvoice);
+        if (MessageBox.Show("Удалить накладную?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+            DialogResult.Yes)
+        {
+          int idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
+          _invoiceList.Delete(idInvoice);
 
-        _driverCarList.ReLoad();
+          _driverCarList.ReLoad();
 
-        LoadInvoice();
+          LoadInvoice();
+        }
+      }
+      catch (Exception)
+      {
+        MessageBox.Show("Выберите накладную", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
     private void btnAddInsurance_Click(object sender, EventArgs e)
     {
+      if (!TrySaveNewCar())
+        return;
+
       PolicyForm pAE = new PolicyForm(_car.CreatePolicy());
       if (pAE.ShowDialog() == DialogResult.OK)
-        loadPolicy();
+        LoadPolicy();
     }
 
     private void btnDeletePolicy_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить полис?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          DialogResult.Yes)
+      try
       {
-        int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value);
+        if (MessageBox.Show("Удалить полис?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+            DialogResult.Yes)
+        {
+          int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        _policyList.Delete(idPolicy);
+          _policyList.Delete(idPolicy);
 
-        loadPolicy();
+          LoadPolicy();
+        }
+      }
+      catch
+      {
+        MessageBox.Show("Выберите полис", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
@@ -588,21 +615,24 @@ namespace BBAuto
       {
         var policyForm = new PolicyForm(policy);
         if (policyForm.ShowDialog() == DialogResult.OK)
-          loadPolicy();
+          LoadPolicy();
       }
     }
 
     private void btnAddDTP_Click(object sender, EventArgs e)
     {
-      DTP dtp = _car.createDTP();
+      if (!TrySaveNewCar())
+        return;
 
-      DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
+      var dtp = new DTP(_car);
 
-      if (dtpAE.ShowDialog() == DialogResult.OK)
+      var dtpAe = new DTP_AddEdit(dtp);
+
+      if (dtpAe.ShowDialog() == DialogResult.OK)
       {
         _dtpList.Add(dtp);
 
-        loadDTP();
+        LoadDtp();
       }
     }
 
@@ -615,11 +645,14 @@ namespace BBAuto
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
 
       if (dtpAE.ShowDialog() == DialogResult.OK)
-        loadDTP();
+        LoadDtp();
     }
 
     private void btnAddViolation_Click(object sender, EventArgs e)
     {
+      if (!TrySaveNewCar())
+        return;
+
       Violation violation = _car.createViolation();
 
       ViolationForm vAE = new ViolationForm(violation);
@@ -651,14 +684,21 @@ namespace BBAuto
 
     private void btnViolation_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить нарушение?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          DialogResult.Yes)
+      try
       {
-        int idViolation = Convert.ToInt32(_dgvViolation.Rows[_dgvViolation.SelectedCells[0].RowIndex].Cells[0].Value);
+        if (MessageBox.Show("Удалить нарушение?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+            DialogResult.Yes)
+        {
+          int idViolation = Convert.ToInt32(_dgvViolation.Rows[_dgvViolation.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        _violationList.Delete(idViolation);
+          _violationList.Delete(idViolation);
 
-        loadViolation();
+          loadViolation();
+        }
+      }
+      catch (Exception)
+      {
+        MessageBox.Show("Выберите нарушение", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
@@ -680,6 +720,9 @@ namespace BBAuto
 
     private void btnAddDiagCard_Click(object sender, EventArgs e)
     {
+      if (!TrySaveNewCar())
+        return;
+
       DiagCard diagCard = _car.createDiagCard();
 
       DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
@@ -687,7 +730,7 @@ namespace BBAuto
       {
         _diagCardList.Add(diagCard);
 
-        loadDiagCard();
+        LoadDiagCard();
       }
     }
 
@@ -705,31 +748,35 @@ namespace BBAuto
         DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
 
         if (diagcardAE.ShowDialog() == DialogResult.OK)
-          loadDiagCard();
+          LoadDiagCard();
       }
     }
 
     private void btnDeleteDiagCard_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить диагностическую карту?", "Удаление", MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question) == DialogResult.Yes)
+      try
       {
-        int idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[_dgvDiagCard.SelectedCells[0].RowIndex].Cells[0].Value);
+        if (MessageBox.Show("Удалить диагностическую карту?", "Удаление", MessageBoxButtons.YesNo,
+              MessageBoxIcon.Question) == DialogResult.Yes)
+        {
+          int idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[_dgvDiagCard.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        _diagCardList.Delete(idDiagCard);
+          _diagCardList.Delete(idDiagCard);
 
-        loadDiagCard();
+          LoadDiagCard();
+        }
+      }
+      catch (Exception)
+      {
+        MessageBox.Show("Выберите диагностическую карту", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
-
-    private void showAddEditDiagCard(DiagCard dCard)
-    {
-      DiagCard_AddEdit vAE = new DiagCard_AddEdit(dCard);
-      vAE.ShowDialog();
-    }
-
+    
     private void btnAddMileage_Click(object sender, EventArgs e)
     {
+      if (!TrySaveNewCar())
+        return;
+
       Mileage mileage = new Mileage(_car.ID);
 
       Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
@@ -738,20 +785,21 @@ namespace BBAuto
       {
         _mileageList.Add(mileage);
 
-        loadMileage();
+        LoadMileage();
       }
     }
 
     private void _dgvMileage_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      int idMileage = Convert.ToInt32(_dgvMileage.Rows[e.RowIndex].Cells[0].Value);
+      if (int.TryParse(_dgvMileage.Rows[e.RowIndex].Cells[0].Value?.ToString(), out int mileageId))
+      {
+        var mileage = _mileageList.getItem(mileageId);
 
-      Mileage mileage = _mileageList.getItem(idMileage);
+        var mAE = new Mileage_AddEdit(mileage);
 
-      Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
-
-      if (mAE.ShowDialog() == DialogResult.OK)
-        loadMileage();
+        if (mAE.ShowDialog() == DialogResult.OK)
+          LoadMileage();
+      }
     }
 
     private void vin_KeyPress(object sender, KeyPressEventArgs e)
@@ -771,24 +819,47 @@ namespace BBAuto
 
     private void btnAddCarDoc_Click(object sender, EventArgs e)
     {
-      OpenFileDialog ofd = new OpenFileDialog();
-      ofd.Multiselect = true;
+      if (!TrySaveNewCar())
+        return;
+
+      var ofd = new OpenFileDialog {Multiselect = true};
       ofd.ShowDialog();
 
-      CarDocList carDocList = CarDocList.getInstance();
+      var carDocList = CarDocList.getInstance();
 
-      foreach (string file in ofd.FileNames)
+      foreach (var file in ofd.FileNames)
       {
-        CarDoc carDoc = _car.createCarDoc(file);
+        var carDoc = new CarDoc
+        {
+          CarId = _car.ID,
+          File = file,
+          Name = System.IO.Path.GetFileNameWithoutExtension(file)
+        };
         carDoc.Save();
 
         carDocList.Add(carDoc);
       }
 
-      loadCarDoc();
+      LoadCarDoc();
     }
 
-    private void loadCarDoc()
+    private bool TrySaveNewCar()
+    {
+      if (_car.ID != 0)
+        return true;
+
+      if (!CopyFields())
+        return false;
+
+      SaveCar();
+      if (_car.ID != 0)
+        return true;
+
+      MessageBox.Show("Не удаётся сохранить автомобиль", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      return false;
+    }
+
+    private void LoadCarDoc()
     {
       CarDocList carDocList = CarDocList.getInstance();
       dgvCarDoc.DataSource = carDocList.ToDataTableByCar(_car);
@@ -803,11 +874,6 @@ namespace BBAuto
       dgvFormated.HideColumn(0);
     }
 
-    private void dgvCarDoc_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-    {
-
-    }
-
     private bool isCellNoHeader(int rowIndex)
     {
       return rowIndex >= 0;
@@ -815,28 +881,38 @@ namespace BBAuto
 
     private void btnCarDocDel_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить документ?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          System.Windows.Forms.DialogResult.Yes)
+      try
       {
-        int idCarDoc = Convert.ToInt32(dgvCarDoc.Rows[dgvCarDoc.SelectedCells[0].RowIndex].Cells[0].Value);
+        if (MessageBox.Show("Удалить документ?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+            DialogResult.Yes)
+        {
+          int idCarDoc = Convert.ToInt32(dgvCarDoc.Rows[dgvCarDoc.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        CarDocList carDocList = CarDocList.getInstance();
+          CarDocList carDocList = CarDocList.getInstance();
 
-        carDocList.Delete(idCarDoc);
+          carDocList.Delete(idCarDoc);
 
-        loadCarDoc();
+          LoadCarDoc();
+        }
+      }
+      catch (Exception)
+      {
+        MessageBox.Show("Выберите документ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
     private void btnAddRepair_Click(object sender, EventArgs e)
     {
+      if (!TrySaveNewCar())
+        return;
+
       Repair repair = _car.createRepair();
       Repair_AddEdit repairAE = new Repair_AddEdit(repair);
 
-      if (repairAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (repairAE.ShowDialog() == DialogResult.OK)
       {
         _repairList.Add(repair);
-        loadRepair();
+        LoadRepair();
       }
     }
 
@@ -848,20 +924,20 @@ namespace BBAuto
 
       Repair_AddEdit repairAE = new Repair_AddEdit(repair);
 
-      if (repairAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-        loadRepair();
+      if (repairAE.ShowDialog() == DialogResult.OK)
+        LoadRepair();
     }
 
     private void btnDelRepair_Click(object sender, EventArgs e)
     {
       if (MessageBox.Show("Удалить запись о ремонте?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          System.Windows.Forms.DialogResult.Yes)
+          DialogResult.Yes)
       {
         int idRepair = Convert.ToInt32(dgvRepair.Rows[dgvRepair.SelectedCells[0].RowIndex].Cells[0].Value);
 
         _repairList.Delete(idRepair);
 
-        loadRepair();
+        LoadRepair();
       }
     }
 
@@ -937,27 +1013,41 @@ namespace BBAuto
 
     private void btnDelDTP_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить ДТП?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-          DialogResult.Yes)
+      try
       {
-        int idDTP = Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value);
+        if (MessageBox.Show("Удалить ДТП?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+            DialogResult.Yes)
+        {
+          int idDTP = Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        _dtpList.Delete(idDTP);
+          _dtpList.Delete(idDTP);
 
-        loadDTP();
+          LoadDtp();
+        }
+      }
+      catch (Exception)
+      {
+        MessageBox.Show("Выберите ДТП", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
     private void btnMileageDel_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Удалить информацию о пробеге?", "Удаление", MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question) == DialogResult.Yes)
+      try
       {
-        var idMileage = Convert.ToInt32(_dgvMileage.Rows[_dgvMileage.SelectedCells[0].RowIndex].Cells[0].Value);
+        if (MessageBox.Show("Удалить информацию о пробеге?", "Удаление", MessageBoxButtons.YesNo,
+              MessageBoxIcon.Question) == DialogResult.Yes)
+        {
+          var idMileage = Convert.ToInt32(_dgvMileage.Rows[_dgvMileage.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        _mileageList.Delete(idMileage);
+          _mileageList.Delete(idMileage);
 
-        loadMileage();
+          LoadMileage();
+        }
+      }
+      catch (Exception)
+      {
+        MessageBox.Show("Выберите информацию о пробеге", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
@@ -978,7 +1068,7 @@ namespace BBAuto
         {
           CarDoc_AddEdit carDocAE = new CarDoc_AddEdit(carDoc);
           if (carDocAE.ShowDialog() == DialogResult.OK)
-            loadCarDoc();
+            LoadCarDoc();
         }
       }
     }
@@ -998,6 +1088,9 @@ namespace BBAuto
 
     private void btnAddShipPart_Click(object sender, EventArgs e)
     {
+      if (!TrySaveNewCar())
+        return;
+
       ShipPart shipPart = _car.createShipPart();
       ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
 
@@ -1088,12 +1181,12 @@ namespace BBAuto
 
     private void _dgvPolicy_Sorted(object sender, EventArgs e)
     {
-      formatDGVPolicy();
+      FormatDgvPolicy();
     }
 
     private void _dgvDTP_Sorted(object sender, EventArgs e)
     {
-      FormatDgvDTP();
+      FormatDgvDtp();
     }
 
     private void _dgvViolation_Sorted(object sender, EventArgs e)
@@ -1103,12 +1196,12 @@ namespace BBAuto
 
     private void _dgvDiagCard_Sorted(object sender, EventArgs e)
     {
-      formatDGVDiagCard();
+      FormatDgvDiagCard();
     }
 
     private void _dgvMileage_Sorted(object sender, EventArgs e)
     {
-      FormatDGVMileage();
+      FormatDgvMileage();
     }
 
     private void dgvCarDoc_Sorted(object sender, EventArgs e)
@@ -1118,7 +1211,7 @@ namespace BBAuto
 
     private void dgvRepair_Sorted(object sender, EventArgs e)
     {
-      FormatDGVRepair();
+      FormatDgvRepair();
     }
 
     private void dgvShipPart_Sorted(object sender, EventArgs e)
@@ -1157,26 +1250,40 @@ namespace BBAuto
 
     private void btnTermination_Click(object sender, EventArgs e)
     {
-      if (!int.TryParse(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int policyId))
-        return;
+      try
+      {
+        if (!int.TryParse(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int policyId))
+          return;
 
-      var policy = PolicyList.getInstance().getItem(policyId);
+        var policy = PolicyList.getInstance().getItem(policyId);
 
-      IWordDocumentService wordDocumentService = new WordDocumentService();
-      var documnent = wordDocumentService.CreateTermination(policy);
-      documnent.Print();
+        IWordDocumentService wordDocumentService = new WordDocumentService();
+        var documnent = wordDocumentService.CreateTermination(policy);
+        documnent.Print();
+      }
+      catch
+      {
+        MessageBox.Show("Выберите полис", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
     }
 
     private void btnExtraTermination_Click(object sender, EventArgs e)
     {
-      if (!int.TryParse(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int policyId))
-        return;
+      try
+      {
+        if (!int.TryParse(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out int policyId))
+          return;
 
-      var policy = PolicyList.getInstance().getItem(policyId);
+        var policy = PolicyList.getInstance().getItem(policyId);
 
-      IWordDocumentService wordDocumentService = new WordDocumentService();
-      var documnent = wordDocumentService.CreateExtraTermination(policy);
-      documnent.Print();
+        IWordDocumentService wordDocumentService = new WordDocumentService();
+        var documnent = wordDocumentService.CreateExtraTermination(policy);
+        documnent?.Print();
+      }
+      catch (Exception)
+      {
+        MessageBox.Show("Выберите полис", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
     }
 
     private void LoadDrivers()

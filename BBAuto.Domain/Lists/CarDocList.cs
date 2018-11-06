@@ -49,7 +49,7 @@ namespace BBAuto.Domain.Lists
       {
         DataTable dt = createTable();
 
-        foreach (CarDoc carDoc in _list.Where(c => c.Car.ID == car.ID))
+        foreach (CarDoc carDoc in _list.Where(c => c.CarId == car.ID))
           dt.Rows.Add(carDoc.getRow());
 
         return dt;

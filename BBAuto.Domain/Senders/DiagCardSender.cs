@@ -54,8 +54,8 @@ namespace BBAuto.Domain.Senders
 
           foreach (var car in carList)
           {
-            var sts = stsList.getItem(car);
-            if (sts.File != string.Empty)
+            var sts = stsList.getItem(car.ID);
+            if (!string.IsNullOrEmpty(sts.File))
               files.Add(sts.File);
           }
 

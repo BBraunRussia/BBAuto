@@ -1,6 +1,5 @@
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using System;
 using System.Data;
@@ -21,11 +20,11 @@ namespace BBAuto.Domain.ForCar
     public DateTime Date { get; set; }
     public string File { get; set; }
 
-    public Car Car { get; }
+    public int CarId { get; set; }
 
-    internal STS(Car car)
+    internal STS(int carId)
     {
-      Car = car;
+      CarId = carId;
 
       Date = DateTime.Today;
       Number = string.Empty;
@@ -33,8 +32,8 @@ namespace BBAuto.Domain.ForCar
 
     public STS(DataRow row)
     {
-      int.TryParse(row.ItemArray[0].ToString(), out int id);
-      Car = CarList.GetInstance().getItem(id);
+      if (int.TryParse(row.ItemArray[0].ToString(), out int carId))
+        CarId = carId;
 
       Number = row.ItemArray[1].ToString();
       Date = Convert.ToDateTime(row.ItemArray[2]);
@@ -48,9 +47,9 @@ namespace BBAuto.Domain.ForCar
       DeleteFile(File);
 
       if (_fileBegin != File)
-        File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "", "STS");
+        File = WorkWithFiles.fileCopyByID(File, "cars", CarId, "", "STS");
 
-      _provider.Insert("STS", Car.ID, Number, Date, GiveOrg, File);
+      _provider.Insert("STS", CarId, Number, Date, GiveOrg, File);
 
       var stsList = STSList.getInstance();
       stsList.Add(this);
@@ -65,7 +64,7 @@ namespace BBAuto.Domain.ForCar
     {
       DeleteFile(File);
 
-      _provider.Delete("STS", Car.ID);
+      _provider.Delete("STS", CarId);
     }
   }
 }

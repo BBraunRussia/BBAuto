@@ -2,7 +2,6 @@ using System.Linq;
 using System.Data;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Lists
 {
@@ -17,29 +16,26 @@ namespace BBAuto.Domain.Lists
 
     protected override void LoadFromSql()
     {
-      DataTable dt = Provider.Select("STS");
+      var dt = Provider.Select("STS");
 
       foreach (DataRow row in dt.Rows)
       {
-        STS sts = new STS(row);
-        Add(sts);
+        Add(new STS(row));
       }
     }
 
-    public void Delete(Car car)
+    public void Delete(int carId)
     {
-      STS sts = getItem(car);
+      var sts = _list.FirstOrDefault(s => s.CarId == carId);
 
       _list.Remove(sts);
 
-      sts.Delete();
+      sts?.Delete();
     }
 
-    public STS getItem(Car car)
+    public STS getItem(int carId)
     {
-      var STSs = _list.Where(s => s.Car.ID == car.ID);
-
-      return (STSs.Count() > 0) ? STSs.First() : car.createSTS();
+      return _list.FirstOrDefault(s => s.CarId == carId) ?? new STS(carId);
     }
   }
 }

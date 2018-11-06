@@ -29,8 +29,6 @@ namespace BBAuto
 
     private readonly SearchInDgv _seacher;
 
-    private readonly CarList _carList;
-
     private readonly MyFilter _myFilter;
     private readonly MyStatusStrip _myStatusStrip;
     
@@ -38,11 +36,11 @@ namespace BBAuto
     {
       InitializeComponent();
 
-      _carList = CarList.GetInstance();
       _mainStatus = MainStatus.getInstance();
       _mainStatus.StatusChanged += StatusChanged;
       _mainStatus.StatusChanged += SetWindowHeaderText;
       _mainStatus.StatusChanged += ConfigContextMenu;
+      _mainStatus.DataSourceChanged += DataSourceChanged;
 
       _dgvMain = new MainDGV(_dgvCar);
 
@@ -62,8 +60,6 @@ namespace BBAuto
       _dgvCar.Columns.Clear();
 
       FillDataGridView();
-
-      _dgvMain.Format(_mainStatus.Get());
 
       _myFilter.tryCreateComboBox();
 
@@ -88,6 +84,11 @@ namespace BBAuto
       _dgvCar.ContextMenuStrip = menu.CreateContextMenu();
     }
 
+    private void DataSourceChanged(Object sender, EventArgs e)
+    {
+      FillDataGridView();
+    }
+
     private void mainForm_Load(object sender, EventArgs e)
     {
       _curPosition = new Point(1, 0);
@@ -101,9 +102,9 @@ namespace BBAuto
       switch (_mainStatus.Get())
       {
         case Status.Buy:
-          return _carList.ToDataTableBuy();
+          return CarList.GetInstance().ToDataTableBuy();
         case Status.Actual:
-          return _carList.ToDataTableActual();
+          return CarList.GetInstance().ToDataTableActual();
         case Status.Repair:
           return RepairList.getInstance().ToDataTable();
         case Status.Sale:
@@ -139,7 +140,7 @@ namespace BBAuto
           return transponderService.GetReportTransponderList();
         }
         default:
-          return _carList.ToDataTable();
+          return CarList.GetInstance().ToDataTable();
       }
     }
 
@@ -153,6 +154,8 @@ namespace BBAuto
       _myStatusStrip.writeStatus();
 
       _myFilter.ApplyFilter();
+
+      _dgvMain.Format(_mainStatus.Get());
     }
 
     private void SetColumnsWidth()
@@ -242,10 +245,10 @@ namespace BBAuto
         return;
 
       PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(car);
+      PTS pts = ptsList.getItem(car.ID);
 
       STSList stsList = STSList.getInstance();
-      STS sts = stsList.getItem(car);
+      STS sts = stsList.getItem(car.ID);
 
       if ((_dgvCar.Columns[point.X].HeaderText == "№ ПТС") && (!string.IsNullOrEmpty(pts.File)))
         WorkWithFiles.openFile(pts.File);
@@ -558,10 +561,10 @@ namespace BBAuto
       }
 
       PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(car);
+      PTS pts = ptsList.getItem(car.ID);
 
       STSList stsList = STSList.getInstance();
-      STS sts = stsList.getItem(car);
+      STS sts = stsList.getItem(car.ID);
 
       string columnName = _dgvCar.Columns[point.X].HeaderText;
 
@@ -667,8 +670,6 @@ namespace BBAuto
 
       FillDataGridView();
 
-      _dgvMain.Format(_mainStatus.Get());
-
       _myFilter.tryCreateComboBox();
 
       SetColumnsWidth();
@@ -705,20 +706,18 @@ namespace BBAuto
 
     private void btnUpdateData_Click(object sender, EventArgs e)
     {
-      ReLoadData();
+      ReloadData();
 
       FillDataGridView();
-
-      _dgvMain.Format(_mainStatus.Get());
     }
 
-    private void ReLoadData()
+    private void ReloadData()
     {
       switch (_mainStatus.Get())
       {
         case Status.Buy:
         case Status.Actual:
-          _carList.ReLoad();
+          CarList.GetInstance().ReLoad();
           break;
         case Status.Repair:
           RepairList.getInstance().ReLoad();

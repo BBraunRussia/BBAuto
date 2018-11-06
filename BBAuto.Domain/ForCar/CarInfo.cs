@@ -34,21 +34,9 @@ namespace BBAuto.Domain.ForCar
       }
     }
 
-    /*
-    public bool IsSale
-    {
-      get
-      {
-        ICarSaleService carSaleService = new CarSaleService();
-        return carSaleService.GetCarSaleByCarId(_car.ID) != null;
-      }
-    } 
-    */
     public Driver Driver => DriverCarList.GetInstance().GetDriver(_car) ?? new Driver();
-
-    public PTS pts => PTSList.getInstance().getItem(_car);
-
-    public STS sts => STSList.getInstance().getItem(_car);
+    public PTS Pts => PTSList.getInstance().getItem(_car.ID);
+    public STS Sts => STSList.getInstance().getItem(_car.ID);
 
     public DateTime Guarantee
     {
@@ -86,8 +74,8 @@ namespace BBAuto.Domain.ForCar
       dt.Rows.Add("Дата покупки", _car.dateGet.ToShortDateString());
       dt.Rows.Add("Модель № двигателя", _car.eNumber);
       dt.Rows.Add("№ кузова", _car.bodyNumber);
-      dt.Rows.Add("Дата выдачи ПТС:", pts.Date.ToShortDateString());
-      dt.Rows.Add("Дата выдачи СТС:", sts.Date.ToShortDateString());
+      dt.Rows.Add("Дата выдачи ПТС:", Pts.Date.ToShortDateString());
+      dt.Rows.Add("Дата выдачи СТС:", Sts.Date.ToShortDateString());
 
       return dt;
     }

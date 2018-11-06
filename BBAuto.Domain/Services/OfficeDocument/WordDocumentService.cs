@@ -82,7 +82,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       doc.SetValue("Цвет автомобиля", car.info.Color);
 
       var ptsList = PTSList.getInstance();
-      var pts = ptsList.getItem(car);
+      var pts = ptsList.getItem(car.ID);
 
       var ptsName = string.Concat(pts.Number, ", выдан ", pts.Date.ToShortDateString(), " ", pts.GiveOrg);
 
@@ -257,12 +257,12 @@ namespace BBAuto.Domain.Services.OfficeDocument
       doc.SetValue("Номер кузова автомобиля", car.bodyNumber);
 
       var ptsList = PTSList.getInstance();
-      var pts = ptsList.getItem(car);
+      var pts = ptsList.getItem(car.ID);
       var ptsName = $"{pts.Number} выдан {pts.Date.ToShortDateString()} {pts.GiveOrg}";
       doc.SetValue("ПТС автомобиля", ptsName);
 
       var stsList = STSList.getInstance();
-      var sts = stsList.getItem(car);
+      var sts = stsList.getItem(car.ID);
       var stsName = $"{sts.Number} выдан {sts.Date.ToShortDateString()} {sts.GiveOrg}";
       doc.SetValue("СТС автомобиля", stsName);
 

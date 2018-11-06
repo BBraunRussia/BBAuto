@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using BBAuto.AddEdit;
 using BBAuto.CommonForms;
@@ -29,13 +30,13 @@ namespace BBAuto.ContextMenu
 
     private readonly MainDGV _dgvMain;
     private readonly MainStatus _mainStatus;
-
+    
     public MyMenuItemFactory(MainDGV dgvMain)
     {
       _dgvMain = dgvMain;
       _mainStatus = MainStatus.getInstance();
     }
-
+    
     public ToolStripItem CreateItem(ContextMenuItem item)
     {
       switch (item)
@@ -259,17 +260,15 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateNewDTP()
     {
-      ToolStripMenuItem item = CreateItem("Новое ДТП");
+      var item = CreateItem("Новое ДТП");
       item.Click += delegate
       {
-        Car car = _dgvMain.GetCar();
+        var car = _dgvMain.GetCar();
         if (car == null)
           return;
 
-        DTP dtp = car.createDTP();
-
-        DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
-        dtpAE.ShowDialog();
+        var dtpForm = new DTP_AddEdit(new DTP(car));
+        dtpForm.ShowDialog();
       };
       return item;
     }
@@ -336,7 +335,7 @@ namespace BBAuto.ContextMenu
 
         Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
         if (mAE.ShowDialog() == DialogResult.OK)
-          _mainStatus.Set(_mainStatus.Get());
+          _mainStatus.Reload();
       };
       return item;
     }
@@ -375,8 +374,8 @@ namespace BBAuto.ContextMenu
           carSaleService.SaveCarSale(new CarSale {CarId = carId});
 
           CarList.GetInstance().ReLoad();
-          
-          _mainStatus.Set(_mainStatus.Get());
+
+          _mainStatus.Reload();
         }
       };
       return item;
@@ -398,7 +397,7 @@ namespace BBAuto.ContextMenu
           ICarSaleService carSaleService = new CarSaleService();
           carSaleService.DeleteCarFromSale(car.ID);
 
-          _mainStatus.Set(_mainStatus.Get());
+          _mainStatus.Reload();
         }
       };
       return item;
@@ -465,7 +464,7 @@ namespace BBAuto.ContextMenu
       {
         var excelDocumentService = new ExcelDocumentService();
         var doc = excelDocumentService.CreateExcelFromDGV(_dgvMain.GetDGV());
-        doc.Print();
+        doc?.Print();
       };
       return item;
     }
@@ -521,7 +520,7 @@ namespace BBAuto.ContextMenu
         IExcelDocumentService excelDocumentService = new ExcelDocumentService();
         var doc = excelDocumentService.CreateInvoice(car, invoice);
 
-        doc.Show();
+        doc?.Show();
       };
       return item;
     }
@@ -544,7 +543,7 @@ namespace BBAuto.ContextMenu
         IExcelDocumentService excelDocumentService = new ExcelDocumentService();
         var doc = excelDocumentService.CreateAttacheToOrder(car, invoice);
         
-        doc.Show();
+        doc?.Show();
       };
       return item;
     }
@@ -560,7 +559,7 @@ namespace BBAuto.ContextMenu
         IWordDocumentService wordDocumentService = new WordDocumentService();
         var doc = wordDocumentService.CreateProxyOnSto(car, invoice);
 
-        doc.Show();
+        doc?.Show();
       };
       return item;
     }
@@ -618,7 +617,7 @@ namespace BBAuto.ContextMenu
           IWordDocumentService wordDocumentService = new WordDocumentService();
 
           var doc = wordDocumentService.CreateActFuelCard(car, invoice);
-          doc.Show();
+          doc?.Show();
         }
       };
       return item;
@@ -642,7 +641,7 @@ namespace BBAuto.ContextMenu
 
           var doc = excelDocumentService.CreateNotice(car, dtp);
 
-          doc.Show();
+          doc?.Show();
         }
         else
           MessageBox.Show("Для формирования извещения необходимо перейти на вид \"ДТП\"", "Предупреждение",
@@ -661,7 +660,7 @@ namespace BBAuto.ContextMenu
           return;
 
         STSList stsList = STSList.getInstance();
-        STS sts = stsList.getItem(car);
+        STS sts = stsList.getItem(car.ID);
 
         if (!string.IsNullOrEmpty(sts.File))
           WorkWithFiles.openFile(sts.File);
@@ -718,12 +717,12 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateNewCar()
     {
-      ToolStripMenuItem item = CreateItem("Покупка автомобиля");
+      var item = CreateItem("Покупка автомобиля");
       item.Click += delegate
       {
-        CarForm aeCar = new CarForm(new Car());
+        var aeCar = new CarForm(new Car());
         if (aeCar.ShowDialog() == DialogResult.OK)
-          _mainStatus.Set(_mainStatus.Get());
+          _mainStatus.Reload();
       };
       return item;
     }
@@ -733,9 +732,9 @@ namespace BBAuto.ContextMenu
       ToolStripMenuItem item = CreateItem("Добавить счёт");
       item.Click += delegate
       {
-        Account_AddEdit aeaAcountForm = new Account_AddEdit(new Account());
-        if (aeaAcountForm.ShowDialog() == DialogResult.OK)
-          _mainStatus.Set(_mainStatus.Get());
+        Account_AddEdit accountForm = new Account_AddEdit(new Account());
+        if (accountForm.ShowDialog() == DialogResult.OK)
+          _mainStatus.Reload();
       };
       return item;
     }
@@ -747,7 +746,7 @@ namespace BBAuto.ContextMenu
       {
         FuelCard_AddEdit fuelCardAddEdit = new FuelCard_AddEdit(new FuelCard());
         if (fuelCardAddEdit.ShowDialog() == DialogResult.OK)
-          _mainStatus.Set(_mainStatus.Get());
+          _mainStatus.Reload();
       };
       return item;
     }
@@ -759,7 +758,7 @@ namespace BBAuto.ContextMenu
       {
         var transponderForm = new TransponderForm(new Transponder());
         if (transponderForm.ShowDialog() == DialogResult.OK)
-          _mainStatus.Set(_mainStatus.Get());
+          _mainStatus.Reload();
       };
       return item;
     }
@@ -785,7 +784,7 @@ namespace BBAuto.ContextMenu
         if (MessageBox.Show(message, "Печать", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
         {
           var doc = DgvToExcel();
-          doc.Print();
+          doc?.Print();
         }
       };
       return item;
@@ -797,7 +796,7 @@ namespace BBAuto.ContextMenu
       item.Click += delegate
       {
         var doc = DgvToExcel();
-        doc.Show();
+        doc?.Show();
       };
       return item;
     }
@@ -1241,7 +1240,7 @@ namespace BBAuto.ContextMenu
       {
         AddNewDriver addNewDriver = new AddNewDriver();
         if (addNewDriver.ShowDialog() == DialogResult.OK)
-          _mainStatus.Set(_mainStatus.Get());
+          _mainStatus.Reload();
       };
       return item;
     }
@@ -1265,7 +1264,7 @@ namespace BBAuto.ContextMenu
           {
             driver.IsDriver = false;
             driver.Save();
-            _mainStatus.Set(_mainStatus.Get());
+            _mainStatus.Reload();
           }
         }
       };

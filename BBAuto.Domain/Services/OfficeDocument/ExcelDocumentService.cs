@@ -141,7 +141,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       Grade grade = grades.getItem(Convert.ToInt32(car.GradeID));
 
       PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(car);
+      PTS pts = ptsList.getItem(car.ID);
 
       string fullDetailAuto = string.Concat("VIN ", car.vin, ", Двигатель ", car.eNumber, ", № кузова ",
         car.bodyNumber, ", Год выпуска ", car.Year, " г., Паспорт ",

@@ -86,10 +86,10 @@ namespace BBAuto.Domain.Services.CarSale
       Invoice invoice = invoiceList.getItem(car);
 
       PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(car);
+      PTS pts = ptsList.getItem(car.ID);
 
       STSList stsList = STSList.getInstance();
-      STS sts = stsList.getItem(car);
+      STS sts = stsList.getItem(car.ID);
 
       Regions regions = Regions.getInstance();
       string regionName = (invoice == null)

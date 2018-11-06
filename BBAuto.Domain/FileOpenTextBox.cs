@@ -1,10 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain.Common;
 
@@ -20,8 +14,7 @@ namespace BBAuto.Domain
 
     private void btnBrowse_Click(object sender, EventArgs e)
     {
-      OpenFileDialog ofd = new OpenFileDialog();
-      ofd.Multiselect = false;
+      var ofd = new OpenFileDialog {Multiselect = false};
       if (ofd.ShowDialog() == DialogResult.OK)
         tbFile.Text = ofd.FileName;
     }
@@ -38,14 +31,14 @@ namespace BBAuto.Domain
 
     private void HaveFile()
     {
-      btnShow.Visible = (!string.IsNullOrEmpty(tbFile.Text));
-      btnShow.Enabled = (!string.IsNullOrEmpty(tbFile.Text));
-      label1.Text = (string.IsNullOrEmpty(tbFile.Text)) ? "Отсутствует" : "Имеется";
+      btnShow.Visible = !string.IsNullOrEmpty(tbFile.Text);
+      btnShow.Enabled = !string.IsNullOrEmpty(tbFile.Text);
+      label1.Text = string.IsNullOrEmpty(tbFile.Text) ? "Отсутствует" : "Имеется";
     }
 
     private void btnShow_EnabledChanged(object sender, EventArgs e)
     {
-      btnShow.Enabled = (!string.IsNullOrEmpty(tbFile.Text));
+      btnShow.Enabled = !string.IsNullOrEmpty(tbFile.Text);
     }
   }
 }
