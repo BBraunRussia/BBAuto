@@ -118,7 +118,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
       }
 
       var driverTo = DriverList.getInstance().getItem(driverId);
-      var driverCards = fuelCardDriverList.ToList(driverTo).Where(driverCard => !driverCard.FuelCard.IsLost).ToList();
+      var driverCards = fuelCardDriverList.GetList(driverTo.ID).Where(driverCard => !driverCard.FuelCard.IsLost).ToList();
 
       if (!driverCards.Any())
       {

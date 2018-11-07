@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
@@ -7,7 +7,7 @@ namespace BBAuto
 {
   public partial class formFuelCardDriver : Form
   {
-    private Driver _driver;
+    private readonly Driver _driver;
 
     public formFuelCardDriver(Driver driver)
     {
@@ -20,7 +20,7 @@ namespace BBAuto
     {
       var fuelCardDriverList = FuelCardDriverList.getInstance();
 
-      dgvDriverFuelCard.DataSource = fuelCardDriverList.ToDataTable(_driver);
+      dgvDriverFuelCard.DataSource = fuelCardDriverList.ToDataTable(_driver.ID);
       dgvDriverFuelCard.Columns[0].Visible = false;
       dgvDriverFuelCard.Columns[1].Visible = false;
       dgvDriverFuelCard.Columns[3].Visible = false;
@@ -28,14 +28,14 @@ namespace BBAuto
 
     private void dgvDriverFuelCard_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-      if (e.ColumnIndex == 2)
-      {
-        var fuelCardId = Convert.ToInt32(dgvDriverFuelCard.Rows[dgvDriverFuelCard.SelectedCells[0].RowIndex].Cells[1].Value);
-        var fuelCard = FuelCardList.getInstance().getItem(fuelCardId);
+      if (e.ColumnIndex != 2)
+        return;
 
-        var fuelCardForm = new FuelCard_AddEdit(fuelCard);
-        fuelCardForm.ShowDialog();
-      }
+      var fuelCardId = Convert.ToInt32(dgvDriverFuelCard.Rows[dgvDriverFuelCard.SelectedCells[0].RowIndex].Cells[1].Value);
+      var fuelCard = FuelCardList.getInstance().getItem(fuelCardId);
+
+      var fuelCardForm = new FuelCard_AddEdit(fuelCard);
+      fuelCardForm.ShowDialog();
     }
   }
 }

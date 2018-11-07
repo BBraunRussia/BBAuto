@@ -9,9 +9,9 @@ namespace BBAuto.Domain.ForDriver
 {
   public class FuelCard : MainDictionary
   {
-    private int _idFuelCardType;
+    public int FuelCardTypeId { get; set; }
     private DateTime _dateEnd;
-    private int _idRegion;
+    public int RegionId { get; set; }
     private string _pin;
     private int _lost;
     private string _number;
@@ -24,7 +24,7 @@ namespace BBAuto.Domain.ForDriver
         {
           return string.IsNullOrEmpty(_number)
             ? string.Empty
-            : _idFuelCardType == 1
+            : FuelCardTypeId == 1
               ? _number.Insert(1, " ").Insert(5, " ").Insert(9, " ")
               : _number.Insert(6, " ").Insert(14, " ");
         }
@@ -35,16 +35,10 @@ namespace BBAuto.Domain.ForDriver
       }
       set => _number = value.Replace(" ", "");
     }
-
-    public string FuelCardTypeID
-    {
-      get { return _idFuelCardType.ToString(); }
-      set { int.TryParse(value, out _idFuelCardType); }
-    }
-
+    
     public bool IsNoEnd
     {
-      get { return _dateEnd.Year == 1; }
+      get => _dateEnd.Year == 1;
       set
       {
         if (value) _dateEnd = new DateTime(1, 1, 1);
@@ -53,7 +47,7 @@ namespace BBAuto.Domain.ForDriver
 
     public DateTime DateEnd
     {
-      get { return _dateEnd; }
+      get => _dateEnd;
       set
       {
         _dateEnd = new DateTime(value.Year, value.Month, 1);
@@ -61,19 +55,13 @@ namespace BBAuto.Domain.ForDriver
         _dateEnd = _dateEnd.AddDays(-1);
       }
     }
-
-    public string RegionID
-    {
-      get { return _idRegion.ToString(); }
-      set { int.TryParse(value, out _idRegion); }
-    }
-
+    
     public string Region
     {
       get
       {
         Regions regions = Regions.getInstance();
-        return regions.getItem(_idRegion);
+        return regions.getItem(RegionId);
       }
     }
 
@@ -82,31 +70,31 @@ namespace BBAuto.Domain.ForDriver
       get
       {
         FuelCardTypes fuelCardTypes = FuelCardTypes.getInstance();
-        return fuelCardTypes.getItem(_idFuelCardType);
+        return fuelCardTypes.getItem(FuelCardTypeId);
       }
     }
 
     public string Pin
     {
-      get { return (User.IsFullAccess()) ? _pin : string.Empty; }
-      set { _pin = value; }
+      get => User.IsFullAccess() ? _pin : string.Empty;
+      set => _pin = value;
     }
 
     public bool IsLost
     {
-      get { return Convert.ToBoolean(_lost); }
-      set { _lost = Convert.ToInt32(value); }
+      get => Convert.ToBoolean(_lost);
+      set => _lost = Convert.ToInt32(value);
     }
 
-    public bool IsVoid => (!IsNoEnd && (_dateEnd < DateTime.Today.AddMonths(1))) || IsLost;
+    public bool IsVoid => !IsNoEnd && _dateEnd < DateTime.Today.AddMonths(1) || IsLost;
 
     public string Comment { get; set; }
 
     public FuelCard()
     {
       ID = 0;
-      _idRegion = 0;
-      _idFuelCardType = 0;
+      RegionId = 0;
+      FuelCardTypeId = 0;
     }
 
     public FuelCard(DataRow row)
@@ -117,10 +105,16 @@ namespace BBAuto.Domain.ForDriver
     private void fillFields(DataRow row)
     {
       ID = Convert.ToInt32(row.ItemArray[0]);
-      int.TryParse(row.ItemArray[1].ToString(), out _idFuelCardType);
+
+      if (int.TryParse(row.ItemArray[1].ToString(), out int fuelCardTypeId))
+        FuelCardTypeId = fuelCardTypeId;
+
       _number = row.ItemArray[2].ToString();
       DateTime.TryParse(row.ItemArray[3].ToString(), out _dateEnd);
-      int.TryParse(row.ItemArray[4].ToString(), out _idRegion);
+
+      if (int.TryParse(row.ItemArray[4].ToString(), out int regionId))
+        RegionId = regionId;
+
       _pin = row.ItemArray[5].ToString();
       int.TryParse(row.ItemArray[6].ToString(), out _lost);
       Comment = row.ItemArray[7].ToString();
@@ -133,7 +127,7 @@ namespace BBAuto.Domain.ForDriver
         dateEndSql = string.Concat(_dateEnd.Year.ToString(), "-", _dateEnd.Month.ToString(), "-",
           _dateEnd.Day.ToString());
 
-      ID = Convert.ToInt32(_provider.Insert("FuelCard", ID, _idFuelCardType, _number, dateEndSql, _idRegion, _pin,
+      ID = Convert.ToInt32(_provider.Insert("FuelCard", ID, FuelCardTypeId, _number, dateEndSql, RegionId, _pin,
         _lost, Comment));
 
       FuelCardList.getInstance().Add(this);
@@ -141,12 +135,11 @@ namespace BBAuto.Domain.ForDriver
 
     public void AddEmptyDriver()
     {
-      FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
-      if (fuelCardDriverList.getItem(this) == null)
-      {
-        FuelCardDriver fuelCardDriver = CreateFuelCardDriver();
-        fuelCardDriver.Save();
-      }
+      if (FuelCardDriverList.getInstance().getItem(this) != null)
+        return;
+
+      var fuelCardDriver = CreateFuelCardDriver();
+      fuelCardDriver.Save();
     }
 
     internal override void Delete()
@@ -156,8 +149,7 @@ namespace BBAuto.Domain.ForDriver
 
     internal override object[] getRow()
     {
-      FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
-      FuelCardDriver fuelCardDriver = fuelCardDriverList.getItem(this);
+      var fuelCardDriver = FuelCardDriverList.getInstance().getItem(this);
 
       return fuelCardDriver.getRow();
     }

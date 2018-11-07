@@ -53,9 +53,9 @@ namespace BBAuto
     private void LoadData()
     {
       tbNumber.Text = _fuelCard.Number;
-      cbRegion.SelectedValue = _fuelCard.RegionID;
+      cbRegion.SelectedValue = _fuelCard.RegionId;
       tbPin.Text = _fuelCard.Pin;
-      cbFuelCardType.SelectedValue = _fuelCard.FuelCardTypeID;
+      cbFuelCardType.SelectedValue = _fuelCard.FuelCardTypeId;
 
       chbNoEnd.Checked = _fuelCard.IsNoEnd;
 
@@ -118,9 +118,14 @@ namespace BBAuto
     private void CopyFields()
     {
       _fuelCard.Number = tbNumber.Text;
-      _fuelCard.RegionID = cbRegion.SelectedValue.ToString();
+
+      if (int.TryParse(cbRegion.SelectedValue.ToString(), out int regionId))
+        _fuelCard.RegionId = regionId;
+
       _fuelCard.Pin = tbPin.Text;
-      _fuelCard.FuelCardTypeID = cbFuelCardType.SelectedValue.ToString();
+
+      if (int.TryParse(cbFuelCardType.SelectedValue.ToString(), out int fuelCardTypeId))
+        _fuelCard.FuelCardTypeId = fuelCardTypeId;
 
       _fuelCard.IsNoEnd = chbNoEnd.Checked;
       if (!chbNoEnd.Checked)

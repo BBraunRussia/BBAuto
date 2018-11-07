@@ -2,7 +2,6 @@ using System;
 using System.Data;
 using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using BBAuto.Domain.Entities;
 using Common;
 

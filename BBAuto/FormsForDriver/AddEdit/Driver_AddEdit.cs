@@ -202,12 +202,12 @@ namespace BBAuto
     {
       FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
 
-      FuelCardDriver fuelCardDriver = fuelCardDriverList.getItemFirst(_driver);
+      FuelCardDriver fuelCardDriver = fuelCardDriverList.GetItemFirst(_driver.ID);
 
       if (fuelCardDriver != null)
         lbFuelCard1.Text = fuelCardDriver.ToString();
 
-      fuelCardDriver = fuelCardDriverList.getItemSecond(_driver);
+      fuelCardDriver = fuelCardDriverList.GetItemSecond(_driver.ID);
 
       if (fuelCardDriver != null)
         lbFuelCard2.Text = fuelCardDriver.ToString();
