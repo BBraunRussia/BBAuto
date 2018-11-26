@@ -152,7 +152,7 @@ namespace BBAuto.FormsForCar.AddEdit
       _policy.DateBegin = dtpDateBegin.Value.Date;
       _policy.DateEnd = dtpDateEnd.Value.Date;
 
-      if (double.TryParse(tbPay.Text.Replace(" ", ""), out double pay))
+      if (double.TryParse(tbPay.Text.Replace(" ", "").Replace(".", ","), out double pay))
         _policy.Pay = pay;
 
       _policy.Comment = tbComment.Text;
@@ -160,13 +160,11 @@ namespace BBAuto.FormsForCar.AddEdit
       TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
       _policy.File = tbFile.Text;
 
-      if (_policy.Type == PolicyType.ДСАГО || _policy.Type == PolicyType.GAP)
+      if (_policy.Type == PolicyType.ДСАГО || _policy.Type == PolicyType.GAP || _policy.Type == PolicyType.КАСКО)
         _policy.LimitCost = tbLimitCost.Text;
       else if (_policy.Type == PolicyType.КАСКО && _compService.GetCompById(_policy.CompId).KaskoPaymentCount == 2)
       {
-        _policy.LimitCost = tbLimitCost.Text;
-
-        if (double.TryParse(tbPay2.Text, out double pay2))
+        if (double.TryParse(tbPay2.Text.Replace(".", ","), out double pay2))
           _policy.Pay2 = pay2;
 
         _policy.DatePay2 = dtpDatePay2.Value.Date;

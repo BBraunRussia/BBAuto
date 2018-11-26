@@ -46,6 +46,9 @@ namespace BBAuto.SendDocumentForms
       IMailService mailService = new MailService();
 
       mailService.SendDocuments(_drivers, documentsForSend);
+
+      MessageBox.Show("Документы отправлены", "Отправка документов", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      DialogResult = DialogResult.OK;
     }
   }
 }

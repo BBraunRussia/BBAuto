@@ -3,7 +3,6 @@ using BBAuto.Domain.Common;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using BBAuto.Domain.Services.Mail;
 
@@ -29,6 +28,9 @@ namespace BBAuto.Domain.ForCar
       get => _datePay;
       set
       {
+        if (_datePay.HasValue && value == null)
+          Agreed = false;
+
         _datePay = value;
 
         if (_datePay != null)
