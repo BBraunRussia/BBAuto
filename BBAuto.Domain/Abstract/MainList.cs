@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BBAuto.Domain.DataBase;
 
 namespace BBAuto.Domain.Abstract
@@ -22,8 +23,10 @@ namespace BBAuto.Domain.Abstract
 
     public void ReLoad()
     {
-      _list.Clear();
+      if (!_list.Any())
+        return;
 
+      _list.Clear();
       LoadFromSql();
     }
 

@@ -94,7 +94,7 @@ namespace BBAuto.Domain.Services.CarSale
       Regions regions = Regions.getInstance();
       string regionName = (invoice == null)
         ? regions.getItem(car.RegionUsingId)
-        : regions.getItem(Convert.ToInt32(invoice.RegionToID));
+        : regions.getItem(Convert.ToInt32(invoice.RegionToId));
 
       var customer = customerList.FirstOrDefault(cust => cust.Id == carSale.CustomerId);
 

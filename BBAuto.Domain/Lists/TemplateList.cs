@@ -46,8 +46,6 @@ namespace BBAuto.Domain.Lists
 
     public DataTable ToDataTable()
     {
-      LoadFromSql();
-
       var dt = new DataTable();
       dt.Columns.Add("id");
       dt.Columns.Add("Название");

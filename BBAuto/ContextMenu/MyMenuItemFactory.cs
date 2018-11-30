@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 using BBAuto.AddEdit;
 using BBAuto.CommonForms;
@@ -194,6 +193,8 @@ namespace BBAuto.ContextMenu
           return ShowCustomerList();
         case ContextMenuItem.ShowContractOfSale:
           return ShowContractOfSale();
+        case ContextMenuItem.PrintContractOfSale:
+          return PrintContractOfSale();
         case ContextMenuItem.ShowTransferCarAct:
           return ShowTransferCarAct();
         case ContextMenuItem.PrintTransferCarAct:
@@ -504,7 +505,7 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateShowInvoice()
     {
-      ToolStripMenuItem item = CreateItem("Накладная на перемещение");
+      ToolStripMenuItem item = CreateItem("Просмотр накладной на перемещение");
       item.Click += delegate
       {
         if (_mainStatus.Get() != Status.Invoice)
@@ -527,7 +528,7 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateShowAttacheToOrder()
     {
-      ToolStripMenuItem item = CreateItem("Приложение к приказу");
+      ToolStripMenuItem item = CreateItem("Просмотр приложения к приказу");
       item.Click += delegate
       {
         if (_mainStatus.Get() != Status.Invoice)
@@ -550,7 +551,7 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateShowProxyOnSTO()
     {
-      ToolStripMenuItem item = CreateItem("Доверенность на предоставление интересов на СТО");
+      ToolStripMenuItem item = CreateItem("Просмотр доверенности на предоставление интересов на СТО");
       item.Click += delegate
       {
         var car = GetCar(_dgvMain.CurrentCell);
@@ -577,7 +578,7 @@ namespace BBAuto.ContextMenu
     
     private ToolStripMenuItem CreateShowPolicyKasko()
     {
-      ToolStripMenuItem item = CreateItem("Полис Каско");
+      ToolStripMenuItem item = CreateItem("Просмотр полиса Каско");
       item.Click += delegate
       {
         Car car = _dgvMain.GetCar();
@@ -595,7 +596,7 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateShowActFuelCard()
     {
-      var item = CreateItem("Акт передачи топливной карты");
+      var item = CreateItem("Просмотр акта передачи топливной карты");
       item.Click += delegate
       {
         var car = _dgvMain.GetCar();
@@ -623,9 +624,75 @@ namespace BBAuto.ContextMenu
       return item;
     }
 
+    private ToolStripMenuItem PrintTransferCarAct()
+    {
+      var item = CreateItem("Печать акта приёма-передачи ТС");
+      item.Click += delegate
+      {
+        IDocument document;
+
+        if (_mainStatus.Get() == Status.Sale)
+        {
+          var car = GetCar(_dgvMain.CurrentCell);
+
+          IWordDocumentService wordDocumentService = new WordDocumentService();
+          document = wordDocumentService.CreateTransferCarAct(car);
+        }
+        else if (_mainStatus.Get() == Status.Invoice)
+        {
+          var invoice = GetInvoice(_dgvMain.CurrentCell);
+          var car = GetCar(_dgvMain.CurrentCell);
+
+          IExcelDocumentService excelDocumentService = new ExcelDocumentService();
+          document = excelDocumentService.CreateInnerTransferCarAct(car, invoice);
+        }
+        else
+        {
+          MessageBox.Show("Формирование акта невозможно выполнить на выбранной вкладке ", "Предупреждение",
+            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+          return;
+        }
+
+        document?.Show();
+      };
+      return item;
+    }
+
+    private ToolStripMenuItem ShowTransferCarAct()
+    {
+      var item = CreateItem("Просмотр акта приёма-передачи ТС");
+      item.Click += delegate
+      {
+        IDocument document;
+        if (_mainStatus.Get() == Status.Sale)
+        {
+          var car = GetCar(_dgvMain.CurrentCell);
+
+          IWordDocumentService wordDocumentService = new WordDocumentService();
+          document = wordDocumentService.CreateTransferCarAct(car);
+        }
+        else if (_mainStatus.Get() == Status.Invoice)
+        {
+          var invoice = GetInvoice(_dgvMain.CurrentCell);
+          var car = GetCar(_dgvMain.CurrentCell);
+
+          IExcelDocumentService excelDocumentService = new ExcelDocumentService();
+          document = excelDocumentService.CreateInnerTransferCarAct(car, invoice);
+        }
+        else
+        {
+          MessageBox.Show("Формирование акта невозможно выполнить на выбранной вкладке ", "Предупреждение",
+            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+          return;
+        }
+        document?.Show();
+      };
+      return item;
+    }
+
     private ToolStripMenuItem CreateShowNotice()
     {
-      ToolStripMenuItem item = CreateItem("Извещение о страховом случае");
+      ToolStripMenuItem item = CreateItem("Просмотр извещения о страховом случае");
       item.Click += delegate
       {
         Car car = _dgvMain.GetCar();
@@ -652,7 +719,7 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateShowSTS()
     {
-      ToolStripMenuItem item = CreateItem("Свидетельство о регистрации ТС");
+      ToolStripMenuItem item = CreateItem("Просмотр свидетельства о регистрации ТС");
       item.Click += delegate
       {
         Car car = _dgvMain.GetCar();
@@ -670,7 +737,7 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem CreateShowDriverLicense()
     {
-      ToolStripMenuItem item = CreateItem("Водительское удостоверение");
+      ToolStripMenuItem item = CreateItem("Просмотр водительского удостоверения");
       item.Click += delegate
       {
         if (_dgvMain.GetID() == 0)
@@ -1328,7 +1395,7 @@ namespace BBAuto.ContextMenu
 
     private ToolStripMenuItem ShowContractOfSale()
     {
-      var item = CreateItem("Договор купли-продажи");
+      var item = CreateItem("Просмотр договора купли-продажи");
       item.Click += delegate
       {
         var car = GetCar(_dgvMain.CurrentCell);
@@ -1341,30 +1408,15 @@ namespace BBAuto.ContextMenu
       return item;
     }
 
-    private ToolStripMenuItem ShowTransferCarAct()
+    private ToolStripMenuItem PrintContractOfSale()
     {
-      var item = CreateItem("Акт приёма-передачи ТС");
+      var item = CreateItem("Печать договора купли-продажи");
       item.Click += delegate
       {
         var car = GetCar(_dgvMain.CurrentCell);
 
         IWordDocumentService wordDocumentService = new WordDocumentService();
-        var doc = wordDocumentService.CreateTransferCarAct(car);
-
-        doc?.Show();
-      };
-      return item;
-    }
-
-    private ToolStripMenuItem PrintTransferCarAct()
-    {
-      var item = CreateItem("Печать Акта приёма-передачи ТС");
-      item.Click += delegate
-      {
-        var car = GetCar(_dgvMain.CurrentCell);
-
-        IWordDocumentService wordDocumentService = new WordDocumentService();
-        var doc = wordDocumentService.CreateTransferCarAct(car);
+        var doc = wordDocumentService.CreateContractOfSale(car);
 
         doc?.Print();
       };

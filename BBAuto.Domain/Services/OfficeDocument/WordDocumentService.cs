@@ -31,7 +31,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       var driver = invoice == null
         ? driverCarList.GetDriver(car)
-        : DriverList.getInstance().getItem(Convert.ToInt32(invoice.DriverToID));
+        : DriverList.getInstance().getItem(Convert.ToInt32(invoice.DriverToId));
 
       return CreateProxyOnSto(car, driver, DateTime.Today, new DateTime(DateTime.Today.Year, 12, 31));
     }
@@ -113,8 +113,8 @@ namespace BBAuto.Domain.Services.OfficeDocument
       }
       else
       {
-        driverId = Convert.ToInt32(invoice.DriverToID);
-        regionId = Convert.ToInt32(invoice.RegionToID);
+        driverId = Convert.ToInt32(invoice.DriverToId);
+        regionId = Convert.ToInt32(invoice.RegionToId);
       }
 
       var driverTo = DriverList.getInstance().getItem(driverId);

@@ -3,7 +3,6 @@ using BBAuto.Domain.Common;
 using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Data;
 
@@ -11,7 +10,7 @@ namespace BBAuto.Domain.ForCar
 {
   public class Invoice : MainDictionary
   {
-    private const int DEFAULT_DRIVER_MEDIATOR = 2;
+    private const int DefaultDriverMediator = 2;
 
     private int _idDriverFrom;
     private int _idDriverTo;
@@ -21,28 +20,28 @@ namespace BBAuto.Domain.ForCar
     public string Number { get; set; }
     public string File { get; set; }
 
-    public string DriverFromID
+    public string DriverFromId
     {
-      get { return _idDriverFrom.ToString(); }
-      set { _idDriverFrom = Convert.ToInt32(value); }
+      get => _idDriverFrom.ToString();
+      set => _idDriverFrom = Convert.ToInt32(value);
     }
 
-    public string DriverToID
+    public string DriverToId
     {
-      get { return _idDriverTo.ToString(); }
-      set { _idDriverTo = Convert.ToInt32(value); }
+      get => _idDriverTo.ToString();
+      set => _idDriverTo = Convert.ToInt32(value);
     }
 
-    public string RegionFromID
+    public string RegionFromId
     {
-      get { return _idRegionFrom.ToString(); }
-      set { _idRegionFrom = Convert.ToInt32(value); }
+      get => _idRegionFrom.ToString();
+      set => _idRegionFrom = Convert.ToInt32(value);
     }
 
-    public string RegionToID
+    public string RegionToId
     {
-      get { return _idRegionTo.ToString(); }
-      set { _idRegionTo = Convert.ToInt32(value); }
+      get => _idRegionTo.ToString();
+      set => _idRegionTo = Convert.ToInt32(value);
     }
 
     public DateTime? DateMove { get; set; }
@@ -101,7 +100,7 @@ namespace BBAuto.Domain.ForCar
       if (invoice == null)
       {
         _idRegionFrom = Car.RegionUsingId;
-        _idDriverFrom = DEFAULT_DRIVER_MEDIATOR;
+        _idDriverFrom = DefaultDriverMediator;
         _idRegionTo = Car.RegionUsingId;
         int.TryParse(Car.driverID.ToString(), out _idDriverTo);
       }
@@ -135,8 +134,8 @@ namespace BBAuto.Domain.ForCar
         dateMoveSql = string.Concat(DateMove.Value.Year.ToString(), "-", DateMove.Value.Month.ToString(), "-",
           DateMove.Value.Day.ToString());
 
-      ID = Convert.ToInt32(_provider.Insert("Invoice", ID, Car.ID, Number, DriverFromID, DriverToID, dateSql,
-        dateMoveSql, RegionFromID, RegionToID, File, IsMain));
+      ID = Convert.ToInt32(_provider.Insert("Invoice", ID, Car.ID, Number, DriverFromId, DriverToId, dateSql,
+        dateMoveSql, RegionFromId, RegionToId, File, IsMain));
     }
 
     internal override object[] getRow()

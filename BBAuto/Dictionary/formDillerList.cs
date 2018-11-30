@@ -8,13 +8,13 @@ namespace BBAuto
 {
   public partial class formDillerList : Form
   {
-    private DilerList dillerList;
+    private DealerList dillerList;
 
     public formDillerList()
     {
       InitializeComponent();
 
-      dillerList = DilerList.getInstance();
+      dillerList = DealerList.getInstance();
     }
 
     private void DillerList_Load(object sender, EventArgs e)
@@ -52,7 +52,7 @@ namespace BBAuto
       int idDiller;
       int.TryParse(_dgv.Rows[_dgv.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idDiller);
 
-      DilerList dillerList = DilerList.getInstance();
+      DealerList dillerList = DealerList.getInstance();
       Diler diller = dillerList.getItem(idDiller);
 
       ShowAddEdit(diller);

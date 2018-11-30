@@ -273,7 +273,7 @@ namespace BBAuto
 
     private void ChangeDealer(int dealerId)
     {
-      var dealer = DilerList.getInstance().getItem(dealerId);
+      var dealer = DealerList.getInstance().getItem(dealerId);
 
       tbDealerContacts.Text = dealer?.Text;
     }

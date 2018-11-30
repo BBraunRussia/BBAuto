@@ -20,6 +20,13 @@ namespace BBAuto.Domain.Services.OfficeDocument
 {
   public class ExcelDocumentService : IExcelDocumentService
   {
+    private const string Invoice = "Накладная";
+    private const string Notice = "Извещение о страховом случае";
+    private const string InnerTransferCarAct = "Акт приема-передачи ТС сотруднику";
+    private const string WayBill = "Путевой лист";
+    private const string AttacheToOrder = "Приложение к приказу";
+    private const string ReportPolicy = "Таблица страхования";
+
     public IDocument CreateExcelFromDGV(DataGridView dgv)
     {
       int minRowIndex = 0;
@@ -124,7 +131,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
     public IDocument CreateInvoice(Car car, Invoice invoice)
     {
-      var excelDoc = OpenDocumentExcel("Накладная");
+      var excelDoc = OpenDocumentExcel(Invoice);
 
       excelDoc.setValue(7, 2, car.info.Owner);
 
@@ -151,8 +158,8 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
       var driverList = DriverList.getInstance();
 
-      Driver driver1 = driverList.getItem(Convert.ToInt32(invoice.DriverFromID));
-      Driver driver2 = driverList.getItem(Convert.ToInt32(invoice.DriverToID));
+      Driver driver1 = driverList.getItem(Convert.ToInt32(invoice.DriverFromId));
+      Driver driver2 = driverList.getItem(Convert.ToInt32(invoice.DriverToId));
 
       excelDoc.setValue(9, 10, driver1.Dept);
       excelDoc.setValue(56, 11, driver1.Position);
@@ -167,7 +174,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
     public IDocument CreateNotice(Car car, DTP dtp)
     {
-      var excelDoc = OpenDocumentExcel("Извещение о страховом случае");
+      var excelDoc = OpenDocumentExcel(Notice);
 
       Owners owners = Owners.getInstance();
 
@@ -214,6 +221,22 @@ namespace BBAuto.Domain.Services.OfficeDocument
       return excelDoc;
     }
 
+    public IDocument CreateInnerTransferCarAct(Car car, Invoice invoice)
+    {
+      var excelDoc = OpenDocumentExcel(InnerTransferCarAct);
+
+      Driver driver = null;
+      if (int.TryParse(invoice.DriverToId, out int driverId))
+        driver = DriverList.getInstance().getItem(driverId);
+
+      excelDoc.setValue(3, 2, driver?.FullName);
+      excelDoc.setValue(4, 2, driver?.Position);
+      excelDoc.setValue(5, 2, $"{car.Mark.Name} {car.info.Model}");
+      excelDoc.setValue(6, 2, car.Grz);
+
+      return excelDoc;
+    }
+
     public IExcelDoc CreateWaybill(Car car, DateTime date, Driver driver = null)
     {
       date = new DateTime(date.Year, date.Month, 1);
@@ -233,7 +256,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
         }
       }
 
-      var excelDoc = OpenDocumentExcel("Путевой лист");
+      var excelDoc = OpenDocumentExcel(WayBill);
 
       excelDoc.setValue(3, 28, car.BBNumber);
 
@@ -432,14 +455,14 @@ namespace BBAuto.Domain.Services.OfficeDocument
 
     public IDocument CreateAttacheToOrder(Car car, Invoice invoice)
     {
-      var excelDoc = OpenDocumentExcel("Приложение к приказу");
+      var excelDoc = OpenDocumentExcel(AttacheToOrder);
 
       string fullNameAuto = string.Concat(car.Mark.Name, " ", car.info.Model);
 
       excelDoc.setValue(18, 2, fullNameAuto);
       excelDoc.setValue(18, 3, car.Grz);
       
-      Driver driver = DriverList.getInstance().getItem(Convert.ToInt32(invoice.DriverToID));
+      Driver driver = DriverList.getInstance().getItem(Convert.ToInt32(invoice.DriverToId));
 
       excelDoc.setValue(18, 4, driver.FullName);
       excelDoc.setValue(18, 5, driver.Position);
@@ -451,7 +474,7 @@ namespace BBAuto.Domain.Services.OfficeDocument
     {
       var date = DateTime.Today.AddMonths(1);
 
-      var excelDoc = OpenDocumentExcel("Таблица страхования");
+      var excelDoc = OpenDocumentExcel(ReportPolicy);
 
       var myDate = new MyDateTime(date.ToShortDateString());
 

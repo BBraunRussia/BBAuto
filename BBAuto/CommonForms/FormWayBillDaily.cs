@@ -4,11 +4,8 @@ using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain.Services.OfficeDocument;
 
@@ -128,23 +125,23 @@ namespace BBAuto
 
     private void CreateWayBill(Car car, Actions action, Fields fields)
     {
-      IExcelDoc excelDoc = null;
+      IExcelDoc document = null;
 
       try
       {
         IExcelDocumentService excelDocumentService = new ExcelDocumentService();
-        excelDoc = excelDocumentService.CreateWaybill(car, dtpDate.Value);
-        excelDocumentService.AddRouteInWayBill(excelDoc, car, dtpDate.Value, fields);
+        document = excelDocumentService.CreateWaybill(car, dtpDate.Value);
+        excelDocumentService.AddRouteInWayBill(document, car, dtpDate.Value, fields);
 
         if (action == Actions.Print)
-          excelDoc.Print();
+          document.Print();
         else
-          excelDoc.Show();
+          document.Show();
       }
       catch (NullReferenceException ex)
       {
         MessageBox.Show(ex.Message, "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        excelDoc?.Close();
+        document?.Close();
       }
 
       if (car == list[index])

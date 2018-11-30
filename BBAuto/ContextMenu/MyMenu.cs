@@ -335,6 +335,7 @@ namespace BBAuto.ContextMenu
 
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.NewInvoice));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.NewDTP));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.NewViolation));
@@ -353,11 +354,11 @@ namespace BBAuto.ContextMenu
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Copy));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Print));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
-      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBillDaily));
-      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowActFuelCard));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
 
       return menuStrip;
     }
@@ -375,6 +376,7 @@ namespace BBAuto.ContextMenu
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowPolicyKasko));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowActFuelCard));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowTransferCarAct));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintTransferCarAct));
@@ -390,10 +392,12 @@ namespace BBAuto.ContextMenu
 
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowNotice));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowPolicyKasko));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowSTS));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowDriverLicense));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Copy));
@@ -407,13 +411,17 @@ namespace BBAuto.ContextMenu
 
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.DeleteFromSale));
-      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBillDaily));
-      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowContractOfSale));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowTransferCarAct));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintContractOfSale));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintTransferCarAct));
 
       return menuStrip;
     }
@@ -445,6 +453,7 @@ namespace BBAuto.ContextMenu
 
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SendPolicyKasko));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SendPolicyOsago));
 
@@ -457,6 +466,7 @@ namespace BBAuto.ContextMenu
 
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+      menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.AddDriver));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.DeleteDriver));
       menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));

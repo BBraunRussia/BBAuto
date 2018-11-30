@@ -30,7 +30,7 @@ namespace BBAuto.Domain.ForCar
         var regions = Regions.getInstance();
         return invoice == null
           ? regions.getItem(_car.RegionUsingId)
-          : regions.getItem(Convert.ToInt32(invoice.RegionToID));
+          : regions.getItem(Convert.ToInt32(invoice.RegionToId));
       }
     }
 

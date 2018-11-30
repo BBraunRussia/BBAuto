@@ -72,7 +72,7 @@ namespace BBAuto.CommonForms
         InvoiceList invoiceList = InvoiceList.getInstance();
         Invoice invoice = invoiceList.getItem(idInvoice);
         DriverList driverList = DriverList.getInstance();
-        driver = driverList.getItem(Convert.ToInt32(invoice.DriverToID));
+        driver = driverList.getItem(Convert.ToInt32(invoice.DriverToId));
       }
 
       var waybill = excelDocumentService.CreateWaybill(car, date, driver);

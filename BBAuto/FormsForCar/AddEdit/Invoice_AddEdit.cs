@@ -64,10 +64,10 @@ namespace BBAuto.FormsForCar.AddEdit
 
       lbNumber.Text = "Накладная №" + _invoice.Number;
 
-      cbRegionFrom.SelectedValue = _invoice.RegionFromID;
-      cbRegionTo.SelectedValue = _invoice.RegionToID;
-      cbDriverFrom.SelectedValue = _invoice.DriverFromID;
-      cbDriverTo.SelectedValue = _invoice.DriverToID;
+      cbRegionFrom.SelectedValue = _invoice.RegionFromId;
+      cbRegionTo.SelectedValue = _invoice.RegionToId;
+      cbDriverFrom.SelectedValue = _invoice.DriverFromId;
+      cbDriverTo.SelectedValue = _invoice.DriverToId;
 
       chbMain.Checked = _invoice.IsMain;
       
@@ -111,10 +111,10 @@ namespace BBAuto.FormsForCar.AddEdit
     {
       if (_workWithForm.IsEditMode())
       {
-        _invoice.DriverFromID = cbDriverFrom.SelectedValue.ToString();
-        _invoice.DriverToID = cbDriverTo.SelectedValue.ToString();
-        _invoice.RegionFromID = cbRegionFrom.SelectedValue.ToString();
-        _invoice.RegionToID = cbRegionTo.SelectedValue.ToString();
+        _invoice.DriverFromId = cbDriverFrom.SelectedValue.ToString();
+        _invoice.DriverToId = cbDriverTo.SelectedValue.ToString();
+        _invoice.RegionFromId = cbRegionFrom.SelectedValue.ToString();
+        _invoice.RegionToId = cbRegionTo.SelectedValue.ToString();
 
         _invoice.IsMain = chbMain.Checked;
 
@@ -149,7 +149,7 @@ namespace BBAuto.FormsForCar.AddEdit
       {
         _workWithForm.SetEditMode(true);
 
-        if (int.TryParse(_invoice.DriverToID, out int driverIdTo))
+        if (int.TryParse(_invoice.DriverToId, out int driverIdTo))
           DisableChbIsMainForReservDriver(driverIdTo);
       }
     }

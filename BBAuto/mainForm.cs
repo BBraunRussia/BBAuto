@@ -711,55 +711,39 @@ namespace BBAuto
       FillDataGridView();
     }
 
-    private void ReloadData()
+    private static void ReloadData()
     {
-      switch (_mainStatus.Get())
-      {
-        case Status.Buy:
-        case Status.Actual:
-          CarList.GetInstance().ReLoad();
-          break;
-        case Status.Repair:
-          RepairList.getInstance().ReLoad();
-          break;
-        case Status.Sale:
-          break;
-        case Status.Invoice:
-          InvoiceList.getInstance().ReLoad();
-          break;
-        case Status.Policy:
-          PolicyList.getInstance().ReLoad();
-          break;
-        case Status.DTP:
-          DTPList.getInstance().ReLoad();
-          break;
-        case Status.Violation:
-          ViolationList.getInstance().ReLoad();
-          break;
-        case Status.DiagCard:
-          DiagCardList.getInstance().ReLoad();
-          break;
-        case Status.TempMove:
-          TempMoveList.getInstance().ReLoad();
-          break;
-        case Status.ShipPart:
-          ShipPartList.getInstance().ReLoad();
-          break;
-        case Status.Account:
-          AccountList.GetInstance().ReLoad();
-          break;
-        case Status.AccountViolation:
-          ViolationList.getInstance().ReLoad();
-          break;
-        case Status.FuelCard:
-          FuelCardList.getInstance().ReLoad();
-          break;
-        case Status.Driver:
-          DriverList.getInstance().ReLoad();
-          break;
-        case Status.Transponder:
-          break;
-      }
+      AccountList.GetInstance().ReLoad();
+      CarDocList.getInstance().ReLoad();
+      CarList.GetInstance().ReLoad();
+      DiagCardList.getInstance().ReLoad();
+      DealerList.getInstance().ReLoad();
+      DriverCarList.GetInstance().ReLoad();
+      DriverList.getInstance().ReLoad();
+      DTPFileList.getInstance().ReLoad();
+      DTPList.getInstance().ReLoad();
+      EmployeesList.getInstance().ReLoad();
+      FuelCardDriverList.getInstance().ReLoad();
+      FuelCardList.getInstance().ReLoad();
+      GradeList.getInstance().ReLoad();
+      InvoiceList.getInstance().ReLoad();
+      LicenseList.getInstance().ReLoad();
+      MailTextList.getInstance().ReLoad();
+      MarkList.getInstance().ReLoad();
+      MedicalCertList.getInstance().ReLoad();
+      MileageList.getInstance().ReLoad();
+      ModelList.getInstance().ReLoad();
+      PassportList.getInstance().ReLoad();
+      PolicyList.getInstance().ReLoad();
+      PTSList.getInstance().ReLoad();
+      RepairList.getInstance().ReLoad();
+      ShipPartList.getInstance().ReLoad();
+      SsDTPList.getInstance().ReLoad();
+      STSList.getInstance().ReLoad();
+      TemplateList.getInstance().ReLoad();
+      TempMoveList.getInstance().ReLoad();
+      UserAccessList.getInstance().ReLoad();
+      ViolationList.getInstance().ReLoad();
     }
   }
 }

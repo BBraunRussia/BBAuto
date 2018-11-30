@@ -5,13 +5,13 @@ using BBAuto.Domain.ForCar;
 
 namespace BBAuto.Domain.Lists
 {
-  public class DilerList : MainList<Diler>
+  public class DealerList : MainList<Diler>
   {
-    private static DilerList _uniqueInstance;
+    private static DealerList _uniqueInstance;
     
-    public static DilerList getInstance()
+    public static DealerList getInstance()
     {
-      return _uniqueInstance ?? (_uniqueInstance = new DilerList());
+      return _uniqueInstance ?? (_uniqueInstance = new DealerList());
     }
 
     protected override void LoadFromSql()

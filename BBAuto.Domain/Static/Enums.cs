@@ -155,6 +155,7 @@ namespace BBAuto.Domain.Static
 
     CustomerList,
     ShowContractOfSale,
+    PrintContractOfSale,
     ShowTransferCarAct,
     PrintTransferCarAct,
 

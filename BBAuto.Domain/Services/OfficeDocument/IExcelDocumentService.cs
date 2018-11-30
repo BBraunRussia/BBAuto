@@ -14,11 +14,12 @@ namespace BBAuto.Domain.Services.OfficeDocument
     IDocument CreateExcelFromAllDGV(DataGridView dgv);
     IDocument CreateInvoice(Car car, Invoice invoice);
     IDocument CreateNotice(Car car, DTP dtp);
+    IDocument CreateInnerTransferCarAct(Car car, Invoice invoice);
     IExcelDoc CreateWaybill(Car car, DateTime date, Driver driver = null);
     void AddRouteInWayBill(IExcelDoc excelDoc, Car car, DateTime date, Fields fields);
     IDocument CreateAttacheToOrder(Car car, Invoice invoice);
     void CreateHeader(ExcelDoc excelDoc, string text);
-
+    
     IDocument CreateReportPolicy();
     IDocument CreateReportInstractionDocument();
     IDocument CreateReportMileage(IList<Car> carList, DateTime dateBegin, DateTime dateEnd);

@@ -184,7 +184,7 @@
     <Compile Include="Dictionary\StatusAfterDTPs.cs" />
     <Compile Include="Entities\DriverCar.cs" />
     <Compile Include="Lists\DiagCardList.cs" />
-    <Compile Include="Lists\DilerList.cs" />
+    <Compile Include="Lists\DealerList.cs" />
     <Compile Include="Lists\DriverCarList.cs" />
     <Compile Include="Lists\DriverList.cs" />
     <Compile Include="FileOpenTextBox.cs">

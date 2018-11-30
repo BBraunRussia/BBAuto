@@ -156,7 +156,7 @@ namespace BBAuto.Domain.ForCar
       var regions = Regions.getInstance();
       var regionName = invoice == null
         ? regions.getItem(Car.RegionUsingId)
-        : regions.getItem(Convert.ToInt32(invoice.RegionToID));
+        : regions.getItem(Convert.ToInt32(invoice.RegionToId));
 
       return new object[]
       {
