@@ -41,8 +41,9 @@ namespace BBAuto.Domain.Services.OfficeDocument
       var driverCarList = DriverCarList.GetInstance();
 
       var car = driverCarList.GetCar(driver);
-
-      return CreateProxyOnSto(car, driver, dateBegin, dateEnd);
+      return car == null
+        ? null
+        : CreateProxyOnSto(car, driver, dateBegin, dateEnd);
     }
     private IDocument CreateProxyOnSto(Car car, Driver driver, DateTime dateBegin, DateTime dateEnd)
     {

@@ -31,7 +31,7 @@ namespace BBAuto.Print
       {
         var doc = wordDocumentService.CreateProxyOnSto(driver, dtpBeginDate.Value, dtpEndDate.Value);
 
-        doc.Print();
+        doc?.Print();
       }
       DialogResult = DialogResult.OK;
     }
