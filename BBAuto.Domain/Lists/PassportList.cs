@@ -69,9 +69,9 @@ namespace BBAuto.Domain.Lists
 
     public Passport GetPassport(Driver driver, string number)
     {
-      var newList = _list.Where(item => item.Number.Replace(" ", "") == number.Replace(" ", "")).ToList();
+      var newList = _list.Where(item => item.Number.Replace(" ", "") == number.Replace(" ", "") && item.Driver.ID == driver.ID).ToList();
 
-      return (newList.Count == 0) ? driver.createPassport() : newList.First();
+      return newList.Count == 0 ? driver.createPassport() : newList.First();
     }
   }
 }

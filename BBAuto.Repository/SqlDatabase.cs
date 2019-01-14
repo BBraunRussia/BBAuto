@@ -10,9 +10,9 @@ namespace BBAuto.Repository
   {
     private const int Timeout = 600;
     private const string ProviderName = "System.Data.SqlClient";
-    private const string Server = @"localhost";
+    private const string Server = @"bbmru07";
     private const string Database = "BBAuto";
-    private const bool WinAuth = true;
+    private const bool WinAuth = false;
 
     private static readonly string UserId;
     private static readonly string Password;
